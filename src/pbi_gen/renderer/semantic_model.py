@@ -6,6 +6,7 @@ from the DashboardSpec data model definitions.
 
 from __future__ import annotations
 
+import re
 from uuid import uuid4
 
 from pbi_gen.models import ColumnSpec, DashboardSpec, MeasureSpec, Relationship, TableSpec
@@ -80,12 +81,33 @@ def _render_column(col: ColumnSpec, table_name: str) -> str:
     return "\n".join(lines)
 
 
+# DAX reserved words that conflict with table names
+_DAX_RESERVED_TABLE_NAMES = {"Date", "Time", "Year", "Month", "Day", "Hour", "Minute", "Second"}
+
+
+def _quote_reserved_table_refs(expression: str) -> str:
+    """Quote table references in DAX that use reserved words.
+
+    e.g. Date[Date] → 'Date'[Date]
+    """
+    for word in _DAX_RESERVED_TABLE_NAMES:
+        # Match unquoted table references: Word[ (not already preceded by ')
+        pattern = r"(?<!')(" + word + r")\["
+        replacement = f"'{word}'["
+        expression = re.sub(pattern, replacement, expression)
+    return expression
+
+
 def _render_measure(measure: MeasureSpec, table_name: str) -> str:
     """Render a single measure definition in TMDL."""
     # Quote the measure name if it contains spaces
     name_str = f"'{measure.name}'" if " " in measure.name else measure.name
+
+    # Quote table references that are DAX reserved words in the expression
+    expression = _quote_reserved_table_refs(measure.expression)
+
     lines = [
-        f"\n    measure {name_str} = {measure.expression}",
+        f"\n    measure {name_str} = {expression}",
     ]
     if measure.format_string:
         lines.append(f"        formatString: {measure.format_string}")
@@ -131,6 +153,19 @@ def _render_partition(table_name: str, m_expression: str | None = None) -> str:
     return "\n".join(lines)
 
 
+def _is_date_table(table: TableSpec) -> bool:
+    """Detect whether a table should be marked as a date table.
+
+    A table is considered a date table if it has a key column with a
+    DATE or DATETIME data type. This is required for DAX time intelligence
+    functions like SAMEPERIODLASTYEAR.
+    """
+    for col in table.columns:
+        if col.is_key and col.data_type.upper() in ("DATE", "DATETIME"):
+            return True
+    return False
+
+
 def generate_table_tmdl(
     table: TableSpec,
     measures: list[MeasureSpec] | None = None,
@@ -154,6 +189,12 @@ def generate_table_tmdl(
         f"table {table.name}",
         f"    lineageTag: {_make_lineage_tag()}",
     ]
+
+    # Detect date tables: if a table has a key column with DATE/DATETIME type,
+    # mark it with dataCategory: Time for time intelligence support.
+    is_date_table = _is_date_table(table)
+    if is_date_table:
+        lines.append("    dataCategory: Time")
 
     # Columns
     for col in table.columns:
