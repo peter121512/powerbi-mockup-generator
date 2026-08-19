@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pbi-gen"
+version = "0.1.0"
+description = "Conversational CLI tool to generate and deploy Power BI dashboards"
+requires-python = ">=3.12"
+dependencies = [
+    "boto3==1.35.98",
+    "fabric-cicd==0.1.1",
+    "azure-identity==1.21.0",
+    "pyyaml==6.0.3",
+    "playwright==1.52.0",
+    "Pillow==11.2.1",
+]
+
+[project.scripts]
+pbi-gen = "pbi_gen.core.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pbi_gen"]
