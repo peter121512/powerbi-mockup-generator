@@ -1,0 +1,74 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/4.0.0/schema.json",
+  "name": "vis-subcategory-performance",
+  "position": {
+    "x": 8.0,
+    "y": 368.0,
+    "z": 1005,
+    "width": 624.0,
+    "height": 344.0,
+    "tabOrder": 5
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Product"
+                    }
+                  },
+                  "Property": "SubcategoryName"
+                }
+              },
+              "queryRef": "Product.SubcategoryName",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "TotalRevenue"
+                }
+              },
+              "queryRef": "Sales.TotalRevenue",
+              "active": true
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "YoYGrowthPct"
+                }
+              },
+              "queryRef": "Sales.YoYGrowthPct",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "objects": {},
+    "activeProjections": {
+      "Category": true,
+      "Y": true
+    }
+  }
+}

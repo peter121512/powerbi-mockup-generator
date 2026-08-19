@@ -1,0 +1,79 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/4.0.0/schema.json",
+  "name": "vis-margin-trend",
+  "position": {
+    "x": 861.33,
+    "y": 98.0,
+    "z": 1005,
+    "width": 410.67,
+    "height": 254.0,
+    "tabOrder": 5
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Date"
+                    }
+                  },
+                  "Property": "MonthName"
+                }
+              },
+              "queryRef": "Date.MonthName",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Sales"
+                    }
+                  },
+                  "Property": "GrossMarginPct"
+                }
+              },
+              "queryRef": "Sales.GrossMarginPct",
+              "active": true
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Date"
+                    }
+                  },
+                  "Property": "FiscalYear"
+                }
+              },
+              "queryRef": "Date.FiscalYear",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "objects": {},
+    "activeProjections": {
+      "Category": true,
+      "Y": true,
+      "Series": true
+    }
+  }
+}

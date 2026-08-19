@@ -1,0 +1,48 @@
+table Store
+    lineageTag: 05e57f30-50fb-4420-aa18-1fc9efd9e672
+
+    column StoreID
+        dataType: string
+        isKey: true
+        lineageTag: d6d578cd-d18d-4e42-be03-6227e298b5ef
+        sourceColumn: StoreID
+        summarizeBy: none
+
+    column StoreName
+        dataType: string
+        lineageTag: c9adf3ea-84d6-4c0f-8f19-8b505b6e774f
+        sourceColumn: StoreName
+        summarizeBy: none
+
+    column RegionID
+        dataType: string
+        lineageTag: 9949840a-93c8-49ce-9f73-c110e87c97f4
+        sourceColumn: RegionID
+        summarizeBy: none
+
+    column StoreSize
+        dataType: string
+        lineageTag: 6693e4d7-6496-4d23-b238-93c6542d27c9
+        sourceColumn: StoreSize
+        summarizeBy: none
+
+    column OpenDate
+        dataType: dateTime
+        lineageTag: 53c85b65-6fb4-439e-8b67-da5267e36bbf
+        sourceColumn: OpenDate
+        summarizeBy: none
+
+    column IsActive
+        dataType: boolean
+        lineageTag: e1aa34e8-faa0-4719-af0c-3e884b2af23a
+        sourceColumn: IsActive
+        summarizeBy: none
+
+    partition Store = m
+        mode: import
+        source =
+            let
+                Source = Csv.Document(Web.Contents("data/Store.csv"), [Delimiter=",", Encoding=65001]),
+                #"Promoted Headers" = Table.PromoteHeaders(Source)
+            in
+                #"Promoted Headers"

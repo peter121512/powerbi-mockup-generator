@@ -1,0 +1,41 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/4.0.0/schema.json",
+  "name": "filter-risk-date-period",
+  "position": {
+    "x": 8.0,
+    "y": 638.0,
+    "z": 500,
+    "width": 410.67,
+    "height": 74.0,
+    "tabOrder": 7
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Date"
+                    }
+                  },
+                  "Property": "FiscalPeriod"
+                }
+              },
+              "queryRef": "Date.FiscalPeriod",
+              "active": true
+            }
+          ]
+        }
+      }
+    },
+    "objects": {},
+    "activeProjections": {
+      "Values": true
+    }
+  }
+}

@@ -1,0 +1,104 @@
+table Sales
+    lineageTag: 4fa74c8d-2b0a-4fbd-a898-fc0bcad855a9
+
+    column SalesID
+        dataType: string
+        isKey: true
+        lineageTag: 9be12050-0254-4507-89ff-d4b0705d5f4c
+        sourceColumn: SalesID
+        summarizeBy: none
+
+    column Date
+        dataType: dateTime
+        lineageTag: 4fa5fe1d-43f7-416a-a645-e14f9f436d31
+        sourceColumn: Date
+        summarizeBy: none
+
+    column StoreID
+        dataType: string
+        lineageTag: 9ca661a5-7b56-4c2d-a51d-91233f1173b7
+        sourceColumn: StoreID
+        summarizeBy: none
+
+    column ProductID
+        dataType: string
+        lineageTag: 856cef3f-5007-4b4a-a8c5-f89956c8373e
+        sourceColumn: ProductID
+        summarizeBy: none
+
+    column Quantity
+        dataType: int64
+        lineageTag: 1f39e4bd-e05c-48dc-bef0-06e78186145b
+        sourceColumn: Quantity
+        summarizeBy: sum
+
+    column UnitPrice
+        dataType: double
+        lineageTag: f02a99b0-16cd-4fc1-a5be-c37e690e2bf3
+        sourceColumn: UnitPrice
+        summarizeBy: sum
+
+    column Revenue
+        dataType: double
+        lineageTag: 36a38d61-af5f-4812-9884-a892a6338215
+        sourceColumn: Revenue
+        summarizeBy: sum
+
+    column Cost
+        dataType: double
+        lineageTag: d6d1cc1f-e1cb-40cd-a827-ca88932033f1
+        sourceColumn: Cost
+        summarizeBy: sum
+
+    measure TotalRevenue = SUM(Sales[Revenue])
+        formatString: £#,0.00
+        lineageTag: ce56cb7c-a773-485d-9bb6-c87aba06c43d
+
+    measure TotalCost = SUM(Sales[Cost])
+        formatString: £#,0.00
+        lineageTag: b3d8f5ae-f77c-4915-a223-a615aa36f1ee
+
+    measure GrossProfit = [TotalRevenue] - [TotalCost]
+        formatString: £#,0.00
+        lineageTag: 5e030d33-81ff-4b93-afb4-f2da23996544
+
+    measure GrossMarginPct = DIVIDE([GrossProfit], [TotalRevenue], 0)
+        formatString: 0.0%
+        lineageTag: 4420e572-cba7-4bfa-bcd9-8c95dba4502c
+
+    measure PrevYearRevenue = CALCULATE([TotalRevenue], SAMEPERIODLASTYEAR(Date[Date]))
+        formatString: £#,0.00
+        lineageTag: 76024241-7dcc-4d85-af85-f74027af618d
+
+    measure YoYGrowthPct = DIVIDE([TotalRevenue] - [PrevYearRevenue], [PrevYearRevenue], 0)
+        formatString: 0.0%
+        lineageTag: fcccf300-acb4-4275-88de-31622334b6df
+
+    measure PrevYearMarginPct = CALCULATE([GrossMarginPct], SAMEPERIODLASTYEAR(Date[Date]))
+        formatString: 0.0%
+        lineageTag: 467ad097-3ed1-4df4-9169-c9eac6d1b342
+
+    measure MarginYoYDiff = [GrossMarginPct] - [PrevYearMarginPct]
+        formatString: 0.0%
+        lineageTag: fbd18d5e-948d-483a-8453-0d17fa1c4a14
+
+    measure RiskCount = COUNTROWS(FILTER(Risk, Risk[RiskSeverity] IN {"High", "Critical"}))
+        formatString: #,0
+        lineageTag: 302f3a0b-e3d1-4ef2-9ffb-17837bc8a209
+
+    measure RevenueAtRisk = CALCULATE([TotalRevenue], FILTER(Risk, Risk[RiskSeverity] IN {"High", "Critical"}))
+        formatString: £#,0.00
+        lineageTag: 3c0645cf-706b-46bc-a378-2bdbc79ee30d
+
+    measure PctRevenueAtRisk = DIVIDE([RevenueAtRisk], [TotalRevenue], 0)
+        formatString: 0.0%
+        lineageTag: 07a35e3b-04c8-468b-8fff-1c6b12b526fe
+
+    partition Sales = m
+        mode: import
+        source =
+            let
+                Source = Csv.Document(Web.Contents("data/Sales.csv"), [Delimiter=",", Encoding=65001]),
+                #"Promoted Headers" = Table.PromoteHeaders(Source)
+            in
+                #"Promoted Headers"

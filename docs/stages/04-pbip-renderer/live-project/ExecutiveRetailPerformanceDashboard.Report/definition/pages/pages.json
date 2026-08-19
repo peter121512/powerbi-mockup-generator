@@ -1,0 +1,10 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.0.0/schema.json",
+  "pageOrder": [
+    "page-executive-overview",
+    "page-region-analysis",
+    "page-category-analysis",
+    "page-risk-analysis"
+  ],
+  "activePageName": "page-executive-overview"
+}

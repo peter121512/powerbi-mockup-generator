@@ -1,0 +1,54 @@
+table Risk
+    lineageTag: 411de85b-ef54-48ea-a326-ca05e7cecd2f
+
+    column RiskID
+        dataType: string
+        isKey: true
+        lineageTag: a54090f3-76ef-4fa5-9264-500d146c2fa2
+        sourceColumn: RiskID
+        summarizeBy: none
+
+    column RiskArea
+        dataType: string
+        lineageTag: f9033968-00fd-4459-9561-86ab49b5b563
+        sourceColumn: RiskArea
+        summarizeBy: none
+
+    column RiskType
+        dataType: string
+        lineageTag: 7564833c-1b2d-4fcc-9245-64f3e2025b3c
+        sourceColumn: RiskType
+        summarizeBy: none
+
+    column RiskSeverity
+        dataType: string
+        lineageTag: 52ffa74c-2be2-4d66-b763-795d64b8e843
+        sourceColumn: RiskSeverity
+        summarizeBy: none
+
+    column RegionID
+        dataType: string
+        lineageTag: a880edc7-789d-4453-ba66-34e3bc61af41
+        sourceColumn: RegionID
+        summarizeBy: none
+
+    column CategoryID
+        dataType: string
+        lineageTag: b9776cb0-ae79-4efe-a23c-a41fffc4f599
+        sourceColumn: CategoryID
+        summarizeBy: none
+
+    column StoreID
+        dataType: string
+        lineageTag: 06c2d978-88ec-4c48-84ab-4119980f0082
+        sourceColumn: StoreID
+        summarizeBy: none
+
+    partition Risk = m
+        mode: import
+        source =
+            let
+                Source = Csv.Document(Web.Contents("data/Risk.csv"), [Delimiter=",", Encoding=65001]),
+                #"Promoted Headers" = Table.PromoteHeaders(Source)
+            in
+                #"Promoted Headers"

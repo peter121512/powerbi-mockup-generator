@@ -1,0 +1,66 @@
+table Product
+    lineageTag: 6c6653de-dabe-41ed-b8c8-9d6b6de46ef2
+
+    column ProductID
+        dataType: string
+        isKey: true
+        lineageTag: 85cb7738-47f0-44a0-bb2d-12ea46ef360c
+        sourceColumn: ProductID
+        summarizeBy: none
+
+    column ProductName
+        dataType: string
+        lineageTag: 57823a9b-5af2-427b-8db8-6fa47cec7e2e
+        sourceColumn: ProductName
+        summarizeBy: none
+
+    column CategoryID
+        dataType: string
+        lineageTag: 01fce352-b0ff-4b7e-b4fa-495e81e29149
+        sourceColumn: CategoryID
+        summarizeBy: none
+
+    column CategoryName
+        dataType: string
+        lineageTag: 0be05690-b7fa-4b4a-9534-a1e95c5b6f83
+        sourceColumn: CategoryName
+        summarizeBy: none
+
+    column SubcategoryID
+        dataType: string
+        lineageTag: 2a6893cf-6d8f-4c03-ac10-14f58023a3d8
+        sourceColumn: SubcategoryID
+        summarizeBy: none
+
+    column SubcategoryName
+        dataType: string
+        lineageTag: bed56fef-1507-46d5-8627-464bdeae427f
+        sourceColumn: SubcategoryName
+        summarizeBy: none
+
+    column UnitCost
+        dataType: double
+        lineageTag: 6c34e39e-1853-4593-913c-7dc7053e3bf8
+        sourceColumn: UnitCost
+        summarizeBy: sum
+
+    column UnitPrice
+        dataType: double
+        lineageTag: 8dd495aa-eef0-4db5-accd-bcb59e759e40
+        sourceColumn: UnitPrice
+        summarizeBy: sum
+
+    column ContributionSegment
+        dataType: string
+        lineageTag: a1b74c52-faee-41d6-880c-0a77d2d8a3e9
+        sourceColumn: ContributionSegment
+        summarizeBy: none
+
+    partition Product = m
+        mode: import
+        source =
+            let
+                Source = Csv.Document(Web.Contents("data/Product.csv"), [Delimiter=",", Encoding=65001]),
+                #"Promoted Headers" = Table.PromoteHeaders(Source)
+            in
+                #"Promoted Headers"

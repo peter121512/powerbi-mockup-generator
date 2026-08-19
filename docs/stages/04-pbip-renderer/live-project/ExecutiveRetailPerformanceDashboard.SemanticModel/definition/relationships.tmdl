@@ -1,0 +1,27 @@
+relationship b7995656-ce2c-4644-9d02-653ce9eafdc7
+    fromColumn: Sales.Date
+    toColumn: Date.Date
+
+relationship 9b47d168-0c28-4f89-a2f5-b80e4cd084c3
+    fromColumn: Sales.StoreID
+    toColumn: Store.StoreID
+
+relationship 6854d0d4-9c1d-48a2-b2fe-9e8b4d035c88
+    fromColumn: Sales.ProductID
+    toColumn: Product.ProductID
+
+relationship c59671cf-703a-4d38-ab1b-ac7ff0bda057
+    fromColumn: Store.RegionID
+    toColumn: Region.RegionID
+
+relationship 1ad53ed6-594b-46a8-aece-2e208f5df57f
+    fromColumn: Risk.RegionID
+    toColumn: Region.RegionID
+
+relationship df3342ae-214c-4fce-886e-f8bd50029c90
+    fromColumn: Risk.CategoryID
+    toColumn: Product.CategoryID
+
+relationship bb85aa20-6b76-4034-809f-969b72550800
+    fromColumn: Risk.StoreID
+    toColumn: Store.StoreID

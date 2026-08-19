@@ -1,0 +1,4 @@
+*.pbicache
+.pbi/
+*.pbix
+localSettings.json

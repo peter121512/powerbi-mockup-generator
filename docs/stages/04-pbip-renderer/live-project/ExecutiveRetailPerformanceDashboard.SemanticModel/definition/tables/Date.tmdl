@@ -1,0 +1,84 @@
+table Date
+    lineageTag: b6fd0091-a5c3-4055-8814-e2f64ce0cd40
+
+    column Date
+        dataType: dateTime
+        isKey: true
+        lineageTag: 2b0b51c6-a3fb-48fc-b79d-8b25e35463fd
+        sourceColumn: Date
+        summarizeBy: none
+
+    column Day
+        dataType: int64
+        lineageTag: 117f5ac6-0b79-4341-9771-4d9e7eea1ed7
+        sourceColumn: Day
+        summarizeBy: sum
+
+    column Month
+        dataType: int64
+        lineageTag: 066194ba-c392-45b6-86d2-d1b87a266777
+        sourceColumn: Month
+        summarizeBy: sum
+
+    column MonthName
+        dataType: string
+        lineageTag: 21cd49dd-74ba-4047-a08d-656a1be6f5aa
+        sourceColumn: MonthName
+        summarizeBy: none
+
+    column Quarter
+        dataType: int64
+        lineageTag: d88a0043-5fed-4dca-98e5-06b5bc034288
+        sourceColumn: Quarter
+        summarizeBy: sum
+
+    column Year
+        dataType: int64
+        lineageTag: ac779100-c29e-4889-8114-92f01190bb49
+        sourceColumn: Year
+        summarizeBy: sum
+
+    column FiscalMonth
+        dataType: int64
+        lineageTag: fbc45d48-b904-49c8-9aeb-c29abd4ff8d6
+        sourceColumn: FiscalMonth
+        summarizeBy: sum
+
+    column FiscalQuarter
+        dataType: int64
+        lineageTag: 00e9fad7-9c71-4e93-b966-c984d5d0e4c5
+        sourceColumn: FiscalQuarter
+        summarizeBy: sum
+
+    column FiscalYear
+        dataType: int64
+        lineageTag: bac702c3-cab4-4a24-bdd6-b3c455063ee4
+        sourceColumn: FiscalYear
+        summarizeBy: sum
+
+    column FiscalPeriod
+        dataType: string
+        lineageTag: 76416239-1b37-4e44-b2bd-ffc19dfde0c4
+        sourceColumn: FiscalPeriod
+        summarizeBy: none
+
+    column IsCurrentFY
+        dataType: boolean
+        lineageTag: 5885ae60-9256-4797-b88a-59d3bfed5823
+        sourceColumn: IsCurrentFY
+        summarizeBy: none
+
+    column IsPreviousFY
+        dataType: boolean
+        lineageTag: 8b416c60-ef9d-4c58-b911-253bc35ca851
+        sourceColumn: IsPreviousFY
+        summarizeBy: none
+
+    partition Date = m
+        mode: import
+        source =
+            let
+                Source = Csv.Document(Web.Contents("data/Date.csv"), [Delimiter=",", Encoding=65001]),
+                #"Promoted Headers" = Table.PromoteHeaders(Source)
+            in
+                #"Promoted Headers"

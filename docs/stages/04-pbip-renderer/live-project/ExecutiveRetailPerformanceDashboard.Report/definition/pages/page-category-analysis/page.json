@@ -1,0 +1,9 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/1.4.0/schema.json",
+  "name": "page-category-analysis",
+  "displayName": "Category Analysis",
+  "displayOption": "fitToPage",
+  "height": 720,
+  "width": 1280,
+  "filters": []
+}

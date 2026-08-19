@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "ExecutiveRetailPerformanceDashboard"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "cbc9346a-2bbc-4d83-9df7-2d8f87983d69"
+  }
+}

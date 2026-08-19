@@ -1,0 +1,27 @@
+{
+  "name": "CustomTheme_corporate_restrained",
+  "dataColors": [
+    "#007E33",
+    "#CC0000",
+    "#1A3A52",
+    "#D4AF37",
+    "#2D5F3F"
+  ],
+  "background": "#FFFFFF",
+  "foreground": "#1A3A52",
+  "tableAccent": "#1A3A52",
+  "textClasses": {
+    "title": {
+      "fontFace": "Segoe UI Light",
+      "fontSize": 14
+    },
+    "header": {
+      "fontFace": "Segoe UI Light",
+      "fontSize": 12
+    },
+    "label": {
+      "fontFace": "Segoe UI",
+      "fontSize": 10
+    }
+  }
+}

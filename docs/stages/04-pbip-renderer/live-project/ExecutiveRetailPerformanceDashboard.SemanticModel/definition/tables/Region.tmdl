@@ -1,0 +1,36 @@
+table Region
+    lineageTag: 7a9d91d6-22b1-4ea0-97ad-ec96d5486877
+
+    column RegionID
+        dataType: string
+        isKey: true
+        lineageTag: a893f1a5-0a00-4968-a153-fd9225f3dea7
+        sourceColumn: RegionID
+        summarizeBy: none
+
+    column RegionName
+        dataType: string
+        lineageTag: 0ba8fc32-a04b-4274-a215-668d65496157
+        sourceColumn: RegionName
+        summarizeBy: none
+
+    column RegionManager
+        dataType: string
+        lineageTag: a730b3de-9008-4672-bf68-16e735267425
+        sourceColumn: RegionManager
+        summarizeBy: none
+
+    column CountryCode
+        dataType: string
+        lineageTag: 8a84057f-fc0a-4917-b342-a5d9fe333c3c
+        sourceColumn: CountryCode
+        summarizeBy: none
+
+    partition Region = m
+        mode: import
+        source =
+            let
+                Source = Csv.Document(Web.Contents("data/Region.csv"), [Delimiter=",", Encoding=65001]),
+                #"Promoted Headers" = Table.PromoteHeaders(Source)
+            in
+                #"Promoted Headers"
