@@ -93,33 +93,57 @@ def _render_measure(measure: MeasureSpec, table_name: str) -> str:
     return "\n".join(lines)
 
 
-def _render_partition(table_name: str) -> str:
+def _render_partition(table_name: str, m_expression: str | None = None) -> str:
     """Render a partition definition for a table.
 
-    Uses a placeholder M expression with import mode.
+    Args:
+        table_name: Name of the table.
+        m_expression: Optional M expression to use as the partition source.
+            If provided, the expression is embedded directly. Otherwise a
+            placeholder Csv.Document expression is used.
+
+    Returns:
+        TMDL partition text block.
     """
-    lines = [
-        f"\n    partition {table_name} = m",
-        "        mode: import",
-        "        source =",
-        "            let",
-        f'                Source = Csv.Document(Web.Contents("data/{table_name}.csv"), [Delimiter=",", Encoding=65001]),',
-        '                #"Promoted Headers" = Table.PromoteHeaders(Source)',
-        "            in",
-        '                #"Promoted Headers"',
-    ]
+    if m_expression is not None:
+        # Embed the provided M expression with correct TMDL indentation
+        indented_lines = []
+        for line in m_expression.splitlines():
+            indented_lines.append(f"            {line}" if line.strip() else "")
+        source_block = "\n".join(indented_lines)
+        lines = [
+            f"\n    partition {table_name} = m",
+            "        mode: import",
+            "        source =",
+            source_block,
+        ]
+    else:
+        lines = [
+            f"\n    partition {table_name} = m",
+            "        mode: import",
+            "        source =",
+            "            let",
+            f'                Source = Csv.Document(Web.Contents("data/{table_name}.csv"), [Delimiter=",", Encoding=65001]),',
+            '                #"Promoted Headers" = Table.PromoteHeaders(Source)',
+            "            in",
+            '                #"Promoted Headers"',
+        ]
     return "\n".join(lines)
 
 
 def generate_table_tmdl(
     table: TableSpec,
     measures: list[MeasureSpec] | None = None,
+    partition_sources: dict[str, str] | None = None,
 ) -> str:
     """Generate a complete table TMDL file.
 
     Args:
         table: The table specification.
         measures: All measures; only those homed to this table will be rendered.
+        partition_sources: Optional mapping of {table_name: m_expression}.
+            When provided, the M expression for this table is used instead of
+            the default placeholder.
 
     Returns:
         Complete TMDL text for the table file.
@@ -139,8 +163,9 @@ def generate_table_tmdl(
     for measure in table_measures:
         lines.append(_render_measure(measure, table.name))
 
-    # Partition
-    lines.append(_render_partition(table.name))
+    # Partition — use supplied M expression if available
+    m_expression = (partition_sources or {}).get(table.name)
+    lines.append(_render_partition(table.name, m_expression))
 
     return "\n".join(lines) + "\n"
 

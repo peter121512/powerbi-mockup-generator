@@ -20,6 +20,7 @@ def render_powerbi_project(
     *,
     project_name: str | None = None,
     validate: bool = True,
+    partition_sources: dict[str, str] | None = None,
 ) -> RenderResult:
     """Render a DashboardSpec into a complete PBIP project on disk.
 
@@ -34,6 +35,8 @@ def render_powerbi_project(
         output_dir: Directory to write the project into.
         project_name: Override project directory name.
         validate: Whether to run post-render validation.
+        partition_sources: Optional mapping of {table_name: m_expression}
+            for real data partition sources instead of placeholders.
 
     Returns:
         RenderResult with outcome, fidelity manifest, and validation.
@@ -54,7 +57,8 @@ def render_powerbi_project(
         output_dir.mkdir(parents=True, exist_ok=True)
 
         project_root, fidelity = write_pbip_project(
-            spec, output_dir, project_name=resolved_name
+            spec, output_dir, project_name=resolved_name,
+            partition_sources=partition_sources,
         )
     except Exception as e:
         return RenderResult.render_failure(str(e))

@@ -103,6 +103,7 @@ def write_pbip_project(
     output_dir: Path,
     *,
     project_name: str | None = None,
+    partition_sources: dict[str, str] | None = None,
 ) -> tuple[Path, FidelityManifest]:
     """Write a complete PBIP project to disk.
 
@@ -110,6 +111,8 @@ def write_pbip_project(
         spec: The complete dashboard specification.
         output_dir: Parent directory to write the project into.
         project_name: Override project name. Defaults to sanitized title.
+        partition_sources: Optional mapping of {table_name: m_expression}
+            for real data partition sources instead of placeholders.
 
     Returns:
         Tuple of (project_root_path, fidelity_manifest).
@@ -140,7 +143,7 @@ def write_pbip_project(
     # tables/
     tables_dir = sm_def / "tables"
     for table in spec.tables:
-        tmdl = generate_table_tmdl(table, spec.measures)
+        tmdl = generate_table_tmdl(table, spec.measures, partition_sources)
         _write_text(tables_dir / f"{table.name}.tmdl", tmdl)
 
     # relationships.tmdl
