@@ -1,0 +1,21 @@
+# pbi_gen deployment configuration
+# Copy this to ~/.pbi_gen/config.yaml and fill in your values
+
+# Power BI workspace ID (find in workspace URL: app.fabric.microsoft.com/groups/<workspace_id>)
+workspace_id: ""
+
+# Authentication method:
+#   "service_principal" — fully programmatic, no user interaction (recommended for automation)
+#   "device_code"      — prints a code + URL for headless/SSH auth (default fallback)
+#   "browser"          — opens a browser window for interactive login
+#   "az_cli"           — use Azure CLI only (requires 'az login' first)
+#
+# NOTE: For device_code and browser, pbi_gen will FIRST try your Azure CLI session
+# automatically. If no active CLI session is found, it falls back to this method.
+auth_method: "service_principal"
+
+# Service principal credentials (required when auth_method is "service_principal")
+# Create an app registration in Azure Portal → App registrations
+tenant_id: ""
+client_id: ""
+client_secret: ""
