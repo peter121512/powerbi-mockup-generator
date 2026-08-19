@@ -120,6 +120,15 @@ class DashboardDesigner:
         if self._debug:
             diagnostics_kwargs["raw_response"] = raw_content
 
+        # Check for truncation (max_tokens hit)
+        if response.stop_reason == "max_tokens":
+            logger.warning("Model output was truncated (max_tokens reached)")
+            return DesignResult.invalid_output(
+                "Model output was truncated (exceeded max_tokens). "
+                "The generated spec was too large to fit within token limits.",
+                DesignDiagnostics(**diagnostics_kwargs),
+            )
+
         # 3. Parse JSON
         json_data = _extract_json(raw_content)
         if json_data is None:

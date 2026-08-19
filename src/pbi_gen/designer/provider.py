@@ -19,11 +19,11 @@ class ProviderConfig:
     """Configuration for an LLM provider."""
 
     provider: str = "bedrock"
-    model_id: str = "anthropic.claude-sonnet-4-20250514-v1:0"
+    model_id: str = "anthropic.claude-3-7-sonnet-20250219-v1:0"
     region: str = "eu-west-2"
-    max_tokens: int = 16384
+    max_tokens: int = 32768
     temperature: float = 0.4
-    timeout_seconds: int = 120
+    timeout_seconds: int = 300
 
 
 @dataclass(frozen=True)
@@ -102,10 +102,15 @@ class BedrockProvider(LLMProvider):
         """Lazy-initialize the Bedrock Runtime client."""
         if self._client is None:
             import boto3
+            from botocore.config import Config
 
             self._client = boto3.client(
                 "bedrock-runtime",
                 region_name=self._config.region,
+                config=Config(
+                    read_timeout=self._config.timeout_seconds,
+                    retries={"max_attempts": 2, "mode": "adaptive"},
+                ),
             )
         return self._client
 

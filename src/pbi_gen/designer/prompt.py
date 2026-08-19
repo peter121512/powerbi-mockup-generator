@@ -65,7 +65,9 @@ You MUST reason through the design in this exact order:
 
 ## Output format
 
-You MUST respond with ONLY a valid JSON object conforming to the schema below. No markdown, no commentary, no explanation — just the JSON.
+You MUST respond with ONLY a valid JSON object conforming to the schema below. No markdown, no commentary, no explanation, no reasoning text, no preamble — ONLY the raw JSON object starting with {{ and ending with }}.
+
+DO NOT include any text before or after the JSON. DO NOT wrap it in code fences. DO NOT include a reasoning chain. Your entire response must be parseable as a single JSON object.
 
 The JSON must validate against this schema:
 

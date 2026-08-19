@@ -1,0 +1,2770 @@
+{
+  "intent": {
+    "title": "Executive Retail Performance Dashboard",
+    "business_purpose": "To provide a comprehensive view of retail performance metrics for strategic decision-making at the executive level",
+    "intended_audience": "CEO and CFO",
+    "business_domain": "retail",
+    "design_tone": "premium, restrained and boardroom-ready",
+    "key_questions": [
+      "What is our overall financial performance (revenue, gross margin)?",
+      "How are we performing compared to previous year?",
+      "Which regions are performing best/worst?",
+      "Which product categories drive our performance?",
+      "What are our major underperformance risks?"
+    ]
+  },
+  "revision": {
+    "spec_id": "retail-exec-dashboard-v1",
+    "version": 1,
+    "parent_spec_id": "",
+    "created_at": "2023-11-15T12:00:00Z",
+    "amendment_summary": "",
+    "revision_reason": ""
+  },
+  "pages": [
+    {
+      "id": "page-executive-overview",
+      "title": "Executive Overview",
+      "purpose": "Provide a high-level summary of key performance metrics and trends",
+      "role": "executive_overview",
+      "layout": {
+        "width": 1280,
+        "height": 720,
+        "grid_columns": 12,
+        "grid_rows": 8
+      },
+      "visuals": [
+        {
+          "id": "vis-kpi-revenue",
+          "visual_type": "card",
+          "title": "Total Revenue",
+          "subtitle": "",
+          "analytical_purpose": "Show the total revenue for the selected period",
+          "category_fields": [],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 1
+          },
+          "priority": 1,
+          "formatting_intent": "",
+          "conditional_formats": [],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Card showing total revenue figure for the selected period"
+        },
+        {
+          "id": "vis-kpi-margin",
+          "visual_type": "card",
+          "title": "Gross Margin",
+          "subtitle": "",
+          "analytical_purpose": "Show the gross margin percentage for the selected period",
+          "category_fields": [],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "GrossMarginPct",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 1
+          },
+          "priority": 1,
+          "formatting_intent": "",
+          "conditional_formats": [],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Card showing gross margin percentage for the selected period"
+        },
+        {
+          "id": "vis-kpi-yoy-growth",
+          "visual_type": "card",
+          "title": "YoY Growth",
+          "subtitle": "",
+          "analytical_purpose": "Show the year-over-year revenue growth percentage",
+          "category_fields": [],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "YoYGrowthPct",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 3,
+            "height": 1
+          },
+          "priority": 1,
+          "formatting_intent": "",
+          "conditional_formats": [
+            {
+              "target_field": {
+                "table": "Sales",
+                "column": "",
+                "measure": "YoYGrowthPct",
+                "aggregation": "None"
+              },
+              "rule_description": "Green if >= 0, red if < 0",
+              "colour_positive": "",
+              "colour_negative": ""
+            }
+          ],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Card showing year-over-year growth percentage with conditional formatting"
+        },
+        {
+          "id": "vis-kpi-risk-count",
+          "visual_type": "card",
+          "title": "Risk Areas",
+          "subtitle": "",
+          "analytical_purpose": "Show the count of underperforming areas requiring attention",
+          "category_fields": [],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "RiskCount",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 9,
+            "y": 0,
+            "width": 3,
+            "height": 1
+          },
+          "priority": 1,
+          "formatting_intent": "",
+          "conditional_formats": [
+            {
+              "target_field": {
+                "table": "Sales",
+                "column": "",
+                "measure": "RiskCount",
+                "aggregation": "None"
+              },
+              "rule_description": "Green if = 0, amber if <= 3, red if > 3",
+              "colour_positive": "",
+              "colour_negative": ""
+            }
+          ],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "page-risk-analysis",
+          "alt_description": "Card showing count of areas with performance risks"
+        },
+        {
+          "id": "vis-revenue-trend",
+          "visual_type": "lineChart",
+          "title": "Revenue Trend",
+          "subtitle": "Monthly revenue with YoY comparison",
+          "analytical_purpose": "Show the revenue trend over time compared to previous year",
+          "category_fields": [
+            {
+              "table": "Date",
+              "column": "MonthName",
+              "measure": "",
+              "aggregation": "None"
+            }
+          ],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": {
+            "table": "Date",
+            "column": "FiscalYear",
+            "measure": "",
+            "aggregation": "None"
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 8,
+            "height": 3
+          },
+          "priority": 2,
+          "formatting_intent": "Show clear distinction between current and previous year",
+          "conditional_formats": [],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Line chart showing monthly revenue trends comparing current year with previous year"
+        },
+        {
+          "id": "vis-margin-trend",
+          "visual_type": "lineChart",
+          "title": "Gross Margin % Trend",
+          "subtitle": "Monthly margin with YoY comparison",
+          "analytical_purpose": "Show the gross margin percentage trend over time compared to previous year",
+          "category_fields": [
+            {
+              "table": "Date",
+              "column": "MonthName",
+              "measure": "",
+              "aggregation": "None"
+            }
+          ],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "GrossMarginPct",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": {
+            "table": "Date",
+            "column": "FiscalYear",
+            "measure": "",
+            "aggregation": "None"
+          },
+          "position": {
+            "x": 8,
+            "y": 1,
+            "width": 4,
+            "height": 3
+          },
+          "priority": 2,
+          "formatting_intent": "Show clear distinction between current and previous year",
+          "conditional_formats": [],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Line chart showing monthly gross margin percentage trends comparing current year with previous year"
+        },
+        {
+          "id": "vis-region-performance",
+          "visual_type": "clusteredColumnChart",
+          "title": "Regional Performance",
+          "subtitle": "Revenue by region with YoY growth",
+          "analytical_purpose": "Compare revenue performance across regions with growth indicators",
+          "category_fields": [
+            {
+              "table": "Region",
+              "column": "RegionName",
+              "measure": "",
+              "aggregation": "None"
+            }
+          ],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            },
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "YoYGrowthPct",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 6,
+            "height": 4
+          },
+          "priority": 3,
+          "formatting_intent": "",
+          "conditional_formats": [
+            {
+              "target_field": {
+                "table": "Sales",
+                "column": "",
+                "measure": "YoYGrowthPct",
+                "aggregation": "None"
+              },
+              "rule_description": "Green if >= 0, red if < 0",
+              "colour_positive": "",
+              "colour_negative": ""
+            }
+          ],
+          "sort": {
+            "field": {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            },
+            "descending": true
+          },
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "page-region-analysis",
+          "alt_description": "Column chart showing revenue by region with year-over-year growth indicators"
+        },
+        {
+          "id": "vis-category-performance",
+          "visual_type": "clusteredBarChart",
+          "title": "Category Performance",
+          "subtitle": "Top categories by revenue with YoY growth",
+          "analytical_purpose": "Identify top-performing product categories and their growth trends",
+          "category_fields": [
+            {
+              "table": "Product",
+              "column": "CategoryName",
+              "measure": "",
+              "aggregation": "None"
+            }
+          ],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            },
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "YoYGrowthPct",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 6,
+            "y": 4,
+            "width": 6,
+            "height": 4
+          },
+          "priority": 3,
+          "formatting_intent": "",
+          "conditional_formats": [
+            {
+              "target_field": {
+                "table": "Sales",
+                "column": "",
+                "measure": "YoYGrowthPct",
+                "aggregation": "None"
+              },
+              "rule_description": "Green if >= 0, red if < 0",
+              "colour_positive": "",
+              "colour_negative": ""
+            }
+          ],
+          "sort": {
+            "field": {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            },
+            "descending": true
+          },
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "page-category-analysis",
+          "alt_description": "Bar chart showing revenue by product category with year-over-year growth indicators"
+        }
+      ],
+      "filters": [
+        {
+          "id": "filter-date-period",
+          "filter_type": "slicer",
+          "field": {
+            "table": "Date",
+            "column": "FiscalPeriod",
+            "measure": "",
+            "aggregation": "None"
+          },
+          "label": "Fiscal Period",
+          "default_value": "Current FY",
+          "multi_select": true,
+          "visual_style": "dropdown"
+        },
+        {
+          "id": "filter-region",
+          "filter_type": "slicer",
+          "field": {
+            "table": "Region",
+            "column": "RegionName",
+            "measure": "",
+            "aggregation": "None"
+          },
+          "label": "Region",
+          "default_value": null,
+          "multi_select": true,
+          "visual_style": "dropdown"
+        },
+        {
+          "id": "filter-category",
+          "filter_type": "slicer",
+          "field": {
+            "table": "Product",
+            "column": "CategoryName",
+            "measure": "",
+            "aggregation": "None"
+          },
+          "label": "Category",
+          "default_value": null,
+          "multi_select": true,
+          "visual_style": "dropdown"
+        }
+      ],
+      "navigation": [],
+      "sort_order": 0
+    },
+    {
+      "id": "page-region-analysis",
+      "title": "Regional Analysis",
+      "purpose": "Provide detailed analysis of performance by region",
+      "role": "diagnostic",
+      "layout": {
+        "width": 1280,
+        "height": 720,
+        "grid_columns": 12,
+        "grid_rows": 8
+      },
+      "visuals": [
+        {
+          "id": "vis-region-kpi-revenue",
+          "visual_type": "card",
+          "title": "Region Revenue",
+          "subtitle": "",
+          "analytical_purpose": "Show the total revenue for the selected region",
+          "category_fields": [],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 1
+          },
+          "priority": 1,
+          "formatting_intent": "",
+          "conditional_formats": [],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Card showing total revenue for the selected region"
+        },
+        {
+          "id": "vis-region-kpi-margin",
+          "visual_type": "card",
+          "title": "Region Gross Margin",
+          "subtitle": "",
+          "analytical_purpose": "Show the gross margin percentage for the selected region",
+          "category_fields": [],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "GrossMarginPct",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 1
+          },
+          "priority": 1,
+          "formatting_intent": "",
+          "conditional_formats": [],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Card showing gross margin percentage for the selected region"
+        },
+        {
+          "id": "vis-region-kpi-yoy-growth",
+          "visual_type": "card",
+          "title": "Region YoY Growth",
+          "subtitle": "",
+          "analytical_purpose": "Show the year-over-year revenue growth percentage for the selected region",
+          "category_fields": [],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "YoYGrowthPct",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 3,
+            "height": 1
+          },
+          "priority": 1,
+          "formatting_intent": "",
+          "conditional_formats": [
+            {
+              "target_field": {
+                "table": "Sales",
+                "column": "",
+                "measure": "YoYGrowthPct",
+                "aggregation": "None"
+              },
+              "rule_description": "Green if >= 0, red if < 0",
+              "colour_positive": "",
+              "colour_negative": ""
+            }
+          ],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Card showing year-over-year growth percentage for the selected region with conditional formatting"
+        },
+        {
+          "id": "vis-region-map",
+          "visual_type": "map",
+          "title": "UK Regional Performance",
+          "subtitle": "",
+          "analytical_purpose": "Visualize performance across UK regions on a map",
+          "category_fields": [
+            {
+              "table": "Region",
+              "column": "RegionName",
+              "measure": "",
+              "aggregation": "None"
+            }
+          ],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 9,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          },
+          "priority": 2,
+          "formatting_intent": "",
+          "conditional_formats": [],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Map of UK showing revenue performance by region with color intensity"
+        },
+        {
+          "id": "vis-region-trend",
+          "visual_type": "lineChart",
+          "title": "Regional Revenue Trend",
+          "subtitle": "Monthly revenue with YoY comparison",
+          "analytical_purpose": "Show the revenue trend over time for the selected region compared to previous year",
+          "category_fields": [
+            {
+              "table": "Date",
+              "column": "MonthName",
+              "measure": "",
+              "aggregation": "None"
+            }
+          ],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": {
+            "table": "Date",
+            "column": "FiscalYear",
+            "measure": "",
+            "aggregation": "None"
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 9,
+            "height": 3
+          },
+          "priority": 2,
+          "formatting_intent": "Show clear distinction between current and previous year",
+          "conditional_formats": [],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Line chart showing monthly revenue trends for the selected region comparing current year with previous year"
+        },
+        {
+          "id": "vis-region-store-performance",
+          "visual_type": "clusteredColumnChart",
+          "title": "Store Performance within Region",
+          "subtitle": "Revenue by store with YoY growth",
+          "analytical_purpose": "Compare revenue performance across stores in the selected region",
+          "category_fields": [
+            {
+              "table": "Store",
+              "column": "StoreName",
+              "measure": "",
+              "aggregation": "None"
+            }
+          ],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            },
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "YoYGrowthPct",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 6,
+            "height": 4
+          },
+          "priority": 3,
+          "formatting_intent": "",
+          "conditional_formats": [
+            {
+              "target_field": {
+                "table": "Sales",
+                "column": "",
+                "measure": "YoYGrowthPct",
+                "aggregation": "None"
+              },
+              "rule_description": "Green if >= 0, red if < 0",
+              "colour_positive": "",
+              "colour_negative": ""
+            }
+          ],
+          "sort": {
+            "field": {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            },
+            "descending": true
+          },
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Column chart showing revenue by store with year-over-year growth indicators"
+        },
+        {
+          "id": "vis-region-category-performance",
+          "visual_type": "clusteredBarChart",
+          "title": "Category Performance in Region",
+          "subtitle": "Top categories by revenue with YoY growth",
+          "analytical_purpose": "Identify top-performing product categories in the selected region",
+          "category_fields": [
+            {
+              "table": "Product",
+              "column": "CategoryName",
+              "measure": "",
+              "aggregation": "None"
+            }
+          ],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            },
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "YoYGrowthPct",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 6,
+            "y": 4,
+            "width": 6,
+            "height": 4
+          },
+          "priority": 3,
+          "formatting_intent": "",
+          "conditional_formats": [
+            {
+              "target_field": {
+                "table": "Sales",
+                "column": "",
+                "measure": "YoYGrowthPct",
+                "aggregation": "None"
+              },
+              "rule_description": "Green if >= 0, red if < 0",
+              "colour_positive": "",
+              "colour_negative": ""
+            }
+          ],
+          "sort": {
+            "field": {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            },
+            "descending": true
+          },
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Bar chart showing revenue by product category in the selected region with year-over-year growth indicators"
+        }
+      ],
+      "filters": [
+        {
+          "id": "filter-region-date-period",
+          "filter_type": "slicer",
+          "field": {
+            "table": "Date",
+            "column": "FiscalPeriod",
+            "measure": "",
+            "aggregation": "None"
+          },
+          "label": "Fiscal Period",
+          "default_value": "Current FY",
+          "multi_select": true,
+          "visual_style": "dropdown"
+        },
+        {
+          "id": "filter-region-selector",
+          "filter_type": "slicer",
+          "field": {
+            "table": "Region",
+            "column": "RegionName",
+            "measure": "",
+            "aggregation": "None"
+          },
+          "label": "Region",
+          "default_value": null,
+          "multi_select": false,
+          "visual_style": "dropdown"
+        }
+      ],
+      "navigation": [
+        {
+          "label": "Back to Overview",
+          "target_page_id": "page-executive-overview",
+          "style": "subtle"
+        }
+      ],
+      "sort_order": 0
+    },
+    {
+      "id": "page-category-analysis",
+      "title": "Category Analysis",
+      "purpose": "Provide detailed analysis of performance by product category",
+      "role": "diagnostic",
+      "layout": {
+        "width": 1280,
+        "height": 720,
+        "grid_columns": 12,
+        "grid_rows": 8
+      },
+      "visuals": [
+        {
+          "id": "vis-category-kpi-revenue",
+          "visual_type": "card",
+          "title": "Category Revenue",
+          "subtitle": "",
+          "analytical_purpose": "Show the total revenue for the selected category",
+          "category_fields": [],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 1
+          },
+          "priority": 1,
+          "formatting_intent": "",
+          "conditional_formats": [],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Card showing total revenue for the selected category"
+        },
+        {
+          "id": "vis-category-kpi-margin",
+          "visual_type": "card",
+          "title": "Category Gross Margin",
+          "subtitle": "",
+          "analytical_purpose": "Show the gross margin percentage for the selected category",
+          "category_fields": [],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "GrossMarginPct",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 1
+          },
+          "priority": 1,
+          "formatting_intent": "",
+          "conditional_formats": [],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Card showing gross margin percentage for the selected category"
+        },
+        {
+          "id": "vis-category-kpi-yoy-growth",
+          "visual_type": "card",
+          "title": "Category YoY Growth",
+          "subtitle": "",
+          "analytical_purpose": "Show the year-over-year revenue growth percentage for the selected category",
+          "category_fields": [],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "YoYGrowthPct",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 3,
+            "height": 1
+          },
+          "priority": 1,
+          "formatting_intent": "",
+          "conditional_formats": [
+            {
+              "target_field": {
+                "table": "Sales",
+                "column": "",
+                "measure": "YoYGrowthPct",
+                "aggregation": "None"
+              },
+              "rule_description": "Green if >= 0, red if < 0",
+              "colour_positive": "",
+              "colour_negative": ""
+            }
+          ],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Card showing year-over-year growth percentage for the selected category with conditional formatting"
+        },
+        {
+          "id": "vis-category-contribution",
+          "visual_type": "donutChart",
+          "title": "Category Contribution",
+          "subtitle": "",
+          "analytical_purpose": "Show the selected category's contribution to overall revenue",
+          "category_fields": [
+            {
+              "table": "Product",
+              "column": "ContributionSegment",
+              "measure": "",
+              "aggregation": "None"
+            }
+          ],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 9,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          },
+          "priority": 2,
+          "formatting_intent": "",
+          "conditional_formats": [],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Donut chart showing the selected category's contribution to overall revenue"
+        },
+        {
+          "id": "vis-category-trend",
+          "visual_type": "lineChart",
+          "title": "Category Revenue Trend",
+          "subtitle": "Monthly revenue with YoY comparison",
+          "analytical_purpose": "Show the revenue trend over time for the selected category compared to previous year",
+          "category_fields": [
+            {
+              "table": "Date",
+              "column": "MonthName",
+              "measure": "",
+              "aggregation": "None"
+            }
+          ],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": {
+            "table": "Date",
+            "column": "FiscalYear",
+            "measure": "",
+            "aggregation": "None"
+          },
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 9,
+            "height": 3
+          },
+          "priority": 2,
+          "formatting_intent": "Show clear distinction between current and previous year",
+          "conditional_formats": [],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Line chart showing monthly revenue trends for the selected category comparing current year with previous year"
+        },
+        {
+          "id": "vis-subcategory-performance",
+          "visual_type": "clusteredBarChart",
+          "title": "Subcategory Performance",
+          "subtitle": "Revenue by subcategory with YoY growth",
+          "analytical_purpose": "Compare revenue performance across subcategories within the selected category",
+          "category_fields": [
+            {
+              "table": "Product",
+              "column": "SubcategoryName",
+              "measure": "",
+              "aggregation": "None"
+            }
+          ],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            },
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "YoYGrowthPct",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 6,
+            "height": 4
+          },
+          "priority": 3,
+          "formatting_intent": "",
+          "conditional_formats": [
+            {
+              "target_field": {
+                "table": "Sales",
+                "column": "",
+                "measure": "YoYGrowthPct",
+                "aggregation": "None"
+              },
+              "rule_description": "Green if >= 0, red if < 0",
+              "colour_positive": "",
+              "colour_negative": ""
+            }
+          ],
+          "sort": {
+            "field": {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            },
+            "descending": true
+          },
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Bar chart showing revenue by subcategory with year-over-year growth indicators"
+        },
+        {
+          "id": "vis-category-region-performance",
+          "visual_type": "clusteredColumnChart",
+          "title": "Regional Performance for Category",
+          "subtitle": "Category revenue by region with YoY growth",
+          "analytical_purpose": "Compare how the selected category performs across different regions",
+          "category_fields": [
+            {
+              "table": "Region",
+              "column": "RegionName",
+              "measure": "",
+              "aggregation": "None"
+            }
+          ],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            },
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "YoYGrowthPct",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 6,
+            "y": 4,
+            "width": 6,
+            "height": 4
+          },
+          "priority": 3,
+          "formatting_intent": "",
+          "conditional_formats": [
+            {
+              "target_field": {
+                "table": "Sales",
+                "column": "",
+                "measure": "YoYGrowthPct",
+                "aggregation": "None"
+              },
+              "rule_description": "Green if >= 0, red if < 0",
+              "colour_positive": "",
+              "colour_negative": ""
+            }
+          ],
+          "sort": {
+            "field": {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            },
+            "descending": true
+          },
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Column chart showing the selected category's revenue by region with year-over-year growth indicators"
+        }
+      ],
+      "filters": [
+        {
+          "id": "filter-category-date-period",
+          "filter_type": "slicer",
+          "field": {
+            "table": "Date",
+            "column": "FiscalPeriod",
+            "measure": "",
+            "aggregation": "None"
+          },
+          "label": "Fiscal Period",
+          "default_value": "Current FY",
+          "multi_select": true,
+          "visual_style": "dropdown"
+        },
+        {
+          "id": "filter-category-selector",
+          "filter_type": "slicer",
+          "field": {
+            "table": "Product",
+            "column": "CategoryName",
+            "measure": "",
+            "aggregation": "None"
+          },
+          "label": "Category",
+          "default_value": null,
+          "multi_select": false,
+          "visual_style": "dropdown"
+        }
+      ],
+      "navigation": [
+        {
+          "label": "Back to Overview",
+          "target_page_id": "page-executive-overview",
+          "style": "subtle"
+        }
+      ],
+      "sort_order": 0
+    },
+    {
+      "id": "page-risk-analysis",
+      "title": "Risk Analysis",
+      "purpose": "Identify and analyze underperforming areas requiring attention",
+      "role": "diagnostic",
+      "layout": {
+        "width": 1280,
+        "height": 720,
+        "grid_columns": 12,
+        "grid_rows": 8
+      },
+      "visuals": [
+        {
+          "id": "vis-risk-count-kpi",
+          "visual_type": "card",
+          "title": "Risk Areas",
+          "subtitle": "",
+          "analytical_purpose": "Show the count of underperforming areas requiring attention",
+          "category_fields": [],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "RiskCount",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 1
+          },
+          "priority": 1,
+          "formatting_intent": "",
+          "conditional_formats": [
+            {
+              "target_field": {
+                "table": "Sales",
+                "column": "",
+                "measure": "RiskCount",
+                "aggregation": "None"
+              },
+              "rule_description": "Green if = 0, amber if <= 3, red if > 3",
+              "colour_positive": "",
+              "colour_negative": ""
+            }
+          ],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Card showing count of areas with performance risks"
+        },
+        {
+          "id": "vis-risk-impact-kpi",
+          "visual_type": "card",
+          "title": "Revenue at Risk",
+          "subtitle": "",
+          "analytical_purpose": "Show the total revenue associated with risk areas",
+          "category_fields": [],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "RevenueAtRisk",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 1
+          },
+          "priority": 1,
+          "formatting_intent": "",
+          "conditional_formats": [],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Card showing total revenue associated with risk areas"
+        },
+        {
+          "id": "vis-risk-pct-kpi",
+          "visual_type": "card",
+          "title": "% of Revenue at Risk",
+          "subtitle": "",
+          "analytical_purpose": "Show the percentage of total revenue that is at risk",
+          "category_fields": [],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "PctRevenueAtRisk",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 6,
+            "y": 0,
+            "width": 3,
+            "height": 1
+          },
+          "priority": 1,
+          "formatting_intent": "",
+          "conditional_formats": [
+            {
+              "target_field": {
+                "table": "Sales",
+                "column": "",
+                "measure": "PctRevenueAtRisk",
+                "aggregation": "None"
+              },
+              "rule_description": "Green if < 5%, amber if < 10%, red if >= 10%",
+              "colour_positive": "",
+              "colour_negative": ""
+            }
+          ],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Card showing percentage of total revenue at risk with conditional formatting"
+        },
+        {
+          "id": "vis-risk-matrix",
+          "visual_type": "scatterChart",
+          "title": "Risk Assessment Matrix",
+          "subtitle": "",
+          "analytical_purpose": "Plot risk areas by impact (revenue) and severity (YoY decline)",
+          "category_fields": [
+            {
+              "table": "Risk",
+              "column": "RiskArea",
+              "measure": "",
+              "aggregation": "None"
+            }
+          ],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            },
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "YoYGrowthPct",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 9,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          },
+          "priority": 2,
+          "formatting_intent": "",
+          "conditional_formats": [],
+          "sort": null,
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Scatter chart plotting risk areas by revenue impact and year-over-year decline severity"
+        },
+        {
+          "id": "vis-risk-region-table",
+          "visual_type": "table",
+          "title": "Regional Risk Areas",
+          "subtitle": "",
+          "analytical_purpose": "List regions with performance issues and their key metrics",
+          "category_fields": [
+            {
+              "table": "Region",
+              "column": "RegionName",
+              "measure": "",
+              "aggregation": "None"
+            }
+          ],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            },
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "YoYGrowthPct",
+              "aggregation": "None"
+            },
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "GrossMarginPct",
+              "aggregation": "None"
+            },
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "MarginYoYDiff",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 0,
+            "y": 1,
+            "width": 6,
+            "height": 3
+          },
+          "priority": 2,
+          "formatting_intent": "",
+          "conditional_formats": [
+            {
+              "target_field": {
+                "table": "Sales",
+                "column": "",
+                "measure": "YoYGrowthPct",
+                "aggregation": "None"
+              },
+              "rule_description": "Green if >= 0, red if < 0",
+              "colour_positive": "",
+              "colour_negative": ""
+            },
+            {
+              "target_field": {
+                "table": "Sales",
+                "column": "",
+                "measure": "MarginYoYDiff",
+                "aggregation": "None"
+              },
+              "rule_description": "Green if >= 0, red if < 0",
+              "colour_positive": "",
+              "colour_negative": ""
+            }
+          ],
+          "sort": {
+            "field": {
+              "table": "Sales",
+              "column": "",
+              "measure": "YoYGrowthPct",
+              "aggregation": "None"
+            },
+            "descending": false
+          },
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Table showing regions with performance issues, sorted by year-over-year growth (worst first)"
+        },
+        {
+          "id": "vis-risk-category-table",
+          "visual_type": "table",
+          "title": "Category Risk Areas",
+          "subtitle": "",
+          "analytical_purpose": "List product categories with performance issues and their key metrics",
+          "category_fields": [
+            {
+              "table": "Product",
+              "column": "CategoryName",
+              "measure": "",
+              "aggregation": "None"
+            }
+          ],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            },
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "YoYGrowthPct",
+              "aggregation": "None"
+            },
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "GrossMarginPct",
+              "aggregation": "None"
+            },
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "MarginYoYDiff",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 6,
+            "y": 1,
+            "width": 6,
+            "height": 3
+          },
+          "priority": 2,
+          "formatting_intent": "",
+          "conditional_formats": [
+            {
+              "target_field": {
+                "table": "Sales",
+                "column": "",
+                "measure": "YoYGrowthPct",
+                "aggregation": "None"
+              },
+              "rule_description": "Green if >= 0, red if < 0",
+              "colour_positive": "",
+              "colour_negative": ""
+            },
+            {
+              "target_field": {
+                "table": "Sales",
+                "column": "",
+                "measure": "MarginYoYDiff",
+                "aggregation": "None"
+              },
+              "rule_description": "Green if >= 0, red if < 0",
+              "colour_positive": "",
+              "colour_negative": ""
+            }
+          ],
+          "sort": {
+            "field": {
+              "table": "Sales",
+              "column": "",
+              "measure": "YoYGrowthPct",
+              "aggregation": "None"
+            },
+            "descending": false
+          },
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Table showing product categories with performance issues, sorted by year-over-year growth (worst first)"
+        },
+        {
+          "id": "vis-risk-store-table",
+          "visual_type": "table",
+          "title": "Store Risk Areas",
+          "subtitle": "",
+          "analytical_purpose": "List stores with performance issues and their key metrics",
+          "category_fields": [
+            {
+              "table": "Store",
+              "column": "StoreName",
+              "measure": "",
+              "aggregation": "None"
+            },
+            {
+              "table": "Region",
+              "column": "RegionName",
+              "measure": "",
+              "aggregation": "None"
+            }
+          ],
+          "value_fields": [
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "TotalRevenue",
+              "aggregation": "None"
+            },
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "YoYGrowthPct",
+              "aggregation": "None"
+            },
+            {
+              "table": "Sales",
+              "column": "",
+              "measure": "GrossMarginPct",
+              "aggregation": "None"
+            }
+          ],
+          "series_field": null,
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 12,
+            "height": 4
+          },
+          "priority": 3,
+          "formatting_intent": "",
+          "conditional_formats": [
+            {
+              "target_field": {
+                "table": "Sales",
+                "column": "",
+                "measure": "YoYGrowthPct",
+                "aggregation": "None"
+              },
+              "rule_description": "Green if >= 0, red if < 0",
+              "colour_positive": "",
+              "colour_negative": ""
+            }
+          ],
+          "sort": {
+            "field": {
+              "table": "Sales",
+              "column": "",
+              "measure": "YoYGrowthPct",
+              "aggregation": "None"
+            },
+            "descending": false
+          },
+          "tooltip": {
+            "fields": [],
+            "tooltip_page_id": ""
+          },
+          "interaction_type": "cross_highlight",
+          "drill_through_target": "",
+          "alt_description": "Table showing stores with performance issues, sorted by year-over-year growth (worst first)"
+        }
+      ],
+      "filters": [
+        {
+          "id": "filter-risk-date-period",
+          "filter_type": "slicer",
+          "field": {
+            "table": "Date",
+            "column": "FiscalPeriod",
+            "measure": "",
+            "aggregation": "None"
+          },
+          "label": "Fiscal Period",
+          "default_value": "Current FY",
+          "multi_select": true,
+          "visual_style": "dropdown"
+        },
+        {
+          "id": "filter-risk-region",
+          "filter_type": "slicer",
+          "field": {
+            "table": "Region",
+            "column": "RegionName",
+            "measure": "",
+            "aggregation": "None"
+          },
+          "label": "Region",
+          "default_value": null,
+          "multi_select": true,
+          "visual_style": "dropdown"
+        },
+        {
+          "id": "filter-risk-category",
+          "filter_type": "slicer",
+          "field": {
+            "table": "Product",
+            "column": "CategoryName",
+            "measure": "",
+            "aggregation": "None"
+          },
+          "label": "Category",
+          "default_value": null,
+          "multi_select": true,
+          "visual_style": "dropdown"
+        }
+      ],
+      "navigation": [
+        {
+          "label": "Back to Overview",
+          "target_page_id": "page-executive-overview",
+          "style": "subtle"
+        }
+      ],
+      "sort_order": 0
+    }
+  ],
+  "interactions": {
+    "drill_throughs": [
+      {
+        "source_page_id": "page-executive-overview",
+        "target_page_id": "page-region-analysis",
+        "filter_fields": [
+          {
+            "table": "Region",
+            "column": "RegionName",
+            "measure": "",
+            "aggregation": "None"
+          }
+        ],
+        "description": "Drill through from region chart to detailed region analysis"
+      },
+      {
+        "source_page_id": "page-executive-overview",
+        "target_page_id": "page-category-analysis",
+        "filter_fields": [
+          {
+            "table": "Product",
+            "column": "CategoryName",
+            "measure": "",
+            "aggregation": "None"
+          }
+        ],
+        "description": "Drill through from category chart to detailed category analysis"
+      },
+      {
+        "source_page_id": "page-executive-overview",
+        "target_page_id": "page-risk-analysis",
+        "filter_fields": [],
+        "description": "Drill through from risk KPI to risk analysis page"
+      }
+    ],
+    "navigation_buttons": [],
+    "default_interaction": "cross_highlight",
+    "tooltip_pages": []
+  },
+  "theme": {
+    "presentation_mode": "light",
+    "style_family": "corporate_restrained",
+    "colour_roles": [
+      {
+        "role": "primary",
+        "intent": "corporate identity",
+        "hex_value": ""
+      },
+      {
+        "role": "accent",
+        "intent": "highlight important data points",
+        "hex_value": ""
+      },
+      {
+        "role": "positive",
+        "intent": "growth / success",
+        "hex_value": "#007E33"
+      },
+      {
+        "role": "negative",
+        "intent": "decline / risk",
+        "hex_value": "#CC0000"
+      },
+      {
+        "role": "neutral",
+        "intent": "background / supporting elements",
+        "hex_value": ""
+      }
+    ],
+    "typography": {
+      "heading_font": "Segoe UI Light",
+      "body_font": "Segoe UI",
+      "base_size_pt": 10.0
+    },
+    "density": "comfortable",
+    "whitespace_emphasis": "Generous padding between cards, moderate internal padding",
+    "card_style": "Subtle shadow with thin border",
+    "emphasis_rules": [
+      "KPIs are largest and most prominent at top of page",
+      "Negative values highlighted in red",
+      "Positive values highlighted in green",
+      "Current year data more saturated than previous year in trends"
+    ],
+    "design_tone": "premium, restrained and boardroom-ready"
+  },
+  "tables": [
+    {
+      "name": "Sales",
+      "description": "Fact table containing sales transactions",
+      "columns": [
+        {
+          "name": "SalesID",
+          "data_type": "TEXT",
+          "description": "Unique identifier for each sales record",
+          "is_key": true,
+          "sample_values": [
+            "S-00001",
+            "S-00002"
+          ]
+        },
+        {
+          "name": "Date",
+          "data_type": "DATE",
+          "description": "Date of the sale",
+          "is_key": false,
+          "sample_values": [
+            "2023-01-15",
+            "2023-02-20"
+          ]
+        },
+        {
+          "name": "StoreID",
+          "data_type": "TEXT",
+          "description": "Foreign key to Store table",
+          "is_key": false,
+          "sample_values": [
+            "ST001",
+            "ST002"
+          ]
+        },
+        {
+          "name": "ProductID",
+          "data_type": "TEXT",
+          "description": "Foreign key to Product table",
+          "is_key": false,
+          "sample_values": [
+            "P-1001",
+            "P-1002"
+          ]
+        },
+        {
+          "name": "Quantity",
+          "data_type": "INTEGER",
+          "description": "Number of units sold",
+          "is_key": false,
+          "sample_values": [
+            "1",
+            "2",
+            "5"
+          ]
+        },
+        {
+          "name": "UnitPrice",
+          "data_type": "REAL",
+          "description": "Price per unit in GBP",
+          "is_key": false,
+          "sample_values": [
+            "19.99",
+            "24.50",
+            "99.00"
+          ]
+        },
+        {
+          "name": "Revenue",
+          "data_type": "REAL",
+          "description": "Total revenue for the transaction in GBP",
+          "is_key": false,
+          "sample_values": [
+            "19.99",
+            "49.00",
+            "495.00"
+          ]
+        },
+        {
+          "name": "Cost",
+          "data_type": "REAL",
+          "description": "Total cost for the transaction in GBP",
+          "is_key": false,
+          "sample_values": [
+            "10.00",
+            "25.00",
+            "300.00"
+          ]
+        }
+      ],
+      "row_count_hint": 10000
+    },
+    {
+      "name": "Date",
+      "description": "Date dimension table",
+      "columns": [
+        {
+          "name": "Date",
+          "data_type": "DATE",
+          "description": "Calendar date",
+          "is_key": true,
+          "sample_values": [
+            "2023-01-01",
+            "2023-01-02"
+          ]
+        },
+        {
+          "name": "Day",
+          "data_type": "INTEGER",
+          "description": "Day of month (1-31)",
+          "is_key": false,
+          "sample_values": [
+            "1",
+            "15",
+            "31"
+          ]
+        },
+        {
+          "name": "Month",
+          "data_type": "INTEGER",
+          "description": "Month number (1-12)",
+          "is_key": false,
+          "sample_values": [
+            "1",
+            "6",
+            "12"
+          ]
+        },
+        {
+          "name": "MonthName",
+          "data_type": "TEXT",
+          "description": "Month name",
+          "is_key": false,
+          "sample_values": [
+            "January",
+            "February",
+            "March"
+          ]
+        },
+        {
+          "name": "Quarter",
+          "data_type": "INTEGER",
+          "description": "Calendar quarter (1-4)",
+          "is_key": false,
+          "sample_values": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        {
+          "name": "Year",
+          "data_type": "INTEGER",
+          "description": "Calendar year",
+          "is_key": false,
+          "sample_values": [
+            "2022",
+            "2023",
+            "2024"
+          ]
+        },
+        {
+          "name": "FiscalMonth",
+          "data_type": "INTEGER",
+          "description": "Fiscal month number (1-12)",
+          "is_key": false,
+          "sample_values": [
+            "1",
+            "6",
+            "12"
+          ]
+        },
+        {
+          "name": "FiscalQuarter",
+          "data_type": "INTEGER",
+          "description": "Fiscal quarter (1-4)",
+          "is_key": false,
+          "sample_values": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        },
+        {
+          "name": "FiscalYear",
+          "data_type": "INTEGER",
+          "description": "Fiscal year",
+          "is_key": false,
+          "sample_values": [
+            "2022",
+            "2023",
+            "2024"
+          ]
+        },
+        {
+          "name": "FiscalPeriod",
+          "data_type": "TEXT",
+          "description": "Fiscal period description",
+          "is_key": false,
+          "sample_values": [
+            "Current FY",
+            "Previous FY",
+            "FY 2023"
+          ]
+        },
+        {
+          "name": "IsCurrentFY",
+          "data_type": "BOOLEAN",
+          "description": "Flag for current fiscal year",
+          "is_key": false,
+          "sample_values": [
+            "TRUE",
+            "FALSE"
+          ]
+        },
+        {
+          "name": "IsPreviousFY",
+          "data_type": "BOOLEAN",
+          "description": "Flag for previous fiscal year",
+          "is_key": false,
+          "sample_values": [
+            "TRUE",
+            "FALSE"
+          ]
+        }
+      ],
+      "row_count_hint": 730
+    },
+    {
+      "name": "Store",
+      "description": "Store dimension table",
+      "columns": [
+        {
+          "name": "StoreID",
+          "data_type": "TEXT",
+          "description": "Unique store identifier",
+          "is_key": true,
+          "sample_values": [
+            "ST001",
+            "ST002"
+          ]
+        },
+        {
+          "name": "StoreName",
+          "data_type": "TEXT",
+          "description": "Store name",
+          "is_key": false,
+          "sample_values": [
+            "London Oxford Street",
+            "Manchester Arndale",
+            "Birmingham Bullring"
+          ]
+        },
+        {
+          "name": "RegionID",
+          "data_type": "TEXT",
+          "description": "Foreign key to Region table",
+          "is_key": false,
+          "sample_values": [
+            "R001",
+            "R002"
+          ]
+        },
+        {
+          "name": "StoreSize",
+          "data_type": "TEXT",
+          "description": "Store size category",
+          "is_key": false,
+          "sample_values": [
+            "Small",
+            "Medium",
+            "Large",
+            "Flagship"
+          ]
+        },
+        {
+          "name": "OpenDate",
+          "data_type": "DATE",
+          "description": "Date the store opened",
+          "is_key": false,
+          "sample_values": [
+            "2015-03-15",
+            "2018-09-22"
+          ]
+        },
+        {
+          "name": "IsActive",
+          "data_type": "BOOLEAN",
+          "description": "Whether the store is currently active",
+          "is_key": false,
+          "sample_values": [
+            "TRUE",
+            "FALSE"
+          ]
+        }
+      ],
+      "row_count_hint": 150
+    },
+    {
+      "name": "Region",
+      "description": "Region dimension table",
+      "columns": [
+        {
+          "name": "RegionID",
+          "data_type": "TEXT",
+          "description": "Unique region identifier",
+          "is_key": true,
+          "sample_values": [
+            "R001",
+            "R002"
+          ]
+        },
+        {
+          "name": "RegionName",
+          "data_type": "TEXT",
+          "description": "Region name",
+          "is_key": false,
+          "sample_values": [
+            "London",
+            "South East",
+            "North West",
+            "Scotland",
+            "Wales"
+          ]
+        },
+        {
+          "name": "RegionManager",
+          "data_type": "TEXT",
+          "description": "Name of the region manager",
+          "is_key": false,
+          "sample_values": [
+            "Jane Smith",
+            "John Brown"
+          ]
+        },
+        {
+          "name": "CountryCode",
+          "data_type": "TEXT",
+          "description": "Country code (UK regions)",
+          "is_key": false,
+          "sample_values": [
+            "UK"
+          ]
+        }
+      ],
+      "row_count_hint": 12
+    },
+    {
+      "name": "Product",
+      "description": "Product dimension table",
+      "columns": [
+        {
+          "name": "ProductID",
+          "data_type": "TEXT",
+          "description": "Unique product identifier",
+          "is_key": true,
+          "sample_values": [
+            "P-1001",
+            "P-1002"
+          ]
+        },
+        {
+          "name": "ProductName",
+          "data_type": "TEXT",
+          "description": "Product name",
+          "is_key": false,
+          "sample_values": [
+            "Classic White Shirt",
+            "Slim Fit Jeans"
+          ]
+        },
+        {
+          "name": "CategoryID",
+          "data_type": "TEXT",
+          "description": "Category identifier",
+          "is_key": false,
+          "sample_values": [
+            "C001",
+            "C002"
+          ]
+        },
+        {
+          "name": "CategoryName",
+          "data_type": "TEXT",
+          "description": "Category name",
+          "is_key": false,
+          "sample_values": [
+            "Menswear",
+            "Womenswear",
+            "Childrenswear",
+            "Home",
+            "Beauty"
+          ]
+        },
+        {
+          "name": "SubcategoryID",
+          "data_type": "TEXT",
+          "description": "Subcategory identifier",
+          "is_key": false,
+          "sample_values": [
+            "SC001",
+            "SC002"
+          ]
+        },
+        {
+          "name": "SubcategoryName",
+          "data_type": "TEXT",
+          "description": "Subcategory name",
+          "is_key": false,
+          "sample_values": [
+            "Shirts",
+            "Trousers",
+            "Dresses",
+            "Accessories"
+          ]
+        },
+        {
+          "name": "UnitCost",
+          "data_type": "REAL",
+          "description": "Cost per unit in GBP",
+          "is_key": false,
+          "sample_values": [
+            "10.00",
+            "15.50",
+            "60.00"
+          ]
+        },
+        {
+          "name": "UnitPrice",
+          "data_type": "REAL",
+          "description": "Retail price per unit in GBP",
+          "is_key": false,
+          "sample_values": [
+            "19.99",
+            "29.99",
+            "99.00"
+          ]
+        },
+        {
+          "name": "ContributionSegment",
+          "data_type": "TEXT",
+          "description": "Segment for contribution analysis",
+          "is_key": false,
+          "sample_values": [
+            "Selected Category",
+            "Other Categories"
+          ]
+        }
+      ],
+      "row_count_hint": 500
+    },
+    {
+      "name": "Risk",
+      "description": "Risk assessment dimension table",
+      "columns": [
+        {
+          "name": "RiskID",
+          "data_type": "TEXT",
+          "description": "Unique risk identifier",
+          "is_key": true,
+          "sample_values": [
+            "RISK001",
+            "RISK002"
+          ]
+        },
+        {
+          "name": "RiskArea",
+          "data_type": "TEXT",
+          "description": "Description of the risk area",
+          "is_key": false,
+          "sample_values": [
+            "London Stores",
+            "Menswear Category",
+            "Scotland Region"
+          ]
+        },
+        {
+          "name": "RiskType",
+          "data_type": "TEXT",
+          "description": "Type of risk",
+          "is_key": false,
+          "sample_values": [
+            "Revenue Decline",
+            "Margin Erosion",
+            "Market Share Loss"
+          ]
+        },
+        {
+          "name": "RiskSeverity",
+          "data_type": "TEXT",
+          "description": "Risk severity level",
+          "is_key": false,
+          "sample_values": [
+            "Low",
+            "Medium",
+            "High",
+            "Critical"
+          ]
+        },
+        {
+          "name": "RegionID",
+          "data_type": "TEXT",
+          "description": "Associated region if applicable",
+          "is_key": false,
+          "sample_values": [
+            "R001",
+            "R002"
+          ]
+        },
+        {
+          "name": "CategoryID",
+          "data_type": "TEXT",
+          "description": "Associated category if applicable",
+          "is_key": false,
+          "sample_values": [
+            "C001",
+            "C002"
+          ]
+        },
+        {
+          "name": "StoreID",
+          "data_type": "TEXT",
+          "description": "Associated store if applicable",
+          "is_key": false,
+          "sample_values": [
+            "ST001",
+            "ST002"
+          ]
+        }
+      ],
+      "row_count_hint": 30
+    }
+  ],
+  "relationships": [
+    {
+      "from_table": "Sales",
+      "from_column": "Date",
+      "to_table": "Date",
+      "to_column": "Date",
+      "cardinality": "manyToOne",
+      "cross_filter_direction": "single",
+      "is_active": true
+    },
+    {
+      "from_table": "Sales",
+      "from_column": "StoreID",
+      "to_table": "Store",
+      "to_column": "StoreID",
+      "cardinality": "manyToOne",
+      "cross_filter_direction": "single",
+      "is_active": true
+    },
+    {
+      "from_table": "Sales",
+      "from_column": "ProductID",
+      "to_table": "Product",
+      "to_column": "ProductID",
+      "cardinality": "manyToOne",
+      "cross_filter_direction": "single",
+      "is_active": true
+    },
+    {
+      "from_table": "Store",
+      "from_column": "RegionID",
+      "to_table": "Region",
+      "to_column": "RegionID",
+      "cardinality": "manyToOne",
+      "cross_filter_direction": "single",
+      "is_active": true
+    },
+    {
+      "from_table": "Risk",
+      "from_column": "RegionID",
+      "to_table": "Region",
+      "to_column": "RegionID",
+      "cardinality": "manyToOne",
+      "cross_filter_direction": "single",
+      "is_active": true
+    },
+    {
+      "from_table": "Risk",
+      "from_column": "CategoryID",
+      "to_table": "Product",
+      "to_column": "CategoryID",
+      "cardinality": "manyToOne",
+      "cross_filter_direction": "single",
+      "is_active": true
+    },
+    {
+      "from_table": "Risk",
+      "from_column": "StoreID",
+      "to_table": "Store",
+      "to_column": "StoreID",
+      "cardinality": "manyToOne",
+      "cross_filter_direction": "single",
+      "is_active": true
+    }
+  ],
+  "measures": [
+    {
+      "name": "TotalRevenue",
+      "expression": "SUM(Sales[Revenue])",
+      "table": "Sales",
+      "format_string": "£#,0.00",
+      "description": "Total revenue in GBP"
+    },
+    {
+      "name": "TotalCost",
+      "expression": "SUM(Sales[Cost])",
+      "table": "Sales",
+      "format_string": "£#,0.00",
+      "description": "Total cost in GBP"
+    },
+    {
+      "name": "GrossProfit",
+      "expression": "[TotalRevenue] - [TotalCost]",
+      "table": "Sales",
+      "format_string": "£#,0.00",
+      "description": "Gross profit in GBP"
+    },
+    {
+      "name": "GrossMarginPct",
+      "expression": "DIVIDE([GrossProfit], [TotalRevenue], 0)",
+      "table": "Sales",
+      "format_string": "0.0%",
+      "description": "Gross margin percentage"
+    },
+    {
+      "name": "PrevYearRevenue",
+      "expression": "CALCULATE([TotalRevenue], SAMEPERIODLASTYEAR(Date[Date]))",
+      "table": "Sales",
+      "format_string": "£#,0.00",
+      "description": "Revenue from the same period in the previous year"
+    },
+    {
+      "name": "YoYGrowthPct",
+      "expression": "DIVIDE([TotalRevenue] - [PrevYearRevenue], [PrevYearRevenue], 0)",
+      "table": "Sales",
+      "format_string": "0.0%",
+      "description": "Year-over-year revenue growth percentage"
+    },
+    {
+      "name": "PrevYearMarginPct",
+      "expression": "CALCULATE([GrossMarginPct], SAMEPERIODLASTYEAR(Date[Date]))",
+      "table": "Sales",
+      "format_string": "0.0%",
+      "description": "Gross margin percentage from the same period in the previous year"
+    },
+    {
+      "name": "MarginYoYDiff",
+      "expression": "[GrossMarginPct] - [PrevYearMarginPct]",
+      "table": "Sales",
+      "format_string": "0.0%",
+      "description": "Year-over-year change in gross margin percentage"
+    },
+    {
+      "name": "RiskCount",
+      "expression": "COUNTROWS(FILTER(Risk, Risk[RiskSeverity] IN {\"High\", \"Critical\"}))",
+      "table": "Sales",
+      "format_string": "#,0",
+      "description": "Count of high and critical risk areas"
+    },
+    {
+      "name": "RevenueAtRisk",
+      "expression": "CALCULATE([TotalRevenue], FILTER(Risk, Risk[RiskSeverity] IN {\"High\", \"Critical\"}))",
+      "table": "Sales",
+      "format_string": "£#,0.00",
+      "description": "Revenue associated with high and critical risk areas"
+    },
+    {
+      "name": "PctRevenueAtRisk",
+      "expression": "DIVIDE([RevenueAtRisk], [TotalRevenue], 0)",
+      "table": "Sales",
+      "format_string": "0.0%",
+      "description": "Percentage of total revenue that is at risk"
+    }
+  ],
+  "mock_data_narrative": {
+    "scenario_description": "UK retail business showing overall growth but with significant regional and category variations. The business has strong performance in some areas but faces challenges in others, particularly in traditional high street stores and certain product categories affected by changing consumer preferences.",
+    "time_period": "FY2022-FY2023",
+    "patterns": [
+      {
+        "pattern_type": "trend_up",
+        "description": "Overall revenue shows steady growth across the fiscal year",
+        "applies_to": [
+          {
+            "table": "Sales",
+            "column": "",
+            "measure": "TotalRevenue",
+            "aggregation": "None"
+          }
+        ],
+        "parameters": {
+          "growth_rate": 0.08
+        }
+      },
+      {
+        "pattern_type": "seasonal",
+        "description": "Revenue shows seasonal peaks during holiday periods (November-December, July)",
+        "applies_to": [
+          {
+            "table": "Sales",
+            "column": "",
+            "measure": "TotalRevenue",
+            "aggregation": "None"
+          }
+        ],
+        "parameters": {
+          "peak_months": [
+            7,
+            11,
+            12
+          ],
+          "peak_magnitude": 0.3
+        }
+      },
+      {
+        "pattern_type": "variance_high",
+        "description": "High variance in regional performance with some regions significantly outperforming others",
+        "applies_to": [
+          {
+            "table": "Region",
+            "column": "RegionName",
+            "measure": "",
+            "aggregation": "None"
+          }
+        ],
+        "parameters": {
+          "variance_magnitude": 0.4
+        }
+      },
+      {
+        "pattern_type": "outlier_negative",
+        "description": "Several stores showing significant underperformance compared to regional averages",
+        "applies_to": [
+          {
+            "table": "Store",
+            "column": "StoreName",
+            "measure": "",
+            "aggregation": "None"
+          }
+        ],
+        "parameters": {
+          "outlier_count": 5,
+          "outlier_magnitude": -0.25
+        }
+      },
+      {
+        "pattern_type": "trend_down",
+        "description": "Declining performance in certain traditional categories as consumer preferences shift",
+        "applies_to": [
+          {
+            "table": "Product",
+            "column": "CategoryName",
+            "measure": "",
+            "aggregation": "None"
+          }
+        ],
+        "parameters": {
+          "affected_categories": [
+            "Formalwear",
+            "Traditional Home"
+          ],
+          "decline_rate": -0.12
+        }
+      },
+      {
+        "pattern_type": "trend_up",
+        "description": "Strong growth in newer categories aligned with current trends",
+        "applies_to": [
+          {
+            "table": "Product",
+            "column": "CategoryName",
+            "measure": "",
+            "aggregation": "None"
+          }
+        ],
+        "parameters": {
+          "affected_categories": [
+            "Beauty",
+            "Activewear",
+            "Sustainable Home"
+          ],
+          "growth_rate": 0.18
+        }
+      },
+      {
+        "pattern_type": "yoy_decline",
+        "description": "Year-over-year decline in Scotland and Wales regions",
+        "applies_to": [
+          {
+            "table": "Region",
+            "column": "RegionName",
+            "measure": "",
+            "aggregation": "None"
+          }
+        ],
+        "parameters": {
+          "affected_regions": [
+            "Scotland",
+            "Wales"
+          ],
+          "decline_rate": -0.07
+        }
+      },
+      {
+        "pattern_type": "target_miss",
+        "description": "Gross margin below target in several key categories",
+        "applies_to": [
+          {
+            "table": "Sales",
+            "column": "",
+            "measure": "GrossMarginPct",
+            "aggregation": "None"
+          }
+        ],
+        "parameters": {
+          "target": 0.45,
+          "actual_average": 0.42
+        }
+      }
+    ],
+    "key_insights": [
+      "Overall business is growing at 8% year-over-year, but with significant regional variation",
+      "London and South East regions are driving growth while Scotland and Wales show concerning declines",
+      "Beauty and Activewear categories show strongest growth and margin performance",
+      "Traditional categories like Formalwear are underperforming and represent a risk area",
+      "5 stores are significantly underperforming their regional averages and require intervention",
+      "Gross margin is slightly below target, primarily due to increased promotional activity in struggling categories"
+    ],
+    "constraints": [
+      "All percentages must be between -100% and +100%",
+      "Regional totals must sum to company total",
+      "Category totals must sum to company total",
+      "Current year data must be complete, previous year can be complete or partial"
+    ]
+  },
+  "confidence": {
+    "assessments": [
+      {
+        "dimension": "audience_clarity",
+        "evidence_for": [
+          "Audience is clearly specified as CEO and CFO",
+          "Executive-level audience suggests focus on high-level KPIs and strategic metrics",
+          "C-suite audience implies need for premium, boardroom-ready design"
+        ],
+        "evidence_against": [],
+        "open_questions": []
+      },
+      {
+        "dimension": "metric_definitions",
+        "evidence_for": [
+          "Core retail metrics (revenue, margin, YoY growth) are standard in the industry",
+          "Risk metrics are defined to highlight underperforming areas"
+        ],
+        "evidence_against": [],
+        "open_questions": [
+          "Are there specific margin calculation methods preferred by this retailer?"
+        ]
+      },
+      {
+        "dimension": "data_availability",
+        "evidence_for": [
+          "Standard retail data model with sales transactions, products, stores and regions",
+          "Time dimension supports YoY comparisons"
+        ],
+        "evidence_against": [],
+        "open_questions": []
+      },
+      {
+        "dimension": "visual_choice",
+        "evidence_for": [
+          "Card visuals for KPIs align with executive dashboard best practices",
+          "Line charts for trends provide clear temporal context",
+          "Bar/column charts for comparisons across categories and regions",
+          "Tables for detailed risk analysis"
+        ],
+        "evidence_against": [],
+        "open_questions": []
+      },
+      {
+        "dimension": "layout_decision",
+        "evidence_for": [
+          "Executive overview page with KPIs at top follows standard dashboard hierarchy",
+          "Drill-through pages for deeper analysis of regions, categories and risks",
+          "Comfortable layout with appropriate whitespace for boardroom presentation"
+        ],
+        "evidence_against": [],
+        "open_questions": []
+      },
+      {
+        "dimension": "filter_requirements",
+        "evidence_for": [
+          "Period, region and category filters explicitly requested",
+          "These filters provide the core dimensions for retail analysis"
+        ],
+        "evidence_against": [],
+        "open_questions": []
+      },
+      {
+        "dimension": "business_context",
+        "evidence_for": [
+          "UK retail context is specified",
+          "Regional structure reflects UK geography"
+        ],
+        "evidence_against": [],
+        "open_questions": [
+          "What is the specific fiscal year definition for this retailer?"
+        ]
+      }
+    ],
+    "assumptions": [
+      {
+        "statement": "The fiscal year follows the standard UK April-March pattern",
+        "reasoning": "Most UK retailers use this fiscal calendar",
+        "impact": "Date calculations and YoY comparisons would need adjustment if a different fiscal calendar is used",
+        "clarification_question": ""
+      },
+      {
+        "statement": "Gross margin is calculated as (Revenue - Cost) / Revenue",
+        "reasoning": "This is the standard retail definition of gross margin",
+        "impact": "Margin calculations would need to be revised if a different formula is used",
+        "clarification_question": ""
+      },
+      {
+        "statement": "The retailer has physical stores organized by geographic regions across the UK",
+        "reasoning": "This is the typical structure for UK national retailers",
+        "impact": "The regional analysis would need restructuring if the business uses a different organizational model",
+        "clarification_question": ""
+      },
+      {
+        "statement": "The retailer sells products across multiple categories (clothing, home, beauty, etc.)",
+        "reasoning": "This is common for UK retailers and allows for meaningful category analysis",
+        "impact": "Category structure would need revision if the retailer has a more specialized product range",
+        "clarification_question": ""
+      }
+    ],
+    "requires_clarification": false
+  }
+}
