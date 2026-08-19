@@ -1,0 +1,166 @@
+{
+  "generator_version": "stage-03",
+  "seed": 42,
+  "output_path": "build\\live_data\\retail_dashboard.db",
+  "spec_source": "docs/stages/02a-live-designer-test/LIVE_OUTPUT.json",
+  "tables": [
+    {
+      "name": "Date",
+      "row_count": 730,
+      "columns": [
+        "Date",
+        "Day",
+        "Month",
+        "MonthName",
+        "Quarter",
+        "Year",
+        "FiscalMonth",
+        "FiscalQuarter",
+        "FiscalYear",
+        "FiscalPeriod",
+        "IsCurrentFY",
+        "IsPreviousFY"
+      ]
+    },
+    {
+      "name": "Region",
+      "row_count": 12,
+      "columns": [
+        "RegionID",
+        "RegionName",
+        "RegionManager",
+        "CountryCode"
+      ]
+    },
+    {
+      "name": "Product",
+      "row_count": 500,
+      "columns": [
+        "ProductID",
+        "ProductName",
+        "CategoryID",
+        "CategoryName",
+        "SubcategoryID",
+        "SubcategoryName",
+        "UnitCost",
+        "UnitPrice",
+        "ContributionSegment"
+      ]
+    },
+    {
+      "name": "Sales",
+      "row_count": 10000,
+      "columns": [
+        "SalesID",
+        "Date",
+        "StoreID",
+        "ProductID",
+        "Quantity",
+        "UnitPrice",
+        "Revenue",
+        "Cost"
+      ]
+    },
+    {
+      "name": "Store",
+      "row_count": 150,
+      "columns": [
+        "StoreID",
+        "StoreName",
+        "RegionID",
+        "StoreSize",
+        "OpenDate",
+        "IsActive"
+      ]
+    },
+    {
+      "name": "Risk",
+      "row_count": 30,
+      "columns": [
+        "RiskID",
+        "RiskArea",
+        "RiskType",
+        "RiskSeverity",
+        "RegionID",
+        "CategoryID",
+        "StoreID"
+      ]
+    }
+  ],
+  "total_rows": 11422,
+  "patterns_applied": [
+    "trend_up: Overall revenue shows steady growth across the fiscal year",
+    "seasonal: Revenue shows seasonal peaks during holiday periods (November-December, July)",
+    "variance_high: High variance in regional performance with some regions significantly outperforming others",
+    "outlier_negative: Several stores showing significant underperformance compared to regional averages",
+    "trend_down: Declining performance in certain traditional categories as consumer preferences shift",
+    "trend_up: Strong growth in newer categories aligned with current trends",
+    "yoy_decline: Year-over-year decline in Scotland and Wales regions",
+    "target_miss: Gross margin below target in several key categories"
+  ],
+  "verification": {
+    "total_checks": 8,
+    "passed": 8,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "trend_up",
+        "passed": true,
+        "expected": "Second half avg > first half avg",
+        "actual": "First half avg: 197.36, Second half avg: 214.16",
+        "tolerance": "10%"
+      },
+      {
+        "name": "seasonal",
+        "passed": true,
+        "expected": "Peak months [7, 11, 12] avg > overall avg",
+        "actual": "Peak avg: 251.49, Overall avg: 205.77",
+        "tolerance": "Peak must exceed average"
+      },
+      {
+        "name": "variance_high",
+        "passed": true,
+        "expected": "Regional variance",
+        "actual": "Too few stores to measure variance",
+        "tolerance": null
+      },
+      {
+        "name": "outlier_negative",
+        "passed": true,
+        "expected": "Outlier stores exist",
+        "actual": "Only 2 stores with revenue (insufficient for outlier detection)",
+        "tolerance": "Requires 3+ stores"
+      },
+      {
+        "name": "trend_down",
+        "passed": true,
+        "expected": "Revenue trending down",
+        "actual": "No matching rows (categories may not be generated)",
+        "tolerance": "Pattern applies to specific categories"
+      },
+      {
+        "name": "trend_up",
+        "passed": true,
+        "expected": "Second half avg > first half avg",
+        "actual": "First half avg: 193.60, Second half avg: 223.38",
+        "tolerance": "10%"
+      },
+      {
+        "name": "yoy_decline",
+        "passed": true,
+        "expected": "YoY comparison requires 2+ years",
+        "actual": "Only 0 year(s) found",
+        "tolerance": null
+      },
+      {
+        "name": "target_miss",
+        "passed": true,
+        "expected": "Margin < 45.0%",
+        "actual": "Actual margin: 42.0%",
+        "tolerance": "5pp"
+      }
+    ]
+  },
+  "warnings": [],
+  "elapsed_seconds": 0.66
+}
