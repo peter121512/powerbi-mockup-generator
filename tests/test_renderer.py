@@ -364,7 +364,7 @@ class TestSemanticModelTMDL:
         content = generate_model_tmdl()
         assert "model Model" in content
         assert "culture: en-US" in content
-        assert "defaultPowerBIDataSourceVersion: powerBIV3" in content
+        assert "defaultPowerBIDataSourceVersion: powerBI_V3" in content
 
     def test_table_tmdl_has_table_name(self):
         table = TableSpec(
@@ -664,7 +664,7 @@ class TestPageGeneration:
         data = json.loads(page_json_path.read_text(encoding="utf-8"))
         assert data["name"] == "page-overview"
         assert data["displayName"] == "Overview"
-        assert data["displayOption"] == "fitToPage"
+        assert data["displayOption"] == "FitToPage"
         assert data["height"] == 720
         assert data["width"] == 1280
 

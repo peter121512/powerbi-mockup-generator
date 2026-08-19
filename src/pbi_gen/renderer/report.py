@@ -23,7 +23,8 @@ from pbi_gen.renderer.visuals import (
 def generate_report_json() -> dict:
     """Generate the top-level report.json configuration."""
     return {
-        "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/1.5.0/schema.json",
+        "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/1.3.0/schema.json",
+        "layoutOptimization": "None",
         "themeCollection": {
             "baseTheme": {
                 "name": "CY24SU06",
@@ -37,18 +38,33 @@ def generate_report_json() -> dict:
                 "type": "SharedResources",
                 "items": [
                     {
-                        "type": "ResourcePackageTheme",
+                        "name": "CY24SU06",
+                        "type": "BaseTheme",
                         "path": "BaseThemes/CY24SU06.json",
                     }
                 ],
-            }
+            },
+            {
+                "name": "RegisteredResources",
+                "type": "RegisteredResources",
+                "items": [
+                    {
+                        "name": "theme.json",
+                        "type": "CustomTheme",
+                        "path": "theme.json",
+                    }
+                ],
+            },
         ],
     }
 
 
 def generate_version_json() -> dict:
     """Generate version.json."""
-    return {"version": "5.0"}
+    return {
+        "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/versionMetadata/1.0.0/schema.json",
+        "version": "4.0.0",
+    }
 
 
 def generate_definition_pbir(project_name: str) -> dict:
@@ -99,10 +115,9 @@ def generate_page_json(page: PageSpec) -> dict:
         "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/1.4.0/schema.json",
         "name": page.id,
         "displayName": page.title,
-        "displayOption": "fitToPage",
+        "displayOption": "FitToPage",
         "height": page.layout.height,
         "width": page.layout.width,
-        "filters": [],
     }
 
 
@@ -146,7 +161,7 @@ def generate_visual_json(
     active_projections = build_active_projections(query_state)
 
     visual_dict: dict = {
-        "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/4.0.0/schema.json",
+        "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.3.0/schema.json",
         "name": visual.id,
         "position": position_to_dict(canvas_pos),
         "visual": {
@@ -155,7 +170,6 @@ def generate_visual_json(
                 "queryState": query_state,
             },
             "objects": {},
-            "activeProjections": active_projections,
         },
     }
 
@@ -205,7 +219,7 @@ def generate_filter_visual_json(
     query_state = {"Values": {"projections": [projection]}}
 
     return {
-        "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/4.0.0/schema.json",
+        "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.3.0/schema.json",
         "name": filter_spec.id,
         "position": position_to_dict(canvas_pos),
         "visual": {
@@ -214,6 +228,5 @@ def generate_filter_visual_json(
                 "queryState": query_state,
             },
             "objects": {},
-            "activeProjections": {"Values": True},
         },
     }

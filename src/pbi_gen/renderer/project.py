@@ -12,6 +12,7 @@ from pathlib import Path
 from uuid import uuid4
 
 from pbi_gen.models import DashboardSpec
+from pbi_gen.models.dashboard_spec import Relationship
 from pbi_gen.renderer.layout import grid_to_canvas, position_to_dict
 from pbi_gen.renderer.report import (
     generate_definition_pbir,
@@ -45,13 +46,13 @@ def _sanitize_project_name(title: str) -> str:
 
 
 def _write_json(path: Path, data: dict) -> None:
-    """Write a dict as formatted JSON."""
+    """Write a dict as formatted JSON (UTF-8, no BOM)."""
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 def _write_text(path: Path, content: str) -> None:
-    """Write text content to a file."""
+    """Write text content to a file (UTF-8 without BOM — required by Fabric TMDL)."""
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content, encoding="utf-8")
 
@@ -96,6 +97,61 @@ def _generate_gitignore() -> str:
         "*.pbix\n"
         "localSettings.json\n"
     )
+
+
+def _resolve_ambiguous_relationships(relationships: list[Relationship]) -> list[Relationship]:
+    """Detect and deactivate relationships that create ambiguous paths.
+
+    Power BI/SSAS requires a single active path between any two tables.
+    When multiple paths exist (e.g. Risk->Region directly AND Risk->Store->Region),
+    we deactivate the direct relationship since the indirect path through the
+    intermediate table preserves more filtering context.
+    """
+    # Build a graph of active relationships (to_table reachability from each from_table)
+    # For each table pair with a direct relationship, check if an indirect path also exists
+    from collections import defaultdict
+
+    # Build adjacency: from_table -> set of to_tables via active relationships
+    adjacency: dict[str, set[str]] = defaultdict(set)
+    for rel in relationships:
+        if rel.is_active:
+            adjacency[rel.from_table].add(rel.to_table)
+
+    def has_indirect_path(source: str, target: str, excluded_direct: bool = True) -> bool:
+        """Check if source can reach target via 2+ hops."""
+        visited = {source}
+        queue = list(adjacency.get(source, set()))
+        if excluded_direct:
+            queue = [t for t in queue if t != target]
+        while queue:
+            current = queue.pop(0)
+            if current == target:
+                return True
+            if current in visited:
+                continue
+            visited.add(current)
+            for next_table in adjacency.get(current, set()):
+                if next_table not in visited:
+                    queue.append(next_table)
+        return False
+
+    # Check each relationship for ambiguity
+    result = []
+    for rel in relationships:
+        if rel.is_active and has_indirect_path(rel.from_table, rel.to_table):
+            # Create an inactive copy
+            result.append(Relationship(
+                from_table=rel.from_table,
+                from_column=rel.from_column,
+                to_table=rel.to_table,
+                to_column=rel.to_column,
+                cardinality=rel.cardinality,
+                cross_filter_direction=rel.cross_filter_direction,
+                is_active=False,
+            ))
+        else:
+            result.append(rel)
+    return result
 
 
 def write_pbip_project(
@@ -148,7 +204,8 @@ def write_pbip_project(
 
     # relationships.tmdl
     if spec.relationships:
-        _write_text(sm_def / "relationships.tmdl", generate_relationships_tmdl(spec.relationships))
+        resolved_rels = _resolve_ambiguous_relationships(spec.relationships)
+        _write_text(sm_def / "relationships.tmdl", generate_relationships_tmdl(resolved_rels))
 
     # definition.pbism
     _write_json(sm_root / "definition.pbism", generate_definition_pbism())

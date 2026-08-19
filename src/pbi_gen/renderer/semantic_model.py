@@ -58,7 +58,7 @@ def generate_model_tmdl() -> str:
     return (
         "model Model\n"
         "    culture: en-US\n"
-        "    defaultPowerBIDataSourceVersion: powerBIV3\n"
+        "    defaultPowerBIDataSourceVersion: powerBI_V3\n"
     )
 
 
@@ -190,6 +190,8 @@ def generate_relationships_tmdl(relationships: list[Relationship]) -> str:
             f"    fromColumn: {rel.from_table}.{rel.from_column}\n"
             f"    toColumn: {rel.to_table}.{rel.to_column}"
         )
+        if not rel.is_active:
+            section += "\n    isActive: false"
         sections.append(section)
 
     return "\n\n".join(sections) + "\n"
