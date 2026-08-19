@@ -113,14 +113,14 @@ def get_credential(config: dict):
     if auth_method == "az_cli":
         return AzureCliCredential()
 
-    print("   🔑 Checking for active Azure CLI session...")
+    print("   [*] Checking for active Azure CLI session...")
     cli_credential = _try_az_cli_credential()
     if cli_credential is not None:
-        print("   ✅ Using Azure CLI credential (az login session active)")
+        print("   [OK] Using Azure CLI credential (az login session active)")
         return cli_credential
 
     fallback_method = config.get("auth_method", "device_code")
-    print(f"   ⚠️  No active Azure CLI session. Falling back to '{fallback_method}' auth...")
+    print(f"   [WARN] No active Azure CLI session. Falling back to '{fallback_method}' auth...")
     return _get_fallback_credential(config)
 
 
@@ -144,7 +144,7 @@ def deploy_to_workspace(project_dir: Path) -> None:
         publish_all_items(fabric_workspace_obj=target_workspace)
     except KeyError as e:
         if str(e) == "'id'":
-            print("   ⚠️  Report created (first deploy quirk). Refreshing and retrying...")
+            print("   [WARN] Report created (first deploy quirk). Refreshing and retrying...")
             time.sleep(5)
             target_workspace = FabricWorkspace(
                 workspace_id=workspace_id,
@@ -194,7 +194,7 @@ def refresh_dataset(dataset_name: str | None = None, wait: bool = True, timeout:
         dataset = datasets[0]
 
     dataset_id = dataset["id"]
-    print(f"   🔄 Refreshing dataset: {dataset['name']}...")
+    print(f"   [*] Refreshing dataset: {dataset['name']}...")
     r = http_requests.post(
         f"{PBI_API_BASE}/groups/{workspace_id}/datasets/{dataset_id}/refreshes",
         headers=headers,
@@ -204,10 +204,10 @@ def refresh_dataset(dataset_name: str | None = None, wait: bool = True, timeout:
         raise DeploymentError(f"Refresh trigger failed: {r.status_code} {r.text[:200]}")
 
     if not wait:
-        print("   ✅ Refresh triggered (not waiting for completion)")
+        print("   [OK] Refresh triggered (not waiting for completion)")
         return True
 
-    print(f"   ⏳ Waiting for refresh to complete (timeout: {timeout}s)...")
+    print(f"   [..] Waiting for refresh to complete (timeout: {timeout}s)...")
     start = time.time()
     poll_interval = 5
     while time.time() - start < timeout:
@@ -222,13 +222,13 @@ def refresh_dataset(dataset_name: str | None = None, wait: bool = True, timeout:
             status = refreshes[0].get("status", "Unknown")
             elapsed = int(time.time() - start)
             if status == "Completed":
-                print(f"   ✅ Refresh completed ({elapsed}s)")
+                print(f"   [OK] Refresh completed ({elapsed}s)")
                 return True
             if status == "Failed":
                 error = refreshes[0].get("serviceExceptionJson", "Unknown error")
-                print(f"   ❌ Refresh failed ({elapsed}s): {error}")
+                print(f"   [FAIL] Refresh failed ({elapsed}s): {error}")
                 return False
         poll_interval = min(poll_interval + 5, 20)
 
-    print(f"   ⚠️  Refresh timeout after {timeout}s (may still be running)")
+    print(f"   [WARN] Refresh timeout after {timeout}s (may still be running)")
     return False

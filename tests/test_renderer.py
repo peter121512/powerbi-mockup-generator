@@ -1284,8 +1284,8 @@ class TestLiveOutputIntegration:
         )
         assert rel_file.is_file()
         content = rel_file.read_text(encoding="utf-8")
-        # Should have 7 relationships
-        assert content.count("relationship ") == 7
+        # Should have 6 relationships (Risk.CategoryID→Product.CategoryID removed as invalid)
+        assert content.count("relationship ") == 6
 
     def test_live_spec_validation_passes(self, tmp_dir, live_spec):
         result = render_powerbi_project(live_spec, tmp_dir)

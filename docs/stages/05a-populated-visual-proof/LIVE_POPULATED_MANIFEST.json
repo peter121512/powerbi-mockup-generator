@@ -1,0 +1,59 @@
+{
+  "stage": "05a",
+  "timestamp": "2026-08-19T15:40:00Z",
+  "local_row_counts": {
+    "Sales": 10000,
+    "Date": 730,
+    "Store": 150,
+    "Region": 12,
+    "Product": 500,
+    "Risk": 30,
+    "total": 11422
+  },
+  "staging_method": "inline_m_expression_table_from_rows",
+  "deployed_items": {
+    "semantic_model": {
+      "name": "ExecutiveRetailPerformanceDashboard",
+      "id": "b731eda9-c402-42c4-ad27-f4641c7d6bcd"
+    },
+    "report": {
+      "name": "ExecutiveRetailPerformanceDashboard",
+      "id": "0b8a63f1-915b-4f40-adde-87bdfc3f8396"
+    }
+  },
+  "refresh": {
+    "status": "Completed",
+    "elapsed_seconds": 5
+  },
+  "dax_verification": {
+    "Sales_rowcount": 10000,
+    "Date_rowcount": 730,
+    "Store_rowcount": 150,
+    "Region_rowcount": 12,
+    "Product_rowcount": 500,
+    "TotalRevenue": null,
+    "GrossMarginPct": null,
+    "YoYGrowthPct": "error",
+    "Region_members": ["London", "South East", "North West", "Scotland", "Wales"],
+    "Category_members": ["Menswear", "Womenswear", "Childrenswear", "Home", "Beauty"]
+  },
+  "pages": [
+    {"name": "page-executive-overview", "displayName": "Executive Overview"},
+    {"name": "page-region-analysis", "displayName": "Regional Analysis"},
+    {"name": "page-category-analysis", "displayName": "Category Analysis"},
+    {"name": "page-risk-analysis", "displayName": "Risk Analysis"}
+  ],
+  "screenshots": {
+    "status": "BLOCKED",
+    "reason": "Export API disabled at tenant level (403). Playwright persistent context fails due to running browser lock.",
+    "paths": []
+  },
+  "visual_verification": {
+    "status": "NOT_PERFORMED",
+    "reason": "No rendered output available for visual assessment"
+  },
+  "warnings": [
+    "Measures return None - DAX column references may not match M expression output",
+    "Screenshots require tenant admin to enable Export API"
+  ]
+}

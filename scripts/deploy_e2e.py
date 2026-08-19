@@ -37,7 +37,7 @@ def main():
     print(f"[3] Generating inline M expressions from SQLite...")
     partition_sources = {}
     for table_spec in spec.tables:
-        m_expr = generate_inline_m_from_db(table_spec.name, db_path)
+        m_expr = generate_inline_m_from_db(table_spec.name, db_path, table_spec=table_spec)
         if m_expr:
             partition_sources[table_spec.name] = m_expr
             print(f"    {table_spec.name}: {len(m_expr)} chars")
@@ -71,7 +71,11 @@ def main():
     # 6. Refresh dataset
     print(f"[6] Triggering dataset refresh...")
     try:
-        success = refresh_dataset(wait=True, timeout=300)
+        success = refresh_dataset(
+            dataset_name="ExecutiveRetailPerformanceDashboard",
+            wait=True,
+            timeout=300,
+        )
         if success:
             print(f"    Refresh completed successfully!")
         else:

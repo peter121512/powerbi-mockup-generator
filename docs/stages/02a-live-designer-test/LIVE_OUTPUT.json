@@ -2409,15 +2409,6 @@
     },
     {
       "from_table": "Risk",
-      "from_column": "CategoryID",
-      "to_table": "Product",
-      "to_column": "CategoryID",
-      "cardinality": "manyToOne",
-      "cross_filter_direction": "single",
-      "is_active": true
-    },
-    {
-      "from_table": "Risk",
       "from_column": "StoreID",
       "to_table": "Store",
       "to_column": "StoreID",

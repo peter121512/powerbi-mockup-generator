@@ -196,6 +196,6 @@ def _stage_data(spec: DashboardSpec, db_path: Path) -> dict[str, str]:
     """
     partition_sources: dict[str, str] = {}
     for table in spec.tables:
-        m_expr = generate_inline_m_from_db(table.name, db_path)
+        m_expr = generate_inline_m_from_db(table.name, db_path, table_spec=table)
         partition_sources[table.name] = m_expr
     return partition_sources

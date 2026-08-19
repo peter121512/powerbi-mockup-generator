@@ -2,6 +2,7 @@
 
 Public API:
     generate_synthetic_data  — Main entry point
+    validate_key_integrity   — Data integrity validation
     DataGenResult            — Structured result
     DataGenOutcome           — Outcome enum
     DataGenDiagnostics       — Generation diagnostics
@@ -26,10 +27,11 @@ from pbi_gen.datagen.result import (
     VerificationCheck,
     VerificationResult,
 )
-from pbi_gen.datagen.service import generate_synthetic_data
+from pbi_gen.datagen.service import generate_synthetic_data, validate_key_integrity
 
 __all__ = [
     "generate_synthetic_data",
+    "validate_key_integrity",
     "DataGenResult",
     "DataGenOutcome",
     "DataGenDiagnostics",

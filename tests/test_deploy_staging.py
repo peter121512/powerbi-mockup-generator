@@ -29,6 +29,13 @@ from pbi_gen.deploy.staging import (
     generate_m_expression,
 )
 from pbi_gen.models import ColumnSpec, TableSpec
+from pbi_gen.datagen import validate_key_integrity
+from pbi_gen.datagen.planner import (
+    ForeignKey,
+    GenerationPlan,
+    TablePlan,
+    TableRole,
+)
 from pbi_gen.renderer.semantic_model import generate_table_tmdl
 
 
@@ -377,6 +384,81 @@ class TestInlineMFromDb:
         assert str(tmp_db) not in expr
         assert str(tmp_db.parent) not in expr
 
+    def test_typed_columns_with_table_spec(self, tmp_db: Path):
+        """When table_spec is provided, M types are used instead of all-text."""
+        table_spec = TableSpec(
+            name="Product",
+            columns=[
+                ColumnSpec(name="ProductID", data_type="TEXT", is_key=True),
+                ColumnSpec(name="ProductName", data_type="TEXT"),
+                ColumnSpec(name="Category", data_type="TEXT"),
+                ColumnSpec(name="UnitPrice", data_type="REAL"),
+            ],
+        )
+
+        expr = generate_inline_m_from_db("Product", tmp_db, table_spec=table_spec)
+
+        # Should use proper M types
+        assert "ProductID = text" in expr
+        assert "ProductName = text" in expr
+        assert "Category = text" in expr
+        assert "UnitPrice = number" in expr
+
+    def test_date_column_uses_date_type(self, tmp_path: Path):
+        """Date columns get explicit conversion step when table_spec is provided."""
+        db_path = tmp_path / "date_test.db"
+        conn = sqlite3.connect(str(db_path))
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE Date (
+                Date TEXT PRIMARY KEY,
+                Year INTEGER,
+                Month INTEGER,
+                IsCurrentFY TEXT
+            )
+        """)
+        cursor.executemany(
+            "INSERT INTO Date VALUES (?, ?, ?, ?)",
+            [
+                ("2023-01-01", 2023, 1, "TRUE"),
+                ("2023-01-02", 2023, 1, "FALSE"),
+            ],
+        )
+        conn.commit()
+        conn.close()
+
+        table_spec = TableSpec(
+            name="Date",
+            columns=[
+                ColumnSpec(name="Date", data_type="DATE", is_key=True),
+                ColumnSpec(name="Year", data_type="INTEGER"),
+                ColumnSpec(name="Month", data_type="INTEGER"),
+                ColumnSpec(name="IsCurrentFY", data_type="BOOLEAN"),
+            ],
+        )
+
+        expr = generate_inline_m_from_db("Date", db_path, table_spec=table_spec)
+
+        # Date stays as text in type table (Table.FromRows can't parse dates from JSON text)
+        assert "Date = text" in expr
+        assert "Year = Int64.Type" in expr
+        assert "Month = Int64.Type" in expr
+        assert "IsCurrentFY = logical" in expr
+        # Conversion step added for date columns
+        assert "Table.TransformColumnTypes" in expr
+        assert "type date" in expr
+        # The result step should be "Converted Types"
+        assert '#"Converted Types"' in expr
+
+    def test_without_table_spec_uses_all_text(self, tmp_db: Path):
+        """Without table_spec, all columns default to text type (backward compat)."""
+        expr = generate_inline_m_from_db("Region", tmp_db)
+
+        assert "RegionID = text" in expr
+        assert "RegionName = text" in expr
+        assert "RegionManager = text" in expr
+        assert "CountryCode = text" in expr
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Deployment Result Model Tests
@@ -552,3 +634,167 @@ class TestPartitionSourcesIntegration:
 
         tmdl = generate_table_tmdl(table, measures=None, partition_sources=partition_sources)
         assert "mode: import" in tmdl
+
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Key Integrity Validation Tests
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+class TestKeyIntegrityValidation:
+    """Tests for validate_key_integrity function."""
+
+    def test_valid_data_passes(self):
+        """Clean data with valid PKs and FKs passes validation."""
+        plan = GenerationPlan(tables=[
+            TablePlan(
+                table_name="Region",
+                role=TableRole.CATEGORICAL_DIMENSION,
+                row_count=3,
+                columns=[
+                    ColumnSpec(name="RegionID", data_type="TEXT", is_key=True),
+                    ColumnSpec(name="RegionName", data_type="TEXT"),
+                ],
+                key_columns=["RegionID"],
+            ),
+        ])
+        tables = {
+            "Region": [
+                {"RegionID": "R001", "RegionName": "North"},
+                {"RegionID": "R002", "RegionName": "South"},
+                {"RegionID": "R003", "RegionName": "East"},
+            ],
+        }
+
+        errors = validate_key_integrity(tables, plan)
+        assert errors == []
+
+    def test_null_pk_detected(self):
+        """NULL values in primary key columns are detected."""
+        plan = GenerationPlan(tables=[
+            TablePlan(
+                table_name="Date",
+                role=TableRole.DATE_DIMENSION,
+                row_count=3,
+                columns=[
+                    ColumnSpec(name="Date", data_type="DATE", is_key=True),
+                    ColumnSpec(name="Year", data_type="INTEGER"),
+                ],
+                key_columns=["Date"],
+            ),
+        ])
+        tables = {
+            "Date": [
+                {"Date": "2023-01-01", "Year": 2023},
+                {"Date": None, "Year": 2023},
+                {"Date": "2023-01-03", "Year": 2023},
+            ],
+        }
+
+        errors = validate_key_integrity(tables, plan)
+        assert len(errors) == 1
+        assert "Date.Date (PK)" in errors[0]
+        assert "NULL/empty" in errors[0]
+
+    def test_empty_string_pk_detected(self):
+        """Empty string values in primary key columns are detected."""
+        plan = GenerationPlan(tables=[
+            TablePlan(
+                table_name="Date",
+                role=TableRole.DATE_DIMENSION,
+                row_count=3,
+                columns=[
+                    ColumnSpec(name="Date", data_type="DATE", is_key=True),
+                ],
+                key_columns=["Date"],
+            ),
+        ])
+        tables = {
+            "Date": [
+                {"Date": "2023-01-01"},
+                {"Date": ""},
+                {"Date": "2023-01-03"},
+            ],
+        }
+
+        errors = validate_key_integrity(tables, plan)
+        assert len(errors) == 1
+        assert "Date.Date (PK)" in errors[0]
+
+    def test_duplicate_pk_detected(self):
+        """Duplicate primary key values are detected."""
+        plan = GenerationPlan(tables=[
+            TablePlan(
+                table_name="Region",
+                role=TableRole.CATEGORICAL_DIMENSION,
+                row_count=3,
+                columns=[
+                    ColumnSpec(name="RegionID", data_type="TEXT", is_key=True),
+                ],
+                key_columns=["RegionID"],
+            ),
+        ])
+        tables = {
+            "Region": [
+                {"RegionID": "R001"},
+                {"RegionID": "R001"},
+                {"RegionID": "R003"},
+            ],
+        }
+
+        errors = validate_key_integrity(tables, plan)
+        assert len(errors) == 1
+        assert "duplicate" in errors[0]
+
+    def test_null_fk_detected(self):
+        """NULL values in foreign key columns are detected."""
+        plan = GenerationPlan(tables=[
+            TablePlan(
+                table_name="Sales",
+                role=TableRole.FACT_TABLE,
+                row_count=3,
+                columns=[
+                    ColumnSpec(name="SalesID", data_type="TEXT", is_key=True),
+                    ColumnSpec(name="Date", data_type="DATE"),
+                ],
+                key_columns=["SalesID"],
+                foreign_keys=[
+                    ForeignKey(
+                        from_table="Sales",
+                        from_column="Date",
+                        to_table="Date",
+                        to_column="Date",
+                    ),
+                ],
+            ),
+        ])
+        tables = {
+            "Sales": [
+                {"SalesID": "S001", "Date": "2023-01-01"},
+                {"SalesID": "S002", "Date": None},
+                {"SalesID": "S003", "Date": ""},
+            ],
+        }
+
+        errors = validate_key_integrity(tables, plan)
+        assert len(errors) == 1
+        assert "FK" in errors[0]
+        assert "2 NULL/empty" in errors[0]
+
+    def test_live_spec_data_passes_validation(self):
+        """Generated data from the live spec passes key integrity checks."""
+        import json
+        from pathlib import Path
+        from pbi_gen.datagen import generate_synthetic_data
+        from pbi_gen.models.dashboard_spec import DashboardSpec
+
+        spec_path = Path(__file__).parent.parent / "docs" / "stages" / "02a-live-designer-test" / "LIVE_OUTPUT.json"
+        with open(spec_path, "r", encoding="utf-8") as f:
+            spec = DashboardSpec.model_validate(json.load(f))
+
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            db_path = Path(tmp) / "test.db"
+            result = generate_synthetic_data(spec, output_path=db_path, seed=42)
+            assert result.success, f"Data generation failed: {result.error}"
