@@ -1,0 +1,45 @@
+/* Premium KPI Visual — executive dashboard styling */
+.premium-kpi-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100%;
+  padding: 12px 12px 12px 24px;
+  box-sizing: border-box;
+  position: relative;
+  font-family: 'Segoe UI', -apple-system, sans-serif;
+}
+.premium-kpi-accent {
+  position: absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 3px;
+  background: #1B3A5C;
+  border-radius: 2px;
+}
+.premium-kpi-label {
+  font-size: 10px;
+  font-weight: 400;
+  color: #4A4A6A;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.premium-kpi-value {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1A1A2E;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
