@@ -233,11 +233,12 @@ def write_pbip_project(
     pages_dir = rpt_def / "pages"
     _write_json(pages_dir / "pages.json", generate_pages_json(spec.pages))
 
-    # Create enterprise design system from theme
-    from pbi_gen.renderer.design_system import EnterpriseDesignSystem
-    design_system = EnterpriseDesignSystem.from_theme(spec.theme) if spec.theme else None
+    # Select design language variant
+    from pbi_gen.renderer.design_language.variants import select_variant_from_theme
+    from pbi_gen.renderer.design_language.composition import compose_page
+    variant = select_variant_from_theme(spec.theme) if spec.theme else None
 
-    # Each page
+    # Each page — use archetype-based composition
     rendered_pages = 0
     rendered_visuals = 0
 
@@ -245,42 +246,27 @@ def write_pbip_project(
         page_dir = pages_dir / page.id
         _write_json(page_dir / "page.json", generate_page_json(page))
 
-        # Visuals
+        # Generate all visuals (structural + data) via composition engine
         visuals_dir = page_dir / "visuals"
-        for idx, visual in enumerate(page.visuals):
-            pbi_type, is_fallback, reason = map_visual_type(visual)
+        page_visuals = compose_page(page, spec, variant)
 
-            visual_json = generate_visual_json(
-                visual,
-                page,
-                z_index=1000 + idx,
-                tab_order=idx,
-                measures=spec.measures,
-                design_system=design_system,
-            )
+        for visual_dict in page_visuals:
+            v_name = visual_dict["name"]
+            visual_dir = visuals_dir / v_name
+            _write_json(visual_dir / "visual.json", visual_dict)
 
-            visual_dir = visuals_dir / visual.id
-            _write_json(visual_dir / "visual.json", visual_json)
-            rendered_visuals += 1
-
-            fidelity.visual_details.append(
-                make_visual_fidelity(visual, pbi_type, is_fallback, reason)
-            )
-            if is_fallback:
-                fidelity.fallback_visuals += 1
-
-        # Filter slicers
-        for f_idx, filter_spec in enumerate(page.filters):
-            filter_json = generate_filter_visual_json(
-                filter_spec,
-                page,
-                z_index=500 + f_idx,
-                tab_order=len(page.visuals) + f_idx,
-                position_index=f_idx,
-            )
-            filter_dir = visuals_dir / filter_spec.id
-            _write_json(filter_dir / "visual.json", filter_json)
-            # Filters rendered as visuals but not counted in spec visual total
+            # Track fidelity for data visuals (not structural primitives)
+            if not v_name.startswith("struct-"):
+                # Find matching spec visual for fidelity tracking
+                source_visual = next((v for v in page.visuals if v.id == v_name), None)
+                if source_visual:
+                    pbi_type, is_fallback, reason = map_visual_type(source_visual)
+                    rendered_visuals += 1
+                    fidelity.visual_details.append(
+                        make_visual_fidelity(source_visual, pbi_type, is_fallback, reason)
+                    )
+                    if is_fallback:
+                        fidelity.fallback_visuals += 1
 
         rendered_pages += 1
 
