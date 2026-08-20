@@ -1,0 +1,26 @@
+{
+    "visual": {
+        "name": "premiumChart",
+        "displayName": "Premium Chart",
+        "guid": "premiumChart1A2B3C4D5E6F7A8B9C0D1E2F",
+        "visualClassName": "Visual",
+        "version": "1.0.0.0",
+        "description": "Premium executive chart with bespoke styling",
+        "supportUrl": "https://github.com/peter121512/powerbi-mockup-generator",
+        "gitHubUrl": "https://github.com/peter121512/powerbi-mockup-generator"
+    },
+    "apiVersion": "5.11.1",
+    "author": {
+        "name": "PBI Gen",
+        "email": "dev@pbigen.local"
+    },
+    "assets": {
+        "icon": "assets/icon.png"
+    },
+    "externalJS": null,
+    "style": "style/visual.less",
+    "capabilities": "capabilities.json",
+    "dependencies": null,
+    "stringResources": [],
+    "version": "1.0.0.0"
+}
