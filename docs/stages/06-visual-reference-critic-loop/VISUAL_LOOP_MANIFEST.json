@@ -1,0 +1,48 @@
+{
+  "stage": "06",
+  "reference_model": "gpt-image-2",
+  "critic_model": "gpt-5.6-sol",
+  "report_id": "0b8a63f1-915b-4f40-adde-87bdfc3f8396",
+  "page_name": "Executive Overview",
+  "page_id": "page-executive-overview",
+  "reference_image_path": "docs/stages/06-visual-reference-critic-loop/reference-executive-overview.png",
+  "before_screenshot_path": "docs/stages/06-visual-reference-critic-loop/actual-before.png",
+  "after_screenshot_path": "docs/stages/06-visual-reference-critic-loop/actual-after.png",
+  "initial_critique": {
+    "overall_score": 3.4,
+    "executive_credibility": 3.0,
+    "kpi_prominence": 5.0,
+    "chart_legibility": 3.2,
+    "filter_placement": 1.0,
+    "polish_premium": 2.2,
+    "reference_fidelity": 2.3,
+    "total_issues": 13
+  },
+  "final_critique": {
+    "overall_score": 4.3,
+    "executive_credibility": 3.5,
+    "kpi_prominence": 5.0,
+    "chart_legibility": 4.2,
+    "filter_placement": 1.5,
+    "polish_premium": 2.8,
+    "reference_fidelity": 3.8,
+    "total_issues": 15
+  },
+  "score_delta": 0.9,
+  "issues_fixed": [
+    "Visual titles added to all 29 visuals (critical: cards had no labels)",
+    "drillFilterOtherVisuals enabled for cross-visual filtering"
+  ],
+  "deferred_issues": [
+    "trial-banner: Fabric trial capacity banner cannot be removed programmatically",
+    "Month sort order requires semantic model Date table changes (future stage)",
+    "Mixed-scale axis charts require visual type changes (combo chart)",
+    "Missing date/region/category slicers (layout planning needed)"
+  ],
+  "iteration_count": 1,
+  "deployment_outcome": "success",
+  "screenshot_outcome": "success",
+  "reference_generation_elapsed_s": 116.1,
+  "screenshot_capture_elapsed_s": 37.9,
+  "stopping_reason": "First iteration applied highest-value renderer fix. Further fixes require spec/model changes beyond renderer scope."
+}

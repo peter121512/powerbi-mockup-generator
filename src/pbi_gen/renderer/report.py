@@ -183,8 +183,25 @@ def generate_visual_json(
                 "queryState": query_state,
             },
             "objects": {},
+            "drillFilterOtherVisuals": True,
         },
     }
+
+    # Add title via visual header if visual has a title
+    if visual.title:
+        visual_dict["visual"]["objects"] = {
+            "general": [
+                {
+                    "properties": {
+                        "title": {
+                            "expr": {
+                                "Literal": {"Value": f"'{visual.title}'"}
+                            }
+                        }
+                    }
+                }
+            ]
+        }
 
     return visual_dict
 
