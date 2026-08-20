@@ -1,0 +1,79 @@
+{
+  "stage": "07d-b",
+  "date": "2026-08-20",
+  "routes": [
+    {
+      "id": "private_embed",
+      "name": "Private embed (Desktop PBIP structure)",
+      "classification": "VIABLE_ZERO_TOUCH",
+      "description": "Embed .pbiviz.json (with inline JS/CSS) in CustomVisuals/{GUID}/resources/ and declare CustomVisual resource package in report.json",
+      "consent_required": false,
+      "org_store_required": false,
+      "appsource_required": false,
+      "evidence": "3/3 fresh deployments via REST createItem, all render KPI value 600 on first view",
+      "one_time_setup": "Build .pbiviz package (npm/pbiviz toolchain)",
+      "limitations": ["Visual code bundled in every report (~8KB per visual)", "Visual updates require report redeployment"]
+    },
+    {
+      "id": "org_custom_visuals",
+      "name": "organizationCustomVisuals (org store)",
+      "classification": "NOT_VIABLE_FOR_AUTOMATION",
+      "description": "Register visual in admin portal org store, reference via organizationCustomVisuals in report.json",
+      "consent_required": true,
+      "org_store_required": true,
+      "appsource_required": false,
+      "evidence": "Consent overlay blocks rendering; DOM inspection confirms visual code loads but consent prevents execution",
+      "blocker": "Per-viewer consent cannot be bypassed programmatically"
+    },
+    {
+      "id": "public_custom_visuals",
+      "name": "publicCustomVisuals (AppSource)",
+      "classification": "VIABLE_WITH_ONE_TIME_PRODUCT_SETUP",
+      "description": "Publish visual to AppSource marketplace, reference via publicCustomVisuals",
+      "consent_required": false,
+      "org_store_required": false,
+      "appsource_required": true,
+      "evidence": "Not tested (visual not published to AppSource); 403 confirms Service attempts AppSource lookup",
+      "one_time_setup": "Partner Center account + AppSource visual publication (with or without certification)",
+      "limitations": ["Requires Microsoft review process", "Lead time for publication", "Public visibility unless private plan used"]
+    },
+    {
+      "id": "embedded_split_resources",
+      "name": "Embedded CustomVisual (separate JS/CSS/metadata)",
+      "classification": "NOT_VIABLE_FOR_AUTOMATION",
+      "description": "Store JS, CSS, metadata as separate items in CustomVisual resource package",
+      "consent_required": false,
+      "org_store_required": false,
+      "appsource_required": false,
+      "evidence": "Deploys successfully but visual code never executes; blank container rendered",
+      "blocker": "Service only executes single-file .pbiviz.json format, not split resources"
+    },
+    {
+      "id": "registered_resources",
+      "name": "RegisteredResources with .pbiviz",
+      "classification": "NOT_VIABLE_FOR_AUTOMATION",
+      "description": "Store .pbiviz zip in StaticResources/RegisteredResources/",
+      "consent_required": false,
+      "evidence": "Visual not loaded; blank page",
+      "blocker": "RegisteredResources path not used for visual code loading"
+    },
+    {
+      "id": "template_clone",
+      "name": "Template priming (clone + updateDefinition)",
+      "classification": "NOT_VIABLE_FOR_AUTOMATION",
+      "description": "Clone pre-activated report then update definition",
+      "consent_required": true,
+      "evidence": "updateDefinition resets consent state; consent reappears on cloned+updated reports",
+      "blocker": "Definition updates reset service-side consent state"
+    }
+  ],
+  "recommended_path": "private_embed",
+  "zero_touch_evidence": {
+    "runs": 3,
+    "passed": 3,
+    "method": "REST createItem API with AAD token embedding",
+    "visual_value_verified": "600",
+    "consent_prompts": 0,
+    "http_403_errors": 0
+  }
+}
