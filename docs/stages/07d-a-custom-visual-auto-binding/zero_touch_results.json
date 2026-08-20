@@ -1,0 +1,35 @@
+[
+  {
+    "run": 1,
+    "report_name": "ZeroTouch_Run1_2d838c",
+    "report_id": "16081c41-f7b8-49ce-9931-91adaba7d2c1",
+    "rendered": true,
+    "has_403": false,
+    "errors": [
+      "400 https://wabi-uk-south-d-primary-redirect.analysis.windows.net/explore/reports/16081c41-f7b8-49ce-993"
+    ],
+    "success": true
+  },
+  {
+    "run": 2,
+    "report_name": "ZeroTouch_Run2_7e2992",
+    "report_id": "0ef23f1c-1f39-4603-bf2f-5c68c8e1ecdc",
+    "rendered": true,
+    "has_403": false,
+    "errors": [
+      "400 https://wabi-uk-south-d-primary-redirect.analysis.windows.net/explore/reports/0ef23f1c-1f39-4603-bf2"
+    ],
+    "success": true
+  },
+  {
+    "run": 3,
+    "report_name": "ZeroTouch_Run3_a0c995",
+    "report_id": "5e8a4900-dcfb-4378-95bc-0d25fa3cdf04",
+    "rendered": true,
+    "has_403": false,
+    "errors": [
+      "400 https://wabi-uk-south-d-primary-redirect.analysis.windows.net/explore/reports/5e8a4900-dcfb-4378-95b"
+    ],
+    "success": true
+  }
+]
