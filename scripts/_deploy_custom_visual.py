@@ -148,8 +148,8 @@ add_part("definition/pages/page1/visuals/card1/visual.json", {
     },
 })
 
-# Add the custom visual .pbiviz in the CustomVisuals folder
-add_binary_part(f"CustomVisuals/{VISUAL_GUID}.1.0.0.0.pbiviz", pbiviz_bytes)
+# Add the custom visual - DON'T include .pbiviz since it's registered as org visual
+# The publicCustomVisuals array in report.json is sufficient
 
 # Deploy
 print(f"Deploying with {len(parts)} parts...")

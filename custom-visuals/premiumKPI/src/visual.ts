@@ -55,13 +55,22 @@ export class Visual implements IVisual {
             let label = "";
 
             const dv = options.dataViews?.[0];
+            // Try single mapping first
             if (dv?.single?.value !== undefined) {
                 const value = Number(dv.single.value);
                 formatted = this.formatValue(value);
             }
+            // Try categorical mapping
+            else if (dv?.categorical?.values?.[0]?.values?.[0] !== undefined) {
+                const value = Number(dv.categorical.values[0].values[0]);
+                formatted = this.formatValue(value);
+            }
 
+            // Get label from metadata or categorical source
             if (dv?.metadata?.columns?.[0]) {
                 label = dv.metadata.columns[0].displayName || "";
+            } else if (dv?.categorical?.values?.[0]?.source?.displayName) {
+                label = dv.categorical.values[0].source.displayName;
             }
 
             // Update DOM
