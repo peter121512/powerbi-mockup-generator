@@ -1,6 +1,7 @@
 /*
  * Premium KPI Visual — renders a single measure value with
- * bespoke executive styling using DOM manipulation (no innerHTML).
+ * bespoke executive styling using DOM manipulation.
+ * Handles initial empty dataView gracefully (waits for data).
  */
 "use strict";
 
@@ -19,6 +20,7 @@ export class Visual implements IVisual {
     private accentBar: HTMLElement;
     private labelEl: HTMLElement;
     private valueEl: HTMLElement;
+    private hasRendered: boolean = false;
 
     constructor(options: VisualConstructorOptions) {
         this.events = options.host.eventService;
@@ -37,6 +39,7 @@ export class Visual implements IVisual {
 
         this.valueEl = document.createElement("div");
         this.valueEl.className = "premium-kpi-value";
+        this.valueEl.textContent = "—";
 
         this.wrapper.appendChild(this.accentBar);
         this.wrapper.appendChild(this.labelEl);
@@ -50,32 +53,45 @@ export class Visual implements IVisual {
         try {
             const height = options.viewport.height;
 
-            // Extract value from dataView
-            let formatted = "—";
+            // Extract value from dataView - try multiple formats
+            let formatted = "";
             let label = "";
+            let hasData = false;
 
             const dv = options.dataViews?.[0];
-            // Try single mapping first
-            if (dv?.single?.value !== undefined) {
-                const value = Number(dv.single.value);
-                formatted = this.formatValue(value);
-            }
-            // Try categorical mapping
-            else if (dv?.categorical?.values?.[0]?.values?.[0] !== undefined) {
-                const value = Number(dv.categorical.values[0].values[0]);
-                formatted = this.formatValue(value);
+            if (dv) {
+                // Try single mapping first
+                if (dv.single?.value !== undefined && dv.single.value !== null) {
+                    const value = Number(dv.single.value);
+                    formatted = this.formatValue(value);
+                    hasData = true;
+                }
+                // Try categorical mapping
+                else if (dv.categorical?.values?.[0]?.values?.[0] !== undefined &&
+                         dv.categorical.values[0].values[0] !== null) {
+                    const value = Number(dv.categorical.values[0].values[0]);
+                    formatted = this.formatValue(value);
+                    hasData = true;
+                }
+
+                // Get label from metadata or categorical source
+                if (dv.metadata?.columns?.[0]) {
+                    label = dv.metadata.columns[0].displayName || "";
+                } else if (dv.categorical?.values?.[0]?.source?.displayName) {
+                    label = dv.categorical.values[0].source.displayName;
+                }
             }
 
-            // Get label from metadata or categorical source
-            if (dv?.metadata?.columns?.[0]) {
-                label = dv.metadata.columns[0].displayName || "";
-            } else if (dv?.categorical?.values?.[0]?.source?.displayName) {
-                label = dv.categorical.values[0].source.displayName;
+            // Update DOM - always update even if no data yet
+            if (hasData) {
+                this.labelEl.textContent = label;
+                this.valueEl.textContent = formatted;
+                this.hasRendered = true;
+            } else if (!this.hasRendered) {
+                // Show label if available, dash for value
+                this.labelEl.textContent = label || "";
+                this.valueEl.textContent = "—";
             }
-
-            // Update DOM
-            this.labelEl.textContent = label;
-            this.valueEl.textContent = formatted;
 
             // Responsive font sizing
             const valueFontSize = Math.min(Math.max(height * 0.35, 18), 48);
@@ -92,9 +108,9 @@ export class Visual implements IVisual {
     private formatValue(value: number): string {
         const abs = Math.abs(value);
         if (abs >= 1_000_000) {
-            return `£${(value / 1_000_000).toFixed(1)}M`;
+            return `\u00A3${(value / 1_000_000).toFixed(1)}M`;
         } else if (abs >= 1_000) {
-            return `£${(value / 1_000).toFixed(0)}K`;
+            return `\u00A3${(value / 1_000).toFixed(0)}K`;
         } else if (abs < 1 && abs > 0) {
             return `${(value * 100).toFixed(1)}%`;
         }
