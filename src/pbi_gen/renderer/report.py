@@ -160,7 +160,7 @@ def generate_page_json(page: PageSpec) -> dict:
                         "solid": {
                             "color": {
                                 "expr": {
-                                    "Literal": {"Value": "'#F8F9FA'"}
+                                    "Literal": {"Value": "'#F5F6F8'"}
                                 }
                             }
                         }

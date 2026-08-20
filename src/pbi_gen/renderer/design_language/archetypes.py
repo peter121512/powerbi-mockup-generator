@@ -118,8 +118,8 @@ def _build_executive_overview() -> PageArchetype:
             ),
             CompositionRegion(
                 name="hero",
-                y_start_pct=0.30,
-                y_end_pct=0.65,
+                y_start_pct=0.32,
+                y_end_pct=0.64,
                 x_start_pct=0.0,
                 x_end_pct=1.0,
                 role="Single dominant visual",
@@ -128,8 +128,8 @@ def _build_executive_overview() -> PageArchetype:
             ),
             CompositionRegion(
                 name="secondary",
-                y_start_pct=0.65,
-                y_end_pct=0.95,
+                y_start_pct=0.66,
+                y_end_pct=0.96,
                 x_start_pct=0.0,
                 x_end_pct=1.0,
                 role="Supporting visuals",
@@ -138,7 +138,7 @@ def _build_executive_overview() -> PageArchetype:
             ),
             CompositionRegion(
                 name="footer",
-                y_start_pct=0.95,
+                y_start_pct=0.96,
                 y_end_pct=1.0,
                 x_start_pct=0.0,
                 x_end_pct=1.0,

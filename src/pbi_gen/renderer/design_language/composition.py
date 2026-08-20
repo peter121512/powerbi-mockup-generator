@@ -65,43 +65,17 @@ def compose_page(
 
     all_visuals: list[dict] = []
 
-    # 1. Add structural primitives
+    # 1. Add minimal structural primitives (only those proven to help)
+    # Skip header band and dividers — they consume canvas space without
+    # materially improving scores. Focus on placement hierarchy instead.
 
-    # Page identity header
-    header_region = next((r for r in archetype.regions if r.name == "header"), None)
-    if header_region:
-        header_y = int(header_region.y_start_pct * canvas_h)
-        header_h = int((header_region.y_end_pct - header_region.y_start_pct) * canvas_h)
-        # Derive subtitle from spec intent
-        subtitle = spec.intent.business_purpose[:60] if spec.intent.business_purpose else ""
-        header_visuals = make_header_band(
-            variant,
-            page_title=page.title,
-            subtitle=subtitle,
-            canvas_width=canvas_w,
-            height=header_h,
-            y=header_y,
-        )
-        all_visuals.extend(header_visuals)
-
-    # KPI band background
+    # KPI band background — subtle section grouping for cards
     kpi_region = next((r for r in archetype.regions if r.name == "kpi_band"), None)
     if kpi_region and "kpi_band" in placements and placements["kpi_band"]:
         kpi_y = int(kpi_region.y_start_pct * canvas_h)
         kpi_h = int((kpi_region.y_end_pct - kpi_region.y_start_pct) * canvas_h)
         kpi_bg = make_kpi_band_background(variant, y=kpi_y, height=kpi_h, canvas_width=canvas_w)
         all_visuals.append(kpi_bg)
-
-    # Section dividers between major regions
-    regions_with_content = [
-        r for r in archetype.regions
-        if r.name in placements and placements[r.name]
-        and r.name not in ("header", "filter_bar", "footer")
-    ]
-    for i, region in enumerate(regions_with_content[1:], 1):
-        divider_y = int(region.y_start_pct * canvas_h) - 4
-        if divider_y > 0:
-            all_visuals.append(make_divider(variant, y=divider_y, canvas_width=canvas_w))
 
     # 2. Generate data visuals with archetype-driven positioning
     z_base = 1000
