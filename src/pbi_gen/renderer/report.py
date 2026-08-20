@@ -24,14 +24,19 @@ def generate_report_json() -> dict:
     """Generate the top-level report.json configuration."""
     return {
         "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/1.3.0/schema.json",
-        "layoutOptimization": "None",
         "themeCollection": {
             "baseTheme": {
                 "name": "CY24SU06",
                 "reportVersionAtImport": "5.61",
                 "type": "SharedResources",
-            }
+            },
+            "customTheme": {
+                "name": "theme.json",
+                "reportVersionAtImport": "5.61",
+                "type": "RegisteredResources",
+            },
         },
+        "layoutOptimization": "None",
         "resourcePackages": [
             {
                 "name": "SharedResources",
@@ -56,6 +61,14 @@ def generate_report_json() -> dict:
                 ],
             },
         ],
+        "settings": {
+            "useStylableVisualContainerHeader": True,
+            "defaultFilterActionIsDataFilter": True,
+            "defaultDrillFilterOtherVisuals": True,
+            "allowChangeFilterTypes": True,
+            "allowInlineExploration": True,
+            "useEnhancedTooltips": True,
+        },
     }
 
 
@@ -63,7 +76,7 @@ def generate_version_json() -> dict:
     """Generate version.json."""
     return {
         "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/versionMetadata/1.0.0/schema.json",
-        "version": "4.0.0",
+        "version": "2.0.0",
     }
 
 
@@ -161,7 +174,7 @@ def generate_visual_json(
     active_projections = build_active_projections(query_state)
 
     visual_dict: dict = {
-        "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.3.0/schema.json",
+        "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
         "name": visual.id,
         "position": position_to_dict(canvas_pos),
         "visual": {
@@ -219,7 +232,7 @@ def generate_filter_visual_json(
     query_state = {"Values": {"projections": [projection]}}
 
     return {
-        "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.3.0/schema.json",
+        "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
         "name": filter_spec.id,
         "position": position_to_dict(canvas_pos),
         "visual": {
