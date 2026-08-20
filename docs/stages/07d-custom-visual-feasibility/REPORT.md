@@ -4,9 +4,28 @@
 
 > Can a small library of Power BI custom visuals provide the rendering control required to make generated dashboards genuinely comparable in visual quality to the premium executive dashboard references?
 
-## Conclusion: STRONG POSITIVE (with bounded follow-up needed)
+## Conclusion: PROMISING_BOUNDED_FOLLOWUP
 
-Custom visuals **work** and produce **materially better** visual quality than native Power BI visuals. The Premium KPI prototype renders with full control over typography, spacing, accent bars, and layout — confirmed visually by the user as "much better" than the standard card.
+Custom visuals **work** and produce **materially better** visual quality than native Power BI visuals when data is bound. However, fully automated headless deployment without manual interaction is **not yet proven** — a data binding activation step is required.
+
+### What works:
+- ✅ Custom visual builds and deploys via Fabric API
+- ✅ Renders with full styling control (confirmed by user: "much better")
+- ✅ Report loads without errors
+- ✅ Org visual registration works
+- ✅ Both KPI and Chart visuals build successfully
+
+### What doesn't work yet:
+- ❌ Fresh API-deployed custom visuals don't auto-bind data on first load
+- ❌ Manual editor "touch" (untick/retick field) required to activate data flow
+- ❌ This blocks fully headless automated deployment
+
+### Bounded follow-up needed:
+One narrow investigation: determine if there's a PBIR metadata field, query configuration, or API parameter that triggers the same data initialization that the manual editor touch performs. Possibilities:
+- A `dataTransforms` property in visual.json
+- A different query binding format for custom visuals
+- A separate API call to "initialize" visual bindings post-deployment
+- Using Power BI Desktop to publish (rather than REST API) as the deployment mechanism
 
 ## Custom Visual Architecture
 
@@ -115,10 +134,12 @@ The architecture is viable for a reusable custom visual library that would allow
 
 ## Recommendation
 
-**Proceed to build a reusable custom visual library** (bounded scope):
-1. Premium KPI (enhance current prototype with cross-filter, multiple roles)
-2. Premium Line Chart (D3.js with custom axes, gridlines, typography)
-3. Premium Bar/Column Chart
-4. Solve the auto-binding issue for fully automated deployment
+**PROMISING_BOUNDED_FOLLOWUP** — Custom visuals are the viable path to premium visual quality, but the auto-binding issue must be solved first.
 
-This is the path to achieving the ≥7.5/10 visual-design target that native visuals cannot reach.
+Recommended bounded follow-up:
+1. Investigate `dataTransforms` / visual config metadata that triggers binding
+2. Try deploying via Power BI Desktop publish flow (not REST API) to see if that activates bindings
+3. Consider a post-deployment "warm-up" API call if one exists
+4. If binding cannot be automated, evaluate whether a one-time manual setup per report is acceptable for the product
+
+Only after auto-binding is solved should the full custom visual library be built.
