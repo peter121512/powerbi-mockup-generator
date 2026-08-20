@@ -2,11 +2,34 @@
 
 ## Summary
 
-Implemented a complete archetype-based composition system with design language variants, structural primitives, and region-driven layout. The system replaces raw grid placement with intentional page composition. The retail fixture deploys successfully with 73 parts (structural + data), all 4 pages render headlessly, and 373 tests pass.
+Implemented a complete archetype-based composition system with design language variants, structural primitives, and region-driven layout. Generated 3 premium reference mockups. Ran multiple visual-only assessment iterations.
 
-**The ≥7.5/10 visual-design score target is NOT yet met.** The overall critic score remains ~4.4/10, dominated by spec-level analytical issues (month sort, mixed-scale axes) that this stage cannot fix. Renderer-controlled dimensions (filter placement, KPI prominence) show strong improvement.
+**Status: BLOCKED — Score Target Not Met**
 
-## Status: PARTIAL — Architecture Complete, Score Target Not Met
+Median visual-only score: **2.6/10** (range 2.2-3.2 across multiple iterations and formatting approaches). Target was ≥7.5. All binary executive questions answered NO across all runs.
+
+## Root Cause: Native Power BI Platform Limitation
+
+The visual-only critic compares against reference mockups where KPI cards have bespoke internal design, charts have custom proportions and rendering, and the overall composition has pixel-level control. **Native Power BI visual types** (card, clusteredBarChart, lineChart, etc.) have fixed internal rendering that PBIR formatting cannot alter:
+
+- Card visual: fixed internal padding, fixed value/label layout, fixed border rendering
+- Chart visuals: fixed plot area proportions, fixed axis rendering, fixed legend chrome
+- No custom CSS, no custom visual rendering, no SVG override
+
+The gap is not in formatting (colours, font sizes, backgrounds, titles) — those all work via PBIR objects and theme.json. The gap is in the **visual type shapes themselves** which are Power BI's native rendering engine.
+
+### Evidence of the limitation
+
+| Approach | Visual-Only Score | Notes |
+|----------|-------------------|-------|
+| Titles only | 3.1 | Baseline |
+| + Card labels.fontSize/color | 2.3 | Clipping/overflow |
+| + White backgrounds | 2.6 | "Wall of tiles" effect |
+| + Larger theme callout | 2.2 | Worse clipping |
+| Simplified (title + bg only) | 2.6 | No improvement |
+| Archetype composition + all formatting | 3.2 | Best achieved |
+
+The critic consistently identifies the output as "default Power BI with formatting" regardless of iterations.
 
 ## Architecture
 
