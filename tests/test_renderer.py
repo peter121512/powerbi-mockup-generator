@@ -1047,8 +1047,10 @@ class TestThemeGeneration:
         result = generate_theme(theme)
         assert result["textClasses"]["title"]["fontFace"] == "Arial"
         assert result["textClasses"]["label"]["fontFace"] == "Verdana"
-        assert result["textClasses"]["title"]["fontSize"] == 16
-        assert result["textClasses"]["label"]["fontSize"] == 12
+        assert result["textClasses"]["title"]["fontSize"] == 13  # base + 1
+        assert result["textClasses"]["label"]["fontSize"] == 11  # base - 1
+        assert result["textClasses"]["callout"]["fontFace"] == "Arial"
+        assert result["textClasses"]["callout"]["fontSize"] == 24  # base + 12
 
     def test_theme_written_to_file(self, tmp_dir, multi_page_spec):
         result = render_powerbi_project(multi_page_spec, tmp_dir)

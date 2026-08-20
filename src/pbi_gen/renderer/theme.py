@@ -67,15 +67,46 @@ def _resolve_data_colors(theme: ThemeSpec) -> list[str]:
 
 
 def _resolve_text_classes(theme: ThemeSpec) -> dict:
-    """Build text classes from typography spec."""
+    """Build text classes from typography spec.
+
+    Uses the Power BI theme textClasses which control default typography:
+    - callout: KPI/card large values
+    - title: visual titles
+    - header: table/axis headers
+    - label: axis labels, legends, body text
+    """
     heading = theme.typography.heading_font or "Segoe UI Semibold"
     body = theme.typography.body_font or "Segoe UI"
     base_size = theme.typography.base_size_pt or 10.0
 
+    # Resolve primary colour for callout from theme
+    primary_color = "#1B3A5C"  # default navy
+    for role in theme.colour_roles:
+        if role.role == "primary" and role.hex_value:
+            primary_color = role.hex_value
+            break
+
     return {
-        "title": {"fontFace": heading, "fontSize": round(base_size + 4)},
-        "header": {"fontFace": heading, "fontSize": round(base_size + 2)},
-        "label": {"fontFace": body, "fontSize": round(base_size)},
+        "callout": {
+            "fontFace": heading,
+            "fontSize": round(base_size + 12),  # Large callout for KPIs
+            "color": primary_color,
+        },
+        "title": {
+            "fontFace": heading,
+            "fontSize": round(base_size + 1),
+            "color": "#212121",
+        },
+        "header": {
+            "fontFace": heading,
+            "fontSize": round(base_size),
+            "color": "#212121",
+        },
+        "label": {
+            "fontFace": body,
+            "fontSize": round(base_size - 1),
+            "color": "#605E5C",
+        },
     }
 
 

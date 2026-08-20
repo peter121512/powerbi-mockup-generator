@@ -236,38 +236,54 @@ def generate_visual_json(
 
     objects = {}
     if pbi_type == "card" or pbi_type == "multiRowCard":
-        # Cards: title only (callout/label formatting causes rendering regressions)
-        if visual.title:
+        # Cards: proven-safe properties (title, labels fontSize/color, categoryLabels)
+        if design_system and visual.title:
+            ds = design_system
             objects = {
-                "general": [{"properties": {"title": {"expr": {"Literal": {"Value": f"'{visual.title}'"}}}}}]
+                "general": [{"properties": {
+                    "title": {"expr": {"Literal": {"Value": f"'{visual.title}'"}}},
+                }}],
+                "labels": [{"properties": {
+                    "show": {"expr": {"Literal": {"Value": "true"}}},
+                    "fontSize": {"expr": {"Literal": {"Value": f"{min(ds.typography.kpi_value, 22)}D"}}},
+                    "color": {"solid": {"color": {"expr": {"Literal": {"Value": f"'{ds.colours.primary_series_color}'"}}}}},
+                    "labelDisplayUnits": {"expr": {"Literal": {"Value": "0"}}},
+                }}],
+                "categoryLabels": [{"properties": {
+                    "show": {"expr": {"Literal": {"Value": "true"}}},
+                }}],
             }
+        elif visual.title:
+            objects = {"general": [{"properties": {"title": {"expr": {"Literal": {"Value": f"'{visual.title}'"}}}}}]}
+    elif pbi_type in ("clusteredBarChart", "clusteredColumnChart", "barChart",
+                       "stackedBarChart", "stackedColumnChart", "lineChart",
+                       "areaChart", "lineClusteredColumnComboChart"):
+        # Charts: proven-safe axis/gridline properties
+        chart_objects = {}
+        if visual.title:
+            chart_objects["general"] = [{"properties": {"title": {"expr": {"Literal": {"Value": f"'{visual.title}'"}}}}}]
+        if design_system:
+            chart_objects["categoryAxis"] = [{"properties": {
+                "show": {"expr": {"Literal": {"Value": "true"}}},
+                "showAxisTitle": {"expr": {"Literal": {"Value": "false"}}},
+            }}]
+            chart_objects["valueAxis"] = [{"properties": {
+                "show": {"expr": {"Literal": {"Value": "true"}}},
+                "showAxisTitle": {"expr": {"Literal": {"Value": "false"}}},
+                "gridlineShow": {"expr": {"Literal": {"Value": "true"}}},
+            }}]
+        objects = chart_objects
     elif pbi_type in ("tableEx", "pivotTable"):
-        # Tables: title only for now
+        # Tables: title only (safe)
         if visual.title:
-            objects = {
-                "general": [{"properties": {"title": {"expr": {"Literal": {"Value": f"'{visual.title}'"}}}}}]
-            }
+            objects = {"general": [{"properties": {"title": {"expr": {"Literal": {"Value": f"'{visual.title}'"}}}}}]}
     elif visual.title:
-        # Charts: title only (axis/gridline formatting causes compatibility issues)
-        objects = {
-            "general": [{"properties": {"title": {"expr": {"Literal": {"Value": f"'{visual.title}'"}}}}}]
-        }
+        # All other visuals: title only
+        objects = {"general": [{"properties": {"title": {"expr": {"Literal": {"Value": f"'{visual.title}'"}}}}}]}
 
-    # Fallback: at minimum add title if we have one and objects didn't include it
+    # Fallback
     if not objects and visual.title:
-        objects = {
-            "general": [
-                {
-                    "properties": {
-                        "title": {
-                            "expr": {
-                                "Literal": {"Value": f"'{visual.title}'"}
-                            }
-                        }
-                    }
-                }
-            ]
-        }
+        objects = {"general": [{"properties": {"title": {"expr": {"Literal": {"Value": f"'{visual.title}'"}}}}}]}
 
     visual_dict: dict = {
         "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",

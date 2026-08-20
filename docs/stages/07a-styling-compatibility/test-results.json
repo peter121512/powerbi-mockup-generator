@@ -1,0 +1,114 @@
+[
+  {
+    "id": "title-only",
+    "family": "card,chart",
+    "status": "safe",
+    "mechanism": "pbir_objects",
+    "prop": "general.title"
+  },
+  {
+    "id": "card-labels-fontSize",
+    "family": "card",
+    "status": "safe",
+    "mechanism": "pbir_objects",
+    "prop": "labels.fontSize"
+  },
+  {
+    "id": "card-labels-displayUnits",
+    "family": "card",
+    "status": "safe",
+    "mechanism": "pbir_objects",
+    "prop": "labels.labelDisplayUnits"
+  },
+  {
+    "id": "card-categoryLabels-show",
+    "family": "card",
+    "status": "safe",
+    "mechanism": "pbir_objects",
+    "prop": "categoryLabels.show"
+  },
+  {
+    "id": "card-labels-color",
+    "family": "card",
+    "status": "safe",
+    "mechanism": "pbir_objects",
+    "prop": "labels.color"
+  },
+  {
+    "id": "chart-categoryAxis-show",
+    "family": "chart",
+    "status": "safe",
+    "mechanism": "pbir_objects",
+    "prop": "categoryAxis.show"
+  },
+  {
+    "id": "chart-valueAxis-gridlineShow",
+    "family": "chart",
+    "status": "safe",
+    "mechanism": "pbir_objects",
+    "prop": "valueAxis.gridlineShow"
+  },
+  {
+    "id": "chart-axis-showAxisTitle",
+    "family": "chart",
+    "status": "safe",
+    "mechanism": "pbir_objects",
+    "prop": "categoryAxis.showAxisTitle"
+  },
+  {
+    "id": "visual-background",
+    "family": "card,chart",
+    "status": "safe",
+    "mechanism": "pbir_objects",
+    "prop": "general.background"
+  },
+  {
+    "id": "visual-backgroundTransparency",
+    "family": "card,chart",
+    "status": "safe",
+    "mechanism": "pbir_objects",
+    "prop": "general.backgroundTransparency"
+  },
+  {
+    "id": "theme-dataColors",
+    "family": "all",
+    "status": "safe",
+    "mechanism": "theme_json",
+    "prop": "dataColors"
+  },
+  {
+    "id": "theme-textClasses-callout",
+    "family": "card",
+    "status": "safe",
+    "mechanism": "theme_json",
+    "prop": "textClasses.callout"
+  },
+  {
+    "id": "theme-textClasses-title",
+    "family": "all",
+    "status": "safe",
+    "mechanism": "theme_json",
+    "prop": "textClasses.title"
+  },
+  {
+    "id": "theme-textClasses-label",
+    "family": "all",
+    "status": "safe",
+    "mechanism": "theme_json",
+    "prop": "textClasses.label"
+  },
+  {
+    "id": "theme-background",
+    "family": "all",
+    "status": "safe",
+    "mechanism": "theme_json",
+    "prop": "background"
+  },
+  {
+    "id": "theme-foreground",
+    "family": "all",
+    "status": "safe",
+    "mechanism": "theme_json",
+    "prop": "foreground"
+  }
+]
