@@ -233,6 +233,10 @@ def write_pbip_project(
     pages_dir = rpt_def / "pages"
     _write_json(pages_dir / "pages.json", generate_pages_json(spec.pages))
 
+    # Create enterprise design system from theme
+    from pbi_gen.renderer.design_system import EnterpriseDesignSystem
+    design_system = EnterpriseDesignSystem.from_theme(spec.theme) if spec.theme else None
+
     # Each page
     rendered_pages = 0
     rendered_visuals = 0
@@ -252,6 +256,7 @@ def write_pbip_project(
                 z_index=1000 + idx,
                 tab_order=idx,
                 measures=spec.measures,
+                design_system=design_system,
             )
 
             visual_dir = visuals_dir / visual.id

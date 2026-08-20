@@ -176,8 +176,16 @@ def critique_visuals(
         max_completion_tokens=4096,
     )
 
-    # Parse response
-    content = response.choices[0].message.content.strip()
+    # Parse response — retry once if empty
+    content = (response.choices[0].message.content or "").strip()
+    if not content:
+        # Retry once
+        response = client.chat.completions.create(
+            model=model,
+            messages=messages,
+            max_completion_tokens=4096,
+        )
+        content = (response.choices[0].message.content or "").strip()
 
     # Strip markdown code blocks if present
     if content.startswith("```"):

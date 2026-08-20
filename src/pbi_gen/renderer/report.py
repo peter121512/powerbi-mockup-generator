@@ -7,12 +7,30 @@ report config, and metadata files.
 from __future__ import annotations
 
 from pbi_gen.models import DashboardSpec, FilterSpec, MeasureSpec, PageSpec, VisualSpec
-from pbi_gen.renderer.layout import CanvasPosition, grid_to_canvas, position_to_dict
+from pbi_gen.renderer.layout import (
+    CanvasPosition,
+    DEFAULT_FILTER_ROW_HEIGHT,
+    GUTTER,
+    PAGE_MARGIN,
+    grid_to_canvas,
+    position_to_dict,
+)
 from pbi_gen.renderer.visuals import (
     build_active_projections,
     build_query_state,
     map_visual_type,
 )
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Filter row constants
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Fixed pixel height for the filter/slicer row at the top of a page.
+FILTER_ROW_HEIGHT = DEFAULT_FILTER_ROW_HEIGHT
+
+# Minimum slicer width in pixels so they remain usable.
+MIN_SLICER_WIDTH_PX = 120
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -124,7 +142,7 @@ def generate_page_json(page: PageSpec) -> dict:
     Returns:
         The page definition dict.
     """
-    return {
+    page_dict = {
         "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/1.4.0/schema.json",
         "name": page.id,
         "displayName": page.title,
@@ -132,6 +150,32 @@ def generate_page_json(page: PageSpec) -> dict:
         "height": page.layout.height,
         "width": page.layout.width,
     }
+
+    # Add subtle page background for enterprise polish
+    page_dict["objects"] = {
+        "background": [
+            {
+                "properties": {
+                    "color": {
+                        "solid": {
+                            "color": {
+                                "expr": {
+                                    "Literal": {"Value": "'#F8F9FA'"}
+                                }
+                            }
+                        }
+                    },
+                    "transparency": {
+                        "expr": {
+                            "Literal": {"Value": "0D"}
+                        }
+                    },
+                }
+            }
+        ]
+    }
+
+    return page_dict
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -146,6 +190,8 @@ def generate_visual_json(
     z_index: int = 1000,
     tab_order: int = 0,
     measures: list[MeasureSpec] | None = None,
+    filter_row_height: int = 0,
+    design_system=None,
 ) -> dict:
     """Generate the visual.json for a single visual.
 
@@ -155,11 +201,19 @@ def generate_visual_json(
         z_index: Z-order for the visual.
         tab_order: Tab order for accessibility.
         measures: Available measures for field type resolution.
+        filter_row_height: Pixel height reserved for the filter row at the
+            top of the page.  When > 0 the grid origin is shifted downward
+            so visuals don't overlap slicers.
 
     Returns:
         The visual definition dict.
     """
     pbi_type, _, _ = map_visual_type(visual)
+
+    # Determine filter row offset — if the page has filters, reserve space
+    effective_filter_height = filter_row_height
+    if effective_filter_height == 0 and page.filters:
+        effective_filter_height = FILTER_ROW_HEIGHT
 
     # Compute canvas position
     canvas_pos = grid_to_canvas(
@@ -167,11 +221,69 @@ def generate_visual_json(
         page.layout,
         z_index=z_index,
         tab_order=tab_order,
+        filter_row_height=effective_filter_height,
     )
 
     # Build query state
     query_state = build_query_state(visual, pbi_type, measures)
     active_projections = build_active_projections(query_state)
+
+    # Apply design system formatting
+    from pbi_gen.renderer.design_system import EnterpriseDesignSystem
+    from pbi_gen.renderer.formatting.cards import build_card_objects
+    from pbi_gen.renderer.formatting.charts import build_chart_objects
+    from pbi_gen.renderer.formatting.tables import build_table_objects
+
+    objects = {}
+    if pbi_type == "card" or pbi_type == "multiRowCard":
+        # Cards: title only (callout/label formatting causes rendering regressions)
+        if visual.title:
+            objects = {
+                "general": [{"properties": {"title": {"expr": {"Literal": {"Value": f"'{visual.title}'"}}}}}]
+            }
+    elif pbi_type in ("tableEx", "pivotTable"):
+        # Tables: title only for now
+        if visual.title:
+            objects = {
+                "general": [{"properties": {"title": {"expr": {"Literal": {"Value": f"'{visual.title}'"}}}}}]
+            }
+    elif visual.title:
+        # Charts: title only (axis/gridline formatting causes compatibility issues)
+        objects = {
+            "general": [{"properties": {"title": {"expr": {"Literal": {"Value": f"'{visual.title}'"}}}}}]
+        }
+
+    # Fallback: at minimum add title if we have one and objects didn't include it
+    if not objects and visual.title:
+        objects = {
+            "general": [
+                {
+                    "properties": {
+                        "title": {
+                            "expr": {
+                                "Literal": {"Value": f"'{visual.title}'"}
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+
+    visual_dict: dict = {
+        "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+        "name": visual.id,
+        "position": position_to_dict(canvas_pos),
+        "visual": {
+            "visualType": pbi_type,
+            "query": {
+                "queryState": query_state,
+            },
+            "objects": objects,
+            "drillFilterOtherVisuals": True,
+        },
+    }
+
+    return visual_dict
 
     visual_dict: dict = {
         "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
@@ -216,33 +328,56 @@ def generate_filter_visual_json(
 ) -> dict:
     """Generate a slicer visual from a filter spec.
 
-    Filters in the spec are rendered as slicer visuals placed at the top
-    of the page.
+    Filters are rendered as slicer visuals placed in a dedicated row at the
+    TOP of the page, inside page margins, distributed horizontally with
+    proper spacing.
 
     Args:
         filter_spec: The filter specification.
         page: The parent page.
         z_index: Z-order.
         tab_order: Tab navigation order.
-        position_index: Index for horizontal positioning.
+        position_index: Index for horizontal positioning among sibling slicers.
 
     Returns:
         Visual definition dict for the slicer.
     """
-    from pbi_gen.models import VisualPosition
     from pbi_gen.renderer.visuals import build_projection
 
-    # Position slicers at bottom of grid
-    grid_rows = page.layout.grid_rows
-    slicer_width = max(1, page.layout.grid_columns // max(len(page.filters), 1))
-    pos = VisualPosition(
-        x=position_index * slicer_width,
-        y=grid_rows - 1,
-        width=slicer_width,
-        height=1,
-    )
+    # Determine how many slicers share this row
+    num_slicers = max(len(page.filters), 1)
 
-    canvas_pos = grid_to_canvas(pos, page.layout, z_index=z_index, tab_order=tab_order)
+    # Usable horizontal space inside page margins
+    usable_width = page.layout.width - 2 * PAGE_MARGIN
+
+    # Distribute slicers evenly with gutters between them
+    total_gutter_space = (num_slicers - 1) * GUTTER
+    slicer_width = (usable_width - total_gutter_space) / num_slicers
+
+    # Enforce minimum width — if too narrow, let them overflow off-screen
+    # gracefully (but typically 12 columns / few slicers is fine)
+    slicer_width = max(slicer_width, MIN_SLICER_WIDTH_PX)
+
+    # Compute x position for this slicer
+    x_px = PAGE_MARGIN + position_index * (slicer_width + GUTTER)
+
+    # Clamp width so slicer doesn't exceed right margin
+    max_right = page.layout.width - PAGE_MARGIN
+    if x_px + slicer_width > max_right:
+        slicer_width = max(max_right - x_px, 0)
+
+    # Y position: inside top margin
+    y_px = PAGE_MARGIN
+
+    # Build canvas position directly (no grid translation needed)
+    canvas_pos = CanvasPosition(
+        x=round(x_px, 2),
+        y=round(y_px, 2),
+        z=z_index,
+        width=round(slicer_width, 2),
+        height=float(FILTER_ROW_HEIGHT),
+        tab_order=tab_order,
+    )
 
     # Build slicer query
     projection = build_projection(filter_spec.field)

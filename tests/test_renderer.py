@@ -64,7 +64,7 @@ from pbi_gen.renderer import (
     position_to_dict,
     render_powerbi_project,
 )
-from pbi_gen.renderer.layout import DEFAULT_PADDING_PX
+from pbi_gen.renderer.layout import DEFAULT_PADDING_PX, PAGE_MARGIN, GUTTER
 from pbi_gen.renderer.semantic_model import (
     COLUMN_TYPE_MAP,
     generate_model_tmdl,
@@ -692,29 +692,44 @@ class TestLayoutTranslation:
         pos = VisualPosition(x=0, y=0, width=3, height=1)
         layout = PageLayout(width=1280, height=720, grid_columns=12, grid_rows=8)
         result = grid_to_canvas(pos, layout)
-        assert result.x == DEFAULT_PADDING_PX
-        assert result.y == DEFAULT_PADDING_PX
+        # Origin visual starts at page margin
+        assert result.x == PAGE_MARGIN
+        assert result.y == PAGE_MARGIN
 
     def test_width_calculation(self):
         pos = VisualPosition(x=0, y=0, width=6, height=4)
         layout = PageLayout(width=1280, height=720, grid_columns=12, grid_rows=8)
         result = grid_to_canvas(pos, layout)
-        expected_width = (6 * (1280 / 12)) - 2 * DEFAULT_PADDING_PX
+        # Usable width = 1280 - 2*20 = 1240; total col gutters = 11*12 = 132
+        # cell_width = (1240 - 132) / 12 = 92.333...
+        # width for 6 cells = 6 * cell_width + 5 * gutter
+        usable_w = 1280 - 2 * PAGE_MARGIN
+        cell_w = (usable_w - (12 - 1) * GUTTER) / 12
+        expected_width = 6 * cell_w + 5 * GUTTER
         assert result.width == round(expected_width, 2)
 
     def test_height_calculation(self):
         pos = VisualPosition(x=0, y=0, width=6, height=4)
         layout = PageLayout(width=1280, height=720, grid_columns=12, grid_rows=8)
         result = grid_to_canvas(pos, layout)
-        expected_height = (4 * (720 / 8)) - 2 * DEFAULT_PADDING_PX
+        # Usable height = 720 - 2*20 = 680; total row gutters = 7*12 = 84
+        # cell_height = (680 - 84) / 8 = 74.5
+        # height for 4 cells = 4 * cell_height + 3 * gutter
+        usable_h = 720 - 2 * PAGE_MARGIN
+        cell_h = (usable_h - (8 - 1) * GUTTER) / 8
+        expected_height = 4 * cell_h + 3 * GUTTER
         assert result.height == round(expected_height, 2)
 
     def test_offset_position(self):
         pos = VisualPosition(x=3, y=2, width=6, height=3)
         layout = PageLayout(width=1280, height=720, grid_columns=12, grid_rows=8)
         result = grid_to_canvas(pos, layout)
-        expected_x = 3 * (1280 / 12) + DEFAULT_PADDING_PX
-        expected_y = 2 * (720 / 8) + DEFAULT_PADDING_PX
+        usable_w = 1280 - 2 * PAGE_MARGIN
+        usable_h = 720 - 2 * PAGE_MARGIN
+        cell_w = (usable_w - (12 - 1) * GUTTER) / 12
+        cell_h = (usable_h - (8 - 1) * GUTTER) / 8
+        expected_x = PAGE_MARGIN + 3 * (cell_w + GUTTER)
+        expected_y = PAGE_MARGIN + 2 * (cell_h + GUTTER)
         assert result.x == round(expected_x, 2)
         assert result.y == round(expected_y, 2)
 
@@ -746,14 +761,18 @@ class TestLayoutTranslation:
         pos = VisualPosition(x=0, y=0, width=12, height=8)
         layout = PageLayout(width=1280, height=720, grid_columns=12, grid_rows=8)
         result = grid_to_canvas(pos, layout)
-        # Full width minus padding
-        assert result.width == round(1280 - 2 * DEFAULT_PADDING_PX, 2)
-        assert result.height == round(720 - 2 * DEFAULT_PADDING_PX, 2)
+        # Full grid span: all cells + all internal gutters = usable area
+        usable_w = 1280 - 2 * PAGE_MARGIN
+        usable_h = 720 - 2 * PAGE_MARGIN
+        # 12 cells + 11 gutters fills the entire usable width
+        assert result.width == round(usable_w, 2)
+        assert result.height == round(usable_h, 2)
 
     def test_custom_padding(self):
+        """With zero margins and gutters, visuals start at origin with raw cell size."""
         pos = VisualPosition(x=0, y=0, width=3, height=1)
         layout = PageLayout(width=1280, height=720, grid_columns=12, grid_rows=8)
-        result = grid_to_canvas(pos, layout, padding=0)
+        result = grid_to_canvas(pos, layout, page_margin=0, gutter=0)
         assert result.x == 0
         assert result.y == 0
         cell_width = 1280 / 12
