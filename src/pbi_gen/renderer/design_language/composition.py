@@ -81,6 +81,11 @@ def compose_page(
     z_base = 1000
     tab_order = 0
 
+    from pbi_gen.renderer.design_language.composites import (
+        build_composite_kpi,
+        build_composite_chart,
+    )
+
     for region_name, region_placements in placements.items():
         for placement in region_placements:
             # Find the original visual spec
@@ -96,10 +101,44 @@ def compose_page(
                     z_base += 1
                 continue
 
-            visual_dict = _build_data_visual(
-                visual, placement, variant, spec.measures, z_base, tab_order
-            )
-            all_visuals.append(visual_dict)
+            pbi_type, _, _ = map_visual_type(visual)
+            query_state = build_query_state(visual, pbi_type, spec.measures)
+
+            # Use composite components for cards and charts
+            if pbi_type in ("card", "multiRowCard") and placement.is_kpi:
+                parts = build_composite_kpi(
+                    visual_id=visual.id,
+                    title=visual.title or visual.id,
+                    query_state=query_state,
+                    variant=variant,
+                    x=placement.x, y=placement.y,
+                    width=placement.width, height=placement.height,
+                    z_base=z_base,
+                )
+                all_visuals.extend(parts)
+            elif pbi_type in ("clusteredBarChart", "clusteredColumnChart", "barChart",
+                              "stackedBarChart", "stackedColumnChart", "lineChart",
+                              "areaChart", "lineClusteredColumnComboChart",
+                              "donutChart", "pieChart", "scatterChart"):
+                parts = build_composite_chart(
+                    visual_id=visual.id,
+                    title=visual.title or visual.id,
+                    pbi_type=pbi_type,
+                    query_state=query_state,
+                    variant=variant,
+                    x=placement.x, y=placement.y,
+                    width=placement.width, height=placement.height,
+                    z_base=z_base,
+                    is_hero=placement.is_hero,
+                )
+                all_visuals.extend(parts)
+            else:
+                # Fallback: plain visual with title
+                visual_dict = _build_data_visual(
+                    visual, placement, variant, spec.measures, z_base, tab_order
+                )
+                all_visuals.append(visual_dict)
+
             tab_order += 1
             z_base += 1
 
