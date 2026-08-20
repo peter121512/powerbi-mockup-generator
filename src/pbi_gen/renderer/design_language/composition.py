@@ -151,18 +151,11 @@ def _build_visual_objects(
     objects: dict = {}
 
     if pbi_type in ("card", "multiRowCard"):
-        # Cards: title, callout styling, category labels
-        if visual.title:
-            objects["general"] = [{"properties": {
-                "title": {"expr": {"Literal": {"Value": f"'{visual.title}'"}}},
-                "background": {"solid": {"color": {"expr": {"Literal": {"Value": f"'{variant.card_background}'"}}}}},
-                "backgroundTransparency": {"expr": {"Literal": {"Value": "0D"}}},
-            }}]
-        objects["labels"] = [{"properties": {
-            "show": {"expr": {"Literal": {"Value": "true"}}},
-            "fontSize": {"expr": {"Literal": {"Value": f"{variant.kpi_value_size}D"}}},
-            "color": {"solid": {"color": {"expr": {"Literal": {"Value": f"'{variant.kpi_value_color}'"}}}}},
-            "labelDisplayUnits": {"expr": {"Literal": {"Value": "0"}}},
+        # Cards: just title and white background for surface contrast
+        objects["general"] = [{"properties": {
+            "title": {"expr": {"Literal": {"Value": f"'{visual.title or ''}'"}}},
+            "background": {"solid": {"color": {"expr": {"Literal": {"Value": f"'{variant.card_background}'"}}}}},
+            "backgroundTransparency": {"expr": {"Literal": {"Value": "0D"}}},
         }}]
         objects["categoryLabels"] = [{"properties": {
             "show": {"expr": {"Literal": {"Value": "true"}}},
@@ -171,11 +164,12 @@ def _build_visual_objects(
     elif pbi_type in ("clusteredBarChart", "clusteredColumnChart", "barChart",
                        "stackedBarChart", "stackedColumnChart", "lineChart",
                        "areaChart", "lineClusteredColumnComboChart"):
-        # Charts: title + axis control
-        if visual.title:
-            objects["general"] = [{"properties": {
-                "title": {"expr": {"Literal": {"Value": f"'{visual.title}'"}}},
-            }}]
+        # Charts: title + axis control + white background for contrast
+        objects["general"] = [{"properties": {
+            "title": {"expr": {"Literal": {"Value": f"'{visual.title or ''}'"}}},
+            "background": {"solid": {"color": {"expr": {"Literal": {"Value": f"'{variant.card_background}'"}}}}},
+            "backgroundTransparency": {"expr": {"Literal": {"Value": "0D"}}},
+        }}]
         objects["categoryAxis"] = [{"properties": {
             "show": {"expr": {"Literal": {"Value": "true"}}},
             "showAxisTitle": {"expr": {"Literal": {"Value": "false"}}},
@@ -187,9 +181,11 @@ def _build_visual_objects(
         }}]
 
     elif visual.title:
-        # All other visuals: title only
+        # All other visuals: title + white background
         objects["general"] = [{"properties": {
             "title": {"expr": {"Literal": {"Value": f"'{visual.title}'"}}},
+            "background": {"solid": {"color": {"expr": {"Literal": {"Value": f"'{variant.card_background}'"}}}}},
+            "backgroundTransparency": {"expr": {"Literal": {"Value": "0D"}}},
         }}]
 
     return objects

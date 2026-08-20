@@ -798,3 +798,211 @@ class TestKeyIntegrityValidation:
             db_path = Path(tmp) / "test.db"
             result = generate_synthetic_data(spec, output_path=db_path, seed=42)
             assert result.success, f"Data generation failed: {result.error}"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Type Conversion Regression Tests
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+class TestTypeConversionRegression:
+    """Regression tests verifying that M expressions convert ALL non-text columns.
+
+    Root cause: Table.FromRows with JSON-sourced data produces text strings.
+    Without explicit Table.TransformColumnTypes, DAX measures (SUM, AVERAGE)
+    return None because they cannot aggregate text values.
+    """
+
+    def test_integer_columns_get_conversion(self, tmp_path: Path):
+        """INTEGER columns get Int64.Type in TransformColumnTypes."""
+        db_path = tmp_path / "test.db"
+        conn = sqlite3.connect(str(db_path))
+        cursor = conn.cursor()
+        cursor.execute("CREATE TABLE Sales (ID TEXT, Quantity INTEGER, Year INTEGER)")
+        cursor.executemany(
+            "INSERT INTO Sales VALUES (?, ?, ?)",
+            [("S001", 10, 2023), ("S002", 20, 2024)],
+        )
+        conn.commit()
+        conn.close()
+
+        table_spec = TableSpec(
+            name="Sales",
+            columns=[
+                ColumnSpec(name="ID", data_type="TEXT", is_key=True),
+                ColumnSpec(name="Quantity", data_type="INTEGER"),
+                ColumnSpec(name="Year", data_type="INTEGER"),
+            ],
+        )
+
+        expr = generate_inline_m_from_db("Sales", db_path, table_spec=table_spec)
+
+        assert "Table.TransformColumnTypes" in expr
+        assert "Int64.Type" in expr
+        assert '"Quantity", Int64.Type' in expr
+        assert '"Year", Int64.Type' in expr
+
+    def test_real_columns_get_conversion(self, tmp_path: Path):
+        """REAL columns get type number in TransformColumnTypes."""
+        db_path = tmp_path / "test.db"
+        conn = sqlite3.connect(str(db_path))
+        cursor = conn.cursor()
+        cursor.execute("CREATE TABLE Sales (ID TEXT, Revenue REAL, Cost REAL)")
+        cursor.executemany(
+            "INSERT INTO Sales VALUES (?, ?, ?)",
+            [("S001", 100.50, 50.25), ("S002", 200.75, 100.00)],
+        )
+        conn.commit()
+        conn.close()
+
+        table_spec = TableSpec(
+            name="Sales",
+            columns=[
+                ColumnSpec(name="ID", data_type="TEXT", is_key=True),
+                ColumnSpec(name="Revenue", data_type="REAL"),
+                ColumnSpec(name="Cost", data_type="REAL"),
+            ],
+        )
+
+        expr = generate_inline_m_from_db("Sales", db_path, table_spec=table_spec)
+
+        assert "Table.TransformColumnTypes" in expr
+        assert '"Revenue", type number' in expr
+        assert '"Cost", type number' in expr
+
+    def test_date_columns_get_conversion(self, tmp_path: Path):
+        """DATE columns get type date in TransformColumnTypes."""
+        db_path = tmp_path / "test.db"
+        conn = sqlite3.connect(str(db_path))
+        cursor = conn.cursor()
+        cursor.execute("CREATE TABLE Date (Date TEXT, Year INTEGER)")
+        cursor.executemany(
+            "INSERT INTO Date VALUES (?, ?)",
+            [("2023-01-01", 2023), ("2023-01-02", 2023)],
+        )
+        conn.commit()
+        conn.close()
+
+        table_spec = TableSpec(
+            name="Date",
+            columns=[
+                ColumnSpec(name="Date", data_type="DATE", is_key=True),
+                ColumnSpec(name="Year", data_type="INTEGER"),
+            ],
+        )
+
+        expr = generate_inline_m_from_db("Date", db_path, table_spec=table_spec)
+
+        assert "Table.TransformColumnTypes" in expr
+        assert '"Date", type date' in expr
+        assert '"Year", Int64.Type' in expr
+
+    def test_text_only_table_no_conversion(self, tmp_path: Path):
+        """A table with only TEXT columns doesn't get TransformColumnTypes."""
+        db_path = tmp_path / "test.db"
+        conn = sqlite3.connect(str(db_path))
+        cursor = conn.cursor()
+        cursor.execute("CREATE TABLE Region (ID TEXT, Name TEXT, Code TEXT)")
+        cursor.executemany(
+            "INSERT INTO Region VALUES (?, ?, ?)",
+            [("R001", "North", "GB"), ("R002", "South", "US")],
+        )
+        conn.commit()
+        conn.close()
+
+        table_spec = TableSpec(
+            name="Region",
+            columns=[
+                ColumnSpec(name="ID", data_type="TEXT", is_key=True),
+                ColumnSpec(name="Name", data_type="TEXT"),
+                ColumnSpec(name="Code", data_type="TEXT"),
+            ],
+        )
+
+        expr = generate_inline_m_from_db("Region", db_path, table_spec=table_spec)
+
+        assert "Table.TransformColumnTypes" not in expr
+        assert "in\n    Source" in expr
+
+    def test_mixed_types_full_conversion(self, tmp_path: Path):
+        """A table with mixed types gets all non-text columns converted."""
+        db_path = tmp_path / "test.db"
+        conn = sqlite3.connect(str(db_path))
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE Sales (
+                SaleID TEXT, Date TEXT, Revenue REAL,
+                Quantity INTEGER, StoreName TEXT
+            )
+        """)
+        cursor.executemany(
+            "INSERT INTO Sales VALUES (?, ?, ?, ?, ?)",
+            [("S001", "2023-01-01", 100.0, 5, "Store A")],
+        )
+        conn.commit()
+        conn.close()
+
+        table_spec = TableSpec(
+            name="Sales",
+            columns=[
+                ColumnSpec(name="SaleID", data_type="TEXT", is_key=True),
+                ColumnSpec(name="Date", data_type="DATE"),
+                ColumnSpec(name="Revenue", data_type="REAL"),
+                ColumnSpec(name="Quantity", data_type="INTEGER"),
+                ColumnSpec(name="StoreName", data_type="TEXT"),
+            ],
+        )
+
+        expr = generate_inline_m_from_db("Sales", db_path, table_spec=table_spec)
+
+        assert "Table.TransformColumnTypes" in expr
+        assert '"Date", type date' in expr
+        assert '"Revenue", type number' in expr
+        assert '"Quantity", Int64.Type' in expr
+        # TEXT columns should NOT appear in conversion list
+        assert '"SaleID"' not in expr.split("TransformColumnTypes")[1]
+        assert '"StoreName"' not in expr.split("TransformColumnTypes")[1]
+
+    def test_date_table_has_data_category_time(self):
+        """Date table TMDL includes dataCategory: Time for time intelligence."""
+        table = TableSpec(
+            name="Date",
+            columns=[
+                ColumnSpec(name="Date", data_type="DATE", is_key=True),
+                ColumnSpec(name="Year", data_type="INTEGER"),
+                ColumnSpec(name="Month", data_type="INTEGER"),
+                ColumnSpec(name="MonthName", data_type="TEXT"),
+            ],
+        )
+
+        tmdl = generate_table_tmdl(table, measures=None)
+
+        assert "dataCategory: Time" in tmdl
+
+    def test_non_date_table_no_data_category(self):
+        """Non-date tables do NOT get dataCategory: Time."""
+        table = TableSpec(
+            name="Sales",
+            columns=[
+                ColumnSpec(name="SaleID", data_type="TEXT", is_key=True),
+                ColumnSpec(name="Revenue", data_type="REAL"),
+            ],
+        )
+
+        tmdl = generate_table_tmdl(table, measures=None)
+
+        assert "dataCategory: Time" not in tmdl
+
+    def test_datetime_key_also_triggers_date_table(self):
+        """DATETIME key columns also trigger dataCategory: Time."""
+        table = TableSpec(
+            name="DateDim",
+            columns=[
+                ColumnSpec(name="Timestamp", data_type="DATETIME", is_key=True),
+                ColumnSpec(name="DayOfWeek", data_type="TEXT"),
+            ],
+        )
+
+        tmdl = generate_table_tmdl(table, measures=None)
+
+        assert "dataCategory: Time" in tmdl

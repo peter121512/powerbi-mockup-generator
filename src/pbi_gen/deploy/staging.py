@@ -51,9 +51,19 @@ _M_TYPE_MAP: dict[str, str] = {
 
 # Types that require an explicit conversion step after Table.FromRows.
 # Maps spec data type → M type for Table.TransformColumnTypes.
+#
+# Table.FromRows with JSON-sourced data produces ALL values as text strings
+# regardless of the type table declaration. We must explicitly convert every
+# non-text column so that DAX aggregations (SUM, AVERAGE, etc.) work correctly.
 _M_CONVERSION_TYPES: dict[str, str] = {
+    "INTEGER": "Int64.Type",
+    "INT": "Int64.Type",
+    "REAL": "number",
+    "FLOAT": "number",
+    "DECIMAL": "number",
     "DATE": "date",
     "DATETIME": "datetime",
+    "BOOLEAN": "logical",
 }
 
 
@@ -277,12 +287,14 @@ def _build_inline_expression(headers: list[str], rows: list[list[str]], column_t
         f"{col} = {type_map.get(col, 'text')}" for col in headers
     )
 
-    # If there are date/datetime columns that need conversion, add a transformation step
+    # If there are columns that need conversion, add a transformation step
     if conversion_columns:
         # Build the conversion list for Table.TransformColumnTypes
-        # M syntax: {{"ColName", type date}, {"ColName2", type datetime}}
+        # M syntax: {{"ColName", type date}, {"ColName2", Int64.Type}}
+        # Note: Int64.Type is already a type literal; others need "type " prefix
         conv_items = ", ".join(
-            f'{{"{col}", type {m_type}}}' for col, m_type in conversion_columns
+            f'{{"{col}", {m_type}}}' if m_type[0].isupper() else f'{{"{col}", type {m_type}}}'
+            for col, m_type in conversion_columns
         )
         conv_list = "{" + conv_items + "}"
         return (

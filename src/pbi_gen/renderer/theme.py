@@ -89,23 +89,23 @@ def _resolve_text_classes(theme: ThemeSpec) -> dict:
     return {
         "callout": {
             "fontFace": heading,
-            "fontSize": round(base_size + 12),  # Large callout for KPIs
+            "fontSize": round(base_size + 14),  # Large but not clipping
             "color": primary_color,
         },
         "title": {
             "fontFace": heading,
             "fontSize": round(base_size + 1),
-            "color": "#212121",
+            "color": "#1A1A2E",
         },
         "header": {
             "fontFace": heading,
             "fontSize": round(base_size),
-            "color": "#212121",
+            "color": "#1A1A2E",
         },
         "label": {
             "fontFace": body,
             "fontSize": round(base_size - 1),
-            "color": "#605E5C",
+            "color": "#4A4A6A",
         },
     }
 

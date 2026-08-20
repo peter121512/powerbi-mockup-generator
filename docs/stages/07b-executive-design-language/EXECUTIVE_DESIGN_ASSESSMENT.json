@@ -2,37 +2,13 @@
   "runs": [
     {
       "scores": {
-        "first_impression": 3.0,
-        "executive_credibility": 3.0,
-        "composition_hierarchy": 4.0,
-        "typography": 3.5,
-        "whitespace_rhythm": 3.5,
-        "kpi_treatment": 4.0,
-        "colour_discipline": 3.0,
-        "surface_quality": 3.0,
-        "chart_presentation": 3.5,
-        "section_coherence": 4.0,
-        "visual_consistency": 4.5,
-        "premium_feel": 2.0,
-        "demo_readiness": 2.0,
-        "company_wide_readiness": 2.0
-      },
-      "overall": 3.2,
-      "binary_q1": "NO",
-      "binary_q2": "NO",
-      "binary_q3": "NO",
-      "reference_relative": 34,
-      "summary": "The actual dashboard has a functional grid and reasonably consistent basic styling, but it looks substantially more like a default Power BI report than a bespoke executive product. The trial banner, empty oversized header area, saturated green framing, generic typography, thin KPI treatment, cramped supporting visuals, and limited surface refinement significantly reduce polish and presentation readiness versus the reference."
-    },
-    {
-      "scores": {
-        "first_impression": 2.5,
+        "first_impression": 2.0,
         "executive_credibility": 2.0,
         "composition_hierarchy": 3.0,
         "typography": 2.5,
-        "whitespace_rhythm": 3.0,
-        "kpi_treatment": 3.0,
-        "colour_discipline": 2.5,
+        "whitespace_rhythm": 2.5,
+        "kpi_treatment": 3.5,
+        "colour_discipline": 2.0,
         "surface_quality": 2.0,
         "chart_presentation": 2.5,
         "section_coherence": 2.5,
@@ -45,22 +21,46 @@
       "binary_q1": "NO",
       "binary_q2": "NO",
       "binary_q3": "NO",
-      "reference_relative": 24,
-      "summary": "The actual dashboard appears largely default and operational rather than bespoke or executive-grade. The trial banner, empty header area, heavy green bands, exposed slicers, raw field-style labels, small typography, inconsistent spacing, and minimally styled charts significantly reduce polish. It has a basic KPI-to-chart structure, but it falls well below the reference's disciplined hierarchy, refined surfaces, restrained palette, and presentation readiness."
+      "reference_relative": 23,
+      "summary": "The deployed dashboard reads as lightly formatted default Power BI rather than a polished executive product. The oversized green framing, empty header area, trial banner, basic slicers, weak typography, cramped lower visuals, and minimal surface refinement significantly reduce professionalism. KPI alignment provides some structure, but the design falls well short of the reference's hierarchy, restraint, spacing, and bespoke finish."
     },
     {
       "scores": {
-        "first_impression": 3.0,
+        "first_impression": 2.5,
+        "executive_credibility": 2.0,
+        "composition_hierarchy": 3.0,
+        "typography": 3.0,
+        "whitespace_rhythm": 3.0,
+        "kpi_treatment": 4.0,
+        "colour_discipline": 2.5,
+        "surface_quality": 3.0,
+        "chart_presentation": 3.0,
+        "section_coherence": 2.5,
+        "visual_consistency": 3.5,
+        "premium_feel": 1.5,
+        "demo_readiness": 1.5,
+        "company_wide_readiness": 1.5
+      },
+      "overall": 2.6,
+      "binary_q1": "NO",
+      "binary_q2": "NO",
+      "binary_q3": "NO",
+      "reference_relative": 27,
+      "summary": "The deployed dashboard appears largely default and unfinished compared with the reference. The trial banner, empty header area, heavy green bands, generic slicers, weak typography, cramped supporting charts, and limited container refinement undermine executive polish. KPI alignment provides some structure, but the page lacks the bespoke hierarchy, spacing, surface quality, and presentation confidence of the target."
+    },
+    {
+      "scores": {
+        "first_impression": 2.5,
         "executive_credibility": 2.5,
         "composition_hierarchy": 4.0,
         "typography": 3.5,
-        "whitespace_rhythm": 3.5,
+        "whitespace_rhythm": 3.0,
         "kpi_treatment": 4.5,
-        "colour_discipline": 2.5,
-        "surface_quality": 3.0,
+        "colour_discipline": 3.0,
+        "surface_quality": 2.5,
         "chart_presentation": 3.5,
-        "section_coherence": 3.0,
-        "visual_consistency": 3.5,
+        "section_coherence": 3.5,
+        "visual_consistency": 4.0,
         "premium_feel": 2.0,
         "demo_readiness": 2.0,
         "company_wide_readiness": 2.5
@@ -69,13 +69,13 @@
       "binary_q1": "NO",
       "binary_q2": "NO",
       "binary_q3": "NO",
-      "reference_relative": 32,
-      "summary": "The deployed dashboard looks largely like a conventionally formatted Power BI report rather than a bespoke executive product. The trial banner, oversized green bands, empty header area, default slicers, generic typography, tight chart labels, flat containers, and competing red-green palette weaken polish and authority. KPI alignment provides some structure, but the page falls substantially below the reference in hierarchy, spacing, branding, surface refinement, and presentation readiness."
+      "reference_relative": 34,
+      "summary": "The deployed dashboard has a recognizable KPI-to-chart structure, but visually remains close to a conventionally formatted Power BI report. The trial banner, oversized green bands, empty header area, default-looking slicers, lightweight typography, tight lower layout, and minimally refined chart surfaces substantially reduce polish and executive credibility. It falls well below the reference's cohesive branding, spacing, hierarchy, bespoke KPI system, and presentation-ready finish."
     }
   ],
-  "median_overall": 3.1,
+  "median_overall": 2.6,
   "range": [
     2.3,
-    3.2
+    3.1
   ]
 }
