@@ -21,22 +21,22 @@ interface InsightRow {
 
 const INSIGHTS: InsightRow[] = [
     {
-        color: "rgba(52, 211, 153, 0.35)",
-        icon: "\u2191",
+        color: "rgba(52, 211, 153, 0.6)",
+        icon: "ARROW_UP_SVG",
         text: "Revenue up 12.4% driven by strong performance in Enterprise and Healthcare"
     },
     {
-        color: "rgba(168, 85, 247, 0.35)",
+        color: "rgba(168, 85, 247, 0.6)",
         icon: "PEOPLE_SVG",
         text: "Customer base expanded by 18.6% with particular strength in Asia Pacific"
     },
     {
-        color: "rgba(251, 146, 60, 0.35)",
+        color: "rgba(251, 146, 60, 0.6)",
         icon: "%",
         text: "Operating margin increased 0.6pp through discipline on operational costs"
     },
     {
-        color: "rgba(6, 182, 212, 0.35)",
+        color: "rgba(6, 182, 212, 0.6)",
         icon: "\u25C6",
         text: "Product innovation pipeline contributing to sustained growth momentum"
     }
@@ -70,6 +70,8 @@ export class Visual implements IVisual {
                 html += `<div class="insight-circle" style="background:${insight.color};">`;
                 if (insight.icon === "PEOPLE_SVG") {
                     html += `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`;
+                } else if (insight.icon === "ARROW_UP_SVG") {
+                    html += `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>`;
                 } else {
                     html += `<span class="insight-icon">${insight.icon}</span>`;
                 }
