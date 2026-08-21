@@ -202,17 +202,20 @@ export class Visual implements IVisual {
                 .style("font-size", `${markerFontSize}px`)
                 .text("");
 
-            // Score text
+            // Score text + NPS label — centered as a combined block
+            const combinedHeight = fontSize + labelFontSize + 4;
+            const blockTopY = arcCenterY - combinedHeight / 2 + fontSize * 0.35;
+
             this.scoreText
                 .attr("x", arcCenterX)
-                .attr("y", arcCenterY + fontSize * 0.6)
+                .attr("y", blockTopY + fontSize * 0.8)
                 .style("font-size", `${fontSize}px`)
                 .text(Math.round(score).toString());
 
             // NPS label
             this.npsLabel
                 .attr("x", arcCenterX)
-                .attr("y", arcCenterY + fontSize * 0.6 + labelFontSize + 4)
+                .attr("y", blockTopY + fontSize + labelFontSize + 2)
                 .style("font-size", `${labelFontSize}px`)
                 .text("NPS");
 

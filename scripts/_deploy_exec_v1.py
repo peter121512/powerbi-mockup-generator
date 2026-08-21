@@ -458,9 +458,9 @@ donut_vis["visual"] = {
 add("definition/pages/exec/visuals/donut_region/visual.json", donut_vis)
 
 # Center KPI label for donut - centered on the donut ring
-donut_center_x = donut_x + 95  # center horizontally on donut ring
-donut_center_y = hero_y + 100  # vertical center of donut ring
-donut_kpi = vis_container("donut_kpi", donut_center_x, donut_center_y, 100, 45, 20)
+donut_center_x = donut_x + 110  # center on ring (accounting for legend on right)
+donut_center_y = hero_y + 105   # vertical center of ring (below title)
+donut_kpi = vis_container("donut_kpi", donut_center_x, donut_center_y, 90, 42, 20)
 donut_kpi["visual"] = {
     "visualType": "cardVisual",
     "query": {"queryState": {"Values": {"projections": [{
@@ -607,10 +607,10 @@ add("definition/pages/exec/visuals/key_insights_bg/visual.json", insights_bg)
 
 # Individual insight lines
 insight_lines = [
-    ("↗️", "Revenue up 12.4% driven by strong performance in Childrenswear and Beauty"),
-    ("👥", "Customer base expanded by 18.6% with strength in Scotland region"),
-    ("📈", "Gross margin increased 0.6pp through operational cost discipline"),
-    ("🚀", "Product innovation pipeline contributing to sustained growth"),
+    ("⬆", "Revenue up 12.4% driven by strong Childrenswear and Beauty performance"),
+    ("⬆", "Customer base expanded 18.6% with strength in Scotland"),
+    ("⬆", "Gross margin +0.6pp through operational cost discipline"),
+    ("⬆", "Product innovation pipeline driving sustained growth"),
 ]
 for il_idx, (il_icon, il_text) in enumerate(insight_lines):
     il_y = bar_y + 34 + il_idx * 48
@@ -625,8 +625,8 @@ for il_idx, (il_icon, il_text) in enumerate(insight_lines):
             "title": [{"properties": {
                 "show": {"expr": {"Literal": {"Value": "true"}}},
                 "text": {"expr": {"Literal": {"Value": "'" + il_icon + " " + il_text + "'"}}},
-                "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#cbd5e1'"}}}}},
-                "fontSize": {"expr": {"Literal": {"Value": "8D"}}},
+                "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
+                "fontSize": {"expr": {"Literal": {"Value": "9D"}}},
             }}],
             "background": [{"properties": {
                 "show": {"expr": {"Literal": {"Value": "true"}}},
