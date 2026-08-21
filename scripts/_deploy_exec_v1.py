@@ -164,10 +164,10 @@ def vis_container(name, x, y, w, h, z_idx):
 kpi_width = 270
 kpi_height = 100
 kpi_gap = 18
-kpi_y = 78
+kpi_y = 82
 
 # ===== PAGE TITLE (using actionTitle visual) =====
-title_vis = vis_container("pagetitle", kpi_start_x, 4, 500, 56, 99)
+title_vis = vis_container("pagetitle", kpi_start_x, 4, 500, 56, 4999)
 title_vis["visual"] = {
     "visualType": "cardVisual",
     "query": {"queryState": {"Values": {"projections": [{
@@ -196,7 +196,7 @@ title_vis["visual"] = {
 
 # ===== FILTERS (right-aligned slicers) =====
 # Region slicer - styled to look like Mockup 1 filter pills
-slicer1 = vis_container("slicer_region", 780, 6, 220, 56, 100)
+slicer1 = vis_container("slicer_region", 780, 6, 220, 60, 5000)
 slicer1["visual"] = {
     "visualType": "slicer",
     "query": {"queryState": {"Values": {"projections": [{
@@ -257,7 +257,7 @@ slicer1["visual"] = {
 add("definition/pages/exec/visuals/slicer_region/visual.json", slicer1)
 
 # Year slicer
-slicer2 = vis_container("slicer_year", 1015, 6, 210, 56, 101)
+slicer2 = vis_container("slicer_year", 1015, 6, 210, 60, 5001)
 slicer2["visual"] = {
     "visualType": "slicer",
     "query": {"queryState": {"Values": {"projections": [{
