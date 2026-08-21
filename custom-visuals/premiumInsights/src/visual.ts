@@ -21,22 +21,22 @@ interface InsightRow {
 
 const INSIGHTS: InsightRow[] = [
     {
-        color: "#34d399",
+        color: "rgba(52, 211, 153, 0.2)",
         icon: "\u2191",
         text: "Revenue up 12.4% driven by strong performance in Enterprise and Healthcare"
     },
     {
-        color: "#f87171",
+        color: "rgba(168, 85, 247, 0.2)",
         icon: "\uD83D\uDC65",
         text: "Customer base expanded by 18.6% with particular strength in Asia Pacific"
     },
     {
-        color: "#fbbf24",
+        color: "rgba(251, 146, 60, 0.2)",
         icon: "%",
         text: "Operating margin increased 0.6pp through discipline on operational costs"
     },
     {
-        color: "#a78bfa",
+        color: "rgba(6, 182, 212, 0.2)",
         icon: "\u25C6",
         text: "Product innovation pipeline contributing to sustained growth momentum"
     }
