@@ -234,10 +234,7 @@ slicer1["visual"] = {
             "background": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
         }}],
         "header": [{"properties": {
-            "show": {"expr": {"Literal": {"Value": "true"}}},
-            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
-            "textSize": {"expr": {"Literal": {"Value": "10D"}}},
-            "background": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
+            "show": {"expr": {"Literal": {"Value": "false"}}},
         }}],
     },
     "visualContainerObjects": {
@@ -295,10 +292,7 @@ slicer2["visual"] = {
             "background": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
         }}],
         "header": [{"properties": {
-            "show": {"expr": {"Literal": {"Value": "true"}}},
-            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
-            "textSize": {"expr": {"Literal": {"Value": "10D"}}},
-            "background": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
+            "show": {"expr": {"Literal": {"Value": "false"}}},
         }}],
     },
     "visualContainerObjects": {
@@ -468,6 +462,13 @@ bar_vis["visual"] = {
         }]},
     }},
     "objects": {
+        "labels": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
+            "fontSize": {"expr": {"Literal": {"Value": "9D"}}},
+            "labelDisplayUnits": {"expr": {"Literal": {"Value": "1000000D"}}},
+            "labelPrecision": {"expr": {"Literal": {"Value": "1D"}}},
+        }}],
         "categoryAxis": [{"properties": {"showAxisTitle": {"expr": {"Literal": {"Value": "false"}}}, "labelColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},}}],
         "valueAxis": [{"properties": {"showAxisTitle": {"expr": {"Literal": {"Value": "false"}}}, "labelColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#64748b'"}}}}}, "gridlineColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},}}],
     },
@@ -565,7 +566,7 @@ nav_vis["visual"] = {
 add("definition/pages/exec/visuals/nav_rail/visual.json", nav_vis)
 
 # Active indicator line on nav rail
-nav_indicator = vis_container("nav_indicator", 0, 80, 4, 50, 3)
+nav_indicator = vis_container("nav_indicator", 0, 80, 4, 40, 3)
 nav_indicator["visual"] = {
     "visualType": "textbox",
     "objects": {
@@ -585,6 +586,38 @@ nav_indicator["visual"] = {
     "drillFilterOtherVisuals": False,
 }
 add("definition/pages/exec/visuals/nav_indicator/visual.json", nav_indicator)
+
+# Nav icons using card visuals (renders text reliably)
+nav_items = [
+    ("📊", "'#3898ff'"),  # Executive Overview (active)
+    ("💰", "'#475569'"),  # Financial
+    ("👥", "'#475569'"),  # Sales & Customers
+    ("⚙️", "'#475569'"),  # Operations
+    ("📦", "'#475569'"),  # Products
+]
+for ni, (nav_icon, nav_color) in enumerate(nav_items):
+    ny = 80 + ni * 55
+    nav_card = vis_container(f"nav_item_{ni}", 12, ny, 36, 36, 4)
+    nav_card["visual"] = {
+        "visualType": "cardVisual",
+        "query": {"queryState": {"Values": {"projections": [{
+            "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},
+            "queryRef": "Sales.TotalRevenue", "nativeQueryRef": "TotalRevenue",
+        }]}}},
+        "visualContainerObjects": {
+            "title": [{"properties": {
+                "show": {"expr": {"Literal": {"Value": "true"}}},
+                "text": {"expr": {"Literal": {"Value": "'" + nav_icon + "'"}}},
+                "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": nav_color}}}}},
+                "fontSize": {"expr": {"Literal": {"Value": "14D"}}},
+                "alignment": {"expr": {"Literal": {"Value": "'center'"}}},
+            }}],
+            "background": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+            "border": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+        },
+        "drillFilterOtherVisuals": False,
+    }
+    add(f"definition/pages/exec/visuals/nav_item_{ni}/visual.json", nav_card)
 
 # Custom visual resources
 add_bin(f"CustomVisuals/{KPI_GUID}/package.json", package_json_bytes)
