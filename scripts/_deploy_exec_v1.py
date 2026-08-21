@@ -164,23 +164,99 @@ def vis_container(name, x, y, w, h, z_idx):
 kpi_width = 270
 kpi_height = 100
 kpi_gap = 18
-kpi_y = 42
+kpi_y = 55
 
-# ===== PAGE TITLE =====
-title_vis = vis_container("pagetitle", kpi_start_x, 8, 400, 30, 99)
+# ===== PAGE TITLE (using actionTitle visual) =====
+title_vis = vis_container("pagetitle", kpi_start_x, 10, 350, 38, 99)
 title_vis["visual"] = {
-    "visualType": "textbox",
-    "objects": {
-        "general": [{"properties": {
-            "paragraphs": {"expr": {"Literal": {"Value": "[{\"textRuns\":[{\"value\":\"Executive Overview\",\"textStyle\":{\"fontWeight\":\"bold\",\"fontSize\":\"16px\",\"color\":\"#e2e8f0\"}}]}]"}}},
-        }}],
-    },
+    "visualType": "cardVisual",
+    "query": {"queryState": {"Values": {"projections": [{
+        "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},
+        "queryRef": "Sales.TotalRevenue", "nativeQueryRef": "TotalRevenue",
+    }]}}},
     "visualContainerObjects": {
+        "title": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "text": {"expr": {"Literal": {"Value": "'Executive Overview'"}}},
+            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#ffffff'"}}}}},
+            "fontSize": {"expr": {"Literal": {"Value": "16D"}}},
+            "bold": {"expr": {"Literal": {"Value": "true"}}},
+        }}],
         "background": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
         "border": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
-        "title": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
     },
+    "drillFilterOtherVisuals": True,
 }
+# Actually skip the card - just use a slicer with title instead. Let me use a shape.
+# Better: use the visual container title ON a hidden/tiny visual as the page title hack
+# Simplest: just add slicers and accept no title for now — slicers are more impactful
+
+# ===== FILTERS (right-aligned slicers) =====
+# Region slicer
+slicer1 = vis_container("slicer_region", 850, 10, 180, 38, 97)
+slicer1["visual"] = {
+    "visualType": "slicer",
+    "query": {"queryState": {"Values": {"projections": [{
+        "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Region"}}, "Property": "RegionName"}},
+        "queryRef": "Region.RegionName", "nativeQueryRef": "RegionName",
+    }]}}},
+    "objects": {
+        "data": [{"properties": {"mode": {"expr": {"Literal": {"Value": "'Dropdown'"}}}}}],
+    },
+    "visualContainerObjects": {
+        "title": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "text": {"expr": {"Literal": {"Value": "'Region'"}}},
+            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},
+            "fontSize": {"expr": {"Literal": {"Value": "9D"}}},
+        }}],
+        "background": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
+            "transparency": {"expr": {"Literal": {"Value": "0D"}}},
+        }}],
+        "border": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#334155'"}}}}},
+        }}],
+    },
+    "drillFilterOtherVisuals": True,
+}
+add("definition/pages/exec/visuals/slicer_region/visual.json", slicer1)
+
+# Year slicer
+slicer2 = vis_container("slicer_year", 1045, 10, 180, 38, 98)
+slicer2["visual"] = {
+    "visualType": "slicer",
+    "query": {"queryState": {"Values": {"projections": [{
+        "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Date"}}, "Property": "Year"}},
+        "queryRef": "Date.Year", "nativeQueryRef": "Year",
+    }]}}},
+    "objects": {
+        "data": [{"properties": {"mode": {"expr": {"Literal": {"Value": "'Dropdown'"}}}}}],
+    },
+    "visualContainerObjects": {
+        "title": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "text": {"expr": {"Literal": {"Value": "'Year'"}}},
+            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},
+            "fontSize": {"expr": {"Literal": {"Value": "9D"}}},
+        }}],
+        "background": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
+            "transparency": {"expr": {"Literal": {"Value": "0D"}}},
+        }}],
+        "border": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#334155'"}}}}},
+        }}],
+    },
+    "drillFilterOtherVisuals": True,
+}
+add("definition/pages/exec/visuals/slicer_year/visual.json", slicer2)
+
+# Don't add the card-as-title — just add a dummy for now
 add("definition/pages/exec/visuals/pagetitle/visual.json", title_vis)
 
 for i, (label, entity, prop) in enumerate(kpi_measures):
@@ -208,8 +284,8 @@ for i, (label, entity, prop) in enumerate(kpi_measures):
     add(f"definition/pages/exec/visuals/kpi{i+1}/visual.json", vis)
 
 # ===== HERO LINE CHART (Revenue over time) =====
-hero_y = kpi_y + kpi_height + 12
-hero_vis = vis_container("hero_line", kpi_start_x, hero_y, 740, 260, 10)
+hero_y = kpi_y + kpi_height + 10
+hero_vis = vis_container("hero_line", kpi_start_x, hero_y, 740, 250, 10)
 hero_vis["visual"] = {
     "visualType": "areaChart",
     "query": {"queryState": {
@@ -271,7 +347,7 @@ add("definition/pages/exec/visuals/hero_line/visual.json", hero_vis)
 
 # ===== DONUT CHART (Revenue by Region) =====
 donut_x = kpi_start_x + 740 + 15
-donut_vis = vis_container("donut_region", donut_x, hero_y, 440, 260, 11)
+donut_vis = vis_container("donut_region", donut_x, hero_y, 440, 250, 11)
 donut_vis["visual"] = {
     "visualType": "donutChart",
     "query": {"queryState": {
@@ -315,8 +391,8 @@ donut_vis["visual"] = {
 add("definition/pages/exec/visuals/donut_region/visual.json", donut_vis)
 
 # ===== BAR CHART (Revenue by Store) - bottom row =====
-bar_y = hero_y + 260 + 10
-bar_vis = vis_container("bar_stores", kpi_start_x, bar_y, 580, 260, 12)
+bar_y = hero_y + 250 + 10
+bar_vis = vis_container("bar_stores", kpi_start_x, bar_y, 580, 250, 12)
 bar_vis["visual"] = {
     "visualType": "barChart",
     "query": {"queryState": {
@@ -356,7 +432,7 @@ add("definition/pages/exec/visuals/bar_stores/visual.json", bar_vis)
 
 # ===== SECOND BOTTOM PANEL (Gross Profit by Store) =====
 bar2_x = kpi_start_x + 580 + 15
-bar2_vis = vis_container("bar_profit", bar2_x, bar_y, 600, 260, 13)
+bar2_vis = vis_container("bar_profit", bar2_x, bar_y, 600, 250, 13)
 bar2_vis["visual"] = {
     "visualType": "columnChart",
     "query": {"queryState": {
