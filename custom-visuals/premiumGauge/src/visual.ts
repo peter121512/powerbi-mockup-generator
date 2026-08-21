@@ -189,7 +189,7 @@ export class Visual implements IVisual {
                 .attr("transform", `translate(${arcCenterX}, ${arcCenterY})`)
                 .attr("stroke-width", arcStrokeWidth);
 
-            // Scale markers
+            // Scale markers - only show 0 on left
             this.minLabel
                 .attr("x", arcCenterX - arcRadius)
                 .attr("y", arcCenterY + markerFontSize + 4)
@@ -200,7 +200,7 @@ export class Visual implements IVisual {
                 .attr("x", arcCenterX + arcRadius)
                 .attr("y", arcCenterY + markerFontSize + 4)
                 .style("font-size", `${markerFontSize}px`)
-                .text("100");
+                .text("");
 
             // Score text
             this.scoreText
@@ -218,49 +218,50 @@ export class Visual implements IVisual {
 
             // Sub-metrics section
             const subMetricStartY = arcCenterY + fontSize * 0.6 + labelFontSize + 4 + subMetricFontSize * 2.5;
-            const subMetricPadX = width * 0.1;
-            const rowHeight = subMetricFontSize * 2;
+            const subMetricPadX = width * 0.05;
+            const boxWidth = (width - subMetricPadX * 2 - 10 * (this.subMetrics.length - 1)) / this.subMetrics.length;
+            const boxHeight = Math.max(36, height * 0.18);
+            const boxY = subMetricStartY - subMetricFontSize;
 
             this.subMetricGroup.selectAll("*").remove();
 
             this.subMetrics.forEach((metric, i) => {
-                const y = subMetricStartY + i * rowHeight;
+                const boxX = subMetricPadX + i * (boxWidth + 10);
 
-                // Label (left)
+                // Box background
+                this.subMetricGroup.append("rect")
+                    .attr("x", boxX)
+                    .attr("y", boxY)
+                    .attr("width", boxWidth)
+                    .attr("height", boxHeight)
+                    .attr("rx", 6)
+                    .attr("ry", 6)
+                    .attr("fill", "#1e293b")
+                    .attr("stroke", "#334155")
+                    .attr("stroke-width", 1);
+
+                // Value (large, centered top)
                 this.subMetricGroup.append("text")
-                    .attr("x", subMetricPadX)
-                    .attr("y", y)
-                    .attr("fill", "#94a3b8")
-                    .attr("text-anchor", "start")
-                    .style("font-family", "'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif")
-                    .style("font-size", `${subMetricFontSize}px`)
-                    .text(metric.label);
-
-                // Dots separator
-                const dotsX = subMetricPadX + width * 0.35;
-                const dotsWidth = width - 2 * subMetricPadX - width * 0.35 - width * 0.12;
-                const dotCount = Math.max(3, Math.floor(dotsWidth / (subMetricFontSize * 0.6)));
-                const dots = ".".repeat(dotCount);
-
-                this.subMetricGroup.append("text")
-                    .attr("x", dotsX)
-                    .attr("y", y)
-                    .attr("fill", "#475569")
-                    .attr("text-anchor", "start")
-                    .style("font-family", "'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif")
-                    .style("font-size", `${subMetricFontSize}px`)
-                    .text(dots);
-
-                // Value (right)
-                this.subMetricGroup.append("text")
-                    .attr("x", width - subMetricPadX)
-                    .attr("y", y)
+                    .attr("x", boxX + boxWidth / 2)
+                    .attr("y", boxY + boxHeight * 0.42)
                     .attr("fill", "#e2e8f0")
-                    .attr("text-anchor", "end")
-                    .style("font-family", "'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif")
-                    .style("font-size", `${subMetricFontSize}px`)
-                    .style("font-weight", "600")
+                    .attr("text-anchor", "middle")
+                    .attr("dominant-baseline", "middle")
+                    .style("font-family", "'Segoe UI', sans-serif")
+                    .style("font-size", `${Math.max(11, subMetricFontSize * 1.3)}px`)
+                    .style("font-weight", "bold")
                     .text(metric.value);
+
+                // Label (smaller, centered bottom)
+                this.subMetricGroup.append("text")
+                    .attr("x", boxX + boxWidth / 2)
+                    .attr("y", boxY + boxHeight * 0.78)
+                    .attr("fill", "#94a3b8")
+                    .attr("text-anchor", "middle")
+                    .attr("dominant-baseline", "middle")
+                    .style("font-family", "'Segoe UI', sans-serif")
+                    .style("font-size", `${Math.max(7, subMetricFontSize * 0.7)}px`)
+                    .text(metric.label);
             });
 
             this.events.renderingFinished(options);

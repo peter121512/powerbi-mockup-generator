@@ -457,6 +457,38 @@ donut_vis["visual"] = {
 }
 add("definition/pages/exec/visuals/donut_region/visual.json", donut_vis)
 
+# Center KPI label for donut
+donut_center_x = donut_x + 80  # offset left to center on donut ring (not legend)
+donut_center_y = hero_y + 95  # vertical center of donut
+donut_kpi = vis_container("donut_kpi", donut_center_x, donut_center_y, 120, 50, 20)
+donut_kpi["visual"] = {
+    "visualType": "cardVisual",
+    "query": {"queryState": {"Values": {"projections": [{
+        "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},
+        "queryRef": "Sales.TotalRevenue", "nativeQueryRef": "TotalRevenue",
+    }]}}},
+    "visualContainerObjects": {
+        "title": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "text": {"expr": {"Literal": {"Value": "'£2.4M'"}}},
+            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#ffffff'"}}}}},
+            "fontSize": {"expr": {"Literal": {"Value": "14D"}}},
+            "bold": {"expr": {"Literal": {"Value": "true"}}},
+            "alignment": {"expr": {"Literal": {"Value": "'center'"}}},
+        }}],
+        "subTitle": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "text": {"expr": {"Literal": {"Value": "'Total Revenue'"}}},
+            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},
+            "fontSize": {"expr": {"Literal": {"Value": "8D"}}},
+        }}],
+        "background": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+        "border": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+    },
+    "drillFilterOtherVisuals": False,
+}
+add("definition/pages/exec/visuals/donut_kpi/visual.json", donut_kpi)
+
 # ===== BOTTOM ROW: 3 panels =====
 bar_y = hero_y + 240 + 10
 bottom_panel_height = 240
@@ -485,7 +517,7 @@ bar_vis["visual"] = {
             "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
             "fontSize": {"expr": {"Literal": {"Value": "9D"}}},
             "labelDisplayUnits": {"expr": {"Literal": {"Value": "1000000D"}}},
-            "labelPrecision": {"expr": {"Literal": {"Value": "1D"}}},
+            "labelPrecision": {"expr": {"Literal": {"Value": "2D"}}},
         }}],
         "categoryAxis": [{"properties": {"showAxisTitle": {"expr": {"Literal": {"Value": "false"}}}, "labelColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},}}],
         "valueAxis": [{"properties": {"showAxisTitle": {"expr": {"Literal": {"Value": "false"}}}, "labelColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#64748b'"}}}}}, "gridlineColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},}}],
@@ -540,10 +572,12 @@ gauge_vis["visual"] = {
 }
 add("definition/pages/exec/visuals/gauge_sat/visual.json", gauge_vis)
 
-# Panel 3: Key Insights (card visual with title as text content)
+# Panel 3: Key Insights (multiple card visuals for each line)
 insights_x = gauge_x + panel2_width + panel_gap
-insights_vis = vis_container("key_insights", insights_x, bar_y, panel3_width, bottom_panel_height, 14)
-insights_vis["visual"] = {
+
+# Background container
+insights_bg = vis_container("key_insights_bg", insights_x, bar_y, panel3_width, bottom_panel_height, 14)
+insights_bg["visual"] = {
     "visualType": "cardVisual",
     "query": {"queryState": {"Values": {"projections": [{
         "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},
@@ -557,12 +591,6 @@ insights_vis["visual"] = {
             "fontSize": {"expr": {"Literal": {"Value": "11D"}}},
             "bold": {"expr": {"Literal": {"Value": "true"}}},
         }}],
-        "subTitle": [{"properties": {
-            "show": {"expr": {"Literal": {"Value": "true"}}},
-            "text": {"expr": {"Literal": {"Value": "'↑ Revenue up 12.4% driven by strong performance in Childrenswear and Beauty\\n\\n↑ Customer base expanded by 18.6% with strength in Scotland\\n\\n↑ Gross margin increased 0.6pp through discipline on operational costs'"}}},
-            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},
-            "fontSize": {"expr": {"Literal": {"Value": "9D"}}},
-        }}],
         "background": [{"properties": {
             "show": {"expr": {"Literal": {"Value": "true"}}},
             "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#151d2e'"}}}}},
@@ -575,7 +603,37 @@ insights_vis["visual"] = {
     },
     "drillFilterOtherVisuals": False,
 }
-add("definition/pages/exec/visuals/key_insights/visual.json", insights_vis)
+add("definition/pages/exec/visuals/key_insights_bg/visual.json", insights_bg)
+
+# Individual insight lines
+insight_lines = [
+    ("↗️", "Revenue up 12.4% driven by strong performance in Childrenswear and Beauty"),
+    ("👥", "Customer base expanded by 18.6% with strength in Scotland region"),
+    ("📈", "Gross margin increased 0.6pp through operational cost discipline"),
+    ("🚀", "Product innovation pipeline contributing to sustained growth"),
+]
+for il_idx, (il_icon, il_text) in enumerate(insight_lines):
+    il_y = bar_y + 32 + il_idx * 50
+    il_vis = vis_container(f"insight_{il_idx}", insights_x + 8, il_y, panel3_width - 16, 46, 15 + il_idx)
+    il_vis["visual"] = {
+        "visualType": "cardVisual",
+        "query": {"queryState": {"Values": {"projections": [{
+            "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},
+            "queryRef": "Sales.TotalRevenue", "nativeQueryRef": "TotalRevenue",
+        }]}}},
+        "visualContainerObjects": {
+            "title": [{"properties": {
+                "show": {"expr": {"Literal": {"Value": "true"}}},
+                "text": {"expr": {"Literal": {"Value": "'" + il_icon + " " + il_text + "'"}}},
+                "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},
+                "fontSize": {"expr": {"Literal": {"Value": "8D"}}},
+            }}],
+            "background": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+            "border": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+        },
+        "drillFilterOtherVisuals": False,
+    }
+    add(f"definition/pages/exec/visuals/insight_{il_idx}/visual.json", il_vis)
 
 # ===== LEFT NAV RAIL =====
 nav_vis = vis_container("nav_rail", 0, 0, 60, 720, 1)
