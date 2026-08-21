@@ -320,6 +320,143 @@ export class Visual implements IVisual {
                 .attr("font-family", "'Segoe UI', sans-serif")
                 .text(series.name.length > 12 ? series.name.substring(0, 12) + "…" : series.name);
         });
+
+        // ===== TOOLTIP OVERLAY =====
+        const tooltipLine = this.chartGroup.append("line")
+            .attr("class", "tooltip-line")
+            .attr("y1", 0)
+            .attr("y2", chartHeight)
+            .attr("stroke", "#475569")
+            .attr("stroke-width", 1)
+            .attr("stroke-dasharray", "4,2")
+            .style("opacity", 0)
+            .style("pointer-events", "none");
+
+        const tooltipGroup = this.chartGroup.append("g")
+            .attr("class", "tooltip-group")
+            .style("opacity", 0)
+            .style("pointer-events", "none");
+
+        const tooltipBg = tooltipGroup.append("rect")
+            .attr("rx", 4)
+            .attr("ry", 4)
+            .attr("fill", "#1e293b")
+            .attr("stroke", "#334155")
+            .attr("stroke-width", 1);
+
+        const tooltipTexts: d3.Selection<SVGTextElement, unknown, null, undefined>[] = [];
+        seriesData.forEach((series, i) => {
+            const t = tooltipGroup.append("text")
+                .attr("fill", series.color)
+                .attr("font-size", "10px")
+                .attr("font-family", "'Segoe UI', sans-serif");
+            tooltipTexts.push(t);
+        });
+
+        // Dots for each series at hover point
+        const tooltipDots = seriesData.map((series) => {
+            return this.chartGroup.append("circle")
+                .attr("r", 4)
+                .attr("fill", series.color)
+                .attr("stroke", "#fff")
+                .attr("stroke-width", 1.5)
+                .style("opacity", 0)
+                .style("pointer-events", "none");
+        });
+
+        // Invisible overlay to capture mouse events
+        const self = this;
+        this.chartGroup.append("rect")
+            .attr("width", chartWidth)
+            .attr("height", chartHeight)
+            .attr("fill", "transparent")
+            .style("cursor", "crosshair")
+            .on("mousemove", function(event: MouseEvent) {
+                const [mx] = d3.pointer(event, this);
+                // Find nearest category
+                const domain = xScale.domain();
+                let nearestIdx = 0;
+                let nearestDist = Infinity;
+                domain.forEach((cat, idx) => {
+                    const cx = xScale(cat) || 0;
+                    const dist = Math.abs(mx - cx);
+                    if (dist < nearestDist) {
+                        nearestDist = dist;
+                        nearestIdx = idx;
+                    }
+                });
+
+                const nearestCat = domain[nearestIdx];
+                const nearestX = xScale(nearestCat) || 0;
+
+                // Show vertical line
+                tooltipLine
+                    .attr("x1", nearestX)
+                    .attr("x2", nearestX)
+                    .style("opacity", 1);
+
+                // Update dots and tooltip text
+                let tooltipContent: string[] = [];
+                seriesData.forEach((series, si) => {
+                    const val = series.values[nearestIdx]?.value || 0;
+                    const cy = yScale(val);
+                    tooltipDots[si]
+                        .attr("cx", nearestX)
+                        .attr("cy", cy)
+                        .style("opacity", 1);
+                    tooltipContent.push(`${series.name}: ${self.formatYValue(val, currency)}`);
+                });
+
+                // Position tooltip box
+                const catLabel = self.formatCategory(nearestCat);
+                tooltipGroup.style("opacity", 1);
+
+                // Header line
+                let allText = catLabel + "\n" + tooltipContent.join("\n");
+                let lineHeight = 14;
+                let boxWidth = 130;
+                let boxHeight = (tooltipContent.length + 1) * lineHeight + 10;
+
+                // Position tooltip to the right of cursor, or left if near edge
+                let tipX = nearestX + 12;
+                if (tipX + boxWidth > chartWidth) {
+                    tipX = nearestX - boxWidth - 12;
+                }
+                let tipY = 20;
+
+                tooltipBg
+                    .attr("x", tipX)
+                    .attr("y", tipY)
+                    .attr("width", boxWidth)
+                    .attr("height", boxHeight);
+
+                // Clear and redraw text
+                tooltipGroup.selectAll("text").remove();
+                tooltipGroup.append("text")
+                    .attr("x", tipX + 8)
+                    .attr("y", tipY + 14)
+                    .attr("fill", "#e2e8f0")
+                    .attr("font-size", "9px")
+                    .attr("font-weight", "bold")
+                    .attr("font-family", "'Segoe UI', sans-serif")
+                    .text(catLabel);
+
+                seriesData.forEach((series, si) => {
+                    const val = series.values[nearestIdx]?.value || 0;
+                    tooltipGroup.append("text")
+                        .attr("x", tipX + 8)
+                        .attr("y", tipY + 14 + (si + 1) * lineHeight)
+                        .attr("fill", series.color)
+                        .attr("font-size", "9px")
+                        .attr("font-family", "'Segoe UI', sans-serif")
+                        .text(`${series.name}: ${self.formatYValue(val, currency)}`);
+                });
+            })
+            .on("mouseleave", function() {
+                tooltipLine.style("opacity", 0);
+                tooltipGroup.style("opacity", 0);
+                tooltipDots.forEach(d => d.style("opacity", 0));
+            });
     }
 
     public getFormattingModel(): powerbi.visuals.FormattingModel {
