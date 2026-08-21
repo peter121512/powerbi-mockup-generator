@@ -193,16 +193,22 @@ for i, (label, entity, prop) in enumerate(kpi_measures):
 hero_y = kpi_y + kpi_height + 15
 hero_vis = vis_container("hero_line", kpi_start_x, hero_y, 740, 280, 10)
 hero_vis["visual"] = {
-    "visualType": "lineChart",
+    "visualType": "areaChart",
     "query": {"queryState": {
         "Category": {"projections": [{
             "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Date"}}, "Property": "Month"}},
             "queryRef": "Date.Month", "nativeQueryRef": "Month",
         }]},
-        "Y": {"projections": [{
-            "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},
-            "queryRef": "Sales.TotalRevenue", "nativeQueryRef": "TotalRevenue",
-        }]},
+        "Y": {"projections": [
+            {
+                "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},
+                "queryRef": "Sales.TotalRevenue", "nativeQueryRef": "TotalRevenue",
+            },
+            {
+                "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "GrossProfit"}},
+                "queryRef": "Sales.GrossProfit", "nativeQueryRef": "GrossProfit",
+            },
+        ]},
     },
     },
     "objects": {
@@ -217,6 +223,11 @@ hero_vis["visual"] = {
         }}],
         "lineStyles": [{"properties": {
             "strokeWidth": {"expr": {"Literal": {"Value": "2D"}}},
+        }}],
+        "legend": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "showTitle": {"expr": {"Literal": {"Value": "false"}}},
+            "labelColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},
         }}],
     },
     "visualContainerObjects": {
@@ -329,11 +340,11 @@ add("definition/pages/exec/visuals/bar_stores/visual.json", bar_vis)
 bar2_x = kpi_start_x + 580 + 15
 bar2_vis = vis_container("bar_profit", bar2_x, bar_y, 600, 280, 13)
 bar2_vis["visual"] = {
-    "visualType": "barChart",
+    "visualType": "columnChart",
     "query": {"queryState": {
         "Category": {"projections": [{
-            "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Store"}}, "Property": "StoreName"}},
-            "queryRef": "Store.StoreName", "nativeQueryRef": "StoreName",
+            "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Region"}}, "Property": "RegionName"}},
+            "queryRef": "Region.RegionName", "nativeQueryRef": "RegionName",
         }]},
         "Y": {"projections": [{
             "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "GrossProfit"}},
@@ -347,7 +358,7 @@ bar2_vis["visual"] = {
     "visualContainerObjects": {
         "title": [{"properties": {
             "show": {"expr": {"Literal": {"Value": "true"}}},
-            "text": {"expr": {"Literal": {"Value": "'Gross Profit by Store'"}}},
+            "text": {"expr": {"Literal": {"Value": "'Gross Profit by Region'"}}},
             "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
             "fontSize": {"expr": {"Literal": {"Value": "11D"}}},
         }}],
