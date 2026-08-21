@@ -26,6 +26,7 @@ headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json
 # Executive Retail semantic model
 sm_id = "b731eda9-c402-42c4-ad27-f4641c7d6bcd"
 KPI_GUID = "premiumKPI0E21B11FE691418A84E3F774DD6461A5"
+AREA_GUID = "premiumAreaChart1A2B3C4D5E6F7A8B9C0D1E2F3A4B5C6D"
 DIAG_NAME = "ExecOverview_v1"
 evidence_dir = Path("docs/stages/07e-executive-custom-visual-demo")
 evidence_dir.mkdir(parents=True, exist_ok=True)
@@ -44,6 +45,13 @@ pbiviz_bytes = pbiviz_path.read_bytes()
 z = zipfile.ZipFile(io.BytesIO(pbiviz_bytes))
 pbiviz_json = z.read(f"resources/{KPI_GUID}.pbiviz.json")
 package_json_bytes = z.read("package.json")
+
+# Read Area Chart visual resources
+area_pbiviz_path = Path(f"custom-visuals/premiumAreaChart/dist/{AREA_GUID}.1.0.0.0.pbiviz")
+area_pbiviz_bytes = area_pbiviz_path.read_bytes()
+az = zipfile.ZipFile(io.BytesIO(area_pbiviz_bytes))
+area_pbiviz_json = az.read(f"resources/{AREA_GUID}.pbiviz.json")
+area_package_json_bytes = az.read("package.json")
 
 parts = []
 def add(path, obj):
@@ -86,6 +94,9 @@ add("definition/report.json", {
         ]},
         {"name": KPI_GUID, "type": "CustomVisual", "items": [
             {"name": f"{KPI_GUID}.pbiviz.json", "type": "CustomVisualMetadata", "path": f"{KPI_GUID}.pbiviz.json"},
+        ]},
+        {"name": AREA_GUID, "type": "CustomVisual", "items": [
+            {"name": f"{AREA_GUID}.pbiviz.json", "type": "CustomVisualMetadata", "path": f"{AREA_GUID}.pbiviz.json"},
         ]},
     ],
 })
@@ -150,7 +161,7 @@ kpi_measures = [
     ("Gross Margin", "Sales", "GrossMarginPct"),
 ]
 
-kpi_start_x = 50
+kpi_start_x = 80
 
 # Visual container helper
 def vis_container(name, x, y, w, h, z_idx):
@@ -161,9 +172,9 @@ def vis_container(name, x, y, w, h, z_idx):
     }
 
 # ===== KPI ROW (4 cards) =====
-kpi_width = 270
+kpi_width = 260
 kpi_height = 100
-kpi_gap = 18
+kpi_gap = 16
 kpi_y = 90
 
 # ===== PAGE TITLE (using actionTitle visual) =====
@@ -346,15 +357,15 @@ for i, (label, entity, prop) in enumerate(kpi_measures):
 
 # ===== HERO LINE CHART (Revenue over time) =====
 hero_y = kpi_y + kpi_height + 10
-hero_vis = vis_container("hero_line", kpi_start_x, hero_y, 740, 240, 10)
+hero_vis = vis_container("hero_line", kpi_start_x, hero_y, 700, 240, 10)
 hero_vis["visual"] = {
-    "visualType": "areaChart",
+    "visualType": AREA_GUID,
     "query": {"queryState": {
-        "Category": {"projections": [{
+        "category": {"projections": [{
             "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Date"}}, "Property": "Month"}},
             "queryRef": "Date.Month", "nativeQueryRef": "Month",
         }]},
-        "Y": {"projections": [
+        "values": {"projections": [
             {
                 "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},
                 "queryRef": "Sales.TotalRevenue", "nativeQueryRef": "TotalRevenue",
@@ -364,27 +375,7 @@ hero_vis["visual"] = {
                 "queryRef": "Sales.GrossProfit", "nativeQueryRef": "GrossProfit",
             },
         ]},
-    },
-    },
-    "objects": {
-        "categoryAxis": [{"properties": {
-            "showAxisTitle": {"expr": {"Literal": {"Value": "false"}}},
-            "labelColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},
-        }}],
-        "valueAxis": [{"properties": {
-            "showAxisTitle": {"expr": {"Literal": {"Value": "false"}}},
-            "labelColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#64748b'"}}}}},
-            "gridlineColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
-        }}],
-        "lineStyles": [{"properties": {
-            "strokeWidth": {"expr": {"Literal": {"Value": "2D"}}},
-        }}],
-        "legend": [{"properties": {
-            "show": {"expr": {"Literal": {"Value": "true"}}},
-            "showTitle": {"expr": {"Literal": {"Value": "false"}}},
-            "labelColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},
-        }}],
-    },
+    }},
     "visualContainerObjects": {
         "title": [{"properties": {
             "show": {"expr": {"Literal": {"Value": "true"}}},
@@ -392,14 +383,13 @@ hero_vis["visual"] = {
             "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
             "fontSize": {"expr": {"Literal": {"Value": "12D"}}},
         }}],
-        "background": [{"properties": {
-            "show": {"expr": {"Literal": {"Value": "true"}}},
-            "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#151d2e'"}}}}},
-            "transparency": {"expr": {"Literal": {"Value": "0D"}}},
-        }}],
-        "border": [{"properties": {
-            "show": {"expr": {"Literal": {"Value": "true"}}},
-            "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
+        "background": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+        "border": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+        "padding": [{"properties": {
+            "top": {"expr": {"Literal": {"Value": "0D"}}},
+            "bottom": {"expr": {"Literal": {"Value": "0D"}}},
+            "left": {"expr": {"Literal": {"Value": "0D"}}},
+            "right": {"expr": {"Literal": {"Value": "0D"}}},
         }}],
     },
     "drillFilterOtherVisuals": True,
@@ -407,8 +397,8 @@ hero_vis["visual"] = {
 add("definition/pages/exec/visuals/hero_line/visual.json", hero_vis)
 
 # ===== DONUT CHART (Revenue by Region) =====
-donut_x = kpi_start_x + 740 + 15
-donut_vis = vis_container("donut_region", donut_x, hero_y, 440, 240, 11)
+donut_x = kpi_start_x + 700 + 15
+donut_vis = vis_container("donut_region", donut_x, hero_y, 420, 240, 11)
 donut_vis["visual"] = {
     "visualType": "donutChart",
     "query": {"queryState": {
@@ -453,7 +443,7 @@ add("definition/pages/exec/visuals/donut_region/visual.json", donut_vis)
 
 # ===== BAR CHART (Revenue by Store) - bottom row =====
 bar_y = hero_y + 240 + 10
-bar_vis = vis_container("bar_stores", kpi_start_x, bar_y, 580, 240, 12)
+bar_vis = vis_container("bar_stores", kpi_start_x, bar_y, 555, 240, 12)
 bar_vis["visual"] = {
     "visualType": "barChart",
     "query": {"queryState": {
@@ -492,8 +482,8 @@ bar_vis["visual"] = {
 add("definition/pages/exec/visuals/bar_stores/visual.json", bar_vis)
 
 # ===== SECOND BOTTOM PANEL (Gross Profit by Store) =====
-bar2_x = kpi_start_x + 580 + 15
-bar2_vis = vis_container("bar_profit", bar2_x, bar_y, 600, 240, 13)
+bar2_x = kpi_start_x + 555 + 15
+bar2_vis = vis_container("bar_profit", bar2_x, bar_y, 560, 240, 13)
 bar2_vis["visual"] = {
     "visualType": "columnChart",
     "query": {"queryState": {
@@ -501,19 +491,26 @@ bar2_vis["visual"] = {
             "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Region"}}, "Property": "RegionName"}},
             "queryRef": "Region.RegionName", "nativeQueryRef": "RegionName",
         }]},
-        "Y": {"projections": [{
-            "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "GrossProfit"}},
-            "queryRef": "Sales.GrossProfit", "nativeQueryRef": "GrossProfit",
-        }]},
+        "Y": {"projections": [
+            {
+                "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "GrossProfit"}},
+                "queryRef": "Sales.GrossProfit", "nativeQueryRef": "GrossProfit",
+            },
+            {
+                "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalCost"}},
+                "queryRef": "Sales.TotalCost", "nativeQueryRef": "TotalCost",
+            },
+        ]},
     }},
     "objects": {
+        "legend": [{"properties": {"show": {"expr": {"Literal": {"Value": "true"}}}, "showTitle": {"expr": {"Literal": {"Value": "false"}}}, "labelColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},}}],
         "categoryAxis": [{"properties": {"showAxisTitle": {"expr": {"Literal": {"Value": "false"}}}, "labelColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},}}],
         "valueAxis": [{"properties": {"showAxisTitle": {"expr": {"Literal": {"Value": "false"}}}, "labelColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#64748b'"}}}}}, "gridlineColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},}}],
     },
     "visualContainerObjects": {
         "title": [{"properties": {
             "show": {"expr": {"Literal": {"Value": "true"}}},
-            "text": {"expr": {"Literal": {"Value": "'Gross Profit by Region'"}}},
+            "text": {"expr": {"Literal": {"Value": "'Profit vs Cost by Region'"}}},
             "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
             "fontSize": {"expr": {"Literal": {"Value": "11D"}}},
         }}],
@@ -531,9 +528,58 @@ bar2_vis["visual"] = {
 }
 add("definition/pages/exec/visuals/bar_profit/visual.json", bar2_vis)
 
+# ===== LEFT NAV RAIL =====
+nav_vis = vis_container("nav_rail", 0, 0, 60, 720, 1)
+nav_vis["visual"] = {
+    "visualType": "textbox",
+    "objects": {
+        "general": [{"properties": {
+            "paragraphs": {"expr": {"Literal": {"Value": "[{\"textRuns\":[{\"value\":\" \",\"textStyle\":{}}]}]"}}},
+        }}],
+    },
+    "visualContainerObjects": {
+        "title": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+        "background": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#060a10'"}}}}},
+            "transparency": {"expr": {"Literal": {"Value": "0D"}}},
+        }}],
+        "border": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
+        }}],
+    },
+    "drillFilterOtherVisuals": False,
+}
+add("definition/pages/exec/visuals/nav_rail/visual.json", nav_vis)
+
+# Active indicator line on nav rail
+nav_indicator = vis_container("nav_indicator", 0, 80, 4, 50, 3)
+nav_indicator["visual"] = {
+    "visualType": "textbox",
+    "objects": {
+        "general": [{"properties": {
+            "paragraphs": {"expr": {"Literal": {"Value": "[{\"textRuns\":[{\"value\":\" \",\"textStyle\":{}}]}]"}}},
+        }}],
+    },
+    "visualContainerObjects": {
+        "title": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+        "background": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#3898ff'"}}}}},
+            "transparency": {"expr": {"Literal": {"Value": "0D"}}},
+        }}],
+        "border": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+    },
+    "drillFilterOtherVisuals": False,
+}
+add("definition/pages/exec/visuals/nav_indicator/visual.json", nav_indicator)
+
 # Custom visual resources
 add_bin(f"CustomVisuals/{KPI_GUID}/package.json", package_json_bytes)
 add_bin(f"CustomVisuals/{KPI_GUID}/resources/{KPI_GUID}.pbiviz.json", pbiviz_json)
+add_bin(f"CustomVisuals/{AREA_GUID}/package.json", area_package_json_bytes)
+add_bin(f"CustomVisuals/{AREA_GUID}/resources/{AREA_GUID}.pbiviz.json", area_pbiviz_json)
 
 # Deploy
 print(f"Creating: {DIAG_NAME}")

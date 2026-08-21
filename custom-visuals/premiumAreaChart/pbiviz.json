@@ -1,0 +1,26 @@
+{
+    "visual": {
+        "name": "premiumAreaChart1A2B3C4D5E6F7A8B9C0D1E2F3A4B5C6D",
+        "displayName": "Premium Area Chart",
+        "guid": "premiumAreaChart1A2B3C4D5E6F7A8B9C0D1E2F3A4B5C6D",
+        "visualClassName": "Visual",
+        "version": "1.0.0.0",
+        "description": "Premium dark-theme area chart with smooth gradient fills and executive styling",
+        "supportUrl": "https://github.com/peter121512/powerbi-mockup-generator",
+        "gitHubUrl": "https://github.com/peter121512/powerbi-mockup-generator"
+    },
+    "apiVersion": "5.3.0",
+    "author": {
+        "name": "PBI Gen",
+        "email": "dev@pbigen.local"
+    },
+    "assets": {
+        "icon": "assets/icon.png"
+    },
+    "externalJS": null,
+    "style": "style/visual.less",
+    "capabilities": "capabilities.json",
+    "dependencies": null,
+    "stringResources": [],
+    "version": "1.0.0.0"
+}
