@@ -457,10 +457,10 @@ donut_vis["visual"] = {
 }
 add("definition/pages/exec/visuals/donut_region/visual.json", donut_vis)
 
-# Center KPI label for donut
-donut_center_x = donut_x + 80  # offset left to center on donut ring (not legend)
-donut_center_y = hero_y + 95  # vertical center of donut
-donut_kpi = vis_container("donut_kpi", donut_center_x, donut_center_y, 120, 50, 20)
+# Center KPI label for donut - centered on the donut ring
+donut_center_x = donut_x + 95  # center horizontally on donut ring
+donut_center_y = hero_y + 100  # vertical center of donut ring
+donut_kpi = vis_container("donut_kpi", donut_center_x, donut_center_y, 100, 45, 20)
 donut_kpi["visual"] = {
     "visualType": "cardVisual",
     "query": {"queryState": {"Values": {"projections": [{
@@ -613,8 +613,8 @@ insight_lines = [
     ("🚀", "Product innovation pipeline contributing to sustained growth"),
 ]
 for il_idx, (il_icon, il_text) in enumerate(insight_lines):
-    il_y = bar_y + 32 + il_idx * 50
-    il_vis = vis_container(f"insight_{il_idx}", insights_x + 8, il_y, panel3_width - 16, 46, 15 + il_idx)
+    il_y = bar_y + 34 + il_idx * 48
+    il_vis = vis_container(f"insight_{il_idx}", insights_x + 10, il_y, panel3_width - 20, 44, 15 + il_idx)
     il_vis["visual"] = {
         "visualType": "cardVisual",
         "query": {"queryState": {"Values": {"projections": [{
@@ -625,11 +625,24 @@ for il_idx, (il_icon, il_text) in enumerate(insight_lines):
             "title": [{"properties": {
                 "show": {"expr": {"Literal": {"Value": "true"}}},
                 "text": {"expr": {"Literal": {"Value": "'" + il_icon + " " + il_text + "'"}}},
-                "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},
+                "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#cbd5e1'"}}}}},
                 "fontSize": {"expr": {"Literal": {"Value": "8D"}}},
             }}],
-            "background": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
-            "border": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+            "background": [{"properties": {
+                "show": {"expr": {"Literal": {"Value": "true"}}},
+                "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
+                "transparency": {"expr": {"Literal": {"Value": "0D"}}},
+            }}],
+            "border": [{"properties": {
+                "show": {"expr": {"Literal": {"Value": "true"}}},
+                "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#334155'"}}}}},
+            }}],
+            "padding": [{"properties": {
+                "top": {"expr": {"Literal": {"Value": "4D"}}},
+                "bottom": {"expr": {"Literal": {"Value": "4D"}}},
+                "left": {"expr": {"Literal": {"Value": "6D"}}},
+                "right": {"expr": {"Literal": {"Value": "6D"}}},
+            }}],
         },
         "drillFilterOtherVisuals": False,
     }

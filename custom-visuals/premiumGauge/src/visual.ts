@@ -143,11 +143,11 @@ export class Visual implements IVisual {
 
             // Responsive scaling
             const scale = Math.min(width / 240, height / 300);
-            const fontSize = Math.max(12, 36 * scale);
+            const fontSize = Math.max(14, 42 * scale);
             const labelFontSize = Math.max(9, 14 * scale);
             const markerFontSize = Math.max(8, 11 * scale);
-            const subMetricFontSize = Math.max(9, 12 * scale);
-            const arcStrokeWidth = Math.max(6, 14 * scale);
+            const subMetricFontSize = Math.max(9, 11 * scale);
+            const arcStrokeWidth = Math.max(8, 18 * scale);
 
             // Card background
             this.cardRect
@@ -156,10 +156,10 @@ export class Visual implements IVisual {
                 .attr("width", width)
                 .attr("height", height);
 
-            // Arc geometry
+            // Arc geometry — larger arc, positioned higher
             const arcCenterX = width / 2;
-            const arcRadius = Math.min(width * 0.35, height * 0.22);
-            const arcCenterY = height * 0.35;
+            const arcRadius = Math.min(width * 0.38, height * 0.28);
+            const arcCenterY = height * 0.38;
 
             const startAngle = -Math.PI;
             const endAngle = 0;
@@ -221,7 +221,8 @@ export class Visual implements IVisual {
             const subMetricPadX = width * 0.05;
             const boxWidth = (width - subMetricPadX * 2 - 10 * (this.subMetrics.length - 1)) / this.subMetrics.length;
             const boxHeight = Math.max(36, height * 0.18);
-            const boxY = subMetricStartY - subMetricFontSize;
+            // Position boxes at bottom of visual
+            const boxY = height - boxHeight - 10;
 
             this.subMetricGroup.selectAll("*").remove();
 
