@@ -114,6 +114,20 @@ export class Visual implements IVisual {
         return "£";
     }
 
+    private readonly MONTH_ABBR: string[] = [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+
+    private formatCategory(value: string): string {
+        // If it's a numeric month (1-12), convert to 3-letter abbreviation
+        const num = parseInt(value, 10);
+        if (!isNaN(num) && num >= 1 && num <= 12) {
+            return this.MONTH_ABBR[num - 1];
+        }
+        return value;
+    }
+
     private formatYValue(value: number, currency: string): string {
         const abs = Math.abs(value);
         if (abs >= 1_000_000_000) {
@@ -265,7 +279,7 @@ export class Visual implements IVisual {
             .attr("fill", AXIS_COLOR)
             .attr("font-size", "10px")
             .attr("font-family", "'Segoe UI', sans-serif")
-            .text(d => d);
+            .text(d => this.formatCategory(d));
 
         // Y-axis labels
         const yAxisGroup = this.chartGroup.append("g");
