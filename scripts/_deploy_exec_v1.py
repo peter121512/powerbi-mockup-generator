@@ -167,7 +167,7 @@ kpi_gap = 18
 kpi_y = 55
 
 # ===== PAGE TITLE (using actionTitle visual) =====
-title_vis = vis_container("pagetitle", kpi_start_x, 10, 350, 38, 99)
+title_vis = vis_container("pagetitle", kpi_start_x, 6, 450, 45, 99)
 title_vis["visual"] = {
     "visualType": "cardVisual",
     "query": {"queryState": {"Values": {"projections": [{
@@ -179,21 +179,24 @@ title_vis["visual"] = {
             "show": {"expr": {"Literal": {"Value": "true"}}},
             "text": {"expr": {"Literal": {"Value": "'Executive Overview'"}}},
             "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#ffffff'"}}}}},
-            "fontSize": {"expr": {"Literal": {"Value": "16D"}}},
+            "fontSize": {"expr": {"Literal": {"Value": "20D"}}},
             "bold": {"expr": {"Literal": {"Value": "true"}}},
+        }}],
+        "subTitle": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "text": {"expr": {"Literal": {"Value": "'Performance, Trends and Opportunities'"}}},
+            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#64748b'"}}}}},
+            "fontSize": {"expr": {"Literal": {"Value": "10D"}}},
         }}],
         "background": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
         "border": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
     },
     "drillFilterOtherVisuals": True,
 }
-# Actually skip the card - just use a slicer with title instead. Let me use a shape.
-# Better: use the visual container title ON a hidden/tiny visual as the page title hack
-# Simplest: just add slicers and accept no title for now — slicers are more impactful
 
 # ===== FILTERS (right-aligned slicers) =====
-# Region slicer
-slicer1 = vis_container("slicer_region", 850, 10, 180, 38, 97)
+# Region slicer - styled to look like Mockup 1 filter pills
+slicer1 = vis_container("slicer_region", 780, 10, 220, 42, 97)
 slicer1["visual"] = {
     "visualType": "slicer",
     "query": {"queryState": {"Values": {"projections": [{
@@ -202,12 +205,31 @@ slicer1["visual"] = {
     }]}}},
     "objects": {
         "data": [{"properties": {"mode": {"expr": {"Literal": {"Value": "'Dropdown'"}}}}}],
+        "general": [{"properties": {
+            "outlineColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#334155'"}}}}},
+            "outlineWeight": {"expr": {"Literal": {"Value": "1D"}}},
+        }}],
+        "items": [{"properties": {
+            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
+            "background": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
+            "textSize": {"expr": {"Literal": {"Value": "10D"}}},
+        }}],
+        "dropdown": [{"properties": {
+            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
+            "background": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
+        }}],
+        "header": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
+            "textSize": {"expr": {"Literal": {"Value": "10D"}}},
+            "background": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
+        }}],
     },
     "visualContainerObjects": {
         "title": [{"properties": {
             "show": {"expr": {"Literal": {"Value": "true"}}},
-            "text": {"expr": {"Literal": {"Value": "'Region'"}}},
-            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},
+            "text": {"expr": {"Literal": {"Value": "'📍 Region'"}}},
+            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
             "fontSize": {"expr": {"Literal": {"Value": "9D"}}},
         }}],
         "background": [{"properties": {
@@ -217,7 +239,13 @@ slicer1["visual"] = {
         }}],
         "border": [{"properties": {
             "show": {"expr": {"Literal": {"Value": "true"}}},
-            "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#334155'"}}}}},
+            "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#475569'"}}}}},
+        }}],
+        "padding": [{"properties": {
+            "top": {"expr": {"Literal": {"Value": "2D"}}},
+            "bottom": {"expr": {"Literal": {"Value": "2D"}}},
+            "left": {"expr": {"Literal": {"Value": "4D"}}},
+            "right": {"expr": {"Literal": {"Value": "4D"}}},
         }}],
     },
     "drillFilterOtherVisuals": True,
@@ -225,7 +253,7 @@ slicer1["visual"] = {
 add("definition/pages/exec/visuals/slicer_region/visual.json", slicer1)
 
 # Year slicer
-slicer2 = vis_container("slicer_year", 1045, 10, 180, 38, 98)
+slicer2 = vis_container("slicer_year", 1015, 10, 210, 42, 98)
 slicer2["visual"] = {
     "visualType": "slicer",
     "query": {"queryState": {"Values": {"projections": [{
@@ -234,12 +262,31 @@ slicer2["visual"] = {
     }]}}},
     "objects": {
         "data": [{"properties": {"mode": {"expr": {"Literal": {"Value": "'Dropdown'"}}}}}],
+        "general": [{"properties": {
+            "outlineColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#334155'"}}}}},
+            "outlineWeight": {"expr": {"Literal": {"Value": "1D"}}},
+        }}],
+        "items": [{"properties": {
+            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
+            "background": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
+            "textSize": {"expr": {"Literal": {"Value": "10D"}}},
+        }}],
+        "dropdown": [{"properties": {
+            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
+            "background": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
+        }}],
+        "header": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
+            "textSize": {"expr": {"Literal": {"Value": "10D"}}},
+            "background": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
+        }}],
     },
     "visualContainerObjects": {
         "title": [{"properties": {
             "show": {"expr": {"Literal": {"Value": "true"}}},
-            "text": {"expr": {"Literal": {"Value": "'Year'"}}},
-            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},
+            "text": {"expr": {"Literal": {"Value": "'📅 Year'"}}},
+            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
             "fontSize": {"expr": {"Literal": {"Value": "9D"}}},
         }}],
         "background": [{"properties": {
@@ -249,7 +296,13 @@ slicer2["visual"] = {
         }}],
         "border": [{"properties": {
             "show": {"expr": {"Literal": {"Value": "true"}}},
-            "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#334155'"}}}}},
+            "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#475569'"}}}}},
+        }}],
+        "padding": [{"properties": {
+            "top": {"expr": {"Literal": {"Value": "2D"}}},
+            "bottom": {"expr": {"Literal": {"Value": "2D"}}},
+            "left": {"expr": {"Literal": {"Value": "4D"}}},
+            "right": {"expr": {"Literal": {"Value": "4D"}}},
         }}],
     },
     "drillFilterOtherVisuals": True,
