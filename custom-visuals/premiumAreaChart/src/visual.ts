@@ -1,9 +1,10 @@
 /*
  * Premium Area Chart — Executive dark-theme area chart
  * Smooth gradient fills, subtle glow effects, and premium styling.
+ * Includes internal Monthly/Quarterly/Annual toggle buttons.
  *
  * Data roles:
- *   category — x-axis dimension (e.g. month numbers)
+ *   category — x-axis dimension (e.g. month numbers 1-12)
  *   values   — up to 3 measures plotted as area series
  */
 "use strict";
@@ -16,7 +17,6 @@ import VisualConstructorOptions = powerbi.extensibility.visual.VisualConstructor
 import VisualUpdateOptions = powerbi.extensibility.visual.VisualUpdateOptions;
 import IVisual = powerbi.extensibility.visual.IVisual;
 import IVisualEventService = powerbi.extensibility.IVisualEventService;
-import DataView = powerbi.DataView;
 
 interface SeriesData {
     name: string;
@@ -24,11 +24,16 @@ interface SeriesData {
     values: { category: string; value: number }[];
 }
 
+type Granularity = "Monthly" | "Quarterly" | "Annual";
+
 const SERIES_COLORS = ["#3898ff", "#a78bfa", "#34d399"];
 const BG_COLOR = "#151d2e";
 const BORDER_COLOR = "#1e293b";
 const AXIS_COLOR = "#94a3b8";
 const GRID_COLOR = "#1e293b";
+const ACTIVE_BTN = "#3898ff";
+const INACTIVE_BTN = "#1e293b";
+const INACTIVE_BORDER = "#334155";
 
 export class Visual implements IVisual {
     private events: IVisualEventService;
@@ -37,6 +42,10 @@ export class Visual implements IVisual {
     private defs: d3.Selection<SVGDefsElement, unknown, null, undefined>;
     private chartGroup: d3.Selection<SVGGElement, unknown, null, undefined>;
     private legendGroup: d3.Selection<SVGGElement, unknown, null, undefined>;
+    private toggleGroup: d3.Selection<SVGGElement, unknown, null, undefined>;
+
+    private currentGranularity: Granularity = "Monthly";
+    private lastOptions: VisualUpdateOptions | null = null;
 
     constructor(options: VisualConstructorOptions) {
         this.events = options.host.eventService;
@@ -56,12 +65,14 @@ export class Visual implements IVisual {
             .style("height", "100%");
 
         this.defs = this.svg.append("defs");
+        this.toggleGroup = this.svg.append("g").attr("class", "toggle");
         this.legendGroup = this.svg.append("g").attr("class", "legend");
         this.chartGroup = this.svg.append("g").attr("class", "chart");
     }
 
     public update(options: VisualUpdateOptions) {
         this.events.renderingStarted(options);
+        this.lastOptions = options;
 
         try {
             const width = options.viewport.width;
@@ -73,13 +84,14 @@ export class Visual implements IVisual {
             if (!dv || !dv.categorical || !dv.categorical.categories || !dv.categorical.values) {
                 this.chartGroup.selectAll("*").remove();
                 this.legendGroup.selectAll("*").remove();
+                this.toggleGroup.selectAll("*").remove();
                 this.events.renderingFinished(options);
                 return;
             }
 
             const categorical = dv.categorical;
             const categories = categorical.categories[0].values.map(v => String(v));
-            const seriesDataArr: SeriesData[] = [];
+            const rawSeries: SeriesData[] = [];
 
             const numSeries = Math.min(categorical.values.length, 3);
             for (let i = 0; i < numSeries; i++) {
@@ -88,21 +100,127 @@ export class Visual implements IVisual {
                     category: categories[idx],
                     value: Number(v) || 0
                 }));
-                seriesDataArr.push({
+                rawSeries.push({
                     name: valueColumn.source.displayName || `Series ${i + 1}`,
                     color: SERIES_COLORS[i],
                     values: seriesValues
                 });
             }
 
-            // Detect currency from format string
+            // Aggregate based on current granularity
+            const aggregatedSeries = this.aggregateData(rawSeries, this.currentGranularity);
+            const aggregatedCategories = aggregatedSeries.length > 0
+                ? aggregatedSeries[0].values.map(v => v.category)
+                : [];
+
+            // Detect currency
             const currency = this.detectCurrency(categorical.values[0]?.source?.format);
 
-            this.render(width, height, categories, seriesDataArr, currency);
+            // Render toggle buttons
+            this.renderToggle(width);
+
+            // Render chart
+            this.render(width, height, aggregatedCategories, aggregatedSeries, currency);
             this.events.renderingFinished(options);
         } catch (error) {
             this.events.renderingFailed(options, String(error));
         }
+    }
+
+    private aggregateData(rawSeries: SeriesData[], granularity: Granularity): SeriesData[] {
+        if (granularity === "Monthly") {
+            return rawSeries; // No aggregation needed
+        }
+
+        return rawSeries.map(series => {
+            const grouped = new Map<string, number>();
+
+            series.values.forEach(point => {
+                const monthNum = parseInt(point.category, 10);
+                let key: string;
+
+                if (granularity === "Quarterly") {
+                    if (!isNaN(monthNum) && monthNum >= 1 && monthNum <= 12) {
+                        const quarter = Math.ceil(monthNum / 3);
+                        key = `Q${quarter}`;
+                    } else {
+                        key = point.category;
+                    }
+                } else {
+                    // Annual — sum everything into one point
+                    key = "Total";
+                }
+
+                grouped.set(key, (grouped.get(key) || 0) + point.value);
+            });
+
+            const values: { category: string; value: number }[] = [];
+            grouped.forEach((value, category) => {
+                values.push({ category, value });
+            });
+
+            // Sort quarters
+            if (granularity === "Quarterly") {
+                values.sort((a, b) => {
+                    const qa = parseInt(a.category.replace("Q", ""), 10);
+                    const qb = parseInt(b.category.replace("Q", ""), 10);
+                    return qa - qb;
+                });
+            }
+
+            return { name: series.name, color: series.color, values };
+        });
+    }
+
+    private renderToggle(width: number): void {
+        this.toggleGroup.selectAll("*").remove();
+
+        const labels: Granularity[] = ["Monthly", "Quarterly", "Annual"];
+        const btnWidth = 68;
+        const btnHeight = 22;
+        const btnGap = 4;
+        const totalWidth = labels.length * btnWidth + (labels.length - 1) * btnGap;
+        const startX = width - totalWidth - 16;
+        const startY = 8;
+
+        labels.forEach((label, i) => {
+            const x = startX + i * (btnWidth + btnGap);
+            const isActive = label === this.currentGranularity;
+
+            const g = this.toggleGroup.append("g")
+                .attr("class", "toggle-btn")
+                .style("cursor", "pointer")
+                .on("click", () => {
+                    this.currentGranularity = label;
+                    if (this.lastOptions) {
+                        this.update(this.lastOptions);
+                    }
+                });
+
+            // Button background
+            g.append("rect")
+                .attr("x", x)
+                .attr("y", startY)
+                .attr("width", btnWidth)
+                .attr("height", btnHeight)
+                .attr("rx", 4)
+                .attr("ry", 4)
+                .attr("fill", isActive ? ACTIVE_BTN : INACTIVE_BTN)
+                .attr("stroke", isActive ? ACTIVE_BTN : INACTIVE_BORDER)
+                .attr("stroke-width", 1);
+
+            // Button text
+            g.append("text")
+                .attr("x", x + btnWidth / 2)
+                .attr("y", startY + btnHeight / 2)
+                .attr("text-anchor", "middle")
+                .attr("dominant-baseline", "central")
+                .attr("fill", isActive ? "#ffffff" : AXIS_COLOR)
+                .attr("font-size", "9px")
+                .attr("font-weight", "600")
+                .attr("font-family", "'Segoe UI', sans-serif")
+                .text(label);
+        });
     }
 
     private detectCurrency(format: string | undefined): string {
@@ -120,9 +238,8 @@ export class Visual implements IVisual {
     ];
 
     private formatCategory(value: string): string {
-        // If it's a numeric month (1-12), convert to 3-letter abbreviation
         const num = parseInt(value, 10);
-        if (!isNaN(num) && num >= 1 && num <= 12) {
+        if (!isNaN(num) && num >= 1 && num <= 12 && this.currentGranularity === "Monthly") {
             return this.MONTH_ABBR[num - 1];
         }
         return value;
@@ -150,18 +267,11 @@ export class Visual implements IVisual {
         seriesData: SeriesData[],
         currency: string
     ): void {
-        // Clear previous
         this.chartGroup.selectAll("*").remove();
         this.legendGroup.selectAll("*").remove();
         this.defs.selectAll("*").remove();
 
-        // Margins
-        const margin = {
-            top: 36,
-            right: 16,
-            bottom: 32,
-            left: 56
-        };
+        const margin = { top: 42, right: 16, bottom: 32, left: 56 };
         const chartWidth = width - margin.left - margin.right;
         const chartHeight = height - margin.top - margin.bottom;
 
@@ -187,59 +297,43 @@ export class Visual implements IVisual {
         // SVG glow filter
         const filter = this.defs.append("filter")
             .attr("id", "glow")
-            .attr("x", "-20%")
-            .attr("y", "-20%")
-            .attr("width", "140%")
-            .attr("height", "140%");
-        filter.append("feGaussianBlur")
-            .attr("stdDeviation", "3")
-            .attr("result", "coloredBlur");
+            .attr("x", "-20%").attr("y", "-20%")
+            .attr("width", "140%").attr("height", "140%");
+        filter.append("feGaussianBlur").attr("stdDeviation", "3").attr("result", "coloredBlur");
         const feMerge = filter.append("feMerge");
         feMerge.append("feMergeNode").attr("in", "coloredBlur");
         feMerge.append("feMergeNode").attr("in", "SourceGraphic");
 
-        // Gridlines (horizontal, dashed)
+        // Gridlines
         const yTicks = yScale.ticks(5);
         this.chartGroup.selectAll(".grid-line")
-            .data(yTicks)
-            .enter()
+            .data(yTicks).enter()
             .append("line")
-            .attr("class", "grid-line")
-            .attr("x1", 0)
-            .attr("x2", chartWidth)
-            .attr("y1", d => yScale(d))
-            .attr("y2", d => yScale(d))
+            .attr("x1", 0).attr("x2", chartWidth)
+            .attr("y1", d => yScale(d)).attr("y2", d => yScale(d))
             .attr("stroke", GRID_COLOR)
             .attr("stroke-dasharray", "4,4")
             .attr("stroke-width", 1);
 
-        // Gradient definitions for each series
+        // Gradients
         seriesData.forEach((series, i) => {
-            const gradId = `area-gradient-${i}`;
             const gradient = this.defs.append("linearGradient")
-                .attr("id", gradId)
-                .attr("x1", "0%")
-                .attr("y1", "0%")
-                .attr("x2", "0%")
-                .attr("y2", "100%");
-            gradient.append("stop")
-                .attr("offset", "0%")
-                .attr("stop-color", series.color)
-                .attr("stop-opacity", 0.4);
-            gradient.append("stop")
-                .attr("offset", "100%")
-                .attr("stop-color", series.color)
-                .attr("stop-opacity", 0);
+                .attr("id", `area-gradient-${i}`)
+                .attr("x1", "0%").attr("y1", "0%")
+                .attr("x2", "0%").attr("y2", "100%");
+            gradient.append("stop").attr("offset", "0%")
+                .attr("stop-color", series.color).attr("stop-opacity", 0.4);
+            gradient.append("stop").attr("offset", "100%")
+                .attr("stop-color", series.color).attr("stop-opacity", 0);
         });
 
-        // Area generator
+        // Generators
         const areaGen = d3.area<{ category: string; value: number }>()
             .x(d => xScale(d.category) || 0)
             .y0(chartHeight)
             .y1(d => yScale(d.value))
             .curve(d3.curveMonotoneX);
 
-        // Line generator
         const lineGen = d3.line<{ category: string; value: number }>()
             .x(d => xScale(d.category) || 0)
             .y(d => yScale(d.value))
@@ -247,14 +341,12 @@ export class Visual implements IVisual {
 
         // Draw areas and lines
         seriesData.forEach((series, i) => {
-            // Area fill
             this.chartGroup.append("path")
                 .datum(series.values)
                 .attr("d", areaGen)
                 .attr("fill", `url(#area-gradient-${i})`)
                 .attr("stroke", "none");
 
-            // Line with glow
             this.chartGroup.append("path")
                 .datum(series.values)
                 .attr("d", lineGen)
@@ -265,14 +357,11 @@ export class Visual implements IVisual {
         });
 
         // X-axis labels
-        const xAxisGroup = this.chartGroup.append("g")
-            .attr("transform", `translate(0,${chartHeight})`);
-
-        xAxisGroup.selectAll(".x-label")
-            .data(categories)
-            .enter()
+        this.chartGroup.append("g")
+            .attr("transform", `translate(0,${chartHeight})`)
+            .selectAll(".x-label")
+            .data(categories).enter()
             .append("text")
-            .attr("class", "x-label")
             .attr("x", d => xScale(d) || 0)
             .attr("y", 18)
             .attr("text-anchor", "middle")
@@ -282,13 +371,10 @@ export class Visual implements IVisual {
             .text(d => this.formatCategory(d));
 
         // Y-axis labels
-        const yAxisGroup = this.chartGroup.append("g");
-
-        yAxisGroup.selectAll(".y-label")
-            .data(yTicks)
-            .enter()
+        this.chartGroup.append("g")
+            .selectAll(".y-label")
+            .data(yTicks).enter()
             .append("text")
-            .attr("class", "y-label")
             .attr("x", -8)
             .attr("y", d => yScale(d))
             .attr("text-anchor", "end")
@@ -298,159 +384,93 @@ export class Visual implements IVisual {
             .attr("font-family", "'Segoe UI', sans-serif")
             .text(d => this.formatYValue(d, currency));
 
-        // Legend at top-left
-        this.legendGroup.attr("transform", `translate(${margin.left}, 12)`);
-
+        // Legend
+        this.legendGroup.attr("transform", `translate(${margin.left}, 14)`);
         seriesData.forEach((series, i) => {
             const legendItem = this.legendGroup.append("g")
-                .attr("transform", `translate(${i * 110}, 0)`);
-
+                .attr("transform", `translate(${i * 120}, 0)`);
             legendItem.append("circle")
-                .attr("cx", 5)
-                .attr("cy", 5)
-                .attr("r", 4)
+                .attr("cx", 5).attr("cy", 5).attr("r", 4)
                 .attr("fill", series.color);
-
             legendItem.append("text")
-                .attr("x", 14)
-                .attr("y", 5)
+                .attr("x", 14).attr("y", 5)
                 .attr("dominant-baseline", "middle")
                 .attr("fill", AXIS_COLOR)
                 .attr("font-size", "10px")
                 .attr("font-family", "'Segoe UI', sans-serif")
-                .text(series.name.length > 12 ? series.name.substring(0, 12) + "…" : series.name);
+                .text(series.name.length > 14 ? series.name.substring(0, 14) + "…" : series.name);
         });
 
-        // ===== TOOLTIP OVERLAY =====
+        // ===== TOOLTIP =====
         const tooltipLine = this.chartGroup.append("line")
-            .attr("class", "tooltip-line")
-            .attr("y1", 0)
-            .attr("y2", chartHeight)
-            .attr("stroke", "#475569")
-            .attr("stroke-width", 1)
+            .attr("y1", 0).attr("y2", chartHeight)
+            .attr("stroke", "#475569").attr("stroke-width", 1)
             .attr("stroke-dasharray", "4,2")
-            .style("opacity", 0)
-            .style("pointer-events", "none");
+            .style("opacity", 0).style("pointer-events", "none");
 
         const tooltipGroup = this.chartGroup.append("g")
-            .attr("class", "tooltip-group")
-            .style("opacity", 0)
-            .style("pointer-events", "none");
+            .style("opacity", 0).style("pointer-events", "none");
 
         const tooltipBg = tooltipGroup.append("rect")
-            .attr("rx", 4)
-            .attr("ry", 4)
-            .attr("fill", "#1e293b")
-            .attr("stroke", "#334155")
-            .attr("stroke-width", 1);
+            .attr("rx", 4).attr("ry", 4)
+            .attr("fill", "#1e293b").attr("stroke", "#334155").attr("stroke-width", 1);
 
-        const tooltipTexts: d3.Selection<SVGTextElement, unknown, null, undefined>[] = [];
-        seriesData.forEach((series, i) => {
-            const t = tooltipGroup.append("text")
-                .attr("fill", series.color)
-                .attr("font-size", "10px")
-                .attr("font-family", "'Segoe UI', sans-serif");
-            tooltipTexts.push(t);
-        });
+        const tooltipDots = seriesData.map(series =>
+            this.chartGroup.append("circle")
+                .attr("r", 4).attr("fill", series.color)
+                .attr("stroke", "#fff").attr("stroke-width", 1.5)
+                .style("opacity", 0).style("pointer-events", "none")
+        );
 
-        // Dots for each series at hover point
-        const tooltipDots = seriesData.map((series) => {
-            return this.chartGroup.append("circle")
-                .attr("r", 4)
-                .attr("fill", series.color)
-                .attr("stroke", "#fff")
-                .attr("stroke-width", 1.5)
-                .style("opacity", 0)
-                .style("pointer-events", "none");
-        });
-
-        // Invisible overlay to capture mouse events
         const self = this;
         this.chartGroup.append("rect")
-            .attr("width", chartWidth)
-            .attr("height", chartHeight)
+            .attr("width", chartWidth).attr("height", chartHeight)
             .attr("fill", "transparent")
             .style("cursor", "crosshair")
             .on("mousemove", function(event: MouseEvent) {
                 const [mx] = d3.pointer(event, this);
-                // Find nearest category
                 const domain = xScale.domain();
                 let nearestIdx = 0;
                 let nearestDist = Infinity;
                 domain.forEach((cat, idx) => {
-                    const cx = xScale(cat) || 0;
-                    const dist = Math.abs(mx - cx);
-                    if (dist < nearestDist) {
-                        nearestDist = dist;
-                        nearestIdx = idx;
-                    }
+                    const dist = Math.abs(mx - (xScale(cat) || 0));
+                    if (dist < nearestDist) { nearestDist = dist; nearestIdx = idx; }
                 });
 
                 const nearestCat = domain[nearestIdx];
                 const nearestX = xScale(nearestCat) || 0;
 
-                // Show vertical line
-                tooltipLine
-                    .attr("x1", nearestX)
-                    .attr("x2", nearestX)
-                    .style("opacity", 1);
+                tooltipLine.attr("x1", nearestX).attr("x2", nearestX).style("opacity", 1);
 
-                // Update dots and tooltip text
-                let tooltipContent: string[] = [];
-                seriesData.forEach((series, si) => {
-                    const val = series.values[nearestIdx]?.value || 0;
-                    const cy = yScale(val);
-                    tooltipDots[si]
-                        .attr("cx", nearestX)
-                        .attr("cy", cy)
-                        .style("opacity", 1);
-                    tooltipContent.push(`${series.name}: ${self.formatYValue(val, currency)}`);
-                });
-
-                // Position tooltip box
-                const catLabel = self.formatCategory(nearestCat);
-                tooltipGroup.style("opacity", 1);
-
-                // Header line
-                let allText = catLabel + "\n" + tooltipContent.join("\n");
-                let lineHeight = 14;
-                let boxWidth = 130;
-                let boxHeight = (tooltipContent.length + 1) * lineHeight + 10;
-
-                // Position tooltip to the right of cursor, or left if near edge
+                const lineHeight = 14;
+                const boxWidth = 140;
+                const boxHeight = (seriesData.length + 1) * lineHeight + 10;
                 let tipX = nearestX + 12;
-                if (tipX + boxWidth > chartWidth) {
-                    tipX = nearestX - boxWidth - 12;
-                }
-                let tipY = 20;
+                if (tipX + boxWidth > chartWidth) tipX = nearestX - boxWidth - 12;
+                const tipY = 20;
 
-                tooltipBg
-                    .attr("x", tipX)
-                    .attr("y", tipY)
-                    .attr("width", boxWidth)
-                    .attr("height", boxHeight);
-
-                // Clear and redraw text
+                tooltipBg.attr("x", tipX).attr("y", tipY).attr("width", boxWidth).attr("height", boxHeight);
                 tooltipGroup.selectAll("text").remove();
+
+                const catLabel = self.formatCategory(nearestCat);
                 tooltipGroup.append("text")
-                    .attr("x", tipX + 8)
-                    .attr("y", tipY + 14)
-                    .attr("fill", "#e2e8f0")
-                    .attr("font-size", "9px")
-                    .attr("font-weight", "bold")
-                    .attr("font-family", "'Segoe UI', sans-serif")
+                    .attr("x", tipX + 8).attr("y", tipY + 14)
+                    .attr("fill", "#e2e8f0").attr("font-size", "9px")
+                    .attr("font-weight", "bold").attr("font-family", "'Segoe UI', sans-serif")
                     .text(catLabel);
 
                 seriesData.forEach((series, si) => {
                     const val = series.values[nearestIdx]?.value || 0;
+                    const cy = yScale(val);
+                    tooltipDots[si].attr("cx", nearestX).attr("cy", cy).style("opacity", 1);
                     tooltipGroup.append("text")
-                        .attr("x", tipX + 8)
-                        .attr("y", tipY + 14 + (si + 1) * lineHeight)
-                        .attr("fill", series.color)
-                        .attr("font-size", "9px")
+                        .attr("x", tipX + 8).attr("y", tipY + 14 + (si + 1) * lineHeight)
+                        .attr("fill", series.color).attr("font-size", "9px")
                         .attr("font-family", "'Segoe UI', sans-serif")
                         .text(`${series.name}: ${self.formatYValue(val, currency)}`);
                 });
+
+                tooltipGroup.style("opacity", 1);
             })
             .on("mouseleave", function() {
                 tooltipLine.style("opacity", 0);

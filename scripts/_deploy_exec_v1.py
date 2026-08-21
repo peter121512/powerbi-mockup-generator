@@ -331,11 +331,7 @@ add("definition/pages/exec/visuals/slicer_year/visual.json", slicer2)
 # Don't add the card-as-title — just add a dummy for now
 add("definition/pages/exec/visuals/pagetitle/visual.json", title_vis)
 
-# ===== TIME PERIOD TOGGLES (positioned inside area chart after it's created) =====
-time_labels = ["Monthly", "Quarterly", "Annual"]
-time_btn_width = 72
-time_btn_gap = 4
-time_btn_h = 24
+
 
 for i, (label, entity, prop) in enumerate(kpi_measures):
     x = kpi_start_x + i * (kpi_width + kpi_gap)
@@ -361,142 +357,49 @@ for i, (label, entity, prop) in enumerate(kpi_measures):
     }
     add(f"definition/pages/exec/visuals/kpi{i+1}/visual.json", vis)
 
-# ===== HERO AREA CHARTS (3 stacked - Monthly/Quarterly/Annual) =====
+# ===== HERO AREA CHART (single, with internal toggles) =====
 hero_y = kpi_y + kpi_height + 10
 hero_width = 700
 hero_height = 240
 
-# Time granularity configs: (name, entity, property, z_index)
-time_configs = [
-    ("hero_monthly", "Date", "Month", 10),
-    ("hero_quarterly", "Date", "Quarter", 9),
-    ("hero_annual", "Date", "Year", 8),
-]
-
-for tc_name, tc_entity, tc_prop, tc_z in time_configs:
-    hv = vis_container(tc_name, kpi_start_x, hero_y, hero_width, hero_height, tc_z)
-    # Hide quarterly and annual by default (only monthly visible)
-    is_default_visible = (tc_name == "hero_monthly")
-    hv["visual"] = {
-        "visualType": AREA_GUID,
-        "query": {"queryState": {
-            "category": {"projections": [{
-                "field": {"Column": {"Expression": {"SourceRef": {"Entity": tc_entity}}, "Property": tc_prop}},
-                "queryRef": f"{tc_entity}.{tc_prop}", "nativeQueryRef": tc_prop,
-            }]},
-            "values": {"projections": [
-                {
-                    "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},
-                    "queryRef": "Sales.TotalRevenue", "nativeQueryRef": "TotalRevenue",
-                },
-                {
-                    "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "GrossProfit"}},
-                    "queryRef": "Sales.GrossProfit", "nativeQueryRef": "GrossProfit",
-                },
-            ]},
-        }},
-        "visualContainerObjects": {
-            "title": [{"properties": {
-                "show": {"expr": {"Literal": {"Value": "true"}}},
-                "text": {"expr": {"Literal": {"Value": "'Revenue & Profit Trend'"}}},
-                "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
-                "fontSize": {"expr": {"Literal": {"Value": "12D"}}},
-            }}],
-            "background": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
-            "border": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
-            "padding": [{"properties": {
-                "top": {"expr": {"Literal": {"Value": "0D"}}},
-                "bottom": {"expr": {"Literal": {"Value": "0D"}}},
-                "left": {"expr": {"Literal": {"Value": "0D"}}},
-                "right": {"expr": {"Literal": {"Value": "0D"}}},
-            }}],
-        },
-        "drillFilterOtherVisuals": True,
-    }
-    if not is_default_visible:
-        pass  # Bookmarks control visibility - all render but only top z-index is visible
-    add(f"definition/pages/exec/visuals/{tc_name}/visual.json", hv)
-
-# Bookmarks to toggle chart visibility
-bookmark_names = ["bm_monthly", "bm_quarterly", "bm_annual"]
-bookmark_active_chart = ["hero_monthly", "hero_quarterly", "hero_annual"]
-
-for bi, (bm_name, active_chart) in enumerate(zip(bookmark_names, bookmark_active_chart)):
-    # Each bookmark hides the non-active charts (unlisted visuals remain visible)
-    visual_containers = {}
-    for tc_name, _, _, _ in time_configs:
-        if tc_name != active_chart:
-            visual_containers[tc_name] = {
-                "singleVisual": {
-                    "display": {"mode": "hidden"},
-                }
-            }
-
-    bookmark_def = {
-        "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmark/1.1.0/schema.json",
-        "name": bm_name,
-        "displayName": ["Monthly", "Quarterly", "Annual"][bi],
-        "explorationState": {
-            "version": "1.1",
-            "activeSection": "exec",
-            "sections": {
-                "exec": {
-                    "visualContainers": visual_containers,
-                }
+hero_vis = vis_container("hero_line", kpi_start_x, hero_y, hero_width, hero_height, 10)
+hero_vis["visual"] = {
+    "visualType": AREA_GUID,
+    "query": {"queryState": {
+        "category": {"projections": [{
+            "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Date"}}, "Property": "Month"}},
+            "queryRef": "Date.Month", "nativeQueryRef": "Month",
+        }]},
+        "values": {"projections": [
+            {
+                "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},
+                "queryRef": "Sales.TotalRevenue", "nativeQueryRef": "TotalRevenue",
             },
-        },
-        "options": {
-            "applyOnlyToTargetVisuals": True,
-            "targetVisualNames": [tc[0] for tc in time_configs],
-        },
-    }
-    add(f"definition/bookmarks/{bm_name}/bookmark.json", bookmark_def)
-
-# Bookmarks metadata
-add("definition/bookmarks/bookmarks.json", {
-    "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/bookmarksMetadata/1.0.0/schema.json",
-    "items": [{"name": bn} for bn in bookmark_names],
-})
-
-# ===== TIME PERIOD TOGGLES (inside area chart, top-right) =====
-# Position relative to hero chart: top-right corner
-time_toggle_x_end = kpi_start_x + 700 - 10  # right edge of chart minus padding
-for ti, tlabel in enumerate(time_labels):
-    tx = time_toggle_x_end - (len(time_labels) - ti) * (time_btn_width + time_btn_gap)
-    is_active = (ti == 0)  # Monthly is active by default
-    bg_color = "'#3898ff'" if is_active else "'#1e293b'"
-    text_color = "'#ffffff'" if is_active else "'#94a3b8'"
-    border_color = "'#3898ff'" if is_active else "'#334155'"
-
-    tbtn = vis_container(f"time_btn_{ti}", tx, hero_y + 6, time_btn_width, time_btn_h, 4990 + ti)
-    tbtn["visual"] = {
-        "visualType": "cardVisual",
-        "query": {"queryState": {"Values": {"projections": [{
-            "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},
-            "queryRef": "Sales.TotalRevenue", "nativeQueryRef": "TotalRevenue",
-        }]}}},
-        "visualContainerObjects": {
-            "title": [{"properties": {
-                "show": {"expr": {"Literal": {"Value": "true"}}},
-                "text": {"expr": {"Literal": {"Value": "'" + tlabel + "'"}}},
-                "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": text_color}}}}},
-                "fontSize": {"expr": {"Literal": {"Value": "8D"}}},
-                "bold": {"expr": {"Literal": {"Value": "true"}}},
-                "alignment": {"expr": {"Literal": {"Value": "'center'"}}},
-            }}],
-            "background": [{"properties": {
-                "show": {"expr": {"Literal": {"Value": "true"}}},
-                "color": {"solid": {"color": {"expr": {"Literal": {"Value": bg_color}}}}},
-                "transparency": {"expr": {"Literal": {"Value": "0D"}}},
-            }}],
-            "border": [{"properties": {
-                "show": {"expr": {"Literal": {"Value": "true"}}},
-                "color": {"solid": {"color": {"expr": {"Literal": {"Value": border_color}}}}},
-            }}],
-        },
-        "drillFilterOtherVisuals": False,
-    }
-    add(f"definition/pages/exec/visuals/time_btn_{ti}/visual.json", tbtn)
+            {
+                "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "GrossProfit"}},
+                "queryRef": "Sales.GrossProfit", "nativeQueryRef": "GrossProfit",
+            },
+        ]},
+    }},
+    "visualContainerObjects": {
+        "title": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "text": {"expr": {"Literal": {"Value": "'Revenue & Profit Trend'"}}},
+            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
+            "fontSize": {"expr": {"Literal": {"Value": "12D"}}},
+        }}],
+        "background": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+        "border": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+        "padding": [{"properties": {
+            "top": {"expr": {"Literal": {"Value": "0D"}}},
+            "bottom": {"expr": {"Literal": {"Value": "0D"}}},
+            "left": {"expr": {"Literal": {"Value": "0D"}}},
+            "right": {"expr": {"Literal": {"Value": "0D"}}},
+        }}],
+    },
+    "drillFilterOtherVisuals": True,
+}
+add("definition/pages/exec/visuals/hero_line/visual.json", hero_vis)
 
 # ===== DONUT CHART (Revenue by Region) =====
 donut_x = kpi_start_x + 700 + 15
