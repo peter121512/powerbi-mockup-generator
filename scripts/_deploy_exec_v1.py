@@ -93,7 +93,7 @@ add("definition/report.json", {
 # Dark theme
 dark_theme = {
     "name": "ExecutiveDark",
-    "dataColors": ["#3898ff", "#34d399", "#a78bfa", "#fbbf24", "#f87171", "#06b6d4"],
+    "dataColors": ["#3898ff", "#a78bfa", "#34d399", "#fbbf24", "#f87171", "#06b6d4", "#818cf8", "#fb923c"],
     "background": "#0f1623",
     "foreground": "#ffffff",
     "foregroundNeutralSecondary": "#94a3b8",
@@ -150,6 +150,8 @@ kpi_measures = [
     ("Gross Margin", "Sales", "GrossMarginPct"),
 ]
 
+kpi_start_x = 50
+
 # Visual container helper
 def vis_container(name, x, y, w, h, z_idx):
     return {
@@ -160,10 +162,26 @@ def vis_container(name, x, y, w, h, z_idx):
 
 # ===== KPI ROW (4 cards) =====
 kpi_width = 270
-kpi_height = 110
+kpi_height = 100
 kpi_gap = 18
-kpi_start_x = 50
-kpi_y = 15
+kpi_y = 42
+
+# ===== PAGE TITLE =====
+title_vis = vis_container("pagetitle", kpi_start_x, 8, 400, 30, 99)
+title_vis["visual"] = {
+    "visualType": "textbox",
+    "objects": {
+        "general": [{"properties": {
+            "paragraphs": {"expr": {"Literal": {"Value": "[{\"textRuns\":[{\"value\":\"Executive Overview\",\"textStyle\":{\"fontWeight\":\"bold\",\"fontSize\":\"16px\",\"color\":\"#e2e8f0\"}}]}]"}}},
+        }}],
+    },
+    "visualContainerObjects": {
+        "background": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+        "border": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+        "title": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+    },
+}
+add("definition/pages/exec/visuals/pagetitle/visual.json", title_vis)
 
 for i, (label, entity, prop) in enumerate(kpi_measures):
     x = kpi_start_x + i * (kpi_width + kpi_gap)
@@ -190,8 +208,8 @@ for i, (label, entity, prop) in enumerate(kpi_measures):
     add(f"definition/pages/exec/visuals/kpi{i+1}/visual.json", vis)
 
 # ===== HERO LINE CHART (Revenue over time) =====
-hero_y = kpi_y + kpi_height + 15
-hero_vis = vis_container("hero_line", kpi_start_x, hero_y, 740, 280, 10)
+hero_y = kpi_y + kpi_height + 12
+hero_vis = vis_container("hero_line", kpi_start_x, hero_y, 740, 260, 10)
 hero_vis["visual"] = {
     "visualType": "areaChart",
     "query": {"queryState": {
@@ -253,7 +271,7 @@ add("definition/pages/exec/visuals/hero_line/visual.json", hero_vis)
 
 # ===== DONUT CHART (Revenue by Region) =====
 donut_x = kpi_start_x + 740 + 15
-donut_vis = vis_container("donut_region", donut_x, hero_y, 440, 280, 11)
+donut_vis = vis_container("donut_region", donut_x, hero_y, 440, 260, 11)
 donut_vis["visual"] = {
     "visualType": "donutChart",
     "query": {"queryState": {
@@ -297,14 +315,14 @@ donut_vis["visual"] = {
 add("definition/pages/exec/visuals/donut_region/visual.json", donut_vis)
 
 # ===== BAR CHART (Revenue by Store) - bottom row =====
-bar_y = hero_y + 280 + 12
-bar_vis = vis_container("bar_stores", kpi_start_x, bar_y, 580, 280, 12)
+bar_y = hero_y + 260 + 10
+bar_vis = vis_container("bar_stores", kpi_start_x, bar_y, 580, 260, 12)
 bar_vis["visual"] = {
     "visualType": "barChart",
     "query": {"queryState": {
         "Category": {"projections": [{
-            "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Store"}}, "Property": "StoreName"}},
-            "queryRef": "Store.StoreName", "nativeQueryRef": "StoreName",
+            "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Product"}}, "Property": "CategoryName"}},
+            "queryRef": "Product.CategoryName", "nativeQueryRef": "CategoryName",
         }]},
         "Y": {"projections": [{
             "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},
@@ -318,7 +336,7 @@ bar_vis["visual"] = {
     "visualContainerObjects": {
         "title": [{"properties": {
             "show": {"expr": {"Literal": {"Value": "true"}}},
-            "text": {"expr": {"Literal": {"Value": "'Top Stores by Revenue'"}}},
+            "text": {"expr": {"Literal": {"Value": "'Revenue by Category'"}}},
             "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
             "fontSize": {"expr": {"Literal": {"Value": "11D"}}},
         }}],
@@ -338,7 +356,7 @@ add("definition/pages/exec/visuals/bar_stores/visual.json", bar_vis)
 
 # ===== SECOND BOTTOM PANEL (Gross Profit by Store) =====
 bar2_x = kpi_start_x + 580 + 15
-bar2_vis = vis_container("bar_profit", bar2_x, bar_y, 600, 280, 13)
+bar2_vis = vis_container("bar_profit", bar2_x, bar_y, 600, 260, 13)
 bar2_vis["visual"] = {
     "visualType": "columnChart",
     "query": {"queryState": {
