@@ -183,7 +183,7 @@ kpi_measures = [
     ("Gross Margin", "Sales", "GrossMarginPct"),
 ]
 
-kpi_start_x = 80
+kpi_start_x = 155
 
 # Visual container helper
 def vis_container(name, x, y, w, h, z_idx):
@@ -194,9 +194,9 @@ def vis_container(name, x, y, w, h, z_idx):
     }
 
 # ===== KPI ROW (4 cards) =====
-kpi_width = 260
+kpi_width = 245
 kpi_height = 100
-kpi_gap = 16
+kpi_gap = 14
 kpi_y = 90
 
 # ===== PAGE TITLE (using actionTitle visual) =====
@@ -375,7 +375,7 @@ for i, (label, entity, prop) in enumerate(kpi_measures):
 
 # ===== HERO AREA CHART (single, with internal toggles) =====
 hero_y = kpi_y + kpi_height + 10
-hero_width = 700
+hero_width = 640
 hero_height = 240
 
 hero_vis = vis_container("hero_line", kpi_start_x, hero_y, hero_width, hero_height, 10)
@@ -424,8 +424,8 @@ hero_vis["visual"] = {
 add("definition/pages/exec/visuals/hero_line/visual.json", hero_vis)
 
 # ===== DONUT CHART (Revenue by Region) =====
-donut_x = kpi_start_x + 700 + 15
-donut_vis = vis_container("donut_region", donut_x, hero_y, 420, 240, 11)
+donut_x = kpi_start_x + 640 + 10
+donut_vis = vis_container("donut_region", donut_x, hero_y, 460, 240, 11)
 donut_vis["visual"] = {
     "visualType": "donutChart",
     "query": {"queryState": {
@@ -469,7 +469,7 @@ donut_vis["visual"] = {
 add("definition/pages/exec/visuals/donut_region/visual.json", donut_vis)
 
 # Center KPI label for donut - centered on the donut ring
-donut_center_x = donut_x + 125  # center on ring (legend takes ~100px on right)
+donut_center_x = donut_x + 130  # center on ring (legend takes ~100px on right)
 donut_center_y = hero_y + 105   # vertical center of ring (below title)
 donut_kpi = vis_container("donut_kpi", donut_center_x, donut_center_y, 90, 42, 20)
 donut_kpi["visual"] = {
@@ -503,9 +503,9 @@ add("definition/pages/exec/visuals/donut_kpi/visual.json", donut_kpi)
 # ===== BOTTOM ROW: 3 panels =====
 bar_y = hero_y + 240 + 10
 bottom_panel_height = 240
-panel1_width = 380
-panel2_width = 370
-panel3_width = 370
+panel1_width = 340
+panel2_width = 340
+panel3_width = 340
 panel_gap = 10
 
 # Panel 1: Revenue by Category (bar chart)
@@ -608,8 +608,8 @@ insights_vis["visual"] = {
 }
 add("definition/pages/exec/visuals/key_insights/visual.json", insights_vis)
 
-# ===== LEFT NAV RAIL =====
-nav_vis = vis_container("nav_rail", 0, 0, 60, 720, 1)
+# ===== LEFT NAV RAIL (wider, with text labels like mockup) =====
+nav_vis = vis_container("nav_rail", 0, 0, 140, 720, 1)
 nav_vis["visual"] = {
     "visualType": "textbox",
     "objects": {
@@ -634,7 +634,7 @@ nav_vis["visual"] = {
 add("definition/pages/exec/visuals/nav_rail/visual.json", nav_vis)
 
 # Active indicator line on nav rail
-nav_indicator = vis_container("nav_indicator", 0, 80, 4, 40, 3)
+nav_indicator = vis_container("nav_indicator", 0, 78, 4, 36, 3)
 nav_indicator["visual"] = {
     "visualType": "textbox",
     "objects": {
@@ -655,17 +655,18 @@ nav_indicator["visual"] = {
 }
 add("definition/pages/exec/visuals/nav_indicator/visual.json", nav_indicator)
 
-# Nav icons using card visuals (renders text reliably)
+# Nav menu items with text labels (using card visuals)
 nav_items = [
-    ("📊", "'#3898ff'"),  # Executive Overview (active)
-    ("💰", "'#475569'"),  # Financial
-    ("👥", "'#475569'"),  # Sales & Customers
-    ("⚙️", "'#475569'"),  # Operations
-    ("📦", "'#475569'"),  # Products
+    ("🏠 Overview", "'#3898ff'", True),
+    ("📊 Financial", "'#94a3b8'", False),
+    ("👥 Customers", "'#94a3b8'", False),
+    ("⚙️ Operations", "'#94a3b8'", False),
+    ("📦 Products", "'#94a3b8'", False),
+    ("👤 People", "'#94a3b8'", False),
 ]
-for ni, (nav_icon, nav_color) in enumerate(nav_items):
-    ny = 80 + ni * 55
-    nav_card = vis_container(f"nav_item_{ni}", 12, ny, 36, 36, 4)
+for ni, (nav_label, nav_color, is_active) in enumerate(nav_items):
+    ny = 75 + ni * 42
+    nav_card = vis_container(f"nav_item_{ni}", 8, ny, 126, 36, 4)
     nav_card["visual"] = {
         "visualType": "cardVisual",
         "query": {"queryState": {"Values": {"projections": [{
@@ -675,10 +676,10 @@ for ni, (nav_icon, nav_color) in enumerate(nav_items):
         "visualContainerObjects": {
             "title": [{"properties": {
                 "show": {"expr": {"Literal": {"Value": "true"}}},
-                "text": {"expr": {"Literal": {"Value": "'" + nav_icon + "'"}}},
+                "text": {"expr": {"Literal": {"Value": "'" + nav_label + "'"}}},
                 "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": nav_color}}}}},
-                "fontSize": {"expr": {"Literal": {"Value": "14D"}}},
-                "alignment": {"expr": {"Literal": {"Value": "'center'"}}},
+                "fontSize": {"expr": {"Literal": {"Value": "9D"}}},
+                "bold": {"expr": {"Literal": {"Value": "true" if is_active else "false"}}},
             }}],
             "background": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
             "border": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
