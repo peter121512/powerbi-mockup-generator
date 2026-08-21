@@ -331,50 +331,11 @@ add("definition/pages/exec/visuals/slicer_year/visual.json", slicer2)
 # Don't add the card-as-title — just add a dummy for now
 add("definition/pages/exec/visuals/pagetitle/visual.json", title_vis)
 
-# ===== TIME PERIOD TOGGLES (Monthly / Quarterly / Annual) =====
+# ===== TIME PERIOD TOGGLES (positioned inside area chart after it's created) =====
 time_labels = ["Monthly", "Quarterly", "Annual"]
-time_x_start = 500
-time_btn_width = 80
-time_btn_gap = 8
-time_btn_y = 20
-time_btn_h = 28
-
-for ti, tlabel in enumerate(time_labels):
-    tx = time_x_start + ti * (time_btn_width + time_btn_gap)
-    is_active = (ti == 0)  # Monthly is active
-    bg_color = "'#3898ff'" if is_active else "'#1e293b'"
-    text_color = "'#ffffff'" if is_active else "'#94a3b8'"
-    border_color = "'#3898ff'" if is_active else "'#334155'"
-
-    tbtn = vis_container(f"time_btn_{ti}", tx, time_btn_y, time_btn_width, time_btn_h, 4990 + ti)
-    tbtn["visual"] = {
-        "visualType": "cardVisual",
-        "query": {"queryState": {"Values": {"projections": [{
-            "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},
-            "queryRef": "Sales.TotalRevenue", "nativeQueryRef": "TotalRevenue",
-        }]}}},
-        "visualContainerObjects": {
-            "title": [{"properties": {
-                "show": {"expr": {"Literal": {"Value": "true"}}},
-                "text": {"expr": {"Literal": {"Value": "'" + tlabel + "'"}}},
-                "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": text_color}}}}},
-                "fontSize": {"expr": {"Literal": {"Value": "9D"}}},
-                "bold": {"expr": {"Literal": {"Value": "true"}}},
-                "alignment": {"expr": {"Literal": {"Value": "'center'"}}},
-            }}],
-            "background": [{"properties": {
-                "show": {"expr": {"Literal": {"Value": "true"}}},
-                "color": {"solid": {"color": {"expr": {"Literal": {"Value": bg_color}}}}},
-                "transparency": {"expr": {"Literal": {"Value": "0D"}}},
-            }}],
-            "border": [{"properties": {
-                "show": {"expr": {"Literal": {"Value": "true"}}},
-                "color": {"solid": {"color": {"expr": {"Literal": {"Value": border_color}}}}},
-            }}],
-        },
-        "drillFilterOtherVisuals": False,
-    }
-    add(f"definition/pages/exec/visuals/time_btn_{ti}/visual.json", tbtn)
+time_btn_width = 72
+time_btn_gap = 4
+time_btn_h = 24
 
 for i, (label, entity, prop) in enumerate(kpi_measures):
     x = kpi_start_x + i * (kpi_width + kpi_gap)
@@ -440,6 +401,46 @@ hero_vis["visual"] = {
     "drillFilterOtherVisuals": True,
 }
 add("definition/pages/exec/visuals/hero_line/visual.json", hero_vis)
+
+# ===== TIME PERIOD TOGGLES (inside area chart, top-right) =====
+# Position relative to hero chart: top-right corner
+time_toggle_x_end = kpi_start_x + 700 - 10  # right edge of chart minus padding
+for ti, tlabel in enumerate(time_labels):
+    tx = time_toggle_x_end - (len(time_labels) - ti) * (time_btn_width + time_btn_gap)
+    is_active = (ti == 0)  # Monthly is active
+    bg_color = "'#3898ff'" if is_active else "'#1e293b'"
+    text_color = "'#ffffff'" if is_active else "'#94a3b8'"
+    border_color = "'#3898ff'" if is_active else "'#334155'"
+
+    tbtn = vis_container(f"time_btn_{ti}", tx, hero_y + 6, time_btn_width, time_btn_h, 4990 + ti)
+    tbtn["visual"] = {
+        "visualType": "cardVisual",
+        "query": {"queryState": {"Values": {"projections": [{
+            "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},
+            "queryRef": "Sales.TotalRevenue", "nativeQueryRef": "TotalRevenue",
+        }]}}},
+        "visualContainerObjects": {
+            "title": [{"properties": {
+                "show": {"expr": {"Literal": {"Value": "true"}}},
+                "text": {"expr": {"Literal": {"Value": "'" + tlabel + "'"}}},
+                "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": text_color}}}}},
+                "fontSize": {"expr": {"Literal": {"Value": "8D"}}},
+                "bold": {"expr": {"Literal": {"Value": "true"}}},
+                "alignment": {"expr": {"Literal": {"Value": "'center'"}}},
+            }}],
+            "background": [{"properties": {
+                "show": {"expr": {"Literal": {"Value": "true"}}},
+                "color": {"solid": {"color": {"expr": {"Literal": {"Value": bg_color}}}}},
+                "transparency": {"expr": {"Literal": {"Value": "0D"}}},
+            }}],
+            "border": [{"properties": {
+                "show": {"expr": {"Literal": {"Value": "true"}}},
+                "color": {"solid": {"color": {"expr": {"Literal": {"Value": border_color}}}}},
+            }}],
+        },
+        "drillFilterOtherVisuals": False,
+    }
+    add(f"definition/pages/exec/visuals/time_btn_{ti}/visual.json", tbtn)
 
 # ===== DONUT CHART (Revenue by Region) =====
 donut_x = kpi_start_x + 700 + 15
