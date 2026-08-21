@@ -25,3 +25,10 @@ htmlcov/
 
 # Config with secrets
 config.yaml
+
+
+# Custom visual build artifacts
+custom-visuals/*/node_modules/
+custom-visuals/*/.tmp/
+custom-visuals/*/dist/testReport.Report/
+custom-visuals/*/webpack.statistics.*.html
