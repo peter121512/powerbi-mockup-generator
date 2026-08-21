@@ -1,0 +1,226 @@
+"""Deploy updated Premium KPI v2 on dark canvas for visual review."""
+import sys
+import json
+import base64
+import time
+import uuid
+import zipfile
+import io
+import requests
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+from pbi_gen.deploy.fabric import load_config, get_credential, FABRIC_API_BASE
+from pbi_gen.critic.screenshot import _get_embed_url
+from playwright.sync_api import sync_playwright
+
+config = load_config()
+workspace_id = config["workspace_id"]
+credential = get_credential(config)
+token = credential.get_token("https://analysis.windows.net/powerbi/api/.default").token
+headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
+
+sm_id = "ca81c70a-f84a-4417-adfa-0e1e7694f746"
+KPI_GUID = "premiumKPI0E21B11FE691418A84E3F774DD6461A5"
+DIAG_NAME = "KPIv2_DarkTest"
+evidence_dir = Path("docs/stages/07e-executive-custom-visual-demo")
+evidence_dir.mkdir(parents=True, exist_ok=True)
+
+# Delete existing
+r = requests.get(f"{FABRIC_API_BASE}/workspaces/{workspace_id}/items?type=Report", headers=headers, timeout=30)
+for item in r.json().get("value", []):
+    if item["displayName"] == DIAG_NAME:
+        requests.delete(f"{FABRIC_API_BASE}/workspaces/{workspace_id}/items/{item['id']}", headers=headers, timeout=30)
+        time.sleep(5)
+        break
+
+# Read rebuilt pbiviz
+pbiviz_path = Path(f"custom-visuals/premiumKPI/dist/{KPI_GUID}.1.0.0.0.pbiviz")
+pbiviz_bytes = pbiviz_path.read_bytes()
+z = zipfile.ZipFile(io.BytesIO(pbiviz_bytes))
+pbiviz_json = z.read(f"resources/{KPI_GUID}.pbiviz.json")
+package_json = z.read("package.json")
+
+parts = []
+def add(path, obj):
+    parts.append({"path": path, "payload": base64.b64encode(json.dumps(obj).encode()).decode(), "payloadType": "InlineBase64"})
+def add_bin(path, data):
+    parts.append({"path": path, "payload": base64.b64encode(data).decode(), "payloadType": "InlineBase64"})
+
+add(".platform", {
+    "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+    "metadata": {"type": "Report", "displayName": DIAG_NAME},
+    "config": {"version": "2.0", "logicalId": str(uuid.uuid4())},
+})
+add("definition.pbir", {
+    "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definitionProperties/2.0.0/schema.json",
+    "version": "4.0",
+    "datasetReference": {"byConnection": {"connectionString": f"Data Source=powerbi://api.powerbi.com/v1.0/myorg/pbi;initial catalog=BareMinimal;integrated security=ClaimsToken;semanticmodelid={sm_id}"}},
+})
+add("definition/version.json", {
+    "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/versionMetadata/1.0.0/schema.json",
+    "version": "2.0.0",
+})
+add("definition/report.json", {
+    "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/1.3.0/schema.json",
+    "themeCollection": {
+        "baseTheme": {"name": "CY24SU06", "reportVersionAtImport": "5.61", "type": "SharedResources"},
+        "customTheme": {"name": "ExecutiveDark", "reportVersionAtImport": "5.61", "type": "RegisteredResources"},
+    },
+    "layoutOptimization": "None",
+    "resourcePackages": [
+        {"name": "SharedResources", "type": "SharedResources", "items": [
+            {"name": "CY24SU06", "type": "BaseTheme", "path": "BaseThemes/CY24SU06.json"}
+        ]},
+        {"name": "RegisteredResources", "type": "RegisteredResources", "items": [
+            {"name": "ExecutiveDark", "type": "CustomTheme", "path": "ExecutiveDark.json"}
+        ]},
+        {"name": KPI_GUID, "type": "CustomVisual", "items": [
+            {"name": f"{KPI_GUID}.pbiviz.json", "type": "CustomVisualMetadata", "path": f"{KPI_GUID}.pbiviz.json"},
+        ]},
+    ],
+})
+
+# Custom dark theme - try multiple approaches for background
+dark_theme = {
+    "name": "ExecutiveDark",
+    "dataColors": ["#3898ff", "#34d399", "#a78bfa", "#fbbf24", "#f87171", "#06b6d4"],
+    "background": "#0f1623",
+    "foreground": "#ffffff",
+    "foregroundNeutralSecondary": "#94a3b8",
+    "foregroundNeutralTertiary": "#64748b",
+    "backgroundLight": "#151d2e",
+    "backgroundNeutral": "#1e293b",
+    "backgroundDark": "#0a0e17",
+    "tableAccent": "#3898ff",
+    "visualStyles": {
+        "page": {
+            "*": {
+                "background": [{
+                    "show": True,
+                    "color": {"solid": {"color": "#0f1623"}},
+                    "transparency": 0
+                }],
+                "outspace": [{
+                    "color": {"solid": {"color": "#0a0e17"}}
+                }],
+            }
+        },
+        "*": {
+            "*": {
+                "background": [{
+                    "show": False,
+                    "transparency": 100
+                }],
+            }
+        }
+    }
+}
+add_bin("StaticResources/RegisteredResources/ExecutiveDark.json", json.dumps(dark_theme).encode("utf-8"))
+add("definition/pages/pages.json", {
+    "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.0.0/schema.json",
+    "pageOrder": ["p1"], "activePageName": "p1",
+})
+# Dark navy page background using correct PBIR format
+add("definition/pages/p1/page.json", {
+    "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/1.4.0/schema.json",
+    "name": "p1", "displayName": "Executive Overview", "displayOption": "FitToPage",
+    "height": 720, "width": 1280,
+    "objects": {
+        "background": [{"properties": {
+            "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#0f1623'"}}}}},
+            "transparency": {"expr": {"Literal": {"Value": "0D"}}},
+        }}],
+    },
+})
+# Place 3 KPI cards in a row
+for i, x_pos in enumerate([50, 320, 590]):
+    add(f"definition/pages/p1/visuals/kpi{i+1}/visual.json", {
+        "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.0.0/schema.json",
+        "name": f"kpi{i+1}",
+        "position": {"x": x_pos, "y": 60, "z": i, "width": 250, "height": 130, "tabOrder": i},
+        "visual": {
+            "visualType": KPI_GUID,
+            "query": {"queryState": {"measure": {"projections": [{
+                "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Fact"}}, "Property": "Total"}},
+                "queryRef": "Fact.Total", "nativeQueryRef": "Total",
+            }]}}},
+            "visualContainerObjects": {
+                "title": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+                "background": [{"properties": {
+                    "show": {"expr": {"Literal": {"Value": "false"}}},
+                }}],
+                "border": [{"properties": {
+                    "show": {"expr": {"Literal": {"Value": "false"}}},
+                }}],
+                "padding": [{"properties": {
+                    "top": {"expr": {"Literal": {"Value": "0D"}}},
+                    "bottom": {"expr": {"Literal": {"Value": "0D"}}},
+                    "left": {"expr": {"Literal": {"Value": "0D"}}},
+                    "right": {"expr": {"Literal": {"Value": "0D"}}},
+                }}],
+            },
+            "drillFilterOtherVisuals": True,
+        },
+    })
+
+# Custom visual resources
+add_bin(f"CustomVisuals/{KPI_GUID}/package.json", package_json)
+add_bin(f"CustomVisuals/{KPI_GUID}/resources/{KPI_GUID}.pbiviz.json", pbiviz_json)
+
+# Deploy
+print(f"Creating: {DIAG_NAME}")
+r = requests.post(f"{FABRIC_API_BASE}/workspaces/{workspace_id}/items", headers=headers,
+                  json={"displayName": DIAG_NAME, "type": "Report", "definition": {"parts": parts}}, timeout=60)
+if r.status_code == 202:
+    loc = r.headers.get("Location", "")
+    for _ in range(15):
+        time.sleep(3)
+        poll = requests.get(loc, headers=headers, timeout=30)
+        if poll.json().get("status") == "Succeeded":
+            print("Created!")
+            break
+        elif poll.json().get("status") == "Failed":
+            print(f"FAILED: {poll.json().get('error', {}).get('message', '')[:300]}")
+            sys.exit(1)
+
+time.sleep(3)
+r = requests.get(f"{FABRIC_API_BASE}/workspaces/{workspace_id}/items?type=Report", headers=headers, timeout=30)
+report_id = next((i["id"] for i in r.json()["value"] if i["displayName"] == DIAG_NAME), None)
+print(f"Report ID: {report_id}")
+
+# Screenshot
+embed_url = _get_embed_url(workspace_id, report_id, {"Authorization": f"Bearer {token}"})
+html = (
+    '<!DOCTYPE html><html><head><meta charset="utf-8"><title>PBI</title>'
+    '<script src="https://cdn.jsdelivr.net/npm/powerbi-client@2.23.1/dist/powerbi.min.js"></script>'
+    '<style>*{margin:0;padding:0}body{overflow:hidden;background:#0f1623}#r{width:1280px;height:720px}</style>'
+    '</head><body><div id="r"></div><script>'
+    'const m=window["powerbi-client"].models;'
+    f'const c={{type:"report",tokenType:m.TokenType.Aad,accessToken:"{token}",'
+    f'embedUrl:"{embed_url}",id:"{report_id}",pageName:"p1",'
+    'settings:{navContentPaneEnabled:false,filterPaneEnabled:false,'
+    'background:m.BackgroundType.Transparent,'
+    'layoutType:m.LayoutType.Custom,customLayout:{displayOption:m.DisplayOption.FitToPage,'
+    'pageSize:{type:m.PageSizeType.Custom,width:1280,height:720}}}};'
+    'const r=powerbi.embed(document.getElementById("r"),c);'
+    'r.on("rendered",()=>{document.title="RENDERED"});'
+    'r.on("error",e=>{document.title="ERROR:"+JSON.stringify(e.detail)});'
+    '</script></body></html>'
+)
+html_path = evidence_dir / '_kpiv2.html'
+html_path.write_text(html, encoding='utf-8')
+
+with sync_playwright() as p:
+    browser = p.chromium.launch(headless=True)
+    page = browser.new_page(viewport={'width': 1280, 'height': 720})
+    page.goto(f'file:///{html_path.resolve()}')
+    try:
+        page.wait_for_function('document.title.startsWith("RENDERED") || document.title.startsWith("ERROR")', timeout=30000)
+    except:
+        pass
+    page.wait_for_timeout(5000)
+    print(f"Title: {page.title()}")
+    page.screenshot(path=str(evidence_dir / 'kpi_v2_iteration1.png'))
+    browser.close()
+html_path.unlink(missing_ok=True)
+print("Done! Check kpi_v2_iteration1.png")
