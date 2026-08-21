@@ -28,6 +28,7 @@ sm_id = "b731eda9-c402-42c4-ad27-f4641c7d6bcd"
 KPI_GUID = "premiumKPI0E21B11FE691418A84E3F774DD6461A5"
 AREA_GUID = "premiumAreaChart1A2B3C4D5E6F7A8B9C0D1E2F3A4B5C6D"
 GAUGE_GUID = "premiumGauge7F8A9B0C1D2E3F4A5B6C7D8E9F0A1B2C"
+INSIGHTS_GUID = "premiumInsights2A3B4C5D6E7F8A9B0C1D2E3F4A5B6C7D"
 DIAG_NAME = "ExecOverview_v1"
 evidence_dir = Path("docs/stages/07e-executive-custom-visual-demo")
 evidence_dir.mkdir(parents=True, exist_ok=True)
@@ -60,6 +61,13 @@ gauge_pbiviz_bytes = gauge_pbiviz_path.read_bytes()
 gz = zipfile.ZipFile(io.BytesIO(gauge_pbiviz_bytes))
 gauge_pbiviz_json = gz.read(f"resources/{GAUGE_GUID}.pbiviz.json")
 gauge_package_json_bytes = gz.read("package.json")
+
+# Read Insights visual resources
+insights_pbiviz_path = Path(f"custom-visuals/premiumInsights/dist/{INSIGHTS_GUID}.1.0.0.0.pbiviz")
+insights_pbiviz_bytes = insights_pbiviz_path.read_bytes()
+iz = zipfile.ZipFile(io.BytesIO(insights_pbiviz_bytes))
+insights_pbiviz_json = iz.read(f"resources/{INSIGHTS_GUID}.pbiviz.json")
+insights_package_json_bytes = iz.read("package.json")
 
 parts = []
 def add(path, obj):
@@ -108,6 +116,9 @@ add("definition/report.json", {
         ]},
         {"name": GAUGE_GUID, "type": "CustomVisual", "items": [
             {"name": f"{GAUGE_GUID}.pbiviz.json", "type": "CustomVisualMetadata", "path": f"{GAUGE_GUID}.pbiviz.json"},
+        ]},
+        {"name": INSIGHTS_GUID, "type": "CustomVisual", "items": [
+            {"name": f"{INSIGHTS_GUID}.pbiviz.json", "type": "CustomVisualMetadata", "path": f"{INSIGHTS_GUID}.pbiviz.json"},
         ]},
     ],
 })
@@ -572,81 +583,30 @@ gauge_vis["visual"] = {
 }
 add("definition/pages/exec/visuals/gauge_sat/visual.json", gauge_vis)
 
-# Panel 3: Key Insights (multiple card visuals for each line)
+# Panel 3: Key Insights (custom visual with colored icons)
 insights_x = gauge_x + panel2_width + panel_gap
 
-# Background container
-insights_bg = vis_container("key_insights_bg", insights_x, bar_y, panel3_width, bottom_panel_height, 14)
-insights_bg["visual"] = {
-    "visualType": "cardVisual",
-    "query": {"queryState": {"Values": {"projections": [{
+insights_vis = vis_container("key_insights", insights_x, bar_y, panel3_width, bottom_panel_height, 14)
+insights_vis["visual"] = {
+    "visualType": INSIGHTS_GUID,
+    "query": {"queryState": {"measure": {"projections": [{
         "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},
         "queryRef": "Sales.TotalRevenue", "nativeQueryRef": "TotalRevenue",
     }]}}},
     "visualContainerObjects": {
-        "title": [{"properties": {
-            "show": {"expr": {"Literal": {"Value": "true"}}},
-            "text": {"expr": {"Literal": {"Value": "'💡 Key Insights'"}}},
-            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
-            "fontSize": {"expr": {"Literal": {"Value": "11D"}}},
-            "bold": {"expr": {"Literal": {"Value": "true"}}},
-        }}],
-        "background": [{"properties": {
-            "show": {"expr": {"Literal": {"Value": "true"}}},
-            "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#151d2e'"}}}}},
-            "transparency": {"expr": {"Literal": {"Value": "0D"}}},
-        }}],
-        "border": [{"properties": {
-            "show": {"expr": {"Literal": {"Value": "true"}}},
-            "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
+        "title": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+        "background": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+        "border": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+        "padding": [{"properties": {
+            "top": {"expr": {"Literal": {"Value": "0D"}}},
+            "bottom": {"expr": {"Literal": {"Value": "0D"}}},
+            "left": {"expr": {"Literal": {"Value": "0D"}}},
+            "right": {"expr": {"Literal": {"Value": "0D"}}},
         }}],
     },
     "drillFilterOtherVisuals": False,
 }
-add("definition/pages/exec/visuals/key_insights_bg/visual.json", insights_bg)
-
-# Individual insight lines
-insight_lines = [
-    ("●", "'#34d399'", "Revenue up 12.4% driven by strong Childrenswear and Beauty performance"),
-    ("●", "'#3898ff'", "Customer base expanded 18.6% with strength in Scotland"),
-    ("●", "'#fbbf24'", "Gross margin +0.6pp through operational cost discipline"),
-    ("●", "'#a78bfa'", "Product innovation pipeline driving sustained growth"),
-]
-for il_idx, (il_icon, il_color, il_text) in enumerate(insight_lines):
-    il_y = bar_y + 34 + il_idx * 48
-    il_vis = vis_container(f"insight_{il_idx}", insights_x + 10, il_y, panel3_width - 20, 44, 15 + il_idx)
-    il_vis["visual"] = {
-        "visualType": "cardVisual",
-        "query": {"queryState": {"Values": {"projections": [{
-            "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},
-            "queryRef": "Sales.TotalRevenue", "nativeQueryRef": "TotalRevenue",
-        }]}}},
-        "visualContainerObjects": {
-            "title": [{"properties": {
-                "show": {"expr": {"Literal": {"Value": "true"}}},
-                "text": {"expr": {"Literal": {"Value": "'" + il_icon + " " + il_text + "'"}}},
-                "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
-                "fontSize": {"expr": {"Literal": {"Value": "9D"}}},
-            }}],
-            "background": [{"properties": {
-                "show": {"expr": {"Literal": {"Value": "true"}}},
-                "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
-                "transparency": {"expr": {"Literal": {"Value": "0D"}}},
-            }}],
-            "border": [{"properties": {
-                "show": {"expr": {"Literal": {"Value": "true"}}},
-                "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#334155'"}}}}},
-            }}],
-            "padding": [{"properties": {
-                "top": {"expr": {"Literal": {"Value": "4D"}}},
-                "bottom": {"expr": {"Literal": {"Value": "4D"}}},
-                "left": {"expr": {"Literal": {"Value": "6D"}}},
-                "right": {"expr": {"Literal": {"Value": "6D"}}},
-            }}],
-        },
-        "drillFilterOtherVisuals": False,
-    }
-    add(f"definition/pages/exec/visuals/insight_{il_idx}/visual.json", il_vis)
+add("definition/pages/exec/visuals/key_insights/visual.json", insights_vis)
 
 # ===== LEFT NAV RAIL =====
 nav_vis = vis_container("nav_rail", 0, 0, 60, 720, 1)
@@ -734,6 +694,8 @@ add_bin(f"CustomVisuals/{AREA_GUID}/package.json", area_package_json_bytes)
 add_bin(f"CustomVisuals/{AREA_GUID}/resources/{AREA_GUID}.pbiviz.json", area_pbiviz_json)
 add_bin(f"CustomVisuals/{GAUGE_GUID}/package.json", gauge_package_json_bytes)
 add_bin(f"CustomVisuals/{GAUGE_GUID}/resources/{GAUGE_GUID}.pbiviz.json", gauge_pbiviz_json)
+add_bin(f"CustomVisuals/{INSIGHTS_GUID}/package.json", insights_package_json_bytes)
+add_bin(f"CustomVisuals/{INSIGHTS_GUID}/resources/{INSIGHTS_GUID}.pbiviz.json", insights_pbiviz_json)
 
 # Deploy
 print(f"Creating: {DIAG_NAME}")

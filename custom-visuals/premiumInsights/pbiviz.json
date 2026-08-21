@@ -1,0 +1,26 @@
+{
+    "visual": {
+        "name": "premiumInsights2A3B4C5D6E7F8A9B0C1D2E3F4A5B6C7D",
+        "displayName": "Premium Insights",
+        "guid": "premiumInsights2A3B4C5D6E7F8A9B0C1D2E3F4A5B6C7D",
+        "visualClassName": "Visual",
+        "version": "1.0.0.0",
+        "description": "Executive Key Insights panel with colored icon circles",
+        "supportUrl": "https://github.com/peter121512/powerbi-mockup-generator",
+        "gitHubUrl": "https://github.com/peter121512/powerbi-mockup-generator"
+    },
+    "apiVersion": "5.3.0",
+    "author": {
+        "name": "PBI Gen",
+        "email": "dev@pbigen.local"
+    },
+    "assets": {
+        "icon": "assets/icon.png"
+    },
+    "externalJS": null,
+    "style": "style/visual.less",
+    "capabilities": "capabilities.json",
+    "dependencies": null,
+    "stringResources": [],
+    "version": "1.0.0.0"
+}

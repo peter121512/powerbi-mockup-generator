@@ -1,0 +1,31 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Measure",
+            "name": "measure",
+            "kind": "Measure",
+            "requiredTypes": [
+                {
+                    "numeric": true
+                }
+            ]
+        }
+    ],
+    "objects": {},
+    "dataViewMappings": [
+        {
+            "categorical": {
+                "values": {
+                    "select": [
+                        {
+                            "bind": {
+                                "to": "measure"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "privileges": []
+}
