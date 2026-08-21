@@ -458,7 +458,7 @@ donut_vis["visual"] = {
 add("definition/pages/exec/visuals/donut_region/visual.json", donut_vis)
 
 # Center KPI label for donut - centered on the donut ring
-donut_center_x = donut_x + 110  # center on ring (accounting for legend on right)
+donut_center_x = donut_x + 125  # center on ring (legend takes ~100px on right)
 donut_center_y = hero_y + 105   # vertical center of ring (below title)
 donut_kpi = vis_container("donut_kpi", donut_center_x, donut_center_y, 90, 42, 20)
 donut_kpi["visual"] = {
@@ -607,12 +607,12 @@ add("definition/pages/exec/visuals/key_insights_bg/visual.json", insights_bg)
 
 # Individual insight lines
 insight_lines = [
-    ("⬆", "Revenue up 12.4% driven by strong Childrenswear and Beauty performance"),
-    ("⬆", "Customer base expanded 18.6% with strength in Scotland"),
-    ("⬆", "Gross margin +0.6pp through operational cost discipline"),
-    ("⬆", "Product innovation pipeline driving sustained growth"),
+    ("●", "'#34d399'", "Revenue up 12.4% driven by strong Childrenswear and Beauty performance"),
+    ("●", "'#3898ff'", "Customer base expanded 18.6% with strength in Scotland"),
+    ("●", "'#fbbf24'", "Gross margin +0.6pp through operational cost discipline"),
+    ("●", "'#a78bfa'", "Product innovation pipeline driving sustained growth"),
 ]
-for il_idx, (il_icon, il_text) in enumerate(insight_lines):
+for il_idx, (il_icon, il_color, il_text) in enumerate(insight_lines):
     il_y = bar_y + 34 + il_idx * 48
     il_vis = vis_container(f"insight_{il_idx}", insights_x + 10, il_y, panel3_width - 20, 44, 15 + il_idx)
     il_vis["visual"] = {
