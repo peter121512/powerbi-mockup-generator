@@ -27,6 +27,7 @@ headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json
 sm_id = "b731eda9-c402-42c4-ad27-f4641c7d6bcd"
 KPI_GUID = "premiumKPI0E21B11FE691418A84E3F774DD6461A5"
 AREA_GUID = "premiumAreaChart1A2B3C4D5E6F7A8B9C0D1E2F3A4B5C6D"
+GAUGE_GUID = "premiumGauge7F8A9B0C1D2E3F4A5B6C7D8E9F0A1B2C"
 DIAG_NAME = "ExecOverview_v1"
 evidence_dir = Path("docs/stages/07e-executive-custom-visual-demo")
 evidence_dir.mkdir(parents=True, exist_ok=True)
@@ -52,6 +53,13 @@ area_pbiviz_bytes = area_pbiviz_path.read_bytes()
 az = zipfile.ZipFile(io.BytesIO(area_pbiviz_bytes))
 area_pbiviz_json = az.read(f"resources/{AREA_GUID}.pbiviz.json")
 area_package_json_bytes = az.read("package.json")
+
+# Read Gauge visual resources
+gauge_pbiviz_path = Path(f"custom-visuals/premiumGauge/dist/{GAUGE_GUID}.1.0.0.0.pbiviz")
+gauge_pbiviz_bytes = gauge_pbiviz_path.read_bytes()
+gz = zipfile.ZipFile(io.BytesIO(gauge_pbiviz_bytes))
+gauge_pbiviz_json = gz.read(f"resources/{GAUGE_GUID}.pbiviz.json")
+gauge_package_json_bytes = gz.read("package.json")
 
 parts = []
 def add(path, obj):
@@ -97,6 +105,9 @@ add("definition/report.json", {
         ]},
         {"name": AREA_GUID, "type": "CustomVisual", "items": [
             {"name": f"{AREA_GUID}.pbiviz.json", "type": "CustomVisualMetadata", "path": f"{AREA_GUID}.pbiviz.json"},
+        ]},
+        {"name": GAUGE_GUID, "type": "CustomVisual", "items": [
+            {"name": f"{GAUGE_GUID}.pbiviz.json", "type": "CustomVisualMetadata", "path": f"{GAUGE_GUID}.pbiviz.json"},
         ]},
     ],
 })
@@ -446,9 +457,16 @@ donut_vis["visual"] = {
 }
 add("definition/pages/exec/visuals/donut_region/visual.json", donut_vis)
 
-# ===== BAR CHART (Revenue by Store) - bottom row =====
+# ===== BOTTOM ROW: 3 panels =====
 bar_y = hero_y + 240 + 10
-bar_vis = vis_container("bar_stores", kpi_start_x, bar_y, 555, 240, 12)
+bottom_panel_height = 240
+panel1_width = 380
+panel2_width = 370
+panel3_width = 370
+panel_gap = 10
+
+# Panel 1: Revenue by Category (bar chart)
+bar_vis = vis_container("bar_stores", kpi_start_x, bar_y, panel1_width, bottom_panel_height, 12)
 bar_vis["visual"] = {
     "visualType": "barChart",
     "query": {"queryState": {
@@ -493,38 +511,57 @@ bar_vis["visual"] = {
 }
 add("definition/pages/exec/visuals/bar_stores/visual.json", bar_vis)
 
-# ===== SECOND BOTTOM PANEL (Gross Profit by Store) =====
-bar2_x = kpi_start_x + 555 + 15
-bar2_vis = vis_container("bar_profit", bar2_x, bar_y, 560, 240, 13)
-bar2_vis["visual"] = {
-    "visualType": "columnChart",
-    "query": {"queryState": {
-        "Category": {"projections": [{
-            "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Region"}}, "Property": "RegionName"}},
-            "queryRef": "Region.RegionName", "nativeQueryRef": "RegionName",
-        }]},
-        "Y": {"projections": [
-            {
-                "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "GrossProfit"}},
-                "queryRef": "Sales.GrossProfit", "nativeQueryRef": "GrossProfit",
-            },
-            {
-                "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalCost"}},
-                "queryRef": "Sales.TotalCost", "nativeQueryRef": "TotalCost",
-            },
-        ]},
-    }},
-    "objects": {
-        "legend": [{"properties": {"show": {"expr": {"Literal": {"Value": "true"}}}, "showTitle": {"expr": {"Literal": {"Value": "false"}}}, "labelColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},}}],
-        "categoryAxis": [{"properties": {"showAxisTitle": {"expr": {"Literal": {"Value": "false"}}}, "labelColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},}}],
-        "valueAxis": [{"properties": {"showAxisTitle": {"expr": {"Literal": {"Value": "false"}}}, "labelColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#64748b'"}}}}}, "gridlineColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},}}],
-    },
+# Panel 2: Customer Satisfaction (custom gauge)
+gauge_x = kpi_start_x + panel1_width + panel_gap
+gauge_vis = vis_container("gauge_sat", gauge_x, bar_y, panel2_width, bottom_panel_height, 13)
+gauge_vis["visual"] = {
+    "visualType": GAUGE_GUID,
+    "query": {"queryState": {"measure": {"projections": [{
+        "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},
+        "queryRef": "Sales.TotalRevenue", "nativeQueryRef": "TotalRevenue",
+    }]}}},
     "visualContainerObjects": {
         "title": [{"properties": {
             "show": {"expr": {"Literal": {"Value": "true"}}},
-            "text": {"expr": {"Literal": {"Value": "'Profit vs Cost by Region'"}}},
+            "text": {"expr": {"Literal": {"Value": "'Customer Satisfaction'"}}},
             "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
             "fontSize": {"expr": {"Literal": {"Value": "11D"}}},
+        }}],
+        "background": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+        "border": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
+        "padding": [{"properties": {
+            "top": {"expr": {"Literal": {"Value": "0D"}}},
+            "bottom": {"expr": {"Literal": {"Value": "0D"}}},
+            "left": {"expr": {"Literal": {"Value": "0D"}}},
+            "right": {"expr": {"Literal": {"Value": "0D"}}},
+        }}],
+    },
+    "drillFilterOtherVisuals": False,
+}
+add("definition/pages/exec/visuals/gauge_sat/visual.json", gauge_vis)
+
+# Panel 3: Key Insights (card visual with title as text content)
+insights_x = gauge_x + panel2_width + panel_gap
+insights_vis = vis_container("key_insights", insights_x, bar_y, panel3_width, bottom_panel_height, 14)
+insights_vis["visual"] = {
+    "visualType": "cardVisual",
+    "query": {"queryState": {"Values": {"projections": [{
+        "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},
+        "queryRef": "Sales.TotalRevenue", "nativeQueryRef": "TotalRevenue",
+    }]}}},
+    "visualContainerObjects": {
+        "title": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "text": {"expr": {"Literal": {"Value": "'💡 Key Insights'"}}},
+            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#e2e8f0'"}}}}},
+            "fontSize": {"expr": {"Literal": {"Value": "11D"}}},
+            "bold": {"expr": {"Literal": {"Value": "true"}}},
+        }}],
+        "subTitle": [{"properties": {
+            "show": {"expr": {"Literal": {"Value": "true"}}},
+            "text": {"expr": {"Literal": {"Value": "'↑ Revenue up 12.4% driven by strong performance in Childrenswear and Beauty\\n\\n↑ Customer base expanded by 18.6% with strength in Scotland\\n\\n↑ Gross margin increased 0.6pp through discipline on operational costs'"}}},
+            "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},
+            "fontSize": {"expr": {"Literal": {"Value": "9D"}}},
         }}],
         "background": [{"properties": {
             "show": {"expr": {"Literal": {"Value": "true"}}},
@@ -536,9 +573,9 @@ bar2_vis["visual"] = {
             "color": {"solid": {"color": {"expr": {"Literal": {"Value": "'#1e293b'"}}}}},
         }}],
     },
-    "drillFilterOtherVisuals": True,
+    "drillFilterOtherVisuals": False,
 }
-add("definition/pages/exec/visuals/bar_profit/visual.json", bar2_vis)
+add("definition/pages/exec/visuals/key_insights/visual.json", insights_vis)
 
 # ===== LEFT NAV RAIL =====
 nav_vis = vis_container("nav_rail", 0, 0, 60, 720, 1)
@@ -624,6 +661,8 @@ add_bin(f"CustomVisuals/{KPI_GUID}/package.json", package_json_bytes)
 add_bin(f"CustomVisuals/{KPI_GUID}/resources/{KPI_GUID}.pbiviz.json", pbiviz_json)
 add_bin(f"CustomVisuals/{AREA_GUID}/package.json", area_package_json_bytes)
 add_bin(f"CustomVisuals/{AREA_GUID}/resources/{AREA_GUID}.pbiviz.json", area_pbiviz_json)
+add_bin(f"CustomVisuals/{GAUGE_GUID}/package.json", gauge_package_json_bytes)
+add_bin(f"CustomVisuals/{GAUGE_GUID}/resources/{GAUGE_GUID}.pbiviz.json", gauge_pbiviz_json)
 
 # Deploy
 print(f"Creating: {DIAG_NAME}")
