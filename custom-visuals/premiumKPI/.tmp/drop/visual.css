@@ -1,45 +1,96 @@
-/* Premium KPI Visual — executive dashboard styling */
-.premium-kpi-wrapper {
+/* Premium KPI v2 — Dark executive theme */
+.kpi-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 16px 20px;
+  background: #151d2e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: hidden;
+}
+/* Icon circle */
+.kpi-icon-circle {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(56, 152, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.kpi-icon-text {
+  color: #3898ff;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 1;
+}
+/* Content area */
+.kpi-content {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  height: 100%;
-  padding: 12px 12px 12px 24px;
-  box-sizing: border-box;
-  position: relative;
-  font-family: 'Segoe UI', -apple-system, sans-serif;
+  gap: 2px;
 }
-.premium-kpi-accent {
-  position: absolute;
-  left: 0;
-  top: 12px;
-  bottom: 12px;
-  width: 3px;
-  background: #1B3A5C;
-  border-radius: 2px;
-}
-.premium-kpi-label {
-  font-size: 10px;
-  font-weight: 400;
-  color: #4A4A6A;
-  letter-spacing: 0.3px;
+.kpi-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
   text-transform: uppercase;
-  margin-bottom: 4px;
+  letter-spacing: 0.5px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100%;
 }
-.premium-kpi-value {
-  font-size: 28px;
-  font-weight: 600;
-  color: #1A1A2E;
-  line-height: 1.1;
+.kpi-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #ffffff;
   letter-spacing: -0.5px;
+  line-height: 1.1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100%;
+  text-shadow: 0 0 0 #111;
+}
+/* Delta area */
+.kpi-delta {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+}
+.kpi-delta-arrow {
+  font-size: 10px;
+  display: inline;
+}
+.kpi-delta-arrow.positive {
+  color: #34d399;
+}
+.kpi-delta-arrow.negative {
+  color: #f87171;
+}
+.kpi-delta-value {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.kpi-delta-value.positive {
+  color: #34d399;
+}
+.kpi-delta-value.negative {
+  color: #f87171;
+}
+.kpi-delta-context {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.35);
+  white-space: nowrap;
 }
 
