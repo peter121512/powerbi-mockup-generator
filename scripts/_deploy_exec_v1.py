@@ -164,10 +164,10 @@ def vis_container(name, x, y, w, h, z_idx):
 kpi_width = 270
 kpi_height = 100
 kpi_gap = 18
-kpi_y = 55
+kpi_y = 62
 
 # ===== PAGE TITLE (using actionTitle visual) =====
-title_vis = vis_container("pagetitle", kpi_start_x, 6, 450, 45, 99)
+title_vis = vis_container("pagetitle", kpi_start_x, 6, 450, 52, 99)
 title_vis["visual"] = {
     "visualType": "cardVisual",
     "query": {"queryState": {"Values": {"projections": [{
@@ -196,7 +196,7 @@ title_vis["visual"] = {
 
 # ===== FILTERS (right-aligned slicers) =====
 # Region slicer - styled to look like Mockup 1 filter pills
-slicer1 = vis_container("slicer_region", 780, 10, 220, 42, 97)
+slicer1 = vis_container("slicer_region", 780, 8, 220, 50, 97)
 slicer1["visual"] = {
     "visualType": "slicer",
     "query": {"queryState": {"Values": {"projections": [{
@@ -253,7 +253,7 @@ slicer1["visual"] = {
 add("definition/pages/exec/visuals/slicer_region/visual.json", slicer1)
 
 # Year slicer
-slicer2 = vis_container("slicer_year", 1015, 10, 210, 42, 98)
+slicer2 = vis_container("slicer_year", 1015, 8, 210, 50, 98)
 slicer2["visual"] = {
     "visualType": "slicer",
     "query": {"queryState": {"Values": {"projections": [{
@@ -338,7 +338,7 @@ for i, (label, entity, prop) in enumerate(kpi_measures):
 
 # ===== HERO LINE CHART (Revenue over time) =====
 hero_y = kpi_y + kpi_height + 10
-hero_vis = vis_container("hero_line", kpi_start_x, hero_y, 740, 250, 10)
+hero_vis = vis_container("hero_line", kpi_start_x, hero_y, 740, 240, 10)
 hero_vis["visual"] = {
     "visualType": "areaChart",
     "query": {"queryState": {
@@ -400,7 +400,7 @@ add("definition/pages/exec/visuals/hero_line/visual.json", hero_vis)
 
 # ===== DONUT CHART (Revenue by Region) =====
 donut_x = kpi_start_x + 740 + 15
-donut_vis = vis_container("donut_region", donut_x, hero_y, 440, 250, 11)
+donut_vis = vis_container("donut_region", donut_x, hero_y, 440, 240, 11)
 donut_vis["visual"] = {
     "visualType": "donutChart",
     "query": {"queryState": {
@@ -444,8 +444,8 @@ donut_vis["visual"] = {
 add("definition/pages/exec/visuals/donut_region/visual.json", donut_vis)
 
 # ===== BAR CHART (Revenue by Store) - bottom row =====
-bar_y = hero_y + 250 + 10
-bar_vis = vis_container("bar_stores", kpi_start_x, bar_y, 580, 250, 12)
+bar_y = hero_y + 240 + 10
+bar_vis = vis_container("bar_stores", kpi_start_x, bar_y, 580, 240, 12)
 bar_vis["visual"] = {
     "visualType": "barChart",
     "query": {"queryState": {
@@ -485,7 +485,7 @@ add("definition/pages/exec/visuals/bar_stores/visual.json", bar_vis)
 
 # ===== SECOND BOTTOM PANEL (Gross Profit by Store) =====
 bar2_x = kpi_start_x + 580 + 15
-bar2_vis = vis_container("bar_profit", bar2_x, bar_y, 600, 250, 13)
+bar2_vis = vis_container("bar_profit", bar2_x, bar_y, 600, 240, 13)
 bar2_vis["visual"] = {
     "visualType": "columnChart",
     "query": {"queryState": {
