@@ -19,6 +19,7 @@
         {
             "categorical": {
                 "categories": {
+                    "dataReductionAlgorithm": { "top": { "count": 1000 } },
                     "for": {
                         "in": "category"
                     }

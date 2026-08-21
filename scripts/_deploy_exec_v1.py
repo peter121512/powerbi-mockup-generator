@@ -366,10 +366,16 @@ hero_vis = vis_container("hero_line", kpi_start_x, hero_y, hero_width, hero_heig
 hero_vis["visual"] = {
     "visualType": AREA_GUID,
     "query": {"queryState": {
-        "category": {"projections": [{
-            "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Date"}}, "Property": "Month"}},
-            "queryRef": "Date.Month", "nativeQueryRef": "Month",
-        }]},
+        "category": {"projections": [
+            {
+                "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Date"}}, "Property": "Year"}},
+                "queryRef": "Date.Year", "nativeQueryRef": "Year",
+            },
+            {
+                "field": {"Column": {"Expression": {"SourceRef": {"Entity": "Date"}}, "Property": "Month"}},
+                "queryRef": "Date.Month", "nativeQueryRef": "Month",
+            },
+        ]},
         "values": {"projections": [
             {
                 "field": {"Measure": {"Expression": {"SourceRef": {"Entity": "Sales"}}, "Property": "TotalRevenue"}},

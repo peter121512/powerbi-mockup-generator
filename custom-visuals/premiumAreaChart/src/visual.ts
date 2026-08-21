@@ -18,6 +18,13 @@ import VisualUpdateOptions = powerbi.extensibility.visual.VisualUpdateOptions;
 import IVisual = powerbi.extensibility.visual.IVisual;
 import IVisualEventService = powerbi.extensibility.IVisualEventService;
 
+interface DataPoint {
+    year: number;
+    month: number;
+    quarter: number;
+    values: number[];
+}
+
 interface SeriesData {
     name: string;
     color: string;
@@ -44,6 +51,8 @@ export class Visual implements IVisual {
     private legendGroup: d3.Selection<SVGGElement, unknown, null, undefined>;
     private toggleGroup: d3.Selection<SVGGElement, unknown, null, undefined>;
 
+    private rawData: DataPoint[] = [];
+    private seriesNames: string[] = [];
     private currentGranularity: Granularity = "Monthly";
     private lastOptions: VisualUpdateOptions | null = null;
 
@@ -90,28 +99,46 @@ export class Visual implements IVisual {
             }
 
             const categorical = dv.categorical;
-            const categories = categorical.categories[0].values.map(v => String(v));
-            const rawSeries: SeriesData[] = [];
 
-            const numSeries = Math.min(categorical.values.length, 3);
-            for (let i = 0; i < numSeries; i++) {
-                const valueColumn = categorical.values[i];
-                const seriesValues = valueColumn.values.map((v, idx) => ({
-                    category: categories[idx],
-                    value: Number(v) || 0
-                }));
-                rawSeries.push({
-                    name: valueColumn.source.displayName || `Series ${i + 1}`,
-                    color: SERIES_COLORS[i],
-                    values: seriesValues
-                });
+            // Parse categories - may be hierarchical (Year + Month) or single (Month)
+            let years: number[] = [];
+            let months: number[] = [];
+            const numRows = categorical.categories[0].values.length;
+
+            if (categorical.categories.length >= 2) {
+                // Hierarchical: first is Year, second is Month
+                years = categorical.categories[0].values.map(v => Number(v));
+                months = categorical.categories[1].values.map(v => Number(v));
+            } else {
+                // Single category - assume months, no year info
+                months = categorical.categories[0].values.map(v => Number(v));
+                years = months.map(() => 0); // unknown year
             }
 
-            // Aggregate based on current granularity
-            const aggregatedSeries = this.aggregateData(rawSeries, this.currentGranularity);
-            const aggregatedCategories = aggregatedSeries.length > 0
-                ? aggregatedSeries[0].values.map(v => v.category)
-                : [];
+            // Parse values
+            const numSeries = Math.min(categorical.values.length, 3);
+            this.seriesNames = [];
+            this.rawData = [];
+
+            for (let i = 0; i < numSeries; i++) {
+                this.seriesNames.push(categorical.values[i].source.displayName || `Series ${i + 1}`);
+            }
+
+            for (let row = 0; row < numRows; row++) {
+                const dp: DataPoint = {
+                    year: years[row],
+                    month: months[row],
+                    quarter: Math.ceil(months[row] / 3),
+                    values: [],
+                };
+                for (let i = 0; i < numSeries; i++) {
+                    dp.values.push(Number(categorical.values[i].values[row]) || 0);
+                }
+                this.rawData.push(dp);
+            }
+
+            // Sort by year then month
+            this.rawData.sort((a, b) => a.year !== b.year ? a.year - b.year : a.month - b.month);
 
             // Detect currency
             const currency = this.detectCurrency(categorical.values[0]?.source?.format);
@@ -119,57 +146,68 @@ export class Visual implements IVisual {
             // Render toggle buttons
             this.renderToggle(width);
 
-            // Render chart
-            this.render(width, height, aggregatedCategories, aggregatedSeries, currency);
+            // Aggregate and render
+            this.renderAggregated(width, height, currency);
             this.events.renderingFinished(options);
         } catch (error) {
             this.events.renderingFailed(options, String(error));
         }
     }
 
-    private aggregateData(rawSeries: SeriesData[], granularity: Granularity): SeriesData[] {
-        if (granularity === "Monthly") {
-            return rawSeries; // No aggregation needed
-        }
+    private renderAggregated(width: number, height: number, currency: string): void {
+        // Aggregate based on granularity
+        const grouped = new Map<string, number[]>();
+        const sortKeys: string[] = [];
 
-        return rawSeries.map(series => {
-            const grouped = new Map<string, number>();
+        this.rawData.forEach(dp => {
+            let key: string;
+            let sortKey: string;
 
-            series.values.forEach(point => {
-                const monthNum = parseInt(point.category, 10);
-                let key: string;
-
-                if (granularity === "Quarterly") {
-                    if (!isNaN(monthNum) && monthNum >= 1 && monthNum <= 12) {
-                        const quarter = Math.ceil(monthNum / 3);
-                        key = `Q${quarter}`;
-                    } else {
-                        key = point.category;
-                    }
+            if (this.currentGranularity === "Monthly") {
+                // Show each month with year context
+                const monthAbbr = this.MONTH_ABBR[(dp.month - 1)] || String(dp.month);
+                if (dp.year > 0) {
+                    const yearShort = String(dp.year).slice(-2);
+                    key = `${monthAbbr} '${yearShort}`;
+                    sortKey = `${dp.year}-${String(dp.month).padStart(2, "0")}`;
                 } else {
-                    // Annual — sum everything into one point
-                    key = "Total";
+                    key = monthAbbr;
+                    sortKey = String(dp.month).padStart(2, "0");
                 }
-
-                grouped.set(key, (grouped.get(key) || 0) + point.value);
-            });
-
-            const values: { category: string; value: number }[] = [];
-            grouped.forEach((value, category) => {
-                values.push({ category, value });
-            });
-
-            // Sort quarters
-            if (granularity === "Quarterly") {
-                values.sort((a, b) => {
-                    const qa = parseInt(a.category.replace("Q", ""), 10);
-                    const qb = parseInt(b.category.replace("Q", ""), 10);
-                    return qa - qb;
-                });
+            } else if (this.currentGranularity === "Quarterly") {
+                if (dp.year > 0) {
+                    key = `Q${dp.quarter} '${String(dp.year).slice(-2)}`;
+                    sortKey = `${dp.year}-Q${dp.quarter}`;
+                } else {
+                    key = `Q${dp.quarter}`;
+                    sortKey = `Q${dp.quarter}`;
+                }
+            } else {
+                // Annual
+                key = dp.year > 0 ? String(dp.year) : "Total";
+                sortKey = String(dp.year);
             }
 
-            return { name: series.name, color: series.color, values };
+            if (!grouped.has(key)) {
+                grouped.set(key, new Array(this.seriesNames.length).fill(0));
+                sortKeys.push(sortKey + "|" + key);
+            }
+            const vals = grouped.get(key)!;
+            dp.values.forEach((v, i) => { vals[i] += v; });
         });
+
+        // Sort by sortKey
+        sortKeys.sort();
+        const categories: string[] = sortKeys.map(sk => sk.split("|")[1]);
+
+        // Build series data
+        const seriesData: SeriesData[] = this.seriesNames.map((name, i) => ({
+            name,
+            color: SERIES_COLORS[i],
+            values: categories.map(cat => ({ category: cat, value: grouped.get(cat)![i] })),
+        }));
+
+        this.render(width, height, categories, seriesData, currency);
     }
 
     private renderToggle(width: number): void {
@@ -193,7 +231,13 @@ export class Visual implements IVisual {
                 .on("click", () => {
                     this.currentGranularity = label;
                     if (this.lastOptions) {
-                        this.update(this.lastOptions);
+                        const w = this.lastOptions.viewport.width;
+                        const h = this.lastOptions.viewport.height;
+                        const currency = this.detectCurrency(
+                            this.lastOptions.dataViews?.[0]?.categorical?.values?.[0]?.source?.format
+                        );
+                        this.renderToggle(w);
+                        this.renderAggregated(w, h, currency);
                     }
                 });
 
@@ -236,14 +280,6 @@ export class Visual implements IVisual {
         "Jan", "Feb", "Mar", "Apr", "May", "Jun",
         "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
     ];
-
-    private formatCategory(value: string): string {
-        const num = parseInt(value, 10);
-        if (!isNaN(num) && num >= 1 && num <= 12 && this.currentGranularity === "Monthly") {
-            return this.MONTH_ABBR[num - 1];
-        }
-        return value;
-    }
 
     private formatYValue(value: number, currency: string): string {
         const abs = Math.abs(value);
@@ -357,6 +393,10 @@ export class Visual implements IVisual {
         });
 
         // X-axis labels
+        // X-axis labels (thin if too many)
+        const maxLabels = Math.floor(chartWidth / 60);
+        const labelStep = Math.max(1, Math.ceil(categories.length / maxLabels));
+
         this.chartGroup.append("g")
             .attr("transform", `translate(0,${chartHeight})`)
             .selectAll(".x-label")
@@ -368,7 +408,7 @@ export class Visual implements IVisual {
             .attr("fill", AXIS_COLOR)
             .attr("font-size", "10px")
             .attr("font-family", "'Segoe UI', sans-serif")
-            .text(d => this.formatCategory(d));
+            .text((d, i) => i % labelStep === 0 ? d : "");
 
         // Y-axis labels
         this.chartGroup.append("g")
@@ -452,7 +492,7 @@ export class Visual implements IVisual {
                 tooltipBg.attr("x", tipX).attr("y", tipY).attr("width", boxWidth).attr("height", boxHeight);
                 tooltipGroup.selectAll("text").remove();
 
-                const catLabel = self.formatCategory(nearestCat);
+                const catLabel = nearestCat;
                 tooltipGroup.append("text")
                     .attr("x", tipX + 8).attr("y", tipY + 14)
                     .attr("fill", "#e2e8f0").attr("font-size", "9px")
