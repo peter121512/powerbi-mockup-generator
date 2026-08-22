@@ -353,6 +353,20 @@ class TemplateRegistry(BaseModel):
             description="Transparent card overlay showing KPI value in donut center.",
         )
 
+        # premium_insights — custom insights panel with colored icon circles
+        templates["premium_insights"] = VisualTemplate(
+            template_id="premium_insights",
+            visual_type=CUSTOM_VISUAL_GUIDS["insights"],
+            data_roles=[
+                DataRole(name="measure", kind="Measure", display_name="Measure", required=True),
+            ],
+            default_width=365,
+            default_height=240,
+            supports_cross_filter=False,
+            supports_tooltips=False,
+            description="Key Insights panel with colored icon circles and text rows.",
+        )
+
         return cls(templates=templates)
 
     def get(self, template_id: str) -> VisualTemplate:
