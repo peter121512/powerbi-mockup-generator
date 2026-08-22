@@ -22,6 +22,15 @@ _GROSS_PROFIT = FieldRef(entity="Sales", property="GrossProfit", is_measure=True
 _TOTAL_COST = FieldRef(entity="Sales", property="TotalCost", is_measure=True)
 _GROSS_MARGIN_PCT = FieldRef(entity="Sales", property="GrossMarginPct", is_measure=True)
 
+# Customer measures (added to semantic model)
+_ACTIVE_CUSTOMERS = FieldRef(entity="Sales", property="ActiveCustomers", is_measure=True)
+_NEW_CUSTOMERS = FieldRef(entity="Sales", property="NewCustomers", is_measure=True)
+_RETENTION_RATE = FieldRef(entity="Sales", property="RetentionRate", is_measure=True)
+_CUSTOMER_LTV = FieldRef(entity="Sales", property="CustomerLTV", is_measure=True)
+_CUSTOMER_GROWTH = FieldRef(entity="Sales", property="CustomerGrowth", is_measure=True)
+_CUSTOMER_RETENTION = FieldRef(entity="Sales", property="CustomerRetention", is_measure=True)
+
+# Dimensions
 _REGION_NAME = FieldRef(entity="Region", property="RegionName")
 _CATEGORY_NAME = FieldRef(entity="Product", property="CategoryName")
 _DATE_YEAR = FieldRef(entity="Date", property="Year")
@@ -83,13 +92,11 @@ def customer_visual_bindings() -> list[VisualBinding]:
     bindings: list[VisualBinding] = []
 
     # ─── KPI Row (4 cards) ───────────────────────────────────────────────
-    # Proxy: TotalRevenue→Active Customers, GrossProfit→New Customers,
-    #         GrossMarginPct→Retention Rate, TotalCost→Churn Rate
     kpi_definitions: list[tuple[str, FieldRef]] = [
-        ("Active Customers", _TOTAL_REVENUE),
-        ("New Customers", _GROSS_PROFIT),
-        ("Retention Rate", _GROSS_MARGIN_PCT),
-        ("Customer LTV", _TOTAL_COST),
+        ("Active Customers", _ACTIVE_CUSTOMERS),
+        ("New Customers", _NEW_CUSTOMERS),
+        ("Retention Rate", _RETENTION_RATE),
+        ("Customer LTV", _CUSTOMER_LTV),
     ]
 
     for i, (title, measure) in enumerate(kpi_definitions):
@@ -114,7 +121,7 @@ def customer_visual_bindings() -> list[VisualBinding]:
             title="Customer Growth & Retention",
             data_bindings={
                 "category": [_DATE_YEAR, _DATE_MONTH],
-                "values": [_TOTAL_REVENUE, _GROSS_PROFIT],
+                "values": [_CUSTOMER_GROWTH, _CUSTOMER_RETENTION],
             },
             position=(mid_x1, _MID_ROW_Y, _MID_COL1_W, _MID_ROW_HEIGHT),
             config_overrides={},
@@ -129,7 +136,7 @@ def customer_visual_bindings() -> list[VisualBinding]:
             title="Customers by Segment",
             data_bindings={
                 "category": [_CATEGORY_NAME],
-                "values": [_TOTAL_REVENUE],
+                "values": [_ACTIVE_CUSTOMERS],
             },
             position=(mid_x2, _MID_ROW_Y, _MID_COL2_W, _MID_ROW_HEIGHT),
             config_overrides={},
@@ -142,11 +149,11 @@ def customer_visual_bindings() -> list[VisualBinding]:
     bindings.append(
         VisualBinding(
             template_id="donut_center_kpi",
-            title="£2.4M",
-            data_bindings={"measure": [_TOTAL_REVENUE]},
+            title="24.4K",
+            data_bindings={"measure": [_ACTIVE_CUSTOMERS]},
             position=(donut_kpi_x, donut_kpi_y, 100, 44),
             config_overrides={
-                "subtitle": "Total Customers",
+                "subtitle": "Active Customers",
                 "show_background": False,
                 "show_border": False,
                 "title_bold": True,
@@ -166,7 +173,7 @@ def customer_visual_bindings() -> list[VisualBinding]:
             title="Acquisition by Channel",
             data_bindings={
                 "category": [_CATEGORY_NAME],
-                "values": [_GROSS_PROFIT],
+                "values": [_NEW_CUSTOMERS],
             },
             position=(bot_x1, _BOT_ROW_Y, _BOT_COL_W, _BOT_ROW_HEIGHT),
             config_overrides={
@@ -185,7 +192,7 @@ def customer_visual_bindings() -> list[VisualBinding]:
             title="Customer Value by Region",
             data_bindings={
                 "category": [_REGION_NAME],
-                "values": [_TOTAL_REVENUE, _GROSS_PROFIT],
+                "values": [_ACTIVE_CUSTOMERS, _NEW_CUSTOMERS],
             },
             position=(bot_x2, _BOT_ROW_Y, _BOT_COL_W, _BOT_ROW_HEIGHT),
             config_overrides={"show_legend": True},
@@ -198,7 +205,7 @@ def customer_visual_bindings() -> list[VisualBinding]:
         VisualBinding(
             template_id="premium_insights",
             title="",
-            data_bindings={"measure": [_TOTAL_REVENUE]},
+            data_bindings={"measure": [_ACTIVE_CUSTOMERS]},
             position=(bot_x3, _BOT_ROW_Y, _BOT_COL_W, _BOT_ROW_HEIGHT),
             config_overrides={},
         )
