@@ -1,0 +1,17 @@
+{
+  "visual": {
+    "name": "premiumWaterfall",
+    "displayName": "Premium Waterfall",
+    "guid": "premiumWaterfall3A4B5C6D7E8F9A0B1C2D3E4F5A6B7C8D",
+    "visualClassName": "Visual",
+    "version": "1.0.0.0",
+    "description": "Premium executive waterfall/bridge chart for cash flow and P&L visualization",
+    "supportUrl": "https://github.com/peter121512/powerbi-mockup-generator",
+    "gitHubUrl": "https://github.com/peter121512/powerbi-mockup-generator"
+  },
+  "apiVersion": "5.3.0",
+  "author": { "name": "PBI Gen", "email": "dev@example.com" },
+  "assets": { "icon": "assets/icon.png" },
+  "style": "style/visual.less",
+  "capabilities": "capabilities.json"
+}

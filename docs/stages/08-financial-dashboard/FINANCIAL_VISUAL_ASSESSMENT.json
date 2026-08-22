@@ -1,0 +1,33 @@
+{
+  "stage": "08",
+  "assessment_type": "visual_quality_evaluation",
+  "screenshot": "financial_v1.png",
+  "reference": "financial-dashboard-reference.svg",
+  "note": "Multimodal critic runs require OPENAI_API_KEY environment variable. The deployed report renders successfully (RENDERED title confirmed via headless Playwright). Full 3x critic evaluation should be run by project owner once API key is available.",
+  "deployment_evidence": {
+    "report_name": "FinancialPerformance_v1",
+    "report_id": "d07581a7-3145-4370-a1c6-63c0505884cf",
+    "page_name": "financial_performance",
+    "render_status": "RENDERED",
+    "screenshot_size_bytes": 99878,
+    "screenshot_dimensions": "1280x720",
+    "custom_visuals_embedded": [
+      "premiumKPI0E21B11FE691418A84E3F774DD6461A5",
+      "premiumAreaChart1A2B3C4D5E6F7A8B9C0D1E2F3A4B5C6D",
+      "premiumWaterfall3A4B5C6D7E8F9A0B1C2D3E4F5A6B7C8D"
+    ],
+    "zero_touch": true,
+    "embed_token_type": "Embed",
+    "no_viewer_consent": true
+  },
+  "executive_regression": {
+    "report_name": "ExecOverview_v2",
+    "report_id": "44a9fc67-2087-436c-8484-12846a38ab66",
+    "render_status": "RENDERED",
+    "screenshot_size_bytes": 116509,
+    "template_system_used": true,
+    "zero_touch": true
+  },
+  "critic_runs": [],
+  "critic_blocked_reason": "No OPENAI_API_KEY in environment. Critic infrastructure (src/pbi_gen/critic/) is functional but requires API credentials to execute multimodal evaluation."
+}
