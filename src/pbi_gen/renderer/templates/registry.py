@@ -265,6 +265,21 @@ class TemplateRegistry(BaseModel):
             description="Horizontal bar chart with dark styling and data labels.",
         )
 
+        # premium_column — native column chart with premium styling
+        templates["premium_column"] = VisualTemplate(
+            template_id="premium_column",
+            visual_type="columnChart",
+            data_roles=[
+                DataRole(name="category", kind="Grouping", display_name="Category", required=True),
+                DataRole(name="values", kind="Measure", display_name="Values", required=True),
+            ],
+            default_width=365,
+            default_height=240,
+            supports_cross_filter=True,
+            supports_tooltips=True,
+            description="Vertical column chart with dark styling and legend.",
+        )
+
         # premium_donut — native donut chart
         templates["premium_donut"] = VisualTemplate(
             template_id="premium_donut",

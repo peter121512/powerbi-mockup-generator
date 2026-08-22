@@ -154,8 +154,8 @@ def financial_visual_bindings() -> list[VisualBinding]:
     )
 
     # Donut center KPI overlay (uses cardVisual title, not premiumKPI)
-    donut_kpi_x = mid_x2 + int(_MID_COL2_W * 0.25)
-    donut_kpi_y = _MID_ROW_Y + int(_MID_ROW_HEIGHT * 0.40)
+    donut_kpi_x = mid_x2 + int(_MID_COL2_W * 0.22)
+    donut_kpi_y = _MID_ROW_Y + int(_MID_ROW_HEIGHT * 0.38)
     bindings.append(
         VisualBinding(
             template_id="donut_center_kpi",
@@ -194,18 +194,18 @@ def financial_visual_bindings() -> list[VisualBinding]:
         )
     )
 
-    # Expense Breakdown (waterfall)
+    # Profit vs Cost by Region (column chart - multi-measure for color variety)
     bot_x2 = bot_x1 + _BOT_COL_W + _BOT_GAP
     bindings.append(
         VisualBinding(
-            template_id="premium_waterfall",
-            title="Cost Breakdown",
+            template_id="premium_column",
+            title="Profit vs Cost by Region",
             data_bindings={
-                "category": [_CATEGORY_NAME],
-                "values": [_TOTAL_COST],
+                "category": [_REGION_NAME],
+                "values": [_GROSS_PROFIT, _TOTAL_COST],
             },
             position=(bot_x2, _BOT_ROW_Y, _BOT_COL_W, _BOT_ROW_HEIGHT),
-            config_overrides={},
+            config_overrides={"show_legend": True},
         )
     )
 

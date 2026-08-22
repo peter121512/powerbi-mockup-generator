@@ -238,6 +238,22 @@ def _build_native_objects(
             "color": _solid_color_expr(tokens.text_muted),
         }}]
 
+    elif visual_type == "columnChart":
+        objects["legend"] = [{"properties": {
+            "show": _literal("true"),
+            "showTitle": _literal("false"),
+            "labelColor": _solid_color_expr(tokens.text_muted),
+        }}]
+        objects["categoryAxis"] = [{"properties": {
+            "showAxisTitle": _literal("false"),
+            "labelColor": _solid_color_expr(tokens.text_muted),
+        }}]
+        objects["valueAxis"] = [{"properties": {
+            "showAxisTitle": _literal("false"),
+            "labelColor": _solid_color_expr(tokens.text_subtle),
+            "gridlineColor": _solid_color_expr(tokens.border),
+        }}]
+
     elif visual_type == "tableEx":
         objects["grid"] = [{"properties": {
             "gridVertical": _literal("false"),
@@ -655,8 +671,8 @@ class PageBuilder(BaseModel):
             "width": self.shell.width,
             "objects": {
                 "background": [{"properties": {
-                    "color": {"solid": {"color": _literal(f"'{self.tokens.canvas}'")["expr"]}},
-                    "transparency": _literal("0D")["expr"],
+                    "color": _solid_color_expr(self.tokens.canvas),
+                    "transparency": _literal("0D"),
                 }}],
             },
         })
