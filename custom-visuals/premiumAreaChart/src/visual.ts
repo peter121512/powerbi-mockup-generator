@@ -2,6 +2,7 @@
  * Premium Area Chart — Executive dark-theme area chart
  * Smooth gradient fills, subtle glow effects, and premium styling.
  * Includes internal Monthly/Quarterly/Annual toggle buttons.
+ * Fully responsive — all margins, fonts, toggles, and legend scale with viewport.
  *
  * Data roles:
  *   category — x-axis dimension (e.g. month numbers 1-12)
@@ -41,6 +42,10 @@ const GRID_COLOR = "#1e293b";
 const ACTIVE_BTN = "#3898ff";
 const INACTIVE_BTN = "#1e293b";
 const INACTIVE_BORDER = "#334155";
+
+// Reference design dimensions (for scaling calculations)
+const REF_WIDTH = 640;
+const REF_HEIGHT = 240;
 
 export class Visual implements IVisual {
     private events: IVisualEventService;
@@ -144,7 +149,7 @@ export class Visual implements IVisual {
             const currency = this.detectCurrency(categorical.values[0]?.source?.format);
 
             // Render toggle buttons
-            this.renderToggle(width);
+            this.renderToggle(width, height);
 
             // Aggregate and render
             this.renderAggregated(width, height, currency);
@@ -152,6 +157,22 @@ export class Visual implements IVisual {
         } catch (error) {
             this.events.renderingFailed(options, String(error));
         }
+    }
+
+    /** Compute a scale factor relative to reference design size */
+    private scaleFactor(width: number, height: number): number {
+        const sw = width / REF_WIDTH;
+        const sh = height / REF_HEIGHT;
+        return Math.min(sw, sh);
+    }
+
+    /** Scale a pixel value proportionally, clamped between min and max */
+    private scaled(baseValue: number, width: number, height: number, min?: number, max?: number): number {
+        const s = this.scaleFactor(width, height);
+        const v = baseValue * s;
+        if (min !== undefined && v < min) return min;
+        if (max !== undefined && v > max) return max;
+        return v;
     }
 
     private renderAggregated(width: number, height: number, currency: string): void {
@@ -164,7 +185,6 @@ export class Visual implements IVisual {
             let sortKey: string;
 
             if (this.currentGranularity === "Monthly") {
-                // Show each month with year context
                 const monthAbbr = this.MONTH_ABBR[(dp.month - 1)] || String(dp.month);
                 if (dp.year > 0) {
                     const yearShort = String(dp.year).slice(-2);
@@ -210,16 +230,25 @@ export class Visual implements IVisual {
         this.render(width, height, categories, seriesData, currency);
     }
 
-    private renderToggle(width: number): void {
+    private renderToggle(width: number, height: number): void {
         this.toggleGroup.selectAll("*").remove();
 
+        const s = this.scaleFactor(width, height);
         const labels: Granularity[] = ["Monthly", "Quarterly", "Annual"];
-        const btnWidth = 68;
-        const btnHeight = 22;
-        const btnGap = 4;
+
+        // Scale toggle button dimensions
+        const btnWidth = Math.max(40, Math.min(68, 68 * s));
+        const btnHeight = Math.max(16, Math.min(22, 22 * s));
+        const btnGap = Math.max(2, 4 * s);
+        const fontSize = Math.max(7, Math.min(9, 9 * s));
         const totalWidth = labels.length * btnWidth + (labels.length - 1) * btnGap;
-        const startX = width - totalWidth - 16;
-        const startY = 8;
+        const rightPadding = Math.max(8, 16 * s);
+        const topPadding = Math.max(4, 8 * s);
+        const startX = width - totalWidth - rightPadding;
+        const startY = topPadding;
+
+        // Hide toggles entirely if viewport too small
+        if (width < 200) return;
 
         labels.forEach((label, i) => {
             const x = startX + i * (btnWidth + btnGap);
@@ -236,7 +265,7 @@ export class Visual implements IVisual {
                         const currency = this.detectCurrency(
                             this.lastOptions.dataViews?.[0]?.categorical?.values?.[0]?.source?.format
                         );
-                        this.renderToggle(w);
+                        this.renderToggle(w, h);
                         this.renderAggregated(w, h, currency);
                     }
                 });
@@ -247,23 +276,24 @@ export class Visual implements IVisual {
                 .attr("y", startY)
                 .attr("width", btnWidth)
                 .attr("height", btnHeight)
-                .attr("rx", 4)
-                .attr("ry", 4)
+                .attr("rx", Math.min(4, 4 * s))
+                .attr("ry", Math.min(4, 4 * s))
                 .attr("fill", isActive ? ACTIVE_BTN : INACTIVE_BTN)
                 .attr("stroke", isActive ? ACTIVE_BTN : INACTIVE_BORDER)
                 .attr("stroke-width", 1);
 
-            // Button text
+            // Button text — use shorter labels at small sizes
+            const displayLabel = btnWidth < 50 ? label.charAt(0) : label;
             g.append("text")
                 .attr("x", x + btnWidth / 2)
                 .attr("y", startY + btnHeight / 2)
                 .attr("text-anchor", "middle")
                 .attr("dominant-baseline", "central")
                 .attr("fill", isActive ? "#ffffff" : AXIS_COLOR)
-                .attr("font-size", "9px")
+                .attr("font-size", `${fontSize}px`)
                 .attr("font-weight", "600")
                 .attr("font-family", "'Segoe UI', sans-serif")
-                .text(label);
+                .text(displayLabel);
         });
     }
 
@@ -307,13 +337,27 @@ export class Visual implements IVisual {
         this.legendGroup.selectAll("*").remove();
         this.defs.selectAll("*").remove();
 
-        const margin = { top: 42, right: 16, bottom: 32, left: 56 };
+        const s = this.scaleFactor(width, height);
+
+        // Responsive margins — scale with viewport but enforce minimums
+        const margin = {
+            top: Math.max(28, Math.min(42, 42 * s)),
+            right: Math.max(8, Math.min(16, 16 * s)),
+            bottom: Math.max(20, Math.min(32, 32 * s)),
+            left: Math.max(36, Math.min(56, 56 * s)),
+        };
+
         const chartWidth = width - margin.left - margin.right;
         const chartHeight = height - margin.top - margin.bottom;
 
-        if (chartWidth <= 0 || chartHeight <= 0) return;
+        if (chartWidth <= 20 || chartHeight <= 20) return;
 
         this.chartGroup.attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Responsive font sizes
+        const axisFontSize = Math.max(7, Math.min(10, 10 * s));
+        const legendFontSize = Math.max(7, Math.min(10, 10 * s));
+        const lineWidth = Math.max(1.5, Math.min(2.5, 2 * s));
 
         // Scales
         const xScale = d3.scalePoint<string>()
@@ -335,13 +379,14 @@ export class Visual implements IVisual {
             .attr("id", "glow")
             .attr("x", "-20%").attr("y", "-20%")
             .attr("width", "140%").attr("height", "140%");
-        filter.append("feGaussianBlur").attr("stdDeviation", "3").attr("result", "coloredBlur");
+        filter.append("feGaussianBlur").attr("stdDeviation", String(Math.max(1.5, 3 * s))).attr("result", "coloredBlur");
         const feMerge = filter.append("feMerge");
         feMerge.append("feMergeNode").attr("in", "coloredBlur");
         feMerge.append("feMergeNode").attr("in", "SourceGraphic");
 
-        // Gridlines
-        const yTicks = yScale.ticks(5);
+        // Gridlines — fewer at small sizes
+        const numTicks = Math.max(3, Math.min(5, Math.floor(chartHeight / 40)));
+        const yTicks = yScale.ticks(numTicks);
         this.chartGroup.selectAll(".grid-line")
             .data(yTicks).enter()
             .append("line")
@@ -388,13 +433,14 @@ export class Visual implements IVisual {
                 .attr("d", lineGen)
                 .attr("fill", "none")
                 .attr("stroke", series.color)
-                .attr("stroke-width", 2)
+                .attr("stroke-width", lineWidth)
                 .attr("filter", "url(#glow)");
         });
 
-        // X-axis labels
-        // X-axis labels (thin if too many)
-        const maxLabels = Math.floor(chartWidth / 60);
+        // X-axis labels — adaptive density based on available width
+        const labelCharWidth = axisFontSize * 0.65;
+        const avgLabelWidth = 6 * labelCharWidth; // ~6 chars per label
+        const maxLabels = Math.max(3, Math.floor(chartWidth / (avgLabelWidth + 8)));
         const labelStep = Math.max(1, Math.ceil(categories.length / maxLabels));
 
         this.chartGroup.append("g")
@@ -403,10 +449,10 @@ export class Visual implements IVisual {
             .data(categories).enter()
             .append("text")
             .attr("x", d => xScale(d) || 0)
-            .attr("y", 18)
+            .attr("y", Math.max(12, 18 * s))
             .attr("text-anchor", "middle")
             .attr("fill", AXIS_COLOR)
-            .attr("font-size", "10px")
+            .attr("font-size", `${axisFontSize}px`)
             .attr("font-family", "'Segoe UI', sans-serif")
             .text((d, i) => i % labelStep === 0 ? d : "");
 
@@ -415,31 +461,45 @@ export class Visual implements IVisual {
             .selectAll(".y-label")
             .data(yTicks).enter()
             .append("text")
-            .attr("x", -8)
+            .attr("x", -Math.max(4, 8 * s))
             .attr("y", d => yScale(d))
             .attr("text-anchor", "end")
             .attr("dominant-baseline", "middle")
             .attr("fill", AXIS_COLOR)
-            .attr("font-size", "10px")
+            .attr("font-size", `${axisFontSize}px`)
             .attr("font-family", "'Segoe UI', sans-serif")
             .text(d => this.formatYValue(d, currency));
 
-        // Legend
-        this.legendGroup.attr("transform", `translate(${margin.left}, 14)`);
-        seriesData.forEach((series, i) => {
-            const legendItem = this.legendGroup.append("g")
-                .attr("transform", `translate(${i * 120}, 0)`);
-            legendItem.append("circle")
-                .attr("cx", 5).attr("cy", 5).attr("r", 4)
-                .attr("fill", series.color);
-            legendItem.append("text")
-                .attr("x", 14).attr("y", 5)
-                .attr("dominant-baseline", "middle")
-                .attr("fill", AXIS_COLOR)
-                .attr("font-size", "10px")
-                .attr("font-family", "'Segoe UI', sans-serif")
-                .text(series.name.length > 14 ? series.name.substring(0, 14) + "…" : series.name);
-        });
+        // Legend — responsive positioning and visibility
+        const showLegend = height > 120 && width > 250;
+        if (showLegend) {
+            const legendY = Math.max(10, 14 * s);
+            this.legendGroup.attr("transform", `translate(${margin.left}, ${legendY})`);
+
+            const legendSpacing = Math.max(80, Math.min(120, 120 * s));
+            const legendDotR = Math.max(3, Math.min(4, 4 * s));
+
+            seriesData.forEach((series, i) => {
+                const legendItem = this.legendGroup.append("g")
+                    .attr("transform", `translate(${i * legendSpacing}, 0)`);
+                legendItem.append("circle")
+                    .attr("cx", 5).attr("cy", 5).attr("r", legendDotR)
+                    .attr("fill", series.color);
+
+                const maxNameLen = Math.floor((legendSpacing - 20) / (legendFontSize * 0.55));
+                const displayName = series.name.length > maxNameLen
+                    ? series.name.substring(0, maxNameLen) + "…"
+                    : series.name;
+
+                legendItem.append("text")
+                    .attr("x", legendDotR * 2 + 8).attr("y", 5)
+                    .attr("dominant-baseline", "middle")
+                    .attr("fill", AXIS_COLOR)
+                    .attr("font-size", `${legendFontSize}px`)
+                    .attr("font-family", "'Segoe UI', sans-serif")
+                    .text(displayName);
+            });
+        }
 
         // ===== TOOLTIP =====
         const tooltipLine = this.chartGroup.append("line")
@@ -457,11 +517,12 @@ export class Visual implements IVisual {
 
         const tooltipDots = seriesData.map(series =>
             this.chartGroup.append("circle")
-                .attr("r", 4).attr("fill", series.color)
-                .attr("stroke", "#fff").attr("stroke-width", 1.5)
+                .attr("r", Math.max(3, 4 * s)).attr("fill", series.color)
+                .attr("stroke", "#fff").attr("stroke-width", Math.max(1, 1.5 * s))
                 .style("opacity", 0).style("pointer-events", "none")
         );
 
+        const tooltipFontSize = Math.max(7, Math.min(9, 9 * s));
         const self = this;
         this.chartGroup.append("rect")
             .attr("width", chartWidth).attr("height", chartHeight)
@@ -482,9 +543,9 @@ export class Visual implements IVisual {
 
                 tooltipLine.attr("x1", nearestX).attr("x2", nearestX).style("opacity", 1);
 
-                const lineHeight = 14;
-                const boxWidth = 140;
-                const boxHeight = (seriesData.length + 1) * lineHeight + 10;
+                const lineHeight = Math.max(11, 14 * s);
+                const boxWidth = Math.max(100, Math.min(140, 140 * s));
+                const boxHeight = (seriesData.length + 1) * lineHeight + Math.max(6, 10 * s);
                 let tipX = nearestX + 12;
                 if (tipX + boxWidth > chartWidth) tipX = nearestX - boxWidth - 12;
                 const tipY = 20;
@@ -494,8 +555,8 @@ export class Visual implements IVisual {
 
                 const catLabel = nearestCat;
                 tooltipGroup.append("text")
-                    .attr("x", tipX + 8).attr("y", tipY + 14)
-                    .attr("fill", "#e2e8f0").attr("font-size", "9px")
+                    .attr("x", tipX + 8).attr("y", tipY + lineHeight)
+                    .attr("fill", "#e2e8f0").attr("font-size", `${tooltipFontSize}px`)
                     .attr("font-weight", "bold").attr("font-family", "'Segoe UI', sans-serif")
                     .text(catLabel);
 
@@ -504,8 +565,8 @@ export class Visual implements IVisual {
                     const cy = yScale(val);
                     tooltipDots[si].attr("cx", nearestX).attr("cy", cy).style("opacity", 1);
                     tooltipGroup.append("text")
-                        .attr("x", tipX + 8).attr("y", tipY + 14 + (si + 1) * lineHeight)
-                        .attr("fill", series.color).attr("font-size", "9px")
+                        .attr("x", tipX + 8).attr("y", tipY + lineHeight + (si + 1) * lineHeight)
+                        .attr("fill", series.color).attr("font-size", `${tooltipFontSize}px`)
                         .attr("font-family", "'Segoe UI', sans-serif")
                         .text(`${series.name}: ${self.formatYValue(val, currency)}`);
                 });

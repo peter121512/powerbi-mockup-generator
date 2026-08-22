@@ -199,6 +199,9 @@ kpi_height = 100
 kpi_gap = 14
 kpi_y = 90
 
+# Available content width for layout calculations
+content_width = 1280 - kpi_start_x - 10  # available after nav rail + padding
+
 # ===== PAGE TITLE (using actionTitle visual) =====
 title_vis = vis_container("pagetitle", kpi_start_x, 4, 500, 56, 4999)
 title_vis["visual"] = {
@@ -374,8 +377,10 @@ for i, (label, entity, prop) in enumerate(kpi_measures):
     add(f"definition/pages/exec/visuals/kpi{i+1}/visual.json", vis)
 
 # ===== HERO AREA CHART (single, with internal toggles) =====
+# Proportional layout: hero chart takes ~57% of available content width, donut takes remainder
+mid_gap = 10
 hero_y = kpi_y + kpi_height + 10
-hero_width = 640
+hero_width = int(content_width * 0.57)
 hero_height = 240
 
 hero_vis = vis_container("hero_line", kpi_start_x, hero_y, hero_width, hero_height, 10)
@@ -424,8 +429,9 @@ hero_vis["visual"] = {
 add("definition/pages/exec/visuals/hero_line/visual.json", hero_vis)
 
 # ===== DONUT CHART (Revenue by Region) =====
-donut_x = kpi_start_x + 640 + 10
-donut_vis = vis_container("donut_region", donut_x, hero_y, 460, 240, 11)
+donut_x = kpi_start_x + hero_width + mid_gap
+donut_width = content_width - hero_width - mid_gap
+donut_vis = vis_container("donut_region", donut_x, hero_y, donut_width, 240, 11)
 donut_vis["visual"] = {
     "visualType": "donutChart",
     "query": {"queryState": {
@@ -469,9 +475,14 @@ donut_vis["visual"] = {
 add("definition/pages/exec/visuals/donut_region/visual.json", donut_vis)
 
 # Center KPI label for donut - centered on the donut ring
-donut_center_x = donut_x + 130  # center on ring (legend takes ~100px on right)
-donut_center_y = hero_y + 105   # vertical center of ring (below title)
-donut_kpi = vis_container("donut_kpi", donut_center_x, donut_center_y, 90, 42, 20)
+# Center KPI overlay on donut ring — ring sits in left ~60% of visual, vertically centered below title
+kpi_label_w = 100
+kpi_label_h = 44
+donut_ring_cx = donut_x + int(donut_width * 0.40)   # horizontal center of ring area (legend/labels on right)
+donut_ring_cy = hero_y + int(hero_height * 0.52)     # vertical center of ring area (title above)
+donut_center_x = donut_ring_cx - kpi_label_w // 2
+donut_center_y = donut_ring_cy - kpi_label_h // 2
+donut_kpi = vis_container("donut_kpi", donut_center_x, donut_center_y, kpi_label_w, kpi_label_h, 20)
 donut_kpi["visual"] = {
     "visualType": "cardVisual",
     "query": {"queryState": {"Values": {"projections": [{
@@ -492,6 +503,7 @@ donut_kpi["visual"] = {
             "text": {"expr": {"Literal": {"Value": "'Total Revenue'"}}},
             "fontColor": {"solid": {"color": {"expr": {"Literal": {"Value": "'#94a3b8'"}}}}},
             "fontSize": {"expr": {"Literal": {"Value": "8D"}}},
+            "alignment": {"expr": {"Literal": {"Value": "'center'"}}},
         }}],
         "background": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
         "border": [{"properties": {"show": {"expr": {"Literal": {"Value": "false"}}}}}],
@@ -503,10 +515,12 @@ add("definition/pages/exec/visuals/donut_kpi/visual.json", donut_kpi)
 # ===== BOTTOM ROW: 3 panels =====
 bar_y = hero_y + 240 + 10
 bottom_panel_height = 240
-panel1_width = 340
-panel2_width = 340
-panel3_width = 340
 panel_gap = 10
+# 3 equal panels filling the content width
+panel_width = int((content_width - 2 * panel_gap) / 3)
+panel1_width = panel_width
+panel2_width = panel_width
+panel3_width = content_width - 2 * panel_width - 2 * panel_gap  # remainder to last panel
 
 # Panel 1: Revenue by Category (bar chart)
 bar_vis = vis_container("bar_stores", kpi_start_x, bar_y, panel1_width, bottom_panel_height, 12)
@@ -718,20 +732,47 @@ else:
     print(f"Error {r.status_code}: {r.text[:300]}")
     sys.exit(1)
 
-time.sleep(3)
+time.sleep(8)  # Wait for report to be fully provisioned
 r = requests.get(f"{FABRIC_API_BASE}/workspaces/{workspace_id}/items?type=Report", headers=headers, timeout=30)
 report_id = next((i["id"] for i in r.json()["value"] if i["displayName"] == DIAG_NAME), None)
 print(f"Report ID: {report_id}")
 
-# Screenshot with transparent embed
-embed_url = _get_embed_url(workspace_id, report_id, {"Authorization": f"Bearer {token}"})
+# Get embed URL with retry
+embed_url = None
+for attempt in range(3):
+    embed_url = _get_embed_url(workspace_id, report_id, {"Authorization": f"Bearer {token}"})
+    if embed_url:
+        break
+    print(f"  Embed URL attempt {attempt+1} failed, retrying...")
+    time.sleep(5)
+
+if not embed_url:
+    print("ERROR: Could not get embed URL")
+    sys.exit(1)
+
+print(f"Embed URL: {embed_url[:80]}...")
+
+# Re-acquire token to ensure freshness for embed
+token = credential.get_token("https://analysis.windows.net/powerbi/api/.default").token
+time.sleep(5)  # Extra propagation delay
+
+# Generate embed token for the report (more reliable than raw AAD token)
+gen_token_url = f"https://api.powerbi.com/v1.0/myorg/groups/{workspace_id}/reports/{report_id}/GenerateToken"
+gen_resp = requests.post(gen_token_url, headers=headers, json={"accessLevel": "View"}, timeout=30)
+if gen_resp.status_code != 200:
+    print(f"ERROR: Could not generate embed token: {gen_resp.status_code} {gen_resp.text[:200]}")
+    sys.exit(1)
+embed_token = gen_resp.json()["token"]
+print(f"Embed token generated ({len(embed_token)} chars)")
+
+# Screenshot with embed token
 html = (
     '<!DOCTYPE html><html><head><meta charset="utf-8"><title>PBI</title>'
     '<script src="https://cdn.jsdelivr.net/npm/powerbi-client@2.23.1/dist/powerbi.min.js"></script>'
     '<style>*{margin:0;padding:0}body{overflow:hidden;background:#0f1623}#r{width:1280px;height:720px}</style>'
     '</head><body><div id="r"></div><script>'
     'const m=window["powerbi-client"].models;'
-    f'const c={{type:"report",tokenType:m.TokenType.Aad,accessToken:"{token}",'
+    f'const c={{type:"report",tokenType:m.TokenType.Embed,accessToken:"{embed_token}",'
     f'embedUrl:"{embed_url}",id:"{report_id}",pageName:"exec",'
     'settings:{navContentPaneEnabled:false,filterPaneEnabled:false,'
     'background:m.BackgroundType.Transparent,'
@@ -750,10 +791,10 @@ with sync_playwright() as p:
     page = browser.new_page(viewport={'width': 1280, 'height': 720})
     page.goto(f'file:///{html_path.resolve()}')
     try:
-        page.wait_for_function('document.title.startsWith("RENDERED") || document.title.startsWith("ERROR")', timeout=45000)
+        page.wait_for_function('document.title.startsWith("RENDERED") || document.title.startsWith("ERROR")', timeout=60000)
     except:
         pass
-    page.wait_for_timeout(5000)
+    page.wait_for_timeout(6000)
     print(f"Title: {page.title()}")
     page.screenshot(path=str(evidence_dir / 'exec_overview_v1.png'))
     browser.close()
