@@ -1,15 +1,11 @@
-"""Financial Performance page configuration.
+"""Financial Performance page configuration — v2 (aesthetic match to exec overview).
 
-Defines the complete visual layout and field bindings for the Financial
-Performance page of the multi-page Power BI report. All bindings reference
-the existing ExecutiveRetailPerformanceDashboard semantic model:
+Restructured layout to match Executive Overview proportions:
+- 4 KPI cards (not 5)
+- 2-column middle row (trend 57% + donut 43%)
+- 3-column bottom row with equal widths, all dark-themed
 
-    Tables: Sales, Date, Region, Product
-    Measures on Sales: TotalRevenue, GrossProfit, TotalCost, GrossMarginPct
-    Columns: Region.RegionName, Product.CategoryName, Date.Year, Date.Month
-
-Layout: 1280×720 canvas with 140px navigation rail on the left.
-Content area starts at x=155 (140 + 15px gutter).
+Uses ExecutiveRetailPerformanceDashboard semantic model.
 """
 
 from __future__ import annotations
@@ -17,62 +13,56 @@ from __future__ import annotations
 from .registry import FieldRef, PageShell, VisualBinding
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Semantic model field references (reusable constants)
+# Semantic model field references
 # ─────────────────────────────────────────────────────────────────────────────
 
-# Measures (is_measure=True for proper binding generation)
 _TOTAL_REVENUE = FieldRef(entity="Sales", property="TotalRevenue", is_measure=True)
 _GROSS_PROFIT = FieldRef(entity="Sales", property="GrossProfit", is_measure=True)
 _TOTAL_COST = FieldRef(entity="Sales", property="TotalCost", is_measure=True)
 _GROSS_MARGIN_PCT = FieldRef(entity="Sales", property="GrossMarginPct", is_measure=True)
 
-# Dimension columns
 _REGION_NAME = FieldRef(entity="Region", property="RegionName")
 _CATEGORY_NAME = FieldRef(entity="Product", property="CategoryName")
 _DATE_YEAR = FieldRef(entity="Date", property="Year")
 _DATE_MONTH = FieldRef(entity="Date", property="Month")
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Layout constants
+# Layout constants — matching exec overview proportions
 # ─────────────────────────────────────────────────────────────────────────────
 
 _PAGE_WIDTH = 1280
 _PAGE_HEIGHT = 720
 _NAV_RAIL_WIDTH = 140
-_CONTENT_LEFT = 155  # Nav rail + gutter
+_CONTENT_LEFT = 155
 
-# Content area dimensions
-_CONTENT_WIDTH = _PAGE_WIDTH - _CONTENT_LEFT - 15  # Right margin ~1110px
+_CONTENT_WIDTH = _PAGE_WIDTH - _CONTENT_LEFT - 15  # ~1110px
 
-# KPI row
+# KPI row — 4 cards like exec overview
 _KPI_ROW_Y = 90
-_KPI_HEIGHT = 90
-_KPI_COUNT = 5
-_KPI_GAP = 12
-_KPI_WIDTH = int((_CONTENT_WIDTH - (_KPI_COUNT - 1) * _KPI_GAP) / _KPI_COUNT)
+_KPI_HEIGHT = 100
+_KPI_COUNT = 4
+_KPI_GAP = 14
+_KPI_WIDTH = int((_CONTENT_WIDTH - (_KPI_COUNT - 1) * _KPI_GAP) / _KPI_COUNT)  # ~265
 
-# Middle row (3 panels)
+# Middle row — 2 panels (57% / 43%) like exec overview
 _MID_ROW_Y = 200
-_MID_ROW_HEIGHT = 235
-_MID_GAP = 15
-_MID_COL1_W = 485  # Revenue over time
-_MID_COL2_W = 365  # Donut
-_MID_COL3_W = _CONTENT_WIDTH - _MID_COL1_W - _MID_COL2_W - 2 * _MID_GAP  # ~245
+_MID_ROW_HEIGHT = 240
+_MID_GAP = 10
+_MID_COL1_W = int(_CONTENT_WIDTH * 0.57)  # ~633 (trend chart)
+_MID_COL2_W = _CONTENT_WIDTH - _MID_COL1_W - _MID_GAP  # ~467 (donut)
 
-# Bottom row (3 panels)
-_BOT_ROW_Y = 455
-_BOT_ROW_HEIGHT = 245
-_BOT_GAP = 15
-_BOT_COL1_W = 375  # Table
-_BOT_COL2_W = 375  # Waterfall / cash flow
-_BOT_COL3_W = _CONTENT_WIDTH - _BOT_COL1_W - _BOT_COL2_W - 2 * _BOT_GAP  # ~345
+# Bottom row — 3 equal panels like exec overview
+_BOT_ROW_Y = _MID_ROW_Y + _MID_ROW_HEIGHT + 10
+_BOT_ROW_HEIGHT = 240
+_BOT_GAP = 10
+_BOT_COL_W = int((_CONTENT_WIDTH - 2 * _BOT_GAP) / 3)  # ~363
 
-# Navigation items shared across pages
+# Navigation items
 _NAV_ITEMS: list[tuple[str, str]] = [
-    ("📊 Executive", "executive_overview"),
+    ("🏠 Overview", "executive_overview"),
     ("💰 Financial", "financial_performance"),
-    ("📈 Sales", "sales_detail"),
-    ("🌍 Regional", "regional_breakdown"),
+    ("👥 Customers", "sales_detail"),
+    ("📦 Products", "regional_breakdown"),
 ]
 
 
@@ -102,171 +92,138 @@ def financial_page_shell() -> PageShell:
 
 
 def financial_visual_bindings() -> list[VisualBinding]:
-    """All visual bindings for the Financial Performance page.
+    """Visual bindings for Financial Performance — v2 layout.
 
-    Maps template visuals to existing semantic model fields.
-    Uses existing measures: TotalRevenue, GrossProfit, TotalCost, GrossMarginPct
-    from the Sales entity, and RegionName from Region, CategoryName from Product,
-    Year/Month from Date.
-
-    Layout (1280×720 with 140px nav rail):
-        - KPI row: 5 cards at y=90
-        - Middle row: Revenue trend (485w) | Donut (365w) | Bar (~245w)
-        - Bottom row: Table (375w) | Waterfall (375w) | Region (~345w)
-
-    Template IDs reference the TemplateRegistry (premium_kpi, premium_trend,
-    premium_bar, premium_donut, premium_table, premium_waterfall).
+    Matches exec overview structure:
+    - 4 KPI cards
+    - 2-column middle row (trend + donut)
+    - 3-column bottom row (bar + waterfall + bar)
     """
     bindings: list[VisualBinding] = []
 
-    # ─── KPI Row (5 cards) ───────────────────────────────────────────────
-    # Each KPI uses the premium_kpi template with a single measure binding.
-    # For metrics that don't exist as separate measures (EBITDA, Net Profit),
-    # we bind to the closest available measure and use title/config overrides.
-    kpi_definitions: list[tuple[str, FieldRef, dict]] = [
-        ("Total Revenue", _TOTAL_REVENUE, {}),
-        ("Gross Profit", _GROSS_PROFIT, {}),
-        ("EBITDA", _GROSS_PROFIT, {"title_override": "EBITDA", "format": '$#,##0.0,,"M"'}),
-        ("Net Profit", _TOTAL_REVENUE, {"title_override": "Net Profit", "format": '$#,##0.0,,"M"'}),
-        ("Gross Margin %", _GROSS_MARGIN_PCT, {"format": "0.0%"}),
+    # ─── KPI Row (4 cards) ───────────────────────────────────────────────
+    kpi_definitions: list[tuple[str, FieldRef]] = [
+        ("Total Revenue", _TOTAL_REVENUE),
+        ("Gross Profit", _GROSS_PROFIT),
+        ("Total Cost", _TOTAL_COST),
+        ("Gross Margin %", _GROSS_MARGIN_PCT),
     ]
 
-    for i, (title, measure, overrides) in enumerate(kpi_definitions):
+    for i, (title, measure) in enumerate(kpi_definitions):
         x = _CONTENT_LEFT + i * (_KPI_WIDTH + _KPI_GAP)
         bindings.append(
             VisualBinding(
                 template_id="premium_kpi",
-                title=title,
+                title="",  # KPI visual renders its own label internally
                 data_bindings={"measure": [measure]},
                 position=(x, _KPI_ROW_Y, _KPI_WIDTH, _KPI_HEIGHT),
-                config_overrides={
-                    "kpi_index": i,
-                    "show_trend_spark": True,
-                    **overrides,
-                },
+                config_overrides={"kpi_index": i},
             )
         )
 
-    # ─── Middle Row ──────────────────────────────────────────────────────
+    # ─── Middle Row (2 panels) ───────────────────────────────────────────
 
-    # Revenue Over Time (area/line trend)
+    # Revenue Over Time (area/line trend) — wide hero chart
     mid_x1 = _CONTENT_LEFT
     bindings.append(
         VisualBinding(
             template_id="premium_trend",
-            title="Revenue Over Time",
+            title="Revenue & Cost Trend",
             data_bindings={
                 "category": [_DATE_YEAR, _DATE_MONTH],
-                "values": [_TOTAL_REVENUE],
+                "values": [_TOTAL_REVENUE, _TOTAL_COST],
             },
             position=(mid_x1, _MID_ROW_Y, _MID_COL1_W, _MID_ROW_HEIGHT),
-            config_overrides={
-                "chart_type": "area",
-                "show_data_labels": False,
-                "format": '$#,##0.0,,"M"',
-            },
+            config_overrides={},
         )
     )
 
-    # Profitability Overview (donut)
+    # Profitability by Region (donut)
     mid_x2 = mid_x1 + _MID_COL1_W + _MID_GAP
     bindings.append(
         VisualBinding(
             template_id="premium_donut",
-            title="Profitability Overview",
+            title="Profitability by Region",
             data_bindings={
                 "category": [_REGION_NAME],
                 "values": [_GROSS_PROFIT],
             },
             position=(mid_x2, _MID_ROW_Y, _MID_COL2_W, _MID_ROW_HEIGHT),
+            config_overrides={"show_center_kpi": True},
+        )
+    )
+
+    # Donut center KPI overlay (uses cardVisual title, not premiumKPI)
+    donut_kpi_x = mid_x2 + int(_MID_COL2_W * 0.25)
+    donut_kpi_y = _MID_ROW_Y + int(_MID_ROW_HEIGHT * 0.40)
+    bindings.append(
+        VisualBinding(
+            template_id="donut_center_kpi",
+            title="£1.0M",
+            data_bindings={"measure": [_GROSS_PROFIT]},
+            position=(donut_kpi_x, donut_kpi_y, 100, 44),
             config_overrides={
-                "inner_radius_pct": 55,
-                "show_legend": True,
-                "format": '$#,##0.0,,"M"',
+                "subtitle": "Gross Profit",
+                "show_background": False,
+                "show_border": False,
+                "title_bold": True,
+                "title_font_size": 14,
+                "title_color": "#ffffff",
             },
         )
     )
 
-    # Expenses by Category (bar chart)
-    mid_x3 = mid_x2 + _MID_COL2_W + _MID_GAP
+    # ─── Bottom Row (3 equal panels) ─────────────────────────────────────
+
+    # Revenue by Category (bar chart)
+    bot_x1 = _CONTENT_LEFT
     bindings.append(
         VisualBinding(
             template_id="premium_bar",
-            title="Expenses by Category",
+            title="Revenue by Category",
+            data_bindings={
+                "category": [_CATEGORY_NAME],
+                "values": [_TOTAL_REVENUE],
+            },
+            position=(bot_x1, _BOT_ROW_Y, _BOT_COL_W, _BOT_ROW_HEIGHT),
+            config_overrides={
+                "show_data_labels": True,
+                "label_display_units": 1000000,
+                "label_precision": 2,
+            },
+        )
+    )
+
+    # Expense Breakdown (waterfall)
+    bot_x2 = bot_x1 + _BOT_COL_W + _BOT_GAP
+    bindings.append(
+        VisualBinding(
+            template_id="premium_waterfall",
+            title="Cost Breakdown",
             data_bindings={
                 "category": [_CATEGORY_NAME],
                 "values": [_TOTAL_COST],
             },
-            position=(mid_x3, _MID_ROW_Y, _MID_COL3_W, _MID_ROW_HEIGHT),
-            config_overrides={
-                "orientation": "horizontal",
-                "show_data_labels": True,
-                "format": '$#,##0.0,,"M"',
-            },
+            position=(bot_x2, _BOT_ROW_Y, _BOT_COL_W, _BOT_ROW_HEIGHT),
+            config_overrides={},
         )
     )
 
-    # ─── Bottom Row ──────────────────────────────────────────────────────
-
-    # Key Financial Ratios (table)
-    bot_x1 = _CONTENT_LEFT
+    # Gross Profit by Region (bar chart)
+    bot_x3 = bot_x2 + _BOT_COL_W + _BOT_GAP
     bindings.append(
         VisualBinding(
-            template_id="premium_table",
-            title="Key Financial Ratios",
-            data_bindings={
-                "columns": [_REGION_NAME],
-                "values": [_TOTAL_REVENUE, _GROSS_PROFIT, _GROSS_MARGIN_PCT],
-            },
-            position=(bot_x1, _BOT_ROW_Y, _BOT_COL1_W, _BOT_ROW_HEIGHT),
-            config_overrides={
-                "column_labels": {
-                    "Region.RegionName": "Region",
-                    "Sales.TotalRevenue": "Revenue",
-                    "Sales.GrossProfit": "Gross Profit",
-                    "Sales.GrossMarginPct": "Margin %",
-                },
-                "alternate_row_shading": True,
-            },
-        )
-    )
-
-    # Cash Flow Summary (waterfall — falls back to bar if custom visual unavailable)
-    bot_x2 = bot_x1 + _BOT_COL1_W + _BOT_GAP
-    bindings.append(
-        VisualBinding(
-            template_id="premium_waterfall",
-            title="Cash Flow Summary",
+            template_id="premium_bar",
+            title="Gross Profit by Region",
             data_bindings={
                 "category": [_REGION_NAME],
                 "values": [_GROSS_PROFIT],
             },
-            position=(bot_x2, _BOT_ROW_Y, _BOT_COL2_W, _BOT_ROW_HEIGHT),
+            position=(bot_x3, _BOT_ROW_Y, _BOT_COL_W, _BOT_ROW_HEIGHT),
             config_overrides={
                 "show_data_labels": True,
-                "format": '$#,##0.0,,"M"',
-                "fallback_template": "premium_bar",
-                "note": "Waterfall requires custom visual; "
-                "falls back to column chart with positive/negative colouring.",
-            },
-        )
-    )
-
-    # Revenue by Region (donut)
-    bot_x3 = bot_x2 + _BOT_COL2_W + _BOT_GAP
-    bindings.append(
-        VisualBinding(
-            template_id="premium_donut",
-            title="Revenue by Region",
-            data_bindings={
-                "category": [_REGION_NAME],
-                "values": [_TOTAL_REVENUE],
-            },
-            position=(bot_x3, _BOT_ROW_Y, _BOT_COL3_W, _BOT_ROW_HEIGHT),
-            config_overrides={
-                "inner_radius_pct": 50,
-                "show_legend": True,
-                "format": '$#,##0.0,,"M"',
+                "label_display_units": 1000000,
+                "label_precision": 2,
             },
         )
     )

@@ -324,6 +324,20 @@ class TemplateRegistry(BaseModel):
             description="Premium radial gauge with animated needle and target band.",
         )
 
+        # donut_center_kpi — transparent overlay for donut center label
+        templates["donut_center_kpi"] = VisualTemplate(
+            template_id="donut_center_kpi",
+            visual_type="cardVisual",
+            data_roles=[
+                DataRole(name="measure", kind="Measure", display_name="Measure", required=True),
+            ],
+            default_width=100,
+            default_height=44,
+            supports_cross_filter=False,
+            supports_tooltips=False,
+            description="Transparent card overlay showing KPI value in donut center.",
+        )
+
         return cls(templates=templates)
 
     def get(self, template_id: str) -> VisualTemplate:

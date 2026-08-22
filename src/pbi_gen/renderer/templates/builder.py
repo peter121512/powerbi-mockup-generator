@@ -102,6 +102,7 @@ _NATIVE_QUERY_STATE_KEYS: dict[str, dict[str, str]] = {
     "columnChart": {"category": "Category", "values": "Y"},
     "lineChart": {"category": "Category", "values": "Y"},
     "tableEx": {"columns": "Values", "values": "Values"},
+    "cardVisual": {"measure": "Values"},
 }
 
 
@@ -136,21 +137,26 @@ def _build_visual_container_objects(
 ) -> dict:
     """Build visualContainerObjects (title, background, border, padding)."""
     objs: dict[str, Any] = {}
+    overrides = binding.config_overrides
 
     # Title
     show_title = binding.title != ""
     title_props: dict[str, Any] = {"show": _literal("true" if show_title else "false")}
     if show_title:
         title_props["text"] = _literal(f"'{binding.title}'")
-        title_props["fontColor"] = _solid_color_expr(tokens.text_secondary)
-        title_props["fontSize"] = _literal(f"{tokens.section_size}D")
+        title_color = overrides.get("title_color", tokens.text_secondary)
+        title_props["fontColor"] = _solid_color_expr(title_color)
+        title_size = overrides.get("title_font_size", tokens.section_size)
+        title_props["fontSize"] = _literal(f"{title_size}D")
+        if overrides.get("title_bold"):
+            title_props["bold"] = _literal("true")
+        if overrides.get("title_alignment"):
+            title_props["alignment"] = _literal(f"'{overrides['title_alignment']}'")
     objs["title"] = [{"properties": title_props}]
 
     # Background — custom visuals get transparent; native visuals get surface card
     is_custom = len(template_id) > 20 or template_id.startswith("premium")
     template_visual_type = template_id  # fallback
-    # Determine if the actual visual type is custom (GUID-length)
-    overrides = binding.config_overrides
 
     show_bg = overrides.get("show_background", not _is_custom_visual_type(template_id))
     if show_bg:
@@ -179,6 +185,16 @@ def _build_visual_container_objects(
             "bottom": _literal("0D"),
             "left": _literal("0D"),
             "right": _literal("0D"),
+        }}]
+
+    # Subtitle (if specified in overrides)
+    subtitle_text = overrides.get("subtitle")
+    if subtitle_text:
+        objs["subTitle"] = [{"properties": {
+            "show": _literal("true"),
+            "text": _literal(f"'{subtitle_text}'"),
+            "fontColor": _solid_color_expr(tokens.text_muted),
+            "fontSize": _literal("8D"),
         }}]
 
     return objs
