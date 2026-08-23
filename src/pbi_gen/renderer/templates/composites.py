@@ -25,10 +25,18 @@ from typing import Optional
 # With legend to the right and title at top, the donut plot center is:
 #   cx = (donut_width - legend_width) / 2
 #   cy = title_height + (donut_height - title_height) / 2
+#
+# Now that container title is suppressed (show:false) and native objects.title
+# is used instead, the chart's internal layout is:
+#   - objects.title inside: ~22px
+#   - legend on right: ~130px (including internal padding)
+#   - donut ring centred in remaining area, biased slightly up due to bottom labels
+#   - bottom label/detail area: ~12px
 
-DONUT_TITLE_HEIGHT = 28  # PBI native title row height when title shown
-DONUT_LEGEND_WIDTH = 120  # Approximate legend column width (right-positioned)
-DONUT_PLOT_PADDING = 8  # Internal padding around donut plot
+DONUT_TITLE_HEIGHT = 22  # Native inside title height (objects.title)
+DONUT_LEGEND_WIDTH = 130  # Legend column width (right, with internal padding)
+DONUT_PLOT_PADDING = 10  # Internal padding around donut plot area
+DONUT_BOTTOM_OFFSET = 6  # Ring is slightly above geometric center
 
 
 def compute_donut_center(
@@ -62,8 +70,9 @@ def compute_donut_center(
     plot_h = donut_h - title_offset - DONUT_PLOT_PADDING
 
     # Center of the plot region = center of the donut hole
+    # Shift slightly up to account for bottom labels/detail area
     center_x = plot_x + plot_w // 2
-    center_y = plot_y + plot_h // 2
+    center_y = plot_y + plot_h // 2 - DONUT_BOTTOM_OFFSET
 
     # Overlay positioned so its center aligns with the donut hole center
     overlay_x = center_x - overlay_w // 2
