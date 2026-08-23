@@ -1,0 +1,2001 @@
+CustomerID,CustomerName,JoinDate,Segment,AcquisitionChannel,Region,IsActive,ChurnDate,AnnualValue
+C0001,Oliver Robinson,2021-07-26,Consumer,Direct,London,False,2022-04-05,2398.65
+C0002,Thomas Green,2022-09-14,SMB,Online,London,True,,44772.01
+C0003,Moore Holdings,2022-05-13,Enterprise,Referral,London,True,,140558.9
+C0004,Sophie Moore,2021-08-05,Consumer,Online,Scotland,True,,3098.08
+C0005,Young Holdings,2021-11-26,Enterprise,Direct,London,True,,74398.11
+C0006,Jack Jackson,2021-05-17,Consumer,Online,Scotland,True,,1714.77
+C0007,Lucy Robinson,2022-12-22,Consumer,Direct,London,True,,4443.65
+C0008,Thomas Wright,2022-07-01,Consumer,Referral,Scotland,True,,3130.64
+C0009,Samuel Miller,2023-03-03,SMB,Direct,Scotland,True,,41683.17
+C0010,Lewis Corp,2021-12-15,Enterprise,Referral,Scotland,True,,165289.81
+C0011,Samuel Taylor,2022-08-07,SMB,Direct,London,True,,43666.77
+C0012,Green Corp,2022-05-13,Enterprise,Referral,London,True,,85917.85
+C0013,Emily Harris,2022-10-16,Consumer,Direct,Scotland,False,2023-08-12,4760.82
+C0014,Allen Holdings,2022-09-22,Public Sector,Referral,London,True,,82572.01
+C0015,Young Ltd,2022-10-09,Enterprise,Direct,London,True,,84341.27
+C0016,Robinson International,2023-02-04,Public Sector,Direct,London,True,,59159.67
+C0017,Emma Jackson,2021-10-14,SMB,Direct,Scotland,True,,39128.54
+C0018,Williams International,2021-08-07,Enterprise,Direct,London,True,,171203.34
+C0019,Hall Partners,2022-10-20,Enterprise,Online,London,True,,185366.43
+C0020,Harris Solutions,2022-02-17,Enterprise,Referral,Scotland,True,,78484.68
+C0021,Clark Solutions,2021-12-02,Enterprise,Online,London,True,,58531.94
+C0022,Robinson Holdings,2023-02-08,Public Sector,Direct,London,True,,142164.75
+C0023,Oliver Smith,2022-10-05,Consumer,Direct,London,True,,2562.28
+C0024,Moore Corp,2021-05-24,Public Sector,Direct,London,True,,48929.62
+C0025,Sophia Wright,2023-01-30,Consumer,Online,Scotland,True,,2989.51
+C0026,Sophie Johnson,2022-06-13,Consumer,Online,London,True,,915.34
+C0027,Olivia Lewis,2022-02-04,SMB,Direct,Scotland,False,2022-08-05,10386.79
+C0028,Jessica Hall,2021-10-10,SMB,Partner,London,True,,11595.8
+C0029,Isabella Adams,2022-11-04,Consumer,Online,London,False,2023-05-23,2355.32
+C0030,Harry Hall,2023-02-24,Consumer,Referral,Scotland,True,,674.26
+C0031,Jackson Holdings,2023-03-18,Enterprise,Events,London,True,,91790.46
+C0032,Joseph Anderson,2022-10-02,Consumer,Referral,London,True,,1303.56
+C0033,Harry Adams,2022-06-24,SMB,Direct,London,True,,33063.52
+C0034,Amelia Martin,2021-12-08,Consumer,Direct,Scotland,True,,814.88
+C0035,Harry King,2022-11-12,SMB,Referral,Scotland,True,,21826.21
+C0036,Samuel Thomas,2021-12-14,SMB,Events,Scotland,True,,28599.53
+C0037,David Scott,2021-05-08,SMB,Online,Scotland,True,,19394.74
+C0038,Benjamin King,2022-01-16,Consumer,Direct,London,True,,2227.9
+C0039,Green International,2022-07-24,Enterprise,Online,Scotland,True,,57532.76
+C0040,Joseph Lee,2022-05-15,Consumer,Online,Scotland,True,,3256.94
+C0041,Matthew Scott,2022-07-11,SMB,Partner,London,True,,30851.99
+C0042,Mia Jackson,2021-10-12,SMB,Direct,London,True,,37757.99
+C0043,Robinson Ltd,2022-02-28,Enterprise,Referral,London,True,,178509.8
+C0044,Chloe Adams,2022-04-26,SMB,Direct,London,True,,18821.55
+C0045,William Walker,2023-01-14,SMB,Direct,London,True,,31364.95
+C0046,George Davis,2022-07-29,Consumer,Online,London,True,,2546.15
+C0047,Johnson Holdings,2022-02-09,Public Sector,Referral,Scotland,True,,56906.66
+C0048,Harris Group,2021-08-28,Public Sector,Direct,London,True,,97676.35
+C0049,Charlotte Brown,2023-01-16,Consumer,Partner,London,True,,3104.08
+C0050,Charlotte Hall,2022-09-26,Consumer,Events,London,True,,3579.17
+C0051,James Hall,2023-02-02,Consumer,Online,London,True,,2390.26
+C0052,Samuel Anderson,2022-08-23,SMB,Referral,Scotland,True,,34636.49
+C0053,Thomas Adams,2022-09-24,Consumer,Online,Scotland,True,,2528.61
+C0054,Thomas Thomas,2022-03-16,Consumer,Online,London,True,,1758.46
+C0055,Wilson International,2021-10-07,Public Sector,Online,London,True,,107508.35
+C0056,Daniel Moore,2022-06-08,Consumer,Direct,London,True,,2414.77
+C0057,Grace Scott,2022-03-17,SMB,Online,London,True,,37606.54
+C0058,Charlotte Smith,2022-12-20,Consumer,Referral,London,False,2023-02-11,3686.08
+C0059,Robinson Corp,2021-07-18,Public Sector,Online,Scotland,True,,86327.63
+C0060,Young Ltd,2022-04-17,Enterprise,Direct,Scotland,True,,72759.05
+C0061,Scott Partners,2022-03-04,Public Sector,Direct,London,True,,84061.74
+C0062,Davis Services,2022-01-26,Public Sector,Events,London,True,,61757.54
+C0063,Charlotte King,2022-02-01,SMB,Online,London,True,,21308.73
+C0064,Jones Corp,2023-05-06,Enterprise,Direct,London,True,,173994.67
+C0065,King Partners,2022-12-15,Enterprise,Referral,Scotland,True,,191401.44
+C0066,Emily Baker,2022-06-12,SMB,Direct,London,True,,44420.67
+C0067,Lee Corp,2022-11-03,Enterprise,Partner,Scotland,True,,77223.37
+C0068,George Martin,2021-10-04,Consumer,Online,London,True,,3621.53
+C0069,Jackson Ltd,2022-05-13,Public Sector,Partner,London,True,,108919.25
+C0070,Grace Jones,2022-04-20,SMB,Direct,London,True,,47106.91
+C0071,Grace Martin,2022-12-07,Consumer,Direct,Scotland,True,,919.44
+C0072,Anderson Partners,2022-07-30,Public Sector,Online,London,True,,130166.87
+C0073,Olivia Thomas,2023-04-16,SMB,Online,London,True,,47369.94
+C0074,Grace Harris,2022-05-12,Consumer,Referral,London,True,,2053.06
+C0075,Matthew Martin,2021-08-09,SMB,Online,London,True,,11745.89
+C0076,Alexander Thomas,2023-06-05,Consumer,Partner,London,True,,4413.65
+C0077,Lily Green,2022-05-24,SMB,Online,London,True,,48768.15
+C0078,Benjamin Adams,2023-01-31,Consumer,Online,Scotland,True,,3917.31
+C0079,Brown Group,2022-11-20,Enterprise,Direct,Scotland,True,,116551.78
+C0080,Robinson Solutions,2022-05-29,Public Sector,Direct,Scotland,True,,50398.04
+C0081,Allen Solutions,2021-09-25,Public Sector,Online,London,True,,38863.43
+C0082,Hall International,2022-10-26,Public Sector,Referral,Scotland,True,,42798.39
+C0083,Sophie Allen,2021-04-01,SMB,Referral,Scotland,True,,41132.46
+C0084,Anderson Solutions,2022-02-09,Public Sector,Online,Scotland,True,,105389.77
+C0085,Hannah Martin,2023-01-29,Consumer,Referral,London,False,2023-12-01,1290.38
+C0086,Green Corp,2021-05-08,Public Sector,Referral,London,True,,119587.12
+C0087,Smith Corp,2022-10-17,Enterprise,Events,London,True,,130485.85
+C0088,James Walker,2023-06-01,Consumer,Online,London,True,,4479.06
+C0089,Jones Ltd,2023-02-08,Public Sector,Direct,London,True,,143551.38
+C0090,Grace Martin,2021-06-06,SMB,Direct,Scotland,True,,33493.61
+C0091,Davis International,2022-09-18,Public Sector,Online,Scotland,True,,83363.5
+C0092,James Johnson,2021-08-05,SMB,Events,London,True,,41471.78
+C0093,Adams Ltd,2021-11-29,Enterprise,Online,London,True,,91591.23
+C0094,Green Services,2021-12-13,Public Sector,Online,Scotland,False,2022-10-10,100662.35
+C0095,Brown International,2022-03-30,Enterprise,Online,London,True,,125575.8
+C0096,Allen Group,2022-04-06,Enterprise,Partner,Scotland,True,,123540.33
+C0097,Thomas Partners,2021-04-21,Enterprise,Direct,Scotland,True,,199194.16
+C0098,Hannah Hall,2022-05-11,SMB,Online,London,True,,18600.92
+C0099,Amelia Jones,2022-02-25,SMB,Referral,London,True,,37472.84
+C0100,Lewis Holdings,2023-03-24,Enterprise,Direct,London,True,,150501.99
+C0101,Jones International,2022-07-11,Public Sector,Events,London,True,,56909.38
+C0102,David Walker,2021-10-23,Consumer,Referral,Scotland,True,,3261.08
+C0103,Thomas Holdings,2021-08-10,Enterprise,Events,Scotland,True,,50915.87
+C0104,Amelia Taylor,2022-10-07,Consumer,Referral,London,True,,3747.18
+C0105,Emily Martin,2021-06-19,Consumer,Direct,London,True,,2685.48
+C0106,Emily Taylor,2021-11-12,SMB,Partner,London,True,,11816.69
+C0107,James Harris,2022-01-01,Consumer,Direct,London,False,2023-02-24,3861.56
+C0108,Olivia Smith,2022-08-21,SMB,Direct,London,False,2023-02-27,28390.17
+C0109,Jessica Walker,2023-04-06,Consumer,Online,Scotland,True,,2570.44
+C0110,Hannah Thomas,2022-11-24,SMB,Referral,London,True,,18862.88
+C0111,Young Solutions,2021-11-01,Enterprise,Online,London,True,,85440.33
+C0112,Scott International,2022-01-28,Enterprise,Online,Scotland,True,,152170.02
+C0113,Alexander Johnson,2021-12-09,Consumer,Events,London,False,2023-04-25,2083.74
+C0114,Daniel Jackson,2021-03-15,SMB,Direct,Scotland,True,,28508.47
+C0115,William Johnson,2023-01-17,Consumer,Partner,London,True,,2527.35
+C0116,Amelia Moore,2022-07-18,Consumer,Events,London,True,,4630.72
+C0117,Harry Taylor,2022-08-31,Consumer,Online,London,True,,1633.98
+C0118,Jones Group,2021-05-01,Public Sector,Online,London,True,,67149.83
+C0119,Samuel Allen,2022-08-13,Consumer,Partner,Scotland,True,,2405.33
+C0120,Sophia Clark,2022-06-30,SMB,Direct,London,True,,40834.99
+C0121,Green Solutions,2021-08-03,Public Sector,Direct,London,False,2022-09-10,116541.96
+C0122,Charlotte Green,2021-11-25,Consumer,Direct,London,True,,4029.67
+C0123,Martin Solutions,2021-09-30,Enterprise,Online,London,True,,172533.69
+C0124,Adams Solutions,2021-04-22,Enterprise,Referral,Scotland,False,2023-12-10,174657.01
+C0125,David King,2023-04-18,SMB,Online,London,True,,35998.43
+C0126,Smith Group,2022-04-06,Enterprise,Referral,Scotland,True,,52850.58
+C0127,Wilson Partners,2022-06-14,Enterprise,Events,Scotland,True,,145842.76
+C0128,Taylor Partners,2022-03-01,Enterprise,Partner,London,True,,50234.65
+C0129,James Jackson,2021-11-05,Consumer,Direct,Scotland,False,2023-01-05,4429.99
+C0130,Scott Holdings,2022-06-05,Public Sector,Referral,London,True,,46009.15
+C0131,William Williams,2022-07-24,SMB,Online,Scotland,True,,38641.8
+C0132,Johnson Services,2021-07-14,Enterprise,Direct,Scotland,True,,92916.63
+C0133,Jackson Holdings,2022-12-01,Enterprise,Online,London,True,,196058.54
+C0134,David Miller,2023-06-14,SMB,Events,London,True,,31818.98
+C0135,Johnson Holdings,2022-02-12,Enterprise,Online,London,True,,142227.72
+C0136,Isabella Smith,2022-06-27,Consumer,Partner,London,True,,1142.51
+C0137,Chloe Jones,2022-11-21,Consumer,Direct,London,True,,3555.78
+C0138,Sophia Smith,2022-01-20,SMB,Partner,London,True,,39426.99
+C0139,Jack Miller,2022-05-27,SMB,Online,London,True,,45947.16
+C0140,Adams Corp,2022-10-05,Enterprise,Online,Scotland,True,,177704.31
+C0141,Green International,2022-09-03,Public Sector,Online,Scotland,True,,33154.08
+C0142,Hannah Harris,2022-08-30,SMB,Partner,London,True,,31027.83
+C0143,Joseph Baker,2022-03-14,Consumer,Direct,Scotland,True,,4011.18
+C0144,King Services,2021-12-04,Enterprise,Events,London,True,,101903.46
+C0145,Lewis Group,2023-01-22,Public Sector,Partner,London,True,,90308.78
+C0146,Baker Ltd,2022-01-21,Public Sector,Direct,Scotland,True,,39746.74
+C0147,Grace Taylor,2023-05-12,Consumer,Referral,London,True,,3388.58
+C0148,Jack Davis,2022-09-03,SMB,Partner,London,True,,23607.7
+C0149,Brown Holdings,2021-08-24,Public Sector,Referral,Scotland,True,,59008.54
+C0150,Lucy Robinson,2021-07-05,SMB,Direct,London,True,,38845.14
+C0151,Robinson Holdings,2021-06-24,Enterprise,Events,London,True,,57298.72
+C0152,Harry Moore,2021-09-17,Consumer,Partner,Scotland,False,2023-05-15,703.59
+C0153,Allen Group,2022-07-09,Enterprise,Online,London,True,,69299.51
+C0154,Emma Johnson,2021-11-11,SMB,Events,London,True,,11556.56
+C0155,Daniel Baker,2021-08-04,Consumer,Online,London,True,,2793.71
+C0156,Joseph Wright,2022-01-08,Consumer,Online,London,True,,4424.45
+C0157,Hannah Walker,2021-10-06,Consumer,Referral,Scotland,True,,3985.73
+C0158,Olivia King,2022-08-23,Consumer,Direct,London,True,,1417.51
+C0159,Emily Harris,2022-08-05,Consumer,Online,Scotland,True,,2864.65
+C0160,King Corp,2021-09-15,Enterprise,Events,London,True,,141511.49
+C0161,Amelia Lewis,2021-08-20,SMB,Online,London,True,,47348.01
+C0162,Jessica Jones,2021-08-12,SMB,Direct,Scotland,True,,21618.11
+C0163,Lucy Lewis,2022-03-14,Consumer,Referral,London,False,2023-12-04,3632.77
+C0164,Lily Brown,2022-05-25,SMB,Direct,Scotland,False,2022-12-02,37247.68
+C0165,Oliver Young,2021-12-23,SMB,Events,Scotland,True,,32965.33
+C0166,David Jackson,2022-01-21,Consumer,Events,Scotland,False,2022-12-13,4045.82
+C0167,Lewis International,2021-09-08,Public Sector,Direct,London,True,,136711.2
+C0168,James Wright,2021-10-04,SMB,Referral,Scotland,True,,23484.49
+C0169,Harry Allen,2022-07-16,Consumer,Direct,Scotland,True,,929.23
+C0170,Alexander Wright,2022-04-30,SMB,Events,London,True,,32915.09
+C0171,Joseph King,2021-11-27,SMB,Direct,Scotland,True,,40793.64
+C0172,Chloe Moore,2021-10-02,Consumer,Events,London,True,,2371.31
+C0173,Oliver Clark,2021-06-27,SMB,Online,Scotland,True,,27869.92
+C0174,Thomas International,2022-03-09,Enterprise,Online,London,True,,67436.0
+C0175,Emma Lewis,2022-10-18,Consumer,Direct,London,True,,2580.7
+C0176,Oliver Lewis,2023-06-27,Consumer,Referral,Scotland,True,,4973.56
+C0177,Young Partners,2021-09-21,Enterprise,Events,London,True,,106169.14
+C0178,David Smith,2021-11-01,SMB,Events,London,True,,40247.18
+C0179,Henry Nelson,2022-01-18,SMB,Online,London,True,,45008.33
+C0180,Allen Ltd,2021-09-03,Enterprise,Online,Scotland,False,2022-12-26,86710.12
+C0181,Hannah Robinson,2021-06-29,SMB,Direct,Scotland,True,,22756.15
+C0182,Emma Lewis,2021-11-18,Consumer,Referral,London,True,,4768.34
+C0183,Martin Partners,2021-10-22,Public Sector,Online,London,True,,47906.11
+C0184,Grace Martin,2021-07-14,Consumer,Online,Scotland,True,,4855.04
+C0185,Anderson Partners,2022-02-20,Enterprise,Direct,London,True,,151050.79
+C0186,Thomas Corp,2022-08-22,Public Sector,Direct,Scotland,False,2022-12-27,144842.37
+C0187,Nelson Services,2022-01-12,Public Sector,Direct,Scotland,True,,96249.52
+C0188,Hannah Harris,2021-10-22,SMB,Online,London,True,,40465.16
+C0189,Alexander Robinson,2023-10-08,SMB,Referral,London,True,,38800.48
+C0190,Wright International,2021-07-07,Enterprise,Direct,London,True,,119124.35
+C0191,Oliver Baker,2021-08-21,SMB,Direct,London,True,,36728.62
+C0192,Chloe Nelson,2022-01-21,SMB,Partner,London,True,,29328.17
+C0193,Green Solutions,2021-10-23,Enterprise,Online,London,True,,66052.46
+C0194,King Services,2022-02-23,Enterprise,Direct,London,True,,94996.2
+C0195,Young Ltd,2021-04-24,Enterprise,Events,Scotland,False,2023-10-06,155426.77
+C0196,Joseph Robinson,2022-09-07,SMB,Partner,London,False,2022-11-14,29020.01
+C0197,David King,2022-12-01,Consumer,Referral,London,True,,4194.06
+C0198,Hannah Jones,2022-11-18,SMB,Online,London,True,,41619.92
+C0199,Walker Partners,2022-01-30,Enterprise,Online,London,True,,195338.08
+C0200,Alexander Allen,2021-11-17,Consumer,Partner,London,True,,2210.33
+C0201,Oliver Smith,2021-12-09,SMB,Direct,London,True,,47718.41
+C0202,Oliver Moore,2022-01-26,Consumer,Direct,London,True,,2993.99
+C0203,Mia Robinson,2021-10-13,Consumer,Partner,London,True,,2844.97
+C0204,Green Group,2021-10-23,Enterprise,Referral,London,True,,104168.74
+C0205,David Walker,2023-07-18,Consumer,Online,Scotland,True,,2209.5
+C0206,Benjamin Davis,2022-09-30,SMB,Referral,Scotland,True,,29160.39
+C0207,Thomas Baker,2022-01-08,SMB,Referral,Scotland,True,,41434.66
+C0208,King Services,2022-09-27,Public Sector,Direct,Scotland,True,,82614.59
+C0209,Emily Jones,2021-11-21,Consumer,Partner,Scotland,True,,3718.56
+C0210,Moore Group,2021-12-26,Enterprise,Events,London,True,,66405.41
+C0211,George Green,2022-02-10,Consumer,Direct,Scotland,False,2022-12-01,2437.05
+C0212,Emily Robinson,2022-09-16,SMB,Online,London,True,,37617.49
+C0213,Green Services,2023-01-24,Public Sector,Online,London,True,,92533.78
+C0214,Wright Services,2021-08-05,Enterprise,Online,London,True,,127399.09
+C0215,Harry Smith,2023-03-21,SMB,Referral,London,True,,39495.53
+C0216,Alexander Brown,2021-07-12,SMB,Referral,London,True,,41980.09
+C0217,Sophia Moore,2022-08-27,SMB,Direct,London,True,,24079.4
+C0218,Moore Solutions,2022-11-20,Enterprise,Online,Scotland,True,,126623.73
+C0219,Lewis Solutions,2022-03-28,Enterprise,Referral,London,True,,123446.3
+C0220,Olivia King,2021-07-25,SMB,Online,London,True,,43595.67
+C0221,Lee International,2021-10-25,Enterprise,Direct,Scotland,True,,132458.93
+C0222,Lewis Services,2022-12-28,Enterprise,Partner,Scotland,True,,198466.36
+C0223,Matthew Green,2022-01-09,Consumer,Partner,London,True,,1566.26
+C0224,Henry Green,2023-01-07,Consumer,Referral,Scotland,True,,767.11
+C0225,Joseph Allen,2022-11-24,SMB,Online,London,True,,42607.24
+C0226,William King,2021-08-15,Consumer,Referral,London,False,2023-08-07,1949.44
+C0227,Matthew Williams,2023-03-15,SMB,Direct,Scotland,True,,26114.03
+C0228,Oliver Wright,2021-08-27,Consumer,Partner,London,True,,4874.68
+C0229,George Baker,2021-08-16,Consumer,Partner,Scotland,True,,1776.17
+C0230,Baker International,2023-09-11,Enterprise,Partner,Scotland,True,,52442.2
+C0231,Taylor Solutions,2021-07-03,Enterprise,Online,Scotland,True,,181163.51
+C0232,Wright Services,2023-05-08,Enterprise,Referral,London,True,,114384.64
+C0233,Thomas Group,2022-06-07,Enterprise,Direct,London,True,,198223.24
+C0234,Scott Solutions,2022-06-22,Enterprise,Direct,London,True,,146236.42
+C0235,Nelson Partners,2021-12-15,Enterprise,Online,Scotland,True,,142411.4
+C0236,Jessica Jones,2021-08-29,SMB,Partner,London,True,,19911.45
+C0237,Joseph Taylor,2022-12-25,SMB,Online,Scotland,True,,18217.83
+C0238,Wilson International,2023-02-07,Enterprise,Referral,Scotland,True,,145712.35
+C0239,Lewis Solutions,2021-07-05,Public Sector,Direct,London,True,,121527.11
+C0240,Daniel Taylor,2022-09-01,Consumer,Direct,London,True,,3328.57
+C0241,Daniel Nelson,2022-07-31,SMB,Online,London,True,,18127.9
+C0242,Hannah Hall,2023-07-16,SMB,Referral,Scotland,True,,19545.5
+C0243,Smith Solutions,2021-04-07,Public Sector,Direct,Scotland,True,,114179.95
+C0244,Anderson Group,2023-03-12,Public Sector,Online,Scotland,False,2023-11-16,122571.63
+C0245,Lily Hall,2022-05-22,SMB,Direct,Scotland,True,,32675.45
+C0246,Sophie Smith,2022-08-07,SMB,Direct,London,True,,19782.06
+C0247,Thomas Baker,2022-03-05,SMB,Direct,Scotland,True,,13115.48
+C0248,Sophie Taylor,2022-11-06,SMB,Events,London,True,,23092.04
+C0249,Harris Services,2021-12-01,Enterprise,Direct,London,True,,159869.5
+C0250,James Thomas,2021-03-04,Consumer,Direct,Scotland,True,,506.58
+C0251,William King,2022-04-05,Consumer,Online,London,False,2022-12-28,1759.21
+C0252,Jones Partners,2022-10-06,Public Sector,Online,Scotland,True,,38979.66
+C0253,Hannah Thomas,2021-06-29,SMB,Events,London,True,,22722.31
+C0254,Martin Group,2022-11-17,Enterprise,Direct,Scotland,True,,130388.68
+C0255,Benjamin Walker,2021-05-22,SMB,Referral,London,True,,11613.19
+C0256,Isabella Smith,2021-10-05,SMB,Direct,London,True,,48083.86
+C0257,Matthew Wilson,2021-12-11,Consumer,Online,London,True,,1088.22
+C0258,Jack Green,2023-03-08,SMB,Online,Scotland,True,,15151.66
+C0259,Harry Harris,2022-01-16,Consumer,Referral,London,True,,632.67
+C0260,Wilson Corp,2022-11-22,Enterprise,Direct,London,True,,124833.74
+C0261,Jessica Lewis,2021-09-10,SMB,Direct,London,True,,41793.85
+C0262,Isabella Smith,2022-03-04,Consumer,Referral,London,False,2023-01-15,1934.95
+C0263,Baker Ltd,2022-06-29,Enterprise,Events,London,True,,164607.46
+C0264,George Green,2023-08-02,Consumer,Events,London,True,,3821.47
+C0265,Grace Taylor,2021-11-13,Consumer,Online,London,False,2022-02-08,1290.01
+C0266,Benjamin Miller,2021-01-20,SMB,Direct,London,True,,46751.23
+C0267,William Miller,2023-06-23,SMB,Direct,London,True,,39294.08
+C0268,Amelia Wilson,2021-11-29,Consumer,Online,London,True,,3494.89
+C0269,Alexander Johnson,2022-01-01,SMB,Online,London,True,,17283.27
+C0270,Amelia Thomas,2021-08-17,Consumer,Online,Scotland,True,,1255.49
+C0271,Brown Ltd,2022-08-19,Enterprise,Online,Scotland,True,,57222.12
+C0272,Matthew Allen,2021-08-25,SMB,Direct,London,True,,19023.31
+C0273,Isabella Wright,2021-12-26,Consumer,Direct,London,True,,837.51
+C0274,Johnson Group,2021-12-15,Public Sector,Referral,Scotland,True,,69731.35
+C0275,Harry Robinson,2022-07-21,SMB,Online,Scotland,True,,31986.51
+C0276,Davis Solutions,2022-11-18,Enterprise,Direct,London,True,,145728.6
+C0277,Harry Miller,2022-06-27,SMB,Direct,Scotland,True,,24840.82
+C0278,King Group,2021-09-28,Enterprise,Direct,London,True,,62856.1
+C0279,Grace Allen,2021-11-01,SMB,Events,London,True,,44675.76
+C0280,Walker Solutions,2021-10-17,Public Sector,Online,London,True,,44433.82
+C0281,Young Solutions,2022-02-26,Enterprise,Events,Scotland,True,,175116.22
+C0282,Lee Ltd,2022-03-30,Public Sector,Events,London,True,,124386.08
+C0283,Lucy Brown,2021-05-20,SMB,Referral,London,False,2022-04-07,32507.35
+C0284,Miller Corp,2021-09-25,Public Sector,Partner,Scotland,True,,78356.88
+C0285,Thomas Adams,2023-08-29,Consumer,Referral,London,True,,2175.98
+C0286,Matthew Baker,2023-03-14,Consumer,Referral,Scotland,True,,1943.91
+C0287,Jessica Miller,2022-05-05,Consumer,Direct,London,True,,795.28
+C0288,Henry Anderson,2023-03-25,SMB,Partner,London,True,,24734.08
+C0289,Lily Robinson,2021-10-29,SMB,Events,Scotland,True,,32053.35
+C0290,Mia Young,2021-03-12,Consumer,Referral,Scotland,False,2023-02-07,1513.0
+C0291,Samuel Anderson,2022-01-07,SMB,Direct,Scotland,True,,26952.27
+C0292,Daniel Allen,2022-08-27,SMB,Referral,London,True,,48659.42
+C0293,George Hall,2022-10-03,Consumer,Online,London,True,,1745.98
+C0294,Green Partners,2023-02-15,Public Sector,Online,London,True,,109263.64
+C0295,Benjamin Robinson,2021-12-04,Consumer,Online,Scotland,True,,4172.07
+C0296,Isabella Baker,2022-05-08,Consumer,Online,Scotland,True,,3459.27
+C0297,Joseph Thomas,2021-11-14,SMB,Online,Scotland,True,,36177.39
+C0298,Samuel Robinson,2022-12-31,SMB,Partner,London,True,,33212.52
+C0299,William Jones,2022-08-22,SMB,Direct,London,True,,49693.91
+C0300,Thomas Solutions,2021-12-15,Public Sector,Partner,Scotland,True,,67609.69
+C0301,William Walker,2021-12-04,SMB,Direct,Scotland,True,,27348.46
+C0302,James Allen,2021-11-28,SMB,Online,London,True,,10164.95
+C0303,Emma Taylor,2021-08-24,SMB,Partner,London,True,,47938.54
+C0304,Lucy Nelson,2022-03-04,SMB,Online,London,False,2022-11-18,42480.33
+C0305,Emma Jackson,2022-07-15,Consumer,Direct,Scotland,True,,4444.45
+C0306,Olivia Lee,2023-07-19,SMB,Direct,Scotland,True,,25210.15
+C0307,Thomas Walker,2022-03-16,SMB,Direct,Scotland,False,2022-07-31,34225.37
+C0308,David Clark,2022-08-10,SMB,Online,London,True,,48924.79
+C0309,Lily Jones,2022-11-08,SMB,Direct,London,True,,47977.84
+C0310,Hall Ltd,2023-05-02,Enterprise,Online,Scotland,True,,177837.3
+C0311,Joseph Lee,2022-09-29,Consumer,Referral,London,True,,4797.9
+C0312,Benjamin Hall,2021-07-17,Consumer,Referral,London,True,,2652.1
+C0313,Walker Partners,2022-07-11,Public Sector,Direct,London,True,,123499.72
+C0314,Young Holdings,2022-04-04,Public Sector,Partner,Scotland,True,,31483.23
+C0315,Benjamin King,2021-05-13,SMB,Online,Scotland,True,,34729.56
+C0316,Chloe Johnson,2021-12-13,Consumer,Online,Scotland,True,,552.4
+C0317,Thomas Johnson,2021-10-21,SMB,Online,London,True,,30277.17
+C0318,George Brown,2022-11-15,SMB,Partner,London,True,,49226.83
+C0319,Young Corp,2021-11-15,Enterprise,Referral,London,True,,183516.63
+C0320,Benjamin Allen,2022-06-20,Consumer,Online,London,True,,2134.83
+C0321,Moore Group,2021-08-10,Enterprise,Online,London,True,,56866.72
+C0322,Jackson Services,2021-10-27,Enterprise,Online,Scotland,True,,118556.9
+C0323,Daniel Jones,2022-06-02,Consumer,Direct,London,False,2022-08-20,4837.35
+C0324,Chloe Adams,2022-03-31,Consumer,Referral,London,True,,1948.3
+C0325,Jessica Jones,2021-12-16,SMB,Online,Scotland,True,,15527.2
+C0326,Davis Services,2021-12-16,Public Sector,Online,Scotland,True,,55165.52
+C0327,Samuel Thomas,2023-01-25,Consumer,Events,London,True,,3696.59
+C0328,Emma Davis,2022-09-29,Consumer,Online,Scotland,True,,1701.4
+C0329,Moore International,2021-08-11,Public Sector,Online,London,True,,42297.6
+C0330,Charlotte King,2021-11-26,Consumer,Partner,Scotland,True,,3490.22
+C0331,Chloe Hall,2023-03-28,SMB,Events,Scotland,True,,41237.0
+C0332,Matthew Wright,2022-05-25,Consumer,Events,Scotland,True,,4839.3
+C0333,Lewis Corp,2021-10-05,Enterprise,Online,London,True,,69509.98
+C0334,Lucy Young,2021-10-10,SMB,Referral,Scotland,True,,34624.35
+C0335,Oliver Green,2023-02-18,SMB,Online,London,True,,30205.61
+C0336,Matthew Walker,2021-11-12,SMB,Direct,London,True,,31219.96
+C0337,Emily Adams,2022-05-02,Consumer,Events,London,True,,1944.22
+C0338,Green International,2021-06-29,Public Sector,Referral,London,True,,88416.57
+C0339,Samuel Williams,2021-04-15,Consumer,Referral,London,True,,1448.52
+C0340,Olivia Young,2021-05-03,SMB,Online,Scotland,False,2023-05-05,42670.17
+C0341,Anderson Partners,2022-09-05,Enterprise,Online,London,True,,108204.89
+C0342,Alexander Johnson,2022-02-07,SMB,Direct,Scotland,False,2023-08-05,38035.28
+C0343,Allen Ltd,2021-06-25,Enterprise,Partner,London,True,,121098.15
+C0344,Nelson Holdings,2022-11-12,Enterprise,Referral,Scotland,False,2023-09-22,193608.75
+C0345,Wright Holdings,2022-10-20,Enterprise,Direct,London,True,,81760.54
+C0346,Robinson Ltd,2023-01-22,Public Sector,Direct,London,True,,132166.53
+C0347,Harris Holdings,2022-07-21,Public Sector,Online,London,True,,72856.6
+C0348,Benjamin Robinson,2021-11-11,SMB,Referral,London,True,,16095.8
+C0349,Thomas Baker,2021-08-29,Consumer,Events,London,True,,2117.69
+C0350,Oliver Baker,2023-05-01,SMB,Online,London,True,,21224.64
+C0351,Young Ltd,2021-10-11,Public Sector,Direct,Scotland,True,,127517.09
+C0352,William Moore,2021-10-05,Consumer,Direct,London,True,,2266.24
+C0353,Mia Hall,2022-05-21,Consumer,Partner,London,True,,4838.0
+C0354,William Wright,2021-07-22,Consumer,Partner,London,True,,3794.02
+C0355,Green Holdings,2021-08-21,Enterprise,Partner,London,True,,108213.97
+C0356,Wright Corp,2021-05-23,Public Sector,Direct,Scotland,True,,99435.77
+C0357,David Hall,2022-02-24,SMB,Referral,London,True,,23801.29
+C0358,Jones Solutions,2022-01-30,Public Sector,Direct,Scotland,True,,48882.88
+C0359,Alexander Miller,2021-09-22,Consumer,Online,London,True,,3412.67
+C0360,Daniel Jackson,2021-12-15,SMB,Direct,London,True,,33974.3
+C0361,Hall International,2021-11-24,Enterprise,Online,Scotland,True,,75585.02
+C0362,George Nelson,2021-12-02,Consumer,Partner,Scotland,True,,2540.62
+C0363,William Walker,2021-09-10,SMB,Referral,London,True,,13851.94
+C0364,Chloe Lewis,2022-03-25,Consumer,Direct,Scotland,True,,4223.85
+C0365,Jessica Harris,2021-12-14,Consumer,Online,London,True,,4053.0
+C0366,Charlotte Walker,2021-11-02,Consumer,Online,Scotland,True,,4445.45
+C0367,King Holdings,2023-08-20,Enterprise,Online,Scotland,True,,111326.76
+C0368,Harry Scott,2022-02-11,SMB,Online,London,True,,18147.75
+C0369,Harry Wright,2022-01-27,Consumer,Direct,London,True,,1121.31
+C0370,Allen Ltd,2021-10-20,Enterprise,Direct,Scotland,True,,74110.7
+C0371,Walker Corp,2021-06-12,Enterprise,Direct,London,True,,156740.87
+C0372,Taylor Services,2021-11-27,Public Sector,Partner,Scotland,True,,34033.12
+C0373,Alexander Davis,2021-05-07,SMB,Direct,London,True,,30709.71
+C0374,Anderson Services,2023-01-23,Enterprise,Direct,London,True,,140954.51
+C0375,Brown Corp,2022-11-17,Public Sector,Online,London,True,,135133.57
+C0376,Jack Allen,2021-12-13,Consumer,Online,Scotland,True,,2573.24
+C0377,Thomas Partners,2022-03-10,Enterprise,Direct,London,True,,193316.85
+C0378,Anderson Solutions,2021-07-27,Enterprise,Partner,London,True,,192067.72
+C0379,Wilson Holdings,2023-01-22,Public Sector,Online,London,True,,48719.47
+C0380,Harris Holdings,2022-05-05,Public Sector,Online,Scotland,True,,104480.1
+C0381,Johnson Partners,2022-08-07,Public Sector,Partner,Scotland,True,,87398.41
+C0382,Benjamin Smith,2021-06-22,SMB,Referral,Scotland,True,,10472.8
+C0383,Chloe Thomas,2022-02-21,Consumer,Referral,Scotland,True,,2146.66
+C0384,Sophia Wright,2021-08-02,SMB,Online,London,True,,20797.96
+C0385,Hannah Thomas,2021-09-15,SMB,Referral,London,True,,41413.32
+C0386,George Anderson,2022-08-27,Consumer,Online,London,True,,2124.33
+C0387,Miller Corp,2021-06-21,Public Sector,Referral,London,True,,72613.08
+C0388,Isabella Young,2021-11-07,SMB,Online,Scotland,True,,42308.69
+C0389,Charlotte King,2021-08-15,Consumer,Online,Scotland,True,,1703.63
+C0390,Hannah King,2021-09-17,SMB,Referral,Scotland,True,,39989.59
+C0391,Oliver Brown,2021-10-20,SMB,Direct,Scotland,False,2023-09-20,20498.09
+C0392,Miller Ltd,2023-03-23,Public Sector,Referral,London,True,,34218.6
+C0393,King Solutions,2022-12-10,Public Sector,Partner,London,True,,100899.71
+C0394,Charlotte Moore,2022-11-06,Consumer,Partner,London,False,2022-12-11,2354.92
+C0395,Scott International,2023-05-21,Enterprise,Partner,Scotland,True,,94941.58
+C0396,Samuel Jackson,2022-08-24,Consumer,Online,Scotland,False,2022-11-02,4227.92
+C0397,Olivia Davis,2022-03-07,SMB,Direct,Scotland,True,,44139.28
+C0398,Isabella Brown,2022-10-03,SMB,Online,Scotland,False,2023-06-14,21284.58
+C0399,Amelia Lee,2022-06-14,Consumer,Direct,London,False,2022-10-04,3636.21
+C0400,David Smith,2021-09-07,Consumer,Events,London,True,,1048.83
+C0401,Lily Jackson,2022-02-09,SMB,Partner,London,True,,37257.69
+C0402,Sophie Allen,2022-03-14,SMB,Online,London,False,2023-07-01,18711.53
+C0403,Chloe Jones,2021-04-26,SMB,Direct,London,False,2021-11-03,24855.95
+C0404,Sophia Jones,2021-09-05,SMB,Online,London,True,,29513.72
+C0405,Emma Harris,2021-02-19,Consumer,Online,London,True,,3679.82
+C0406,Chloe Nelson,2022-04-25,SMB,Online,London,True,,44422.43
+C0407,Hannah Miller,2021-11-21,SMB,Referral,Scotland,True,,45317.29
+C0408,William Walker,2021-04-10,SMB,Online,London,True,,21325.16
+C0409,Sophia Harris,2021-07-18,SMB,Direct,Scotland,False,2023-06-05,17664.67
+C0410,Oliver Smith,2022-09-30,Consumer,Online,London,False,2023-07-08,4685.95
+C0411,Baker Holdings,2022-02-04,Public Sector,Partner,London,True,,125309.95
+C0412,Harry Davis,2022-05-15,Consumer,Online,Scotland,True,,1369.04
+C0413,Emily Lee,2021-12-05,Consumer,Events,London,True,,3661.48
+C0414,Nelson Holdings,2022-03-01,Enterprise,Partner,London,True,,185372.75
+C0415,Lewis Services,2022-09-05,Public Sector,Partner,London,True,,75007.57
+C0416,Benjamin Baker,2021-05-13,Consumer,Referral,London,True,,1741.81
+C0417,Alexander Wilson,2021-07-26,Consumer,Events,London,True,,1548.47
+C0418,Robinson Group,2022-02-14,Enterprise,Referral,Scotland,True,,139284.68
+C0419,Olivia Nelson,2021-06-11,Consumer,Online,London,True,,4405.24
+C0420,Emma Thomas,2021-03-06,SMB,Online,Scotland,False,2022-09-01,31597.19
+C0421,Jessica Jackson,2023-05-05,Consumer,Direct,Scotland,True,,1166.06
+C0422,Matthew Jones,2021-11-16,SMB,Online,London,True,,29236.9
+C0423,Alexander Williams,2021-11-04,SMB,Online,London,True,,14501.19
+C0424,David Green,2022-12-27,SMB,Direct,London,True,,27688.4
+C0425,Nelson Solutions,2022-12-01,Enterprise,Partner,London,True,,180312.85
+C0426,Davis Corp,2022-07-22,Enterprise,Online,London,True,,132320.01
+C0427,Johnson Corp,2021-12-19,Public Sector,Online,Scotland,True,,54083.53
+C0428,Amelia Hall,2021-04-16,SMB,Online,Scotland,True,,14315.66
+C0429,Davis International,2022-02-02,Public Sector,Referral,Scotland,True,,97282.5
+C0430,Moore Corp,2023-05-19,Enterprise,Events,London,True,,85430.71
+C0431,William Thomas,2022-12-18,SMB,Partner,Scotland,True,,45887.01
+C0432,Jones Partners,2022-10-19,Enterprise,Referral,Scotland,True,,195580.58
+C0433,Charlotte King,2021-05-02,SMB,Online,London,True,,38205.46
+C0434,Brown Solutions,2021-07-14,Enterprise,Events,Scotland,True,,97639.64
+C0435,Joseph Young,2022-02-17,Consumer,Partner,Scotland,True,,4699.63
+C0436,Mia Walker,2023-01-06,Consumer,Direct,London,True,,1544.82
+C0437,Sophie Jackson,2021-12-05,SMB,Online,London,False,2022-07-20,29657.82
+C0438,Henry Scott,2023-07-01,SMB,Referral,Scotland,True,,18182.48
+C0439,Baker Partners,2022-02-16,Public Sector,Referral,Scotland,True,,116424.11
+C0440,Adams Services,2022-07-04,Public Sector,Online,London,True,,92244.32
+C0441,Charlotte Scott,2022-09-21,Consumer,Online,London,True,,4224.29
+C0442,Hannah Clark,2021-10-06,SMB,Online,London,True,,14526.86
+C0443,King Services,2022-07-22,Public Sector,Online,London,True,,135905.81
+C0444,Samuel Moore,2022-04-06,SMB,Online,Scotland,True,,13412.26
+C0445,George Robinson,2022-07-05,Consumer,Events,Scotland,True,,4420.87
+C0446,Taylor Solutions,2021-03-22,Enterprise,Direct,Scotland,True,,67633.1
+C0447,Joseph Harris,2022-01-28,SMB,Online,London,True,,19515.13
+C0448,Grace Baker,2022-04-23,SMB,Referral,London,False,2022-10-21,43010.1
+C0449,Williams Ltd,2021-03-20,Enterprise,Referral,London,True,,66333.15
+C0450,Wright Holdings,2022-06-24,Enterprise,Referral,Scotland,True,,189721.97
+C0451,William Brown,2021-05-10,SMB,Referral,London,True,,37784.78
+C0452,Oliver Harris,2022-01-27,SMB,Online,Scotland,True,,38962.97
+C0453,Lily Harris,2022-05-01,Consumer,Online,London,True,,4135.91
+C0454,Henry Green,2021-04-22,SMB,Referral,London,True,,34612.32
+C0455,Williams Corp,2021-07-16,Enterprise,Referral,Scotland,True,,95042.6
+C0456,Lucy Allen,2022-06-28,Consumer,Direct,London,True,,2655.99
+C0457,Johnson Corp,2021-09-19,Enterprise,Direct,London,True,,134741.4
+C0458,George Jackson,2022-06-23,Consumer,Direct,London,True,,3319.3
+C0459,Emma Anderson,2022-09-14,Consumer,Referral,London,True,,2362.41
+C0460,Matthew Davis,2022-05-01,SMB,Online,Scotland,True,,46534.15
+C0461,Scott Holdings,2021-06-20,Enterprise,Online,London,True,,71494.26
+C0462,Daniel Brown,2021-08-02,Consumer,Events,Scotland,True,,518.49
+C0463,Charlotte Smith,2022-02-13,Consumer,Online,London,True,,3099.02
+C0464,Jones Solutions,2021-11-23,Public Sector,Referral,London,False,2023-09-21,62836.43
+C0465,Charlotte Walker,2022-03-09,Consumer,Direct,London,True,,4515.09
+C0466,King International,2021-10-12,Enterprise,Direct,Scotland,True,,142447.3
+C0467,William Williams,2021-11-28,Consumer,Online,Scotland,True,,4157.83
+C0468,Sophie Adams,2022-12-20,SMB,Online,Scotland,True,,34677.68
+C0469,Lily Brown,2022-10-28,SMB,Online,Scotland,True,,24057.63
+C0470,Thomas Group,2021-04-21,Enterprise,Partner,Scotland,True,,168864.64
+C0471,David King,2022-06-09,SMB,Referral,Scotland,True,,33638.81
+C0472,Alexander Baker,2022-07-08,SMB,Partner,London,True,,29465.21
+C0473,David Walker,2022-05-25,SMB,Online,Scotland,True,,40853.74
+C0474,Harry Walker,2023-04-28,SMB,Online,London,True,,33117.26
+C0475,Emma Smith,2021-08-27,Consumer,Referral,London,True,,3665.09
+C0476,Harry Jackson,2021-11-14,SMB,Partner,Scotland,True,,25262.6
+C0477,James Jones,2022-08-13,Consumer,Online,London,True,,3746.03
+C0478,Chloe Nelson,2022-07-05,SMB,Events,London,True,,27028.17
+C0479,Sophie Wright,2021-11-04,SMB,Online,London,True,,19470.0
+C0480,William Wright,2022-08-06,SMB,Online,London,True,,39251.73
+C0481,Wright Group,2021-12-09,Public Sector,Partner,London,True,,112088.88
+C0482,Alexander Wright,2022-04-27,Consumer,Online,Scotland,True,,1991.81
+C0483,Anderson Ltd,2022-10-28,Public Sector,Referral,London,True,,105516.01
+C0484,Thomas Jones,2022-12-25,Consumer,Online,London,True,,3271.09
+C0485,Mia Harris,2022-12-25,SMB,Online,Scotland,True,,17232.37
+C0486,Martin Partners,2021-11-09,Enterprise,Events,Scotland,True,,85692.12
+C0487,Charlotte Harris,2022-06-15,Consumer,Direct,Scotland,True,,3857.68
+C0488,Emily Johnson,2021-12-06,SMB,Referral,Scotland,True,,13894.57
+C0489,Thomas Young,2022-10-18,SMB,Partner,Scotland,True,,33367.07
+C0490,George Lewis,2022-06-21,Consumer,Direct,Scotland,False,2022-09-28,547.6
+C0491,Smith Group,2022-05-31,Enterprise,Direct,London,True,,58532.29
+C0492,Jackson Solutions,2022-02-20,Public Sector,Direct,London,True,,137520.2
+C0493,Joseph Allen,2022-10-05,SMB,Online,Scotland,True,,40795.22
+C0494,Anderson Solutions,2022-11-25,Enterprise,Direct,Scotland,True,,116086.22
+C0495,Young Group,2021-10-30,Public Sector,Online,London,True,,139513.11
+C0496,Allen Partners,2021-08-24,Enterprise,Direct,London,True,,89965.47
+C0497,Lewis Services,2021-09-26,Public Sector,Online,London,True,,30396.88
+C0498,Oliver Moore,2022-05-06,Consumer,Online,London,True,,2905.82
+C0499,Davis Corp,2023-05-24,Enterprise,Online,Scotland,True,,154382.34
+C0500,Hannah Robinson,2023-01-07,Consumer,Referral,London,True,,1573.18
+C0501,Henry Green,2021-09-08,Consumer,Online,London,True,,3442.32
+C0502,Harris Ltd,2023-05-18,Public Sector,Partner,London,True,,86546.36
+C0503,Robinson Group,2021-12-07,Enterprise,Online,London,True,,172670.03
+C0504,Emily Jackson,2022-04-27,SMB,Partner,London,True,,22969.4
+C0505,Sophia Anderson,2022-08-26,Consumer,Direct,Scotland,True,,1135.57
+C0506,James Adams,2021-05-25,Consumer,Online,London,False,2021-12-24,2691.35
+C0507,Jones Services,2021-07-13,Public Sector,Online,London,True,,47170.54
+C0508,Oliver Young,2022-03-27,SMB,Direct,London,True,,43059.34
+C0509,Henry Anderson,2022-06-15,SMB,Online,London,False,2022-12-14,12122.76
+C0510,Charlotte Davis,2022-07-26,Consumer,Events,London,True,,2456.02
+C0511,Lily Clark,2023-02-15,Consumer,Partner,London,True,,1022.29
+C0512,George Wilson,2021-11-16,Consumer,Online,London,True,,941.29
+C0513,Wright Services,2022-04-20,Public Sector,Referral,London,True,,105842.53
+C0514,Isabella Scott,2021-03-05,SMB,Direct,Scotland,True,,23743.04
+C0515,Lily Hall,2023-02-20,Consumer,Partner,Scotland,True,,4980.49
+C0516,Joseph Nelson,2022-11-15,Consumer,Referral,Scotland,False,2023-10-04,3162.97
+C0517,King Group,2022-05-07,Public Sector,Referral,London,True,,84292.96
+C0518,Charlotte Miller,2022-08-04,Consumer,Direct,Scotland,True,,3664.87
+C0519,Amelia Young,2022-11-05,Consumer,Direct,London,True,,2589.33
+C0520,Walker Services,2022-01-05,Public Sector,Direct,Scotland,True,,124523.02
+C0521,Lewis Group,2022-02-23,Public Sector,Online,London,True,,97290.99
+C0522,King Services,2022-02-05,Enterprise,Referral,London,True,,162976.02
+C0523,Daniel Clark,2022-03-28,SMB,Partner,London,True,,43182.39
+C0524,Joseph Williams,2021-11-26,SMB,Partner,Scotland,True,,17534.14
+C0525,Davis Ltd,2022-02-02,Enterprise,Referral,London,True,,93975.42
+C0526,Sophie Green,2022-05-25,SMB,Direct,London,True,,19293.12
+C0527,David Lewis,2022-05-01,Consumer,Referral,London,True,,2503.65
+C0528,Lee Solutions,2022-09-30,Enterprise,Partner,London,True,,142794.53
+C0529,Alexander Jones,2023-03-14,SMB,Direct,London,True,,27635.55
+C0530,James Jackson,2022-01-27,SMB,Online,Scotland,True,,47242.76
+C0531,Scott Solutions,2022-07-02,Public Sector,Events,London,True,,125949.14
+C0532,Smith Partners,2021-12-09,Public Sector,Referral,London,True,,104102.64
+C0533,Henry Smith,2021-06-06,SMB,Referral,Scotland,True,,13343.58
+C0534,Emma Nelson,2021-11-26,Consumer,Events,Scotland,True,,3500.45
+C0535,Grace Williams,2021-03-18,Consumer,Referral,London,True,,1470.63
+C0536,Olivia Jones,2021-04-09,Consumer,Referral,London,True,,4259.8
+C0537,Miller International,2022-01-23,Enterprise,Referral,Scotland,True,,156537.05
+C0538,Taylor International,2021-10-26,Enterprise,Direct,London,True,,133892.16
+C0539,Wilson Ltd,2022-03-01,Enterprise,Direct,London,True,,67903.2
+C0540,Harris Group,2021-10-09,Public Sector,Direct,Scotland,True,,74784.27
+C0541,Johnson Corp,2021-06-06,Enterprise,Referral,London,True,,104174.52
+C0542,Scott Group,2022-11-28,Public Sector,Direct,London,True,,101851.5
+C0543,William Smith,2022-07-06,SMB,Referral,Scotland,True,,15477.98
+C0544,Jessica Adams,2021-08-13,Consumer,Referral,Scotland,True,,3013.95
+C0545,Brown Solutions,2022-09-05,Public Sector,Partner,Scotland,True,,140809.17
+C0546,William Williams,2023-01-30,SMB,Referral,Scotland,True,,26992.2
+C0547,Robinson Ltd,2023-02-28,Enterprise,Direct,London,True,,120362.35
+C0548,Davis Solutions,2021-05-25,Enterprise,Referral,London,False,2021-11-20,150590.1
+C0549,Mia Clark,2021-12-13,Consumer,Events,Scotland,False,2023-08-27,3066.06
+C0550,Lily Moore,2021-11-04,Consumer,Online,Scotland,False,2023-10-24,3641.6
+C0551,Thomas Group,2022-05-24,Public Sector,Direct,London,True,,85908.2
+C0552,Emily Baker,2022-03-31,SMB,Referral,London,True,,27758.23
+C0553,Isabella Smith,2021-05-28,SMB,Partner,London,True,,49948.93
+C0554,Brown Solutions,2021-07-04,Enterprise,Referral,Scotland,True,,59706.56
+C0555,Benjamin Scott,2021-05-14,SMB,Online,Scotland,True,,33276.74
+C0556,Thomas Jones,2022-04-14,Consumer,Online,London,False,2023-01-25,3956.0
+C0557,James Miller,2021-02-15,SMB,Direct,Scotland,True,,25305.32
+C0558,Davis Corp,2021-04-03,Enterprise,Online,London,True,,149313.98
+C0559,Lucy Brown,2023-04-28,SMB,Referral,Scotland,True,,25345.2
+C0560,Lily Martin,2022-07-28,SMB,Online,London,True,,15379.53
+C0561,Sophie Miller,2022-05-21,SMB,Direct,Scotland,True,,30267.4
+C0562,Emma Jones,2022-03-10,SMB,Events,Scotland,True,,43477.37
+C0563,Amelia Johnson,2022-02-18,Consumer,Direct,Scotland,False,2023-02-02,3475.58
+C0564,Jack Allen,2023-02-10,Consumer,Events,London,True,,4385.16
+C0565,Robinson Group,2022-07-08,Public Sector,Referral,Scotland,True,,126999.19
+C0566,Olivia Davis,2022-07-20,Consumer,Referral,London,True,,2736.28
+C0567,Oliver King,2022-03-21,Consumer,Partner,London,False,2023-03-30,4298.84
+C0568,Daniel Green,2022-11-22,SMB,Online,London,True,,21996.36
+C0569,Samuel King,2022-03-01,SMB,Referral,London,True,,30648.96
+C0570,Lucy Robinson,2021-11-21,SMB,Online,Scotland,False,2022-07-14,39064.6
+C0571,David Nelson,2022-08-14,SMB,Direct,London,True,,12577.1
+C0572,Henry Smith,2021-11-24,SMB,Partner,Scotland,True,,19823.46
+C0573,Emily Lewis,2021-11-14,SMB,Online,London,True,,17039.41
+C0574,Williams Partners,2022-07-24,Public Sector,Online,London,True,,143179.46
+C0575,Thomas Partners,2023-05-26,Enterprise,Direct,Scotland,True,,170876.24
+C0576,Johnson International,2021-10-24,Public Sector,Direct,London,True,,94016.4
+C0577,Taylor Ltd,2021-10-20,Enterprise,Online,London,True,,146809.64
+C0578,Jackson Corp,2021-04-04,Enterprise,Online,Scotland,True,,145842.36
+C0579,Nelson Corp,2023-03-28,Public Sector,Online,London,True,,66106.58
+C0580,Samuel Martin,2021-10-18,Consumer,Referral,Scotland,False,2022-02-07,4051.93
+C0581,David Brown,2021-10-16,Consumer,Events,London,True,,4209.8
+C0582,Emma Young,2022-11-20,SMB,Referral,Scotland,True,,35663.7
+C0583,Daniel King,2023-03-06,Consumer,Direct,London,True,,4863.49
+C0584,Thomas Miller,2022-10-19,Consumer,Partner,Scotland,True,,3593.6
+C0585,Lucy Lewis,2021-12-25,Consumer,Direct,London,True,,3411.98
+C0586,Anderson Solutions,2022-09-12,Public Sector,Events,London,True,,40687.35
+C0587,Brown Services,2022-02-24,Public Sector,Direct,Scotland,True,,115627.65
+C0588,Baker Corp,2021-09-07,Public Sector,Partner,London,True,,117204.97
+C0589,Williams Ltd,2022-01-06,Enterprise,Partner,London,True,,120332.24
+C0590,Lewis Ltd,2021-11-23,Public Sector,Referral,London,True,,36253.51
+C0591,James Anderson,2022-03-17,SMB,Referral,Scotland,True,,30181.68
+C0592,Lee Solutions,2021-08-28,Public Sector,Online,London,True,,40757.76
+C0593,Daniel Thomas,2021-07-28,SMB,Referral,London,False,2023-09-20,27431.01
+C0594,Johnson International,2023-05-26,Public Sector,Partner,London,True,,61226.88
+C0595,Lily Brown,2021-03-15,SMB,Events,Scotland,True,,43833.53
+C0596,Adams Services,2021-08-24,Enterprise,Direct,Scotland,True,,137532.11
+C0597,James Taylor,2021-04-22,SMB,Online,London,True,,37252.49
+C0598,Thomas Walker,2021-04-30,SMB,Online,Scotland,True,,36320.25
+C0599,Jones Services,2022-09-06,Enterprise,Online,London,True,,179491.83
+C0600,Mia Scott,2023-01-07,SMB,Partner,Scotland,False,2023-05-23,44620.62
+C0601,Martin Corp,2023-04-06,Enterprise,Partner,London,True,,185560.14
+C0602,Chloe Martin,2021-10-21,SMB,Direct,London,True,,13608.89
+C0603,Lucy Harris,2021-05-12,SMB,Direct,Scotland,True,,31091.15
+C0604,Lewis Group,2021-12-14,Enterprise,Online,London,True,,187595.3
+C0605,Matthew Clark,2022-10-19,SMB,Referral,London,True,,10650.75
+C0606,Hannah Lee,2021-03-20,SMB,Partner,Scotland,True,,40294.17
+C0607,Olivia Lewis,2021-08-12,Consumer,Referral,Scotland,True,,580.62
+C0608,Taylor Holdings,2021-09-30,Enterprise,Online,London,True,,153599.34
+C0609,Henry Hall,2021-04-25,Consumer,Partner,London,True,,620.67
+C0610,Brown Solutions,2021-10-24,Enterprise,Direct,Scotland,True,,185362.3
+C0611,Harry Johnson,2022-05-26,SMB,Online,London,False,2023-09-10,23354.0
+C0612,Harris International,2022-08-30,Public Sector,Partner,Scotland,True,,57828.69
+C0613,Lee Partners,2021-09-09,Enterprise,Online,London,True,,53121.04
+C0614,Baker International,2021-11-27,Enterprise,Referral,London,True,,69673.79
+C0615,Sophie Miller,2022-01-24,Consumer,Events,Scotland,True,,3298.29
+C0616,Lily Taylor,2022-04-30,Consumer,Online,London,True,,1556.24
+C0617,Green Group,2021-12-08,Public Sector,Referral,London,True,,70528.17
+C0618,Sophie King,2022-08-22,SMB,Online,London,True,,44947.83
+C0619,Green Group,2022-05-31,Enterprise,Direct,Scotland,False,2022-10-15,173541.53
+C0620,Harris Group,2021-09-25,Enterprise,Direct,London,True,,73144.36
+C0621,Isabella Williams,2021-02-10,Consumer,Direct,London,True,,1697.07
+C0622,Joseph Lee,2022-10-09,SMB,Online,London,True,,48073.62
+C0623,George Thomas,2022-09-11,Consumer,Events,London,True,,2307.43
+C0624,Olivia Jackson,2021-09-30,SMB,Referral,London,True,,45431.31
+C0625,Young Services,2022-07-04,Public Sector,Online,London,True,,136509.57
+C0626,Oliver Johnson,2022-05-31,Consumer,Referral,London,True,,2918.45
+C0627,George Scott,2022-04-03,Consumer,Partner,London,False,2023-11-06,3360.58
+C0628,Amelia Anderson,2023-03-31,Consumer,Direct,Scotland,True,,3321.45
+C0629,Green Services,2021-12-02,Enterprise,Online,London,True,,102550.57
+C0630,Alexander Davis,2022-12-13,Consumer,Online,Scotland,True,,4202.79
+C0631,Clark Partners,2022-01-29,Enterprise,Online,Scotland,True,,180802.22
+C0632,Jack Jones,2022-01-21,Consumer,Events,Scotland,True,,4856.14
+C0633,Sophia Walker,2021-03-27,SMB,Online,London,False,2022-05-09,44092.71
+C0634,Jessica Jones,2022-04-01,Consumer,Direct,London,True,,1139.63
+C0635,Moore Group,2021-09-24,Enterprise,Partner,Scotland,True,,180563.98
+C0636,Matthew Jones,2022-06-06,Consumer,Online,Scotland,True,,2771.44
+C0637,Mia Adams,2021-09-24,SMB,Referral,Scotland,True,,25815.89
+C0638,Green Corp,2022-03-02,Public Sector,Partner,Scotland,True,,97325.32
+C0639,Lily Clark,2022-03-28,Consumer,Direct,Scotland,False,2023-10-23,4535.89
+C0640,Jackson Ltd,2021-06-19,Enterprise,Direct,Scotland,True,,123720.96
+C0641,Grace Miller,2022-12-30,SMB,Direct,London,True,,21414.07
+C0642,Joseph Thomas,2023-04-03,Consumer,Direct,Scotland,True,,1660.7
+C0643,Brown Corp,2022-05-10,Public Sector,Direct,London,True,,37275.84
+C0644,Emily Brown,2022-01-12,SMB,Online,London,True,,19852.64
+C0645,Amelia Lewis,2021-09-16,Consumer,Referral,London,True,,4933.89
+C0646,James Johnson,2022-06-08,SMB,Referral,Scotland,True,,47340.27
+C0647,Emma Miller,2021-11-10,Consumer,Partner,London,True,,3826.32
+C0648,Chloe Clark,2021-10-15,SMB,Referral,London,True,,48296.69
+C0649,George Davis,2023-01-11,Consumer,Referral,London,True,,2569.1
+C0650,Martin International,2021-01-08,Enterprise,Online,Scotland,True,,164369.79
+C0651,Amelia Baker,2021-03-10,Consumer,Online,London,True,,2193.69
+C0652,Matthew Anderson,2023-05-23,SMB,Partner,Scotland,True,,37222.17
+C0653,Smith Services,2021-03-12,Enterprise,Partner,Scotland,True,,197639.53
+C0654,Walker Solutions,2021-06-07,Enterprise,Referral,London,True,,59804.09
+C0655,King Corp,2021-07-29,Enterprise,Referral,London,True,,152102.05
+C0656,Martin Corp,2022-09-16,Enterprise,Referral,Scotland,True,,68257.65
+C0657,Jessica Smith,2022-02-06,SMB,Online,London,True,,49610.59
+C0658,James Harris,2022-06-29,Consumer,Events,Scotland,False,2023-07-06,2443.77
+C0659,Chloe Walker,2023-03-11,Consumer,Direct,London,False,2023-11-24,2473.38
+C0660,Jack Johnson,2021-07-21,Consumer,Direct,London,True,,1856.62
+C0661,Wilson Ltd,2022-07-27,Enterprise,Online,London,True,,118011.69
+C0662,Alexander Davis,2023-06-26,SMB,Online,London,False,2023-08-12,14320.26
+C0663,Chloe Lee,2021-08-31,Consumer,Partner,Scotland,False,2021-11-14,1336.66
+C0664,Moore Ltd,2022-02-17,Enterprise,Referral,London,True,,127652.09
+C0665,Young Services,2022-07-07,Enterprise,Direct,Scotland,True,,167789.57
+C0666,Chloe Taylor,2022-04-07,Consumer,Online,Scotland,False,2023-08-15,2384.13
+C0667,Scott Holdings,2022-12-20,Public Sector,Events,London,True,,126872.56
+C0668,Jack Davis,2021-02-14,SMB,Partner,London,True,,35253.38
+C0669,Sophie Lewis,2022-02-24,SMB,Events,London,True,,19838.57
+C0670,Lee Services,2022-09-11,Enterprise,Referral,London,True,,105446.1
+C0671,Adams Solutions,2022-02-13,Enterprise,Online,Scotland,True,,169234.72
+C0672,Jessica Jones,2021-07-19,SMB,Referral,London,False,2023-11-10,23107.22
+C0673,Jessica Allen,2022-01-11,SMB,Direct,London,True,,34595.46
+C0674,Daniel King,2022-06-26,SMB,Partner,Scotland,True,,29331.88
+C0675,Jack Hall,2023-03-03,SMB,Online,Scotland,True,,19375.38
+C0676,Mia Robinson,2021-08-07,SMB,Referral,London,True,,11645.72
+C0677,Jack Wilson,2022-04-16,SMB,Online,London,False,2022-08-08,20625.0
+C0678,Amelia Johnson,2021-08-26,SMB,Online,London,True,,31841.04
+C0679,William Hall,2023-02-25,Consumer,Referral,Scotland,True,,3885.73
+C0680,Robinson Ltd,2022-12-21,Public Sector,Direct,London,True,,86640.48
+C0681,Jessica Lewis,2021-10-07,Consumer,Direct,London,True,,3909.3
+C0682,Jack Hall,2021-06-29,SMB,Partner,London,True,,32337.87
+C0683,Harry Scott,2021-02-25,Consumer,Direct,Scotland,True,,4003.9
+C0684,Harry Davis,2022-04-13,SMB,Direct,Scotland,False,2023-06-12,47947.71
+C0685,Lewis Solutions,2022-11-12,Enterprise,Direct,London,True,,54808.87
+C0686,Sophie Nelson,2021-09-25,SMB,Direct,London,False,2022-02-15,26434.45
+C0687,Taylor Partners,2022-06-14,Enterprise,Referral,Scotland,True,,172684.42
+C0688,Jones International,2021-09-26,Enterprise,Online,London,True,,59595.51
+C0689,Jack Moore,2022-08-19,Consumer,Online,Scotland,True,,3651.42
+C0690,Jack Jackson,2021-04-12,SMB,Online,Scotland,False,2022-12-15,46433.32
+C0691,Nelson International,2022-03-04,Enterprise,Online,London,True,,111691.72
+C0692,Davis Ltd,2022-04-29,Enterprise,Referral,Scotland,False,2023-09-13,119325.12
+C0693,George Allen,2022-09-12,SMB,Online,Scotland,True,,39947.04
+C0694,Lewis Partners,2023-06-06,Enterprise,Online,London,True,,75268.01
+C0695,Young Group,2021-09-14,Enterprise,Referral,London,True,,108592.76
+C0696,Williams Ltd,2022-11-16,Enterprise,Direct,Scotland,True,,113252.41
+C0697,Isabella Wright,2021-06-12,SMB,Direct,Scotland,True,,16681.89
+C0698,Brown Services,2021-08-19,Enterprise,Referral,London,True,,82067.0
+C0699,Young Holdings,2022-11-17,Enterprise,Referral,London,True,,56590.84
+C0700,Sophia Walker,2022-09-05,SMB,Partner,London,True,,22974.17
+C0701,Sophie Allen,2021-05-10,SMB,Events,Scotland,True,,29285.22
+C0702,Mia Smith,2022-04-30,Consumer,Online,London,True,,3273.57
+C0703,William Jackson,2022-07-30,SMB,Online,Scotland,False,2023-12-14,18175.41
+C0704,Olivia Young,2022-12-02,Consumer,Events,London,True,,4157.2
+C0705,Jessica Allen,2021-04-14,SMB,Online,London,True,,37851.12
+C0706,Johnson Solutions,2022-06-09,Public Sector,Online,London,True,,142592.94
+C0707,Miller Services,2021-10-10,Enterprise,Online,Scotland,True,,86738.74
+C0708,Daniel Walker,2022-12-16,SMB,Referral,London,True,,39397.12
+C0709,Chloe Lewis,2021-09-11,Consumer,Partner,London,True,,1187.59
+C0710,Lily Davis,2022-10-29,SMB,Online,London,True,,16188.98
+C0711,Moore Partners,2021-06-25,Enterprise,Online,Scotland,True,,123432.67
+C0712,Lucy Scott,2022-05-25,Consumer,Referral,London,True,,3750.1
+C0713,Emma Nelson,2022-02-17,SMB,Online,Scotland,True,,42525.06
+C0714,Chloe Robinson,2021-08-15,Consumer,Online,Scotland,True,,4783.0
+C0715,Martin Solutions,2022-04-28,Enterprise,Partner,Scotland,True,,174462.43
+C0716,Hannah Hall,2022-02-12,SMB,Events,Scotland,True,,13554.94
+C0717,Isabella Baker,2022-10-20,Consumer,Referral,London,False,2023-12-20,2712.75
+C0718,Henry Harris,2022-10-19,Consumer,Online,Scotland,True,,1318.93
+C0719,Joseph Hall,2021-03-23,SMB,Partner,London,True,,26351.7
+C0720,Alexander Wilson,2022-02-22,Consumer,Partner,London,True,,2650.54
+C0721,Walker Corp,2021-02-09,Enterprise,Direct,Scotland,True,,189819.26
+C0722,Emily Jackson,2022-08-07,SMB,Referral,London,False,2023-03-07,25137.43
+C0723,Scott Services,2022-11-07,Public Sector,Partner,London,True,,74211.59
+C0724,Emma Green,2022-12-01,Consumer,Online,London,True,,3811.16
+C0725,Lily Allen,2021-11-24,SMB,Online,Scotland,True,,44284.0
+C0726,Daniel Johnson,2021-07-08,Consumer,Referral,London,True,,1075.38
+C0727,Henry Miller,2021-11-28,SMB,Online,London,True,,40130.1
+C0728,Wilson Corp,2021-04-05,Enterprise,Referral,Scotland,True,,149889.9
+C0729,Mia Nelson,2021-12-30,Consumer,Online,Scotland,True,,3091.87
+C0730,Hall Partners,2022-06-10,Enterprise,Referral,Scotland,True,,171267.12
+C0731,Jackson Ltd,2022-10-29,Enterprise,Direct,London,True,,96619.84
+C0732,Brown Partners,2022-06-29,Enterprise,Referral,London,True,,51378.28
+C0733,Hannah Allen,2022-03-27,SMB,Partner,London,True,,43965.1
+C0734,Young Services,2021-12-26,Enterprise,Referral,London,True,,124253.83
+C0735,David Allen,2022-08-25,SMB,Events,London,True,,46495.05
+C0736,Wright Corp,2022-04-19,Enterprise,Referral,London,True,,92354.61
+C0737,Jack King,2021-09-27,Consumer,Online,London,True,,2670.99
+C0738,Harry Martin,2022-01-17,SMB,Partner,London,True,,37177.81
+C0739,Wright Partners,2022-04-24,Enterprise,Referral,London,True,,86750.15
+C0740,Emily Allen,2021-05-27,SMB,Referral,London,True,,13584.45
+C0741,Samuel Allen,2022-10-10,Consumer,Referral,Scotland,True,,4588.15
+C0742,George Williams,2022-08-23,Consumer,Events,London,True,,3711.96
+C0743,Oliver Clark,2021-09-05,SMB,Referral,Scotland,True,,43485.76
+C0744,Benjamin Miller,2022-04-17,Consumer,Online,Scotland,True,,523.96
+C0745,Oliver Brown,2022-10-26,SMB,Direct,London,True,,30245.93
+C0746,Benjamin Thomas,2022-10-26,SMB,Referral,Scotland,True,,30906.65
+C0747,Charlotte Hall,2021-09-19,SMB,Online,London,True,,43305.11
+C0748,Harry Young,2022-03-20,Consumer,Direct,London,True,,4566.47
+C0749,Young Services,2023-04-25,Enterprise,Referral,London,True,,157166.75
+C0750,Emily Lewis,2023-01-24,Consumer,Online,London,True,,2330.52
+C0751,Wilson Partners,2021-10-24,Enterprise,Events,Scotland,True,,192767.43
+C0752,Robinson Corp,2023-01-27,Enterprise,Online,Scotland,True,,132731.33
+C0753,Lewis Partners,2021-09-23,Public Sector,Direct,Scotland,True,,87223.42
+C0754,King Services,2021-05-16,Enterprise,Online,London,True,,151732.28
+C0755,Mia Taylor,2021-11-13,SMB,Referral,London,False,2022-10-21,35425.41
+C0756,Grace Nelson,2022-01-31,SMB,Referral,London,True,,29714.02
+C0757,Adams Group,2022-08-10,Public Sector,Referral,London,True,,78656.57
+C0758,Nelson Ltd,2022-12-07,Public Sector,Online,Scotland,True,,102884.83
+C0759,Emma Martin,2021-05-28,Consumer,Partner,London,False,2021-10-20,2729.79
+C0760,Thomas Davis,2023-03-11,SMB,Online,Scotland,True,,10089.37
+C0761,Emma Moore,2022-05-29,SMB,Events,Scotland,True,,10235.64
+C0762,Henry Williams,2023-09-18,SMB,Direct,London,True,,31163.86
+C0763,Amelia Martin,2022-10-02,SMB,Events,London,True,,45687.74
+C0764,Sophia Davis,2021-07-27,SMB,Events,Scotland,False,2022-10-31,21395.99
+C0765,Olivia Harris,2021-07-16,Consumer,Events,London,True,,2975.56
+C0766,Matthew Allen,2022-07-26,Consumer,Referral,Scotland,True,,1564.27
+C0767,Mia Walker,2022-02-09,SMB,Events,Scotland,True,,16099.83
+C0768,Isabella Davis,2022-04-16,SMB,Partner,Scotland,True,,49702.07
+C0769,Emma Jackson,2021-03-26,Consumer,Direct,London,False,2023-02-02,2332.84
+C0770,Moore Corp,2022-01-04,Public Sector,Direct,London,True,,143159.85
+C0771,Thomas Nelson,2021-01-14,SMB,Partner,London,True,,34260.87
+C0772,William Thomas,2021-05-17,SMB,Online,London,True,,24422.75
+C0773,Sophia Jones,2021-09-05,Consumer,Online,Scotland,True,,3333.01
+C0774,Scott Services,2022-05-20,Enterprise,Events,Scotland,True,,130033.63
+C0775,Moore Holdings,2022-07-15,Enterprise,Referral,Scotland,True,,117272.33
+C0776,Johnson Ltd,2021-02-23,Public Sector,Direct,London,True,,125326.85
+C0777,Harry Lewis,2023-05-31,Consumer,Referral,Scotland,True,,4007.17
+C0778,Jack Clark,2021-05-07,SMB,Direct,London,True,,38310.16
+C0779,Emma Young,2023-03-27,SMB,Direct,Scotland,True,,15925.58
+C0780,Smith Holdings,2021-12-16,Public Sector,Referral,Scotland,True,,105921.95
+C0781,Hannah Anderson,2023-03-20,SMB,Events,Scotland,True,,17069.41
+C0782,Samuel Walker,2022-06-13,SMB,Events,Scotland,True,,32035.11
+C0783,Hannah Martin,2023-04-17,SMB,Referral,London,True,,24745.6
+C0784,Jackson Services,2022-09-22,Enterprise,Direct,London,True,,60418.12
+C0785,Chloe Brown,2021-04-29,SMB,Events,Scotland,False,2023-09-22,25115.01
+C0786,Walker Ltd,2021-10-13,Enterprise,Partner,Scotland,False,2022-02-28,168860.07
+C0787,David Miller,2021-04-11,SMB,Partner,Scotland,True,,22295.4
+C0788,Sophia Clark,2023-03-25,SMB,Online,London,True,,45458.27
+C0789,Allen Partners,2022-04-20,Enterprise,Direct,London,True,,153014.94
+C0790,Thomas Group,2021-12-29,Public Sector,Online,Scotland,True,,73259.22
+C0791,Adams Corp,2022-07-30,Enterprise,Direct,London,True,,143713.74
+C0792,Green Ltd,2021-06-14,Public Sector,Referral,London,True,,133405.68
+C0793,Hannah Anderson,2022-10-15,Consumer,Direct,London,True,,1151.01
+C0794,Young Services,2022-01-06,Enterprise,Partner,London,True,,107477.78
+C0795,Matthew King,2021-07-17,SMB,Online,London,True,,42451.68
+C0796,Moore Solutions,2022-11-04,Enterprise,Referral,London,True,,94204.59
+C0797,King Solutions,2022-08-25,Public Sector,Events,Scotland,False,2023-04-29,75295.29
+C0798,Oliver Smith,2021-06-30,SMB,Online,Scotland,True,,32767.33
+C0799,Thomas International,2022-12-09,Enterprise,Direct,Scotland,True,,167209.54
+C0800,David Martin,2021-04-03,SMB,Direct,Scotland,True,,37196.14
+C0801,Oliver Clark,2022-04-21,Consumer,Partner,Scotland,True,,2199.02
+C0802,Lily Thomas,2022-10-31,Consumer,Referral,London,True,,3437.15
+C0803,Matthew Hall,2022-10-12,SMB,Direct,London,True,,23418.87
+C0804,Nelson Ltd,2021-04-06,Enterprise,Direct,London,False,2022-12-10,86050.27
+C0805,Harry Clark,2021-05-23,Consumer,Online,Scotland,True,,1376.98
+C0806,Alexander Hall,2021-05-29,Consumer,Events,Scotland,False,2021-11-30,4334.12
+C0807,Daniel Clark,2022-03-31,Consumer,Direct,Scotland,True,,4965.25
+C0808,Emma Adams,2021-06-15,SMB,Partner,London,True,,38510.5
+C0809,Jessica Green,2021-03-27,SMB,Events,Scotland,True,,45805.39
+C0810,Benjamin Scott,2021-06-26,SMB,Direct,London,True,,28429.65
+C0811,Martin Solutions,2023-05-08,Public Sector,Partner,London,True,,82899.32
+C0812,Emma Walker,2021-07-21,Consumer,Referral,London,False,2023-11-07,4898.44
+C0813,Jack Allen,2022-04-29,SMB,Partner,London,True,,13740.12
+C0814,Matthew Martin,2021-03-01,Consumer,Events,London,False,2022-02-18,1397.62
+C0815,Chloe Scott,2022-07-21,SMB,Online,London,True,,25211.39
+C0816,Oliver Jones,2021-07-01,SMB,Referral,London,True,,12770.36
+C0817,Oliver Adams,2022-08-04,SMB,Online,Scotland,True,,46065.67
+C0818,Benjamin Martin,2021-11-02,Consumer,Direct,London,True,,2096.12
+C0819,George Allen,2022-02-20,SMB,Direct,Scotland,True,,49454.72
+C0820,Sophia Green,2022-01-18,Consumer,Online,London,True,,4864.89
+C0821,Henry Martin,2022-11-05,SMB,Direct,London,True,,37857.84
+C0822,Charlotte Clark,2021-10-24,Consumer,Direct,London,False,2023-04-18,4185.73
+C0823,Sophia Nelson,2021-12-06,Consumer,Online,London,True,,1291.16
+C0824,Taylor Group,2021-10-13,Enterprise,Online,London,True,,199304.48
+C0825,Brown International,2021-09-29,Enterprise,Online,Scotland,True,,125504.23
+C0826,Sophia Moore,2023-04-27,Consumer,Partner,London,True,,4854.27
+C0827,Thomas Taylor,2022-04-15,SMB,Partner,Scotland,True,,43539.37
+C0828,David Clark,2022-08-14,SMB,Direct,Scotland,True,,42801.38
+C0829,David Johnson,2022-03-09,SMB,Events,Scotland,True,,42053.27
+C0830,Brown Solutions,2021-08-16,Enterprise,Online,Scotland,True,,125638.56
+C0831,Samuel Scott,2022-07-04,Consumer,Partner,Scotland,False,2022-10-22,3169.8
+C0832,Hannah Scott,2022-12-07,Consumer,Direct,Scotland,True,,4131.94
+C0833,Thomas Adams,2021-12-23,SMB,Direct,London,False,2023-01-27,17225.11
+C0834,Davis Partners,2022-10-18,Public Sector,Direct,London,True,,75030.52
+C0835,Moore International,2023-05-07,Public Sector,Partner,London,True,,149389.93
+C0836,Scott Solutions,2021-07-02,Enterprise,Online,London,True,,82445.98
+C0837,Davis Group,2021-11-07,Public Sector,Direct,London,True,,71826.41
+C0838,Emily Hall,2022-09-11,SMB,Online,London,True,,45492.6
+C0839,Chloe Brown,2021-08-14,SMB,Online,Scotland,True,,34291.83
+C0840,Alexander Martin,2022-03-02,Consumer,Referral,Scotland,True,,1820.63
+C0841,Amelia Wilson,2021-05-02,Consumer,Events,London,True,,826.88
+C0842,Grace Williams,2021-08-01,SMB,Partner,London,True,,25423.64
+C0843,George Davis,2022-01-09,SMB,Direct,London,True,,17884.93
+C0844,Alexander Smith,2021-09-09,SMB,Events,London,True,,21401.48
+C0845,Nelson Ltd,2021-12-15,Public Sector,Events,Scotland,False,2023-05-10,70486.78
+C0846,Thomas International,2021-12-09,Enterprise,Partner,Scotland,True,,141848.1
+C0847,Olivia Wilson,2022-03-23,Consumer,Online,Scotland,False,2023-05-04,1265.86
+C0848,Jessica Green,2021-06-23,Consumer,Online,London,True,,2208.0
+C0849,Adams Partners,2021-10-23,Public Sector,Online,London,True,,106428.44
+C0850,Oliver Anderson,2021-10-27,SMB,Direct,London,True,,40648.08
+C0851,Lily Johnson,2022-03-09,SMB,Partner,London,True,,18499.02
+C0852,George Scott,2021-08-22,SMB,Referral,London,True,,47775.25
+C0853,Chloe Clark,2021-08-24,Consumer,Partner,London,True,,1413.59
+C0854,Smith International,2021-12-26,Enterprise,Referral,Scotland,False,2023-12-03,78054.46
+C0855,Olivia Clark,2022-09-20,SMB,Referral,London,True,,23349.58
+C0856,Daniel Martin,2021-12-03,SMB,Direct,London,False,2022-09-13,14367.38
+C0857,Wilson Partners,2021-09-26,Public Sector,Direct,London,True,,77028.97
+C0858,Chloe Taylor,2021-11-12,Consumer,Partner,London,False,2023-05-11,3802.47
+C0859,Miller Solutions,2023-05-13,Public Sector,Online,Scotland,True,,69858.64
+C0860,Smith International,2021-04-05,Public Sector,Online,London,True,,134786.22
+C0861,Scott Group,2021-11-07,Enterprise,Direct,Scotland,True,,64998.87
+C0862,David Moore,2022-08-20,SMB,Online,London,True,,22045.36
+C0863,Olivia Hall,2021-09-04,SMB,Online,Scotland,True,,18810.22
+C0864,Lucy Jackson,2022-12-26,SMB,Direct,London,True,,35549.35
+C0865,Allen Holdings,2022-01-30,Public Sector,Online,Scotland,True,,136559.39
+C0866,Olivia Green,2021-05-19,SMB,Events,London,True,,28201.11
+C0867,Charlotte Walker,2022-03-29,Consumer,Referral,Scotland,False,2023-09-08,3011.63
+C0868,Charlotte Smith,2021-04-02,SMB,Partner,London,True,,27212.91
+C0869,Jones Group,2021-09-01,Enterprise,Referral,London,True,,156979.56
+C0870,Harry Adams,2021-08-31,Consumer,Referral,Scotland,False,2022-08-05,941.62
+C0871,Thomas Jones,2023-06-20,Consumer,Direct,London,True,,2373.41
+C0872,Sophia Jones,2021-10-07,SMB,Referral,Scotland,True,,31062.86
+C0873,Jessica Wilson,2022-07-17,SMB,Online,London,True,,33212.9
+C0874,Jack Green,2021-09-11,Consumer,Partner,Scotland,True,,3933.48
+C0875,Sophie Johnson,2022-04-10,Consumer,Direct,London,True,,1046.49
+C0876,William Taylor,2021-08-18,SMB,Online,Scotland,True,,35129.58
+C0877,Clark Group,2022-03-06,Public Sector,Partner,Scotland,True,,59664.73
+C0878,Anderson International,2022-07-25,Enterprise,Online,London,True,,178897.08
+C0879,Grace Davis,2023-04-16,SMB,Online,London,True,,29046.34
+C0880,Olivia Baker,2022-03-22,Consumer,Events,London,False,2023-08-02,2411.75
+C0881,Nelson Holdings,2021-03-15,Enterprise,Referral,London,True,,194419.48
+C0882,Benjamin Clark,2021-12-18,Consumer,Referral,Scotland,False,2023-11-19,2257.81
+C0883,Allen Corp,2022-09-24,Enterprise,Online,London,False,2023-12-27,188521.54
+C0884,George Robinson,2022-06-12,Consumer,Referral,London,True,,4798.38
+C0885,Jessica Nelson,2021-04-18,Consumer,Referral,London,False,2023-11-25,3796.91
+C0886,Lee Holdings,2022-02-12,Public Sector,Online,London,True,,102784.0
+C0887,Anderson International,2021-11-29,Public Sector,Referral,Scotland,True,,82501.78
+C0888,Jessica Jones,2022-02-10,SMB,Direct,Scotland,True,,45731.64
+C0889,Alexander Baker,2021-08-31,SMB,Online,London,True,,28949.31
+C0890,Oliver Jones,2021-06-19,Consumer,Online,London,False,2021-11-16,4020.74
+C0891,Harry King,2021-04-21,SMB,Direct,London,True,,24316.21
+C0892,Walker Ltd,2021-08-29,Enterprise,Referral,London,True,,131891.24
+C0893,George Nelson,2022-07-07,Consumer,Events,Scotland,True,,3908.05
+C0894,Moore Group,2021-10-26,Enterprise,Online,Scotland,True,,192486.17
+C0895,Sophie Adams,2022-04-21,Consumer,Direct,London,False,2022-07-16,4871.6
+C0896,Jackson Solutions,2022-05-30,Enterprise,Partner,London,True,,114457.8
+C0897,Robinson Ltd,2022-07-06,Enterprise,Referral,Scotland,True,,84068.88
+C0898,Miller Corp,2023-05-01,Public Sector,Partner,London,True,,35246.33
+C0899,Thomas Lewis,2023-01-07,Consumer,Direct,London,True,,1426.37
+C0900,Sophie Young,2022-04-13,Consumer,Partner,Scotland,True,,1598.93
+C0901,David Clark,2022-09-29,SMB,Online,London,True,,19221.44
+C0902,Jack Brown,2021-06-02,SMB,Referral,Scotland,True,,10851.59
+C0903,Harry Miller,2021-03-18,SMB,Online,London,True,,36397.03
+C0904,James Thomas,2022-04-23,Consumer,Direct,Scotland,True,,3766.04
+C0905,Nelson Corp,2022-08-09,Public Sector,Partner,Scotland,True,,133021.69
+C0906,Lucy Wilson,2022-05-23,SMB,Online,London,False,2023-03-29,15274.91
+C0907,Allen Corp,2021-10-21,Enterprise,Direct,London,True,,167363.94
+C0908,Jack Smith,2022-05-20,Consumer,Direct,London,True,,2598.98
+C0909,George Williams,2021-07-07,SMB,Partner,London,True,,27617.58
+C0910,Mia Brown,2021-05-15,Consumer,Referral,London,False,2022-11-14,3445.7
+C0911,Hall Holdings,2022-12-07,Public Sector,Online,London,True,,94852.96
+C0912,David Baker,2021-10-25,SMB,Direct,London,False,2023-02-03,37240.65
+C0913,Harris Corp,2022-11-17,Public Sector,Direct,London,True,,104629.96
+C0914,Scott Holdings,2021-02-14,Enterprise,Events,Scotland,True,,190990.98
+C0915,Mia Robinson,2021-10-01,Consumer,Online,London,True,,2765.73
+C0916,Daniel Clark,2023-08-09,SMB,Referral,Scotland,True,,27640.7
+C0917,Hannah Brown,2021-12-04,Consumer,Referral,London,True,,3618.83
+C0918,Wilson International,2022-06-28,Public Sector,Referral,London,True,,124356.5
+C0919,Chloe Anderson,2021-08-08,Consumer,Events,Scotland,True,,4081.35
+C0920,Miller Group,2021-12-21,Enterprise,Referral,London,True,,112793.84
+C0921,Oliver Jones,2023-09-26,Consumer,Online,London,True,,2817.04
+C0922,David Adams,2022-11-04,SMB,Referral,London,True,,23465.62
+C0923,Scott International,2022-11-23,Enterprise,Online,London,True,,155017.05
+C0924,Emily Young,2023-07-26,Consumer,Online,Scotland,True,,2540.87
+C0925,Clark Partners,2022-03-02,Enterprise,Online,London,True,,92788.58
+C0926,George Brown,2022-12-07,Consumer,Events,London,False,2023-06-02,2063.06
+C0927,David Clark,2022-05-30,SMB,Referral,Scotland,False,2022-08-08,40194.59
+C0928,Robinson Partners,2021-06-23,Public Sector,Online,Scotland,True,,117850.73
+C0929,Thomas Williams,2022-08-25,Consumer,Referral,London,True,,4390.26
+C0930,Daniel Thomas,2021-04-14,Consumer,Direct,London,True,,1742.49
+C0931,Jessica Clark,2021-12-21,SMB,Partner,Scotland,True,,22701.09
+C0932,David Miller,2021-10-19,Consumer,Partner,London,True,,3801.02
+C0933,Miller Ltd,2022-11-19,Enterprise,Partner,Scotland,True,,112723.9
+C0934,Mia Adams,2022-09-04,SMB,Online,Scotland,True,,21684.64
+C0935,Matthew Scott,2022-11-06,Consumer,Referral,London,True,,1792.72
+C0936,Benjamin Jones,2022-10-26,SMB,Online,London,True,,40947.27
+C0937,Jessica Martin,2021-10-01,Consumer,Online,London,True,,773.61
+C0938,David Johnson,2021-10-26,SMB,Referral,London,True,,22340.43
+C0939,Chloe Lewis,2022-04-07,Consumer,Direct,London,True,,589.64
+C0940,Henry Miller,2022-04-07,Consumer,Direct,Scotland,True,,4271.67
+C0941,James Johnson,2021-12-06,Consumer,Referral,London,True,,4304.67
+C0942,Benjamin Wilson,2022-02-04,SMB,Online,Scotland,True,,11351.12
+C0943,Hannah Martin,2022-11-01,Consumer,Referral,London,True,,590.69
+C0944,Jessica Thomas,2021-11-10,SMB,Events,London,True,,27006.11
+C0945,Thomas Harris,2022-05-25,SMB,Online,London,True,,21376.92
+C0946,Jack Wilson,2022-03-26,SMB,Referral,Scotland,False,2022-12-18,33115.18
+C0947,Grace Miller,2021-09-30,SMB,Online,London,True,,18307.27
+C0948,Emma Scott,2022-05-09,Consumer,Direct,London,True,,2720.38
+C0949,Lily Lewis,2022-12-20,Consumer,Partner,London,True,,2749.17
+C0950,Olivia King,2021-12-22,SMB,Online,London,False,2022-02-03,13100.18
+C0951,Miller International,2023-02-13,Enterprise,Online,London,True,,70979.81
+C0952,Charlotte Clark,2021-11-02,SMB,Direct,London,True,,37400.96
+C0953,Hall Solutions,2022-05-21,Public Sector,Referral,Scotland,True,,49708.59
+C0954,Henry King,2023-08-03,SMB,Referral,London,True,,13753.91
+C0955,Martin Corp,2021-07-17,Enterprise,Online,London,True,,105091.22
+C0956,Miller Corp,2022-04-30,Public Sector,Online,Scotland,True,,97639.17
+C0957,Hannah Hall,2022-03-10,SMB,Online,London,True,,34635.49
+C0958,Lily Hall,2021-08-12,SMB,Direct,London,False,2021-11-03,10009.87
+C0959,Jackson Partners,2021-10-25,Enterprise,Partner,London,True,,166087.94
+C0960,Samuel Baker,2021-09-02,SMB,Partner,London,False,2022-12-23,21109.47
+C0961,James Hall,2022-08-14,Consumer,Online,Scotland,True,,2145.59
+C0962,James Davis,2022-10-21,Consumer,Online,London,True,,2489.36
+C0963,Harris Partners,2023-01-22,Enterprise,Referral,London,True,,56587.61
+C0964,Samuel Lee,2022-01-09,SMB,Online,Scotland,True,,29612.02
+C0965,Hall Group,2023-03-18,Public Sector,Partner,Scotland,True,,36725.76
+C0966,Adams Holdings,2023-02-14,Enterprise,Direct,London,True,,127451.07
+C0967,Oliver Miller,2021-05-17,SMB,Partner,Scotland,True,,27735.95
+C0968,Robinson Group,2022-11-11,Enterprise,Online,London,True,,134928.39
+C0969,Moore International,2021-05-29,Enterprise,Direct,Scotland,True,,62191.24
+C0970,George Martin,2021-08-08,SMB,Partner,Scotland,True,,19038.42
+C0971,Moore International,2022-07-27,Public Sector,Direct,London,True,,129540.01
+C0972,Taylor Services,2021-06-26,Enterprise,Events,London,True,,101327.17
+C0973,Lucy Brown,2022-08-24,Consumer,Online,London,True,,2826.63
+C0974,Joseph Smith,2023-01-02,SMB,Online,London,True,,16350.02
+C0975,Jack Green,2021-11-29,SMB,Events,London,True,,34664.49
+C0976,Harry Taylor,2021-09-03,Consumer,Online,London,True,,680.58
+C0977,Alexander Smith,2021-09-15,SMB,Events,Scotland,False,2022-08-18,16561.04
+C0978,Williams Corp,2021-11-12,Public Sector,Events,Scotland,True,,125143.61
+C0979,Isabella Wilson,2022-12-27,SMB,Referral,London,True,,44310.49
+C0980,Henry Nelson,2021-07-26,Consumer,Direct,London,True,,2625.38
+C0981,Emily Wright,2022-03-30,SMB,Direct,Scotland,True,,44907.35
+C0982,Chloe Scott,2021-10-03,SMB,Referral,Scotland,False,2022-06-25,25927.23
+C0983,Taylor Corp,2021-11-26,Enterprise,Direct,London,True,,108022.33
+C0984,Williams Holdings,2021-05-03,Enterprise,Events,London,False,2023-11-02,152909.84
+C0985,Olivia Scott,2021-06-06,SMB,Partner,London,True,,12180.45
+C0986,Sophia Green,2022-03-08,Consumer,Direct,Scotland,True,,1304.78
+C0987,Daniel Baker,2021-01-28,Consumer,Partner,London,True,,3265.34
+C0988,Emily Taylor,2021-05-27,SMB,Online,London,False,2022-03-26,40673.35
+C0989,Johnson Partners,2021-10-21,Enterprise,Referral,London,False,2022-02-24,87294.01
+C0990,Nelson International,2021-07-05,Enterprise,Direct,London,True,,56096.15
+C0991,Taylor Partners,2022-06-11,Enterprise,Online,Scotland,True,,110110.94
+C0992,Chloe Clark,2021-05-17,Consumer,Online,Scotland,True,,2926.21
+C0993,Isabella Anderson,2021-12-25,Consumer,Direct,London,False,2023-03-08,2757.03
+C0994,Anderson International,2022-02-26,Public Sector,Online,London,True,,101889.53
+C0995,David Lee,2022-03-09,SMB,Direct,London,True,,33516.57
+C0996,Jack Hall,2021-03-14,SMB,Referral,Scotland,True,,39702.85
+C0997,Henry Wright,2021-03-26,Consumer,Online,London,True,,4931.91
+C0998,Olivia Martin,2021-06-18,SMB,Referral,Scotland,False,2022-05-04,49833.03
+C0999,Sophia Robinson,2023-02-04,Consumer,Online,London,True,,1802.07
+C1000,Thomas Thomas,2022-09-16,Consumer,Events,Scotland,True,,3967.25
+C1001,Harry Harris,2022-05-24,Consumer,Online,Scotland,True,,3905.73
+C1002,Brown Partners,2022-08-31,Public Sector,Direct,Scotland,True,,99618.94
+C1003,Alexander Wright,2021-09-25,SMB,Direct,London,False,2023-07-11,26351.01
+C1004,Samuel Jackson,2021-04-19,SMB,Online,London,True,,32082.29
+C1005,Walker International,2021-12-14,Public Sector,Direct,London,True,,148765.6
+C1006,Smith Ltd,2022-06-06,Public Sector,Online,London,True,,111842.83
+C1007,Grace King,2022-06-10,SMB,Online,London,True,,10948.81
+C1008,Daniel Young,2023-01-09,Consumer,Referral,London,True,,3423.33
+C1009,Martin Holdings,2023-05-31,Enterprise,Direct,London,True,,71292.52
+C1010,Matthew Anderson,2022-04-03,SMB,Referral,London,True,,23697.72
+C1011,James Wilson,2022-05-21,SMB,Online,London,True,,45206.82
+C1012,William Wright,2022-01-09,Consumer,Referral,Scotland,False,2023-10-23,4123.39
+C1013,Thomas Moore,2021-05-02,SMB,Referral,Scotland,True,,38845.57
+C1014,Thomas Holdings,2022-02-01,Public Sector,Referral,Scotland,True,,75357.45
+C1015,Mia Taylor,2021-12-16,Consumer,Partner,London,False,2023-09-30,1428.93
+C1016,David Wright,2021-06-05,Consumer,Partner,Scotland,True,,4305.86
+C1017,Oliver Anderson,2023-03-06,SMB,Direct,London,True,,32131.38
+C1018,Hannah Miller,2021-07-13,Consumer,Partner,Scotland,True,,3603.65
+C1019,Henry Wright,2021-04-07,SMB,Online,London,False,2023-11-17,43227.7
+C1020,Adams Ltd,2021-10-18,Enterprise,Referral,London,True,,97828.75
+C1021,Robinson Ltd,2022-01-14,Enterprise,Direct,London,True,,137257.03
+C1022,Smith Corp,2021-07-30,Enterprise,Partner,Scotland,True,,163184.04
+C1023,Mia Thomas,2022-07-03,SMB,Direct,London,True,,21011.53
+C1024,Oliver Scott,2021-12-08,SMB,Referral,Scotland,True,,27280.6
+C1025,Davis Corp,2021-11-17,Public Sector,Referral,Scotland,True,,90213.56
+C1026,Matthew Jackson,2022-12-11,SMB,Direct,London,True,,41432.45
+C1027,Lily Nelson,2023-01-26,Consumer,Direct,Scotland,True,,4353.07
+C1028,Martin Ltd,2022-10-04,Enterprise,Referral,London,True,,164333.41
+C1029,Taylor Holdings,2021-05-03,Public Sector,Referral,Scotland,True,,32841.48
+C1030,Oliver Wilson,2022-11-11,SMB,Online,Scotland,True,,16416.72
+C1031,Walker Partners,2021-10-10,Public Sector,Online,Scotland,True,,37118.02
+C1032,Alexander Taylor,2021-06-29,SMB,Online,London,True,,32963.52
+C1033,William Scott,2022-01-01,SMB,Referral,London,True,,40796.24
+C1034,George Lee,2021-09-07,Consumer,Online,Scotland,True,,1524.57
+C1035,Martin Partners,2022-12-20,Enterprise,Events,London,True,,170909.72
+C1036,George Young,2021-12-12,Consumer,Direct,Scotland,False,2022-04-15,801.99
+C1037,Walker Services,2023-06-03,Public Sector,Partner,London,True,,120228.88
+C1038,Samuel Robinson,2022-11-05,SMB,Referral,London,True,,23592.39
+C1039,James Smith,2022-03-29,Consumer,Partner,London,True,,1513.53
+C1040,Alexander Nelson,2021-09-24,SMB,Direct,Scotland,True,,24185.81
+C1041,Hall Ltd,2022-10-26,Public Sector,Direct,Scotland,True,,123535.59
+C1042,Anderson Services,2021-12-22,Public Sector,Referral,London,True,,142356.27
+C1043,Hannah Hall,2022-04-06,SMB,Direct,Scotland,True,,39596.51
+C1044,Lucy Robinson,2022-09-30,SMB,Referral,London,False,2023-11-21,38980.73
+C1045,Oliver Green,2022-01-26,SMB,Events,Scotland,True,,30276.41
+C1046,Oliver Martin,2022-03-07,SMB,Events,London,True,,47837.62
+C1047,Hannah Young,2023-09-20,SMB,Online,Scotland,True,,45893.25
+C1048,Chloe Green,2022-04-09,Consumer,Direct,London,True,,1444.22
+C1049,Jessica Green,2022-01-16,SMB,Online,Scotland,True,,36746.71
+C1050,Walker Holdings,2021-10-31,Public Sector,Partner,London,False,2021-12-29,33417.38
+C1051,Smith Holdings,2021-12-20,Public Sector,Direct,Scotland,True,,137662.64
+C1052,Taylor International,2022-02-15,Public Sector,Direct,London,True,,86338.44
+C1053,Hall Services,2022-06-05,Enterprise,Online,London,True,,68874.95
+C1054,Mia Wilson,2022-12-14,Consumer,Direct,Scotland,True,,1628.02
+C1055,Hannah Nelson,2022-07-11,SMB,Online,London,True,,44029.94
+C1056,James Robinson,2022-10-26,Consumer,Online,Scotland,True,,2663.49
+C1057,Lee Group,2022-02-07,Enterprise,Partner,Scotland,True,,161744.06
+C1058,Jack Allen,2021-04-28,SMB,Referral,Scotland,True,,13860.14
+C1059,Jack Baker,2022-01-10,Consumer,Referral,Scotland,True,,1000.12
+C1060,Daniel Miller,2022-11-18,SMB,Partner,London,True,,25902.32
+C1061,Hall Ltd,2022-06-30,Public Sector,Direct,Scotland,True,,126031.2
+C1062,Chloe Wilson,2022-07-07,SMB,Events,London,True,,43729.55
+C1063,Taylor Ltd,2021-11-25,Enterprise,Events,Scotland,True,,61230.57
+C1064,Jessica Wilson,2022-05-21,Consumer,Direct,Scotland,False,2023-08-23,2260.57
+C1065,Sophia Wright,2021-07-25,SMB,Direct,Scotland,True,,39586.2
+C1066,Harris Services,2022-01-23,Enterprise,Referral,Scotland,True,,149063.22
+C1067,Jackson Corp,2021-07-26,Enterprise,Online,London,True,,66925.64
+C1068,Hannah Walker,2023-02-24,Consumer,Partner,Scotland,True,,4818.8
+C1069,Matthew Anderson,2023-05-19,SMB,Partner,London,True,,43693.0
+C1070,King International,2022-09-10,Public Sector,Online,London,True,,59129.31
+C1071,Harry Walker,2022-08-30,Consumer,Online,London,True,,2835.35
+C1072,Matthew Wilson,2022-09-04,SMB,Online,London,True,,24428.03
+C1073,Robinson Ltd,2022-03-22,Public Sector,Referral,London,True,,142823.64
+C1074,Sophia Taylor,2021-11-24,Consumer,Partner,Scotland,True,,4643.01
+C1075,Thomas Scott,2022-03-01,Consumer,Partner,London,False,2023-10-12,4071.38
+C1076,Jessica Baker,2022-05-26,Consumer,Online,Scotland,True,,4846.57
+C1077,Henry Anderson,2021-11-17,SMB,Events,London,True,,44239.04
+C1078,Samuel Lewis,2021-10-20,SMB,Referral,London,True,,21848.15
+C1079,Jones Partners,2021-08-01,Enterprise,Online,London,True,,65543.9
+C1080,Emily Anderson,2023-04-15,Consumer,Partner,London,True,,618.62
+C1081,James Hall,2022-09-07,Consumer,Direct,Scotland,True,,3254.99
+C1082,Joseph Adams,2021-12-16,SMB,Online,London,True,,49165.24
+C1083,George Lewis,2021-05-13,Consumer,Events,Scotland,True,,2106.83
+C1084,Green International,2022-05-10,Enterprise,Partner,Scotland,True,,130303.99
+C1085,Jack Walker,2022-11-22,Consumer,Direct,London,True,,2470.42
+C1086,Anderson Corp,2022-04-23,Enterprise,Events,London,True,,192102.67
+C1087,Grace King,2023-07-27,Consumer,Online,Scotland,True,,3536.0
+C1088,James Walker,2021-06-08,Consumer,Partner,Scotland,True,,738.37
+C1089,Chloe Scott,2021-09-07,Consumer,Partner,London,False,2022-04-10,3914.69
+C1090,Allen Partners,2022-01-14,Enterprise,Events,Scotland,True,,170737.09
+C1091,Oliver Miller,2021-12-20,SMB,Partner,London,True,,20420.22
+C1092,Emma Lewis,2022-06-19,SMB,Online,London,True,,12365.85
+C1093,Robinson Holdings,2021-05-22,Enterprise,Events,London,True,,178903.79
+C1094,Walker Holdings,2021-05-11,Enterprise,Online,London,True,,136097.75
+C1095,Sophia Green,2021-07-22,Consumer,Partner,London,True,,4704.12
+C1096,Walker Holdings,2021-12-31,Enterprise,Online,London,True,,190672.74
+C1097,Mia Baker,2021-08-27,SMB,Referral,London,True,,29630.73
+C1098,Robinson Group,2021-12-18,Enterprise,Direct,Scotland,True,,177166.12
+C1099,Charlotte Thomas,2022-03-11,Consumer,Events,London,True,,1109.64
+C1100,Lily Walker,2022-01-03,SMB,Online,London,True,,25552.35
+C1101,Joseph Robinson,2021-08-06,Consumer,Referral,Scotland,True,,3865.33
+C1102,Lewis Ltd,2021-04-15,Enterprise,Referral,London,True,,173561.92
+C1103,Jack Miller,2023-03-08,SMB,Online,Scotland,True,,45694.24
+C1104,Miller Partners,2022-01-22,Enterprise,Direct,London,True,,173985.83
+C1105,Samuel Taylor,2021-09-15,Consumer,Direct,London,True,,1421.94
+C1106,David Scott,2022-05-15,Consumer,Referral,Scotland,True,,2696.97
+C1107,Sophia Miller,2022-07-11,Consumer,Referral,Scotland,True,,4559.98
+C1108,Robinson Corp,2021-10-04,Enterprise,Referral,Scotland,True,,66273.81
+C1109,Lily Harris,2022-12-04,Consumer,Partner,Scotland,True,,992.05
+C1110,Emma Allen,2022-12-25,Consumer,Direct,Scotland,True,,4701.27
+C1111,Nelson Solutions,2022-07-15,Enterprise,Direct,London,True,,102517.58
+C1112,Emily Wright,2022-04-24,Consumer,Referral,London,True,,2474.92
+C1113,Lewis Ltd,2022-01-18,Enterprise,Direct,London,True,,142787.93
+C1114,Baker Partners,2021-07-30,Public Sector,Referral,London,True,,122243.45
+C1115,Samuel Jackson,2021-02-26,SMB,Online,London,True,,21298.74
+C1116,William Taylor,2022-05-06,SMB,Online,Scotland,True,,35483.73
+C1117,Lewis Services,2022-01-12,Public Sector,Events,Scotland,True,,148498.72
+C1118,Emily Jackson,2022-03-02,Consumer,Direct,London,True,,1099.02
+C1119,Jessica Martin,2022-10-19,SMB,Online,London,True,,24992.67
+C1120,George Lewis,2022-03-27,SMB,Online,London,True,,45596.99
+C1121,Wright Solutions,2021-03-12,Public Sector,Referral,Scotland,True,,106948.58
+C1122,Chloe Nelson,2021-07-07,Consumer,Direct,London,True,,3935.27
+C1123,Charlotte Baker,2021-08-25,Consumer,Direct,London,True,,797.1
+C1124,Isabella Adams,2022-03-10,SMB,Events,London,True,,45222.45
+C1125,Hall Services,2022-01-13,Enterprise,Events,London,True,,196418.71
+C1126,Smith Holdings,2021-08-31,Enterprise,Referral,Scotland,True,,189641.33
+C1127,Jackson Solutions,2023-07-01,Enterprise,Partner,Scotland,True,,66645.77
+C1128,Green International,2021-07-19,Public Sector,Direct,Scotland,True,,31914.66
+C1129,Lily Thomas,2021-08-28,SMB,Direct,Scotland,False,2022-05-29,46232.67
+C1130,Emma Jones,2021-10-03,Consumer,Referral,Scotland,True,,4424.18
+C1131,Anderson Partners,2021-10-21,Enterprise,Online,London,True,,100345.24
+C1132,Harris Corp,2021-09-10,Public Sector,Partner,London,True,,62000.7
+C1133,Green Group,2022-07-22,Public Sector,Direct,Scotland,True,,59155.32
+C1134,Williams Solutions,2022-10-29,Enterprise,Online,London,True,,137413.24
+C1135,Nelson Group,2023-05-01,Public Sector,Online,London,True,,52268.98
+C1136,Davis International,2021-10-30,Enterprise,Referral,Scotland,True,,172632.64
+C1137,Henry Anderson,2022-08-14,SMB,Online,London,True,,15755.71
+C1138,Miller Partners,2021-07-17,Public Sector,Online,Scotland,True,,106235.63
+C1139,Samuel Adams,2021-10-15,Consumer,Online,London,False,2023-12-26,4856.63
+C1140,Lee Ltd,2022-06-10,Enterprise,Direct,London,True,,196575.15
+C1141,Amelia Wright,2022-03-26,SMB,Partner,Scotland,True,,42438.61
+C1142,Olivia Lee,2023-02-22,SMB,Online,London,True,,45198.99
+C1143,Sophie Jones,2021-09-13,Consumer,Events,London,True,,4047.19
+C1144,Anderson Holdings,2023-05-05,Public Sector,Direct,London,True,,53730.78
+C1145,Martin Solutions,2021-09-20,Enterprise,Partner,Scotland,True,,123101.32
+C1146,Lily Green,2023-02-19,SMB,Direct,Scotland,True,,18656.15
+C1147,Clark Corp,2021-10-07,Public Sector,Online,London,True,,70931.67
+C1148,George King,2022-04-30,Consumer,Direct,London,True,,1550.47
+C1149,Henry Adams,2022-08-28,SMB,Events,Scotland,True,,15085.31
+C1150,Lily Adams,2021-11-20,Consumer,Events,London,True,,587.29
+C1151,Wright Corp,2021-05-12,Enterprise,Partner,Scotland,True,,60038.82
+C1152,Smith Holdings,2022-01-03,Enterprise,Partner,Scotland,True,,103425.32
+C1153,Joseph Davis,2022-06-17,Consumer,Partner,Scotland,True,,2855.76
+C1154,Olivia Williams,2022-10-13,SMB,Referral,Scotland,True,,24745.27
+C1155,Lee Corp,2021-10-16,Public Sector,Referral,London,True,,53733.68
+C1156,Harry Lewis,2022-06-27,SMB,Online,London,True,,11018.61
+C1157,Emma Adams,2022-12-05,SMB,Direct,Scotland,True,,30468.33
+C1158,Oliver Scott,2021-12-24,Consumer,Online,Scotland,True,,2121.43
+C1159,King Solutions,2022-02-21,Enterprise,Referral,London,True,,132214.63
+C1160,Benjamin Wilson,2022-03-21,SMB,Direct,Scotland,False,2022-12-14,29147.73
+C1161,Clark Corp,2021-10-03,Public Sector,Events,London,True,,89067.27
+C1162,Amelia Clark,2022-01-28,Consumer,Online,London,False,2022-10-02,4543.61
+C1163,Baker Services,2022-08-02,Enterprise,Direct,Scotland,True,,163125.72
+C1164,Allen Partners,2022-07-15,Enterprise,Partner,London,True,,80688.51
+C1165,Benjamin Allen,2021-06-27,SMB,Direct,Scotland,True,,18573.7
+C1166,Henry Harris,2021-06-03,SMB,Online,Scotland,True,,47871.8
+C1167,Emily Hall,2021-07-27,SMB,Events,Scotland,False,2021-12-13,47513.01
+C1168,Miller Group,2023-02-05,Public Sector,Partner,Scotland,True,,36424.54
+C1169,Adams Group,2022-05-19,Enterprise,Referral,Scotland,True,,95307.52
+C1170,Smith International,2021-06-23,Public Sector,Partner,Scotland,True,,50949.75
+C1171,Oliver Wright,2023-07-22,Consumer,Online,Scotland,True,,3613.11
+C1172,Matthew Adams,2021-07-14,SMB,Referral,London,True,,21232.92
+C1173,James Young,2022-03-04,SMB,Partner,London,True,,11764.92
+C1174,Williams Holdings,2022-06-02,Public Sector,Online,Scotland,True,,84750.9
+C1175,Miller Partners,2021-12-19,Enterprise,Online,London,True,,105816.49
+C1176,William Thomas,2022-10-26,Consumer,Direct,Scotland,True,,4661.24
+C1177,Samuel Baker,2023-07-26,SMB,Online,Scotland,True,,39791.76
+C1178,Thomas Nelson,2022-10-30,Consumer,Events,Scotland,True,,2977.02
+C1179,Lucy Jackson,2021-09-19,Consumer,Online,Scotland,True,,2854.04
+C1180,Henry King,2021-12-07,SMB,Referral,London,True,,10023.84
+C1181,David Davis,2021-08-10,SMB,Direct,London,False,2023-12-22,31678.68
+C1182,Lee Group,2021-07-16,Enterprise,Direct,London,True,,113287.63
+C1183,Lily Young,2022-02-07,SMB,Online,London,False,2023-07-25,34592.13
+C1184,Scott Group,2021-06-28,Public Sector,Online,London,True,,80724.2
+C1185,Baker Group,2021-12-20,Public Sector,Events,Scotland,True,,84562.34
+C1186,William Robinson,2021-12-28,SMB,Events,London,True,,44508.67
+C1187,Young Ltd,2022-04-14,Public Sector,Referral,London,True,,60384.52
+C1188,Oliver Davis,2022-02-12,SMB,Direct,London,True,,29285.85
+C1189,Sophie Allen,2021-11-08,SMB,Online,Scotland,True,,33342.79
+C1190,Chloe Robinson,2021-12-21,Consumer,Partner,Scotland,True,,606.55
+C1191,Benjamin Martin,2023-04-21,Consumer,Referral,Scotland,False,2023-12-31,801.22
+C1192,Allen Services,2023-07-19,Public Sector,Referral,London,True,,83532.25
+C1193,William Wright,2022-06-12,SMB,Referral,London,False,2022-09-11,38058.96
+C1194,George Nelson,2022-01-18,SMB,Direct,London,True,,19747.05
+C1195,Sophie Green,2021-09-01,SMB,Online,London,True,,12836.74
+C1196,Young Partners,2022-12-28,Public Sector,Direct,Scotland,True,,130772.51
+C1197,Harry Lee,2021-11-16,SMB,Referral,London,True,,34257.46
+C1198,Isabella Wilson,2022-07-27,Consumer,Direct,Scotland,True,,3195.4
+C1199,Jessica Nelson,2022-08-04,Consumer,Referral,London,True,,2036.67
+C1200,Alexander King,2021-10-25,Consumer,Events,Scotland,True,,3020.84
+C1201,Samuel Anderson,2021-10-20,Consumer,Partner,London,True,,4703.72
+C1202,Henry Baker,2022-05-12,Consumer,Direct,Scotland,True,,2007.49
+C1203,Benjamin Taylor,2021-05-31,SMB,Online,Scotland,True,,17598.64
+C1204,Charlotte Young,2022-10-20,Consumer,Online,London,True,,1611.62
+C1205,Lucy Robinson,2022-12-15,Consumer,Referral,Scotland,True,,2565.86
+C1206,Jessica Nelson,2022-02-17,SMB,Direct,London,True,,20192.43
+C1207,Young International,2022-07-22,Public Sector,Online,Scotland,True,,101432.61
+C1208,Thomas Brown,2022-11-23,SMB,Direct,London,True,,31939.63
+C1209,George Walker,2021-08-21,Consumer,Events,Scotland,False,2022-05-24,3738.07
+C1210,Mia Miller,2021-10-04,SMB,Online,London,True,,42228.41
+C1211,Sophie Martin,2021-06-17,SMB,Online,Scotland,True,,18838.94
+C1212,Walker Partners,2021-08-29,Enterprise,Direct,London,True,,116924.78
+C1213,James Lewis,2021-04-21,Consumer,Referral,London,False,2023-04-10,3942.75
+C1214,Chloe Davis,2021-10-12,SMB,Partner,London,True,,24918.44
+C1215,Mia Jackson,2022-03-26,Consumer,Online,London,True,,3201.96
+C1216,Moore Holdings,2022-02-06,Enterprise,Events,London,True,,107145.64
+C1217,Lily Miller,2021-12-10,Consumer,Events,London,True,,1258.44
+C1218,Oliver King,2023-01-31,Consumer,Online,Scotland,False,2023-12-10,4621.32
+C1219,Wilson Group,2022-05-19,Enterprise,Direct,Scotland,True,,143141.7
+C1220,Isabella Wilson,2022-09-09,Consumer,Partner,Scotland,True,,577.32
+C1221,Grace Scott,2021-10-12,Consumer,Direct,Scotland,False,2023-05-11,2160.19
+C1222,Clark Ltd,2022-12-07,Public Sector,Direct,London,True,,77256.68
+C1223,Jack Miller,2021-12-24,SMB,Partner,London,True,,38408.37
+C1224,Lewis Partners,2021-11-10,Enterprise,Online,London,True,,183318.9
+C1225,Lucy Martin,2022-06-17,Consumer,Online,Scotland,True,,1251.03
+C1226,Smith Holdings,2021-08-11,Enterprise,Direct,London,True,,123083.24
+C1227,William Smith,2021-09-26,SMB,Partner,Scotland,True,,46020.14
+C1228,Mia Jones,2022-08-09,SMB,Referral,Scotland,True,,45881.55
+C1229,Amelia Baker,2022-02-04,SMB,Direct,London,True,,30502.46
+C1230,Smith Services,2021-09-19,Public Sector,Partner,London,True,,105680.94
+C1231,Alexander Brown,2022-02-10,SMB,Referral,Scotland,True,,45341.32
+C1232,William Nelson,2022-04-10,SMB,Online,Scotland,True,,42988.52
+C1233,Thomas Jackson,2021-12-05,Consumer,Online,Scotland,False,2022-01-16,1491.07
+C1234,Anderson Services,2022-08-18,Public Sector,Direct,London,True,,30068.04
+C1235,Lee Holdings,2021-05-20,Public Sector,Referral,London,True,,104015.8
+C1236,Allen Holdings,2021-11-06,Public Sector,Events,London,True,,93205.1
+C1237,Olivia Harris,2023-02-22,Consumer,Online,Scotland,True,,1724.85
+C1238,David Jones,2021-03-09,SMB,Events,Scotland,True,,32200.56
+C1239,Hannah Jackson,2021-07-24,SMB,Events,London,True,,26771.66
+C1240,Jones Partners,2021-12-20,Enterprise,Direct,London,False,2023-02-02,120976.12
+C1241,Hall Services,2022-01-27,Enterprise,Direct,Scotland,True,,92970.14
+C1242,Smith Solutions,2022-10-13,Enterprise,Direct,London,True,,131055.57
+C1243,Moore Holdings,2023-01-21,Enterprise,Events,Scotland,True,,149908.73
+C1244,Taylor Group,2023-02-09,Enterprise,Referral,London,True,,174770.33
+C1245,King Corp,2023-02-26,Enterprise,Online,London,True,,54805.06
+C1246,Harry Martin,2022-03-29,Consumer,Online,Scotland,False,2023-03-10,4131.35
+C1247,William Jones,2021-09-06,Consumer,Direct,London,False,2022-09-11,3752.46
+C1248,Grace Wright,2021-12-01,Consumer,Online,Scotland,True,,3144.52
+C1249,Emily Jackson,2021-12-25,SMB,Online,London,True,,41348.99
+C1250,Joseph Thomas,2022-12-06,SMB,Partner,Scotland,True,,15926.71
+C1251,Jessica Walker,2021-11-27,SMB,Online,Scotland,False,2023-05-05,24920.96
+C1252,Thomas Clark,2021-04-18,Consumer,Events,London,True,,2258.11
+C1253,Alexander Lewis,2023-07-17,Consumer,Events,London,True,,1805.87
+C1254,Olivia Nelson,2023-03-14,SMB,Referral,London,True,,28541.72
+C1255,David Wilson,2021-05-03,Consumer,Events,Scotland,True,,3507.95
+C1256,Joseph Lewis,2021-06-10,SMB,Direct,London,False,2023-12-16,47596.68
+C1257,Davis Corp,2022-10-25,Public Sector,Partner,Scotland,True,,123560.98
+C1258,Thomas Services,2022-12-09,Public Sector,Referral,Scotland,False,2023-03-15,143589.43
+C1259,Wright Solutions,2022-05-13,Public Sector,Online,London,True,,73371.55
+C1260,Lucy Smith,2022-12-28,SMB,Events,Scotland,False,2023-06-14,48143.42
+C1261,Brown International,2021-04-28,Public Sector,Direct,London,True,,110159.81
+C1262,King Services,2022-03-22,Enterprise,Partner,London,True,,121803.55
+C1263,Harry Davis,2022-04-19,Consumer,Direct,Scotland,True,,1253.85
+C1264,Jack Jackson,2022-06-21,SMB,Online,Scotland,True,,22888.56
+C1265,Thomas Partners,2022-02-06,Public Sector,Direct,London,False,2023-01-24,119967.92
+C1266,Harris Holdings,2023-01-07,Public Sector,Direct,Scotland,True,,44370.37
+C1267,Thomas Thomas,2021-10-25,Consumer,Online,London,True,,4323.82
+C1268,Miller Group,2023-07-30,Public Sector,Referral,London,True,,134340.59
+C1269,Isabella Robinson,2021-08-05,Consumer,Partner,London,True,,1455.4
+C1270,Grace Nelson,2021-10-01,SMB,Referral,Scotland,True,,33094.48
+C1271,Thomas Wright,2021-05-01,SMB,Online,London,False,2023-01-23,12082.14
+C1272,Lewis Services,2023-05-24,Enterprise,Partner,London,True,,62301.33
+C1273,Sophie Allen,2022-03-08,Consumer,Online,Scotland,True,,2793.58
+C1274,Johnson Partners,2023-03-18,Enterprise,Online,London,True,,81651.13
+C1275,Brown Partners,2022-05-26,Enterprise,Online,London,True,,88249.89
+C1276,Robinson Group,2022-07-24,Enterprise,Direct,London,True,,195076.15
+C1277,James Young,2022-05-02,Consumer,Direct,London,False,2022-06-15,1445.92
+C1278,Olivia Jackson,2022-02-06,SMB,Referral,London,True,,36380.81
+C1279,Emily Wilson,2021-05-07,SMB,Direct,Scotland,True,,29596.53
+C1280,Daniel Taylor,2021-05-01,SMB,Referral,London,False,2022-03-21,18153.6
+C1281,Moore Corp,2021-02-25,Enterprise,Referral,London,True,,146637.5
+C1282,James Scott,2022-06-05,Consumer,Referral,London,True,,1554.89
+C1283,Emily Clark,2022-05-04,SMB,Events,London,True,,41978.45
+C1284,Allen Solutions,2021-06-16,Enterprise,Online,Scotland,True,,144127.9
+C1285,Taylor Partners,2022-12-31,Enterprise,Events,London,True,,87675.16
+C1286,George Johnson,2021-10-28,Consumer,Online,Scotland,True,,4360.08
+C1287,Joseph Jones,2021-11-07,Consumer,Online,London,True,,1540.87
+C1288,Henry Moore,2021-10-11,SMB,Referral,Scotland,True,,13874.25
+C1289,Walker Services,2023-02-28,Public Sector,Referral,Scotland,True,,35300.47
+C1290,Oliver Clark,2021-02-14,SMB,Online,Scotland,True,,33315.17
+C1291,James Allen,2022-09-07,SMB,Referral,London,True,,21010.32
+C1292,Allen International,2022-03-21,Enterprise,Online,Scotland,True,,83843.78
+C1293,Jones Group,2022-09-14,Enterprise,Events,London,True,,175042.95
+C1294,Isabella Davis,2021-09-19,SMB,Direct,London,True,,12928.52
+C1295,David Walker,2022-10-28,SMB,Online,London,True,,31313.91
+C1296,Smith Services,2021-07-25,Public Sector,Referral,Scotland,True,,78697.94
+C1297,Sophia Lewis,2021-05-15,SMB,Events,Scotland,True,,29172.87
+C1298,Lucy Johnson,2022-08-17,Consumer,Online,London,True,,2787.87
+C1299,Jones Solutions,2022-04-05,Public Sector,Direct,London,True,,35282.23
+C1300,Oliver Wright,2021-08-27,Consumer,Direct,Scotland,True,,3920.63
+C1301,James Williams,2021-12-02,Consumer,Events,London,True,,1951.23
+C1302,Grace Young,2022-04-25,Consumer,Online,London,True,,2171.93
+C1303,Charlotte Anderson,2022-07-02,Consumer,Online,Scotland,True,,1216.74
+C1304,Jackson International,2021-09-20,Enterprise,Online,London,True,,56057.47
+C1305,Moore Corp,2021-12-25,Enterprise,Online,London,True,,129505.28
+C1306,Amelia Taylor,2022-01-11,Consumer,Direct,London,True,,4197.1
+C1307,Sophie Walker,2022-11-09,SMB,Direct,Scotland,True,,32330.49
+C1308,Emma Nelson,2023-04-04,Consumer,Direct,Scotland,True,,1050.85
+C1309,Sophie Young,2022-01-31,Consumer,Direct,London,True,,1298.5
+C1310,Thomas Wilson,2021-12-19,SMB,Events,London,False,2023-03-03,16194.44
+C1311,Isabella Smith,2022-01-02,Consumer,Referral,London,True,,1592.22
+C1312,Oliver Lee,2022-07-07,Consumer,Referral,Scotland,True,,4430.5
+C1313,Emma Miller,2021-08-30,SMB,Events,London,True,,26131.17
+C1314,Olivia Green,2022-08-12,Consumer,Referral,Scotland,True,,1759.04
+C1315,Isabella Baker,2022-07-21,Consumer,Partner,London,True,,4920.35
+C1316,Johnson Corp,2022-02-10,Public Sector,Online,Scotland,True,,58658.05
+C1317,William Green,2022-01-08,SMB,Partner,London,False,2023-10-14,14087.03
+C1318,Samuel Thomas,2021-06-16,SMB,Online,Scotland,False,2022-09-05,49977.74
+C1319,Lee Partners,2022-06-12,Public Sector,Online,Scotland,True,,123469.6
+C1320,Grace Jones,2023-01-12,SMB,Direct,Scotland,True,,43503.87
+C1321,Walker Group,2022-02-11,Enterprise,Online,London,True,,194055.29
+C1322,Williams Corp,2022-03-22,Public Sector,Partner,Scotland,True,,102442.97
+C1323,Thomas Ltd,2021-10-04,Public Sector,Online,London,True,,100386.85
+C1324,Olivia Williams,2022-04-10,SMB,Direct,Scotland,True,,13688.99
+C1325,Samuel Smith,2021-11-25,Consumer,Partner,London,True,,4001.08
+C1326,James Johnson,2023-02-22,SMB,Referral,London,True,,47753.92
+C1327,Jackson Solutions,2021-08-20,Enterprise,Partner,London,False,2023-10-22,152736.21
+C1328,Grace Miller,2022-09-13,SMB,Events,Scotland,False,2023-08-29,27449.62
+C1329,Grace Smith,2022-06-28,Consumer,Referral,London,True,,4072.15
+C1330,Olivia Johnson,2022-08-24,Consumer,Referral,London,True,,1453.82
+C1331,Daniel Moore,2023-03-27,Consumer,Direct,London,True,,4969.36
+C1332,Walker Partners,2021-09-20,Enterprise,Referral,London,True,,164994.27
+C1333,Emily Scott,2022-02-27,SMB,Partner,London,True,,49249.43
+C1334,Smith Corp,2022-03-14,Public Sector,Referral,London,True,,98337.78
+C1335,Martin Partners,2021-04-21,Public Sector,Events,Scotland,True,,97669.82
+C1336,Martin Ltd,2022-02-10,Enterprise,Online,London,True,,146290.39
+C1337,Lucy Moore,2021-12-09,SMB,Online,Scotland,True,,36007.58
+C1338,Emily Brown,2021-03-29,SMB,Online,London,True,,49263.92
+C1339,Grace Allen,2022-12-03,Consumer,Referral,London,True,,1159.76
+C1340,Brown Solutions,2021-11-16,Enterprise,Online,London,True,,164973.65
+C1341,William Wilson,2021-04-28,SMB,Referral,Scotland,True,,33504.45
+C1342,James Smith,2023-05-18,Consumer,Referral,Scotland,True,,3504.72
+C1343,David Baker,2022-02-02,Consumer,Events,London,False,2022-05-10,4345.02
+C1344,Emma Lee,2022-01-04,SMB,Direct,Scotland,True,,26311.64
+C1345,Mia Young,2022-09-11,Consumer,Direct,London,False,2023-06-21,1759.1
+C1346,Matthew Hall,2021-02-25,SMB,Online,London,False,2021-08-14,26465.84
+C1347,Lucy Johnson,2022-07-04,SMB,Online,London,True,,49279.3
+C1348,Davis Services,2021-02-26,Public Sector,Direct,Scotland,True,,54319.97
+C1349,Brown International,2022-10-21,Public Sector,Events,London,True,,95362.25
+C1350,Wilson Holdings,2022-03-10,Enterprise,Partner,Scotland,True,,69853.44
+C1351,Thomas Robinson,2021-07-27,Consumer,Referral,London,True,,721.33
+C1352,Wilson International,2022-05-03,Public Sector,Referral,London,True,,54586.84
+C1353,Miller Solutions,2021-05-06,Enterprise,Online,London,True,,61276.78
+C1354,Daniel Nelson,2023-01-19,Consumer,Partner,Scotland,False,2023-11-24,4881.55
+C1355,Mia Hall,2022-02-27,SMB,Partner,Scotland,True,,42901.76
+C1356,Harris Partners,2021-12-29,Enterprise,Online,London,True,,110417.21
+C1357,Jackson Solutions,2023-09-20,Enterprise,Online,London,True,,62652.88
+C1358,Smith Holdings,2021-06-18,Enterprise,Online,London,True,,130861.18
+C1359,Robinson Solutions,2022-03-25,Enterprise,Referral,London,True,,99108.88
+C1360,Chloe Lewis,2022-09-09,SMB,Online,London,True,,21552.16
+C1361,Wright Services,2021-12-11,Enterprise,Direct,Scotland,True,,149347.04
+C1362,Thomas Group,2022-11-03,Public Sector,Online,Scotland,True,,107672.49
+C1363,Amelia Nelson,2022-07-19,SMB,Online,London,True,,17161.69
+C1364,Thomas Jackson,2023-08-11,SMB,Referral,London,True,,41209.92
+C1365,Walker Partners,2022-05-06,Enterprise,Online,Scotland,True,,125870.82
+C1366,Lewis Holdings,2021-12-25,Enterprise,Partner,London,False,2023-11-13,152234.41
+C1367,Moore Partners,2022-02-11,Enterprise,Online,London,True,,107140.88
+C1368,George Hall,2021-07-03,Consumer,Online,London,False,2023-01-20,2185.38
+C1369,Samuel Jones,2022-03-25,SMB,Online,London,True,,37341.02
+C1370,Alexander Nelson,2021-09-08,Consumer,Partner,Scotland,True,,963.96
+C1371,Isabella Nelson,2021-06-21,SMB,Online,Scotland,True,,47800.98
+C1372,Allen Holdings,2021-11-26,Public Sector,Direct,Scotland,True,,42266.49
+C1373,Jackson Holdings,2021-10-25,Public Sector,Direct,Scotland,True,,31875.89
+C1374,Emily Adams,2021-08-13,SMB,Online,Scotland,True,,30492.41
+C1375,Robinson Services,2022-02-23,Public Sector,Direct,London,False,2023-04-01,62296.05
+C1376,Hannah Miller,2022-05-10,SMB,Referral,London,True,,24644.4
+C1377,Emma Smith,2022-05-04,Consumer,Online,Scotland,True,,4819.1
+C1378,Chloe Clark,2021-08-14,Consumer,Online,Scotland,False,2023-05-11,4765.89
+C1379,Mia Hall,2023-10-27,SMB,Online,Scotland,True,,30570.23
+C1380,Olivia Green,2021-07-31,Consumer,Referral,Scotland,True,,3894.3
+C1381,Hannah Robinson,2022-11-19,SMB,Partner,London,True,,26878.58
+C1382,Brown Group,2022-02-03,Public Sector,Partner,Scotland,True,,127490.15
+C1383,Mia Williams,2023-02-27,SMB,Direct,Scotland,True,,48338.45
+C1384,Davis Partners,2022-12-30,Public Sector,Partner,Scotland,True,,96665.53
+C1385,Harris Solutions,2022-02-16,Enterprise,Referral,Scotland,True,,124937.67
+C1386,Wright Solutions,2022-08-16,Public Sector,Direct,London,True,,140308.93
+C1387,Jones Services,2023-05-07,Public Sector,Direct,London,True,,102789.51
+C1388,Henry King,2021-05-29,Consumer,Online,Scotland,True,,2987.36
+C1389,Amelia Harris,2023-01-23,SMB,Partner,London,True,,28570.46
+C1390,Jones Group,2021-07-03,Public Sector,Online,London,True,,91311.38
+C1391,Isabella King,2022-06-08,Consumer,Online,Scotland,False,2023-10-31,2477.91
+C1392,Robinson Solutions,2022-07-11,Enterprise,Online,London,True,,193503.65
+C1393,Sophia Wright,2021-12-25,SMB,Direct,London,True,,27084.0
+C1394,Green Services,2022-06-23,Public Sector,Direct,London,True,,68424.44
+C1395,Harry Taylor,2022-02-23,SMB,Direct,Scotland,False,2023-02-28,19885.41
+C1396,Jack Walker,2022-05-28,SMB,Referral,Scotland,True,,42994.76
+C1397,Lily Wright,2021-10-23,SMB,Direct,London,True,,14500.52
+C1398,Green Group,2022-09-04,Public Sector,Referral,London,True,,46165.96
+C1399,Emily Adams,2021-04-24,Consumer,Online,London,True,,2595.21
+C1400,Moore Solutions,2021-12-01,Public Sector,Referral,Scotland,True,,58415.5
+C1401,Robinson Holdings,2022-11-29,Public Sector,Partner,Scotland,True,,43137.7
+C1402,Matthew Nelson,2023-02-26,Consumer,Direct,London,True,,3783.95
+C1403,Chloe Baker,2021-11-10,SMB,Direct,London,False,2023-02-08,17853.3
+C1404,Young Solutions,2022-11-14,Public Sector,Direct,Scotland,True,,117810.65
+C1405,Jackson Partners,2021-05-22,Enterprise,Partner,Scotland,True,,65675.83
+C1406,Lee Services,2021-05-17,Enterprise,Online,London,True,,79692.7
+C1407,Jack Young,2022-01-16,Consumer,Direct,London,True,,4445.93
+C1408,Emily Jackson,2022-02-09,Consumer,Direct,Scotland,False,2023-02-19,3314.07
+C1409,Baker Services,2021-09-01,Public Sector,Online,London,True,,114075.08
+C1410,Davis Holdings,2021-04-17,Public Sector,Online,Scotland,True,,45384.4
+C1411,Amelia Jackson,2021-12-28,SMB,Direct,London,True,,22277.81
+C1412,Lucy Johnson,2023-10-02,SMB,Direct,Scotland,True,,26898.39
+C1413,Williams Partners,2021-12-12,Enterprise,Direct,London,True,,113929.83
+C1414,Sophie Miller,2022-12-12,SMB,Direct,Scotland,True,,43110.71
+C1415,Lucy Adams,2022-06-14,Consumer,Direct,Scotland,True,,2324.93
+C1416,Moore Corp,2021-04-12,Public Sector,Online,London,True,,81020.41
+C1417,Jessica Green,2022-01-09,SMB,Online,London,False,2022-03-07,30567.32
+C1418,Lily Miller,2022-01-05,Consumer,Online,London,False,2022-02-17,2407.12
+C1419,George King,2023-03-16,SMB,Partner,Scotland,False,2023-12-31,12432.1
+C1420,Taylor Services,2022-02-05,Enterprise,Online,London,True,,170154.0
+C1421,Olivia King,2021-08-18,Consumer,Direct,London,False,2021-10-17,2432.68
+C1422,Jack Nelson,2023-03-26,SMB,Online,London,True,,20168.85
+C1423,Lily Smith,2021-11-09,SMB,Partner,London,True,,11283.39
+C1424,Emma Lee,2021-08-20,SMB,Referral,London,True,,33540.57
+C1425,Williams Corp,2022-05-31,Enterprise,Referral,London,True,,136125.33
+C1426,Alexander Taylor,2021-07-17,Consumer,Online,London,True,,3409.63
+C1427,Jack Robinson,2022-08-30,SMB,Events,Scotland,False,2023-04-29,27560.69
+C1428,Charlotte Johnson,2022-10-10,SMB,Online,London,True,,29400.86
+C1429,Alexander Walker,2021-11-11,SMB,Partner,Scotland,True,,21564.24
+C1430,Hall Solutions,2021-07-24,Enterprise,Online,Scotland,True,,53946.04
+C1431,Emily Allen,2022-06-20,SMB,Partner,London,True,,11097.18
+C1432,Joseph Scott,2022-06-08,Consumer,Direct,Scotland,True,,3131.21
+C1433,Taylor Ltd,2021-03-18,Public Sector,Direct,London,True,,127838.26
+C1434,Adams Holdings,2021-08-06,Public Sector,Events,Scotland,True,,92633.56
+C1435,James Anderson,2021-12-12,SMB,Events,Scotland,True,,31603.8
+C1436,Harry Williams,2021-08-06,SMB,Online,Scotland,True,,40584.38
+C1437,Lee Partners,2021-07-28,Public Sector,Online,London,True,,99431.52
+C1438,Adams Group,2022-03-03,Public Sector,Online,Scotland,True,,124813.99
+C1439,Benjamin Lewis,2022-10-03,SMB,Direct,Scotland,True,,32327.5
+C1440,Isabella Taylor,2022-02-15,SMB,Direct,Scotland,True,,35599.94
+C1441,Walker Partners,2022-10-03,Public Sector,Online,London,True,,33074.52
+C1442,Amelia Robinson,2022-11-22,SMB,Direct,London,True,,40401.97
+C1443,Grace Jackson,2021-10-24,SMB,Online,London,True,,31308.14
+C1444,Olivia Smith,2021-11-09,Consumer,Partner,London,False,2022-10-12,3304.58
+C1445,Walker Solutions,2023-05-16,Enterprise,Events,London,True,,199786.85
+C1446,Emma Nelson,2022-10-26,Consumer,Direct,London,True,,1645.31
+C1447,Brown Group,2021-04-17,Enterprise,Referral,Scotland,True,,114337.66
+C1448,Wright International,2022-03-14,Public Sector,Online,London,True,,137589.08
+C1449,Lewis Ltd,2022-04-20,Enterprise,Online,Scotland,True,,179944.81
+C1450,Lucy Jackson,2021-06-16,Consumer,Direct,London,True,,3319.66
+C1451,Oliver Thomas,2022-09-01,SMB,Online,London,True,,23611.4
+C1452,Emily Scott,2022-02-24,SMB,Online,London,True,,29110.27
+C1453,Emma Wilson,2022-10-02,Consumer,Referral,Scotland,True,,4246.36
+C1454,Daniel Robinson,2021-08-31,Consumer,Partner,London,True,,1669.57
+C1455,Clark Corp,2022-08-23,Enterprise,Online,London,True,,76839.13
+C1456,Lily Martin,2022-09-05,SMB,Referral,Scotland,True,,12000.09
+C1457,George Lewis,2022-01-19,SMB,Direct,Scotland,True,,45698.54
+C1458,Amelia Anderson,2022-04-15,Consumer,Referral,London,True,,4095.18
+C1459,George Walker,2022-12-29,Consumer,Partner,London,True,,3237.08
+C1460,Scott International,2022-01-06,Enterprise,Online,Scotland,True,,114227.3
+C1461,Isabella Anderson,2022-11-05,Consumer,Online,London,False,2023-06-13,3691.13
+C1462,Smith Ltd,2021-08-24,Public Sector,Partner,Scotland,True,,43001.74
+C1463,Adams Holdings,2023-02-01,Public Sector,Online,London,True,,83290.6
+C1464,Johnson Services,2021-07-28,Enterprise,Partner,London,True,,129314.28
+C1465,Emma Lee,2022-02-01,Consumer,Online,London,True,,2993.48
+C1466,Matthew Wilson,2022-11-13,Consumer,Referral,London,True,,2765.58
+C1467,Amelia Taylor,2021-05-09,SMB,Partner,Scotland,True,,36088.28
+C1468,Lee Corp,2021-11-26,Enterprise,Direct,Scotland,True,,165462.64
+C1469,Matthew Jackson,2023-02-27,Consumer,Events,Scotland,True,,3938.71
+C1470,Harry Allen,2021-08-28,SMB,Online,Scotland,False,2023-01-26,16788.64
+C1471,Harry Walker,2022-06-12,SMB,Direct,London,True,,49773.2
+C1472,Charlotte Smith,2022-01-05,SMB,Online,Scotland,True,,11430.56
+C1473,Daniel Adams,2021-06-05,Consumer,Online,London,True,,801.32
+C1474,Lewis Services,2022-11-04,Public Sector,Referral,London,True,,128333.91
+C1475,Samuel Scott,2022-10-25,Consumer,Online,Scotland,True,,4596.57
+C1476,Grace Wright,2022-03-31,SMB,Online,London,True,,25439.86
+C1477,Charlotte Thomas,2022-05-04,Consumer,Events,London,True,,2665.58
+C1478,Sophie Wright,2022-11-29,Consumer,Direct,Scotland,True,,4939.23
+C1479,Lee Solutions,2021-07-04,Public Sector,Online,London,True,,92575.61
+C1480,Isabella Adams,2023-06-13,Consumer,Direct,London,True,,3049.62
+C1481,David Brown,2022-11-11,SMB,Online,London,True,,10596.11
+C1482,Clark International,2022-09-05,Public Sector,Direct,Scotland,True,,115783.91
+C1483,Joseph Lewis,2022-11-22,SMB,Partner,London,True,,21574.52
+C1484,Matthew Hall,2022-12-26,SMB,Events,London,True,,32013.26
+C1485,Jack Baker,2021-08-22,SMB,Referral,Scotland,True,,40063.87
+C1486,Thomas Ltd,2022-01-24,Enterprise,Partner,London,False,2023-05-12,185440.91
+C1487,Williams Services,2022-09-28,Public Sector,Online,London,False,2023-06-13,148413.79
+C1488,Matthew Lewis,2022-09-10,SMB,Direct,Scotland,True,,40408.35
+C1489,Chloe Lee,2022-02-05,SMB,Referral,London,True,,41396.47
+C1490,Samuel Harris,2022-05-25,SMB,Online,London,False,2022-07-25,41263.57
+C1491,Benjamin Walker,2022-03-07,SMB,Online,London,False,2022-07-04,19469.9
+C1492,Baker Solutions,2021-10-26,Enterprise,Partner,Scotland,True,,107021.06
+C1493,Clark Holdings,2022-11-26,Enterprise,Partner,Scotland,True,,195727.31
+C1494,Oliver Brown,2022-10-26,SMB,Referral,London,True,,31672.43
+C1495,Isabella Jones,2023-02-26,Consumer,Direct,London,True,,3214.21
+C1496,Amelia Anderson,2021-12-05,SMB,Direct,London,False,2023-07-24,46649.91
+C1497,Oliver Young,2023-09-22,SMB,Referral,London,True,,25971.94
+C1498,Harris Solutions,2022-09-28,Public Sector,Referral,Scotland,True,,90371.84
+C1499,Lucy Baker,2021-11-07,Consumer,Partner,Scotland,False,2022-09-01,2825.2
+C1500,Jessica Scott,2021-06-08,Consumer,Direct,London,True,,2179.14
+C1501,Smith Solutions,2023-04-02,Enterprise,Referral,London,True,,176576.08
+C1502,Wilson International,2021-04-25,Enterprise,Partner,London,True,,57986.02
+C1503,Anderson Group,2023-05-13,Enterprise,Direct,London,True,,181588.48
+C1504,Olivia Robinson,2021-06-15,SMB,Online,Scotland,True,,32213.32
+C1505,Williams Solutions,2022-06-20,Public Sector,Referral,London,True,,147288.51
+C1506,William Moore,2023-07-24,SMB,Online,London,True,,40987.33
+C1507,Matthew Adams,2023-03-14,SMB,Online,London,True,,42954.26
+C1508,Lee Services,2023-01-18,Public Sector,Referral,London,True,,100594.32
+C1509,Jessica Wilson,2022-07-19,Consumer,Referral,London,True,,2221.81
+C1510,King Ltd,2021-07-22,Public Sector,Events,London,True,,77216.83
+C1511,Joseph Scott,2022-08-06,SMB,Direct,Scotland,False,2023-07-24,22982.1
+C1512,Sophia Lee,2023-01-28,Consumer,Online,Scotland,True,,4005.09
+C1513,Miller Ltd,2022-11-03,Enterprise,Events,London,True,,110918.44
+C1514,Adams Group,2021-08-18,Public Sector,Referral,Scotland,True,,110023.37
+C1515,Scott Ltd,2023-05-08,Public Sector,Partner,Scotland,True,,39472.79
+C1516,Thomas Lee,2022-10-31,SMB,Online,London,True,,35348.66
+C1517,Lee Ltd,2021-12-03,Enterprise,Referral,Scotland,True,,189612.55
+C1518,Chloe Davis,2021-11-11,Consumer,Referral,London,True,,4864.26
+C1519,Martin Ltd,2021-01-08,Enterprise,Online,London,True,,125972.34
+C1520,George Adams,2021-07-23,Consumer,Direct,London,True,,3269.18
+C1521,Moore Partners,2021-09-15,Public Sector,Referral,Scotland,True,,38479.4
+C1522,Baker Ltd,2022-07-20,Public Sector,Online,London,True,,38842.53
+C1523,William King,2023-02-02,SMB,Referral,Scotland,True,,45590.54
+C1524,Scott Solutions,2022-09-14,Enterprise,Partner,London,False,2023-01-04,100126.14
+C1525,Isabella Taylor,2022-01-03,Consumer,Partner,London,True,,975.96
+C1526,Williams Ltd,2021-10-12,Enterprise,Direct,London,False,2021-12-21,160584.32
+C1527,Grace Nelson,2021-04-01,Consumer,Partner,Scotland,False,2021-05-15,2363.02
+C1528,Taylor Holdings,2022-08-17,Enterprise,Events,London,True,,193653.17
+C1529,Sophie Miller,2022-05-12,SMB,Partner,Scotland,True,,13509.07
+C1530,Joseph Miller,2021-06-28,Consumer,Referral,London,True,,4088.03
+C1531,Walker Solutions,2021-06-09,Enterprise,Referral,London,True,,50164.61
+C1532,Miller Group,2023-01-25,Enterprise,Referral,London,True,,147055.24
+C1533,James Allen,2022-02-23,Consumer,Direct,Scotland,False,2022-07-11,2147.19
+C1534,George Robinson,2022-10-11,Consumer,Online,London,True,,3873.31
+C1535,George Nelson,2023-03-19,SMB,Online,London,True,,19453.33
+C1536,Jessica Clark,2022-03-04,Consumer,Online,London,True,,1742.5
+C1537,Emma Miller,2021-11-19,SMB,Direct,London,True,,32047.99
+C1538,Thomas Anderson,2022-03-29,SMB,Online,Scotland,True,,29490.99
+C1539,Amelia Robinson,2022-05-06,SMB,Direct,Scotland,True,,34097.74
+C1540,King International,2022-01-21,Enterprise,Direct,Scotland,True,,124704.05
+C1541,Davis Ltd,2022-03-23,Enterprise,Partner,London,True,,152327.29
+C1542,Sophia Walker,2023-01-18,SMB,Partner,London,True,,31490.76
+C1543,Wright Group,2021-10-05,Enterprise,Direct,London,True,,120451.47
+C1544,Thomas Wilson,2023-04-05,Consumer,Partner,London,True,,4289.66
+C1545,Daniel Johnson,2022-03-01,Consumer,Direct,London,True,,2151.02
+C1546,Lucy Jones,2022-10-31,SMB,Partner,Scotland,True,,13364.51
+C1547,Jack Martin,2022-03-02,SMB,Referral,London,True,,25660.65
+C1548,Isabella Lee,2022-08-05,SMB,Partner,Scotland,True,,17590.91
+C1549,Emily Jones,2021-08-28,SMB,Referral,Scotland,True,,46785.41
+C1550,Adams Ltd,2022-06-28,Public Sector,Online,London,True,,94056.11
+C1551,Taylor Group,2023-03-08,Public Sector,Events,Scotland,True,,108961.8
+C1552,Charlotte Lee,2022-06-29,SMB,Direct,London,True,,48964.33
+C1553,Jessica King,2022-02-16,SMB,Direct,London,False,2023-03-27,19635.43
+C1554,Hannah Jackson,2022-02-27,Consumer,Online,London,True,,4622.62
+C1555,Matthew Adams,2021-12-02,SMB,Referral,London,True,,46647.46
+C1556,Wright Partners,2022-08-21,Enterprise,Events,London,False,2023-01-04,194341.27
+C1557,Clark Group,2021-10-16,Public Sector,Direct,London,True,,127771.91
+C1558,Sophia Hall,2022-04-02,SMB,Direct,Scotland,False,2023-02-08,46905.52
+C1559,Anderson Services,2022-04-20,Enterprise,Referral,Scotland,True,,87171.86
+C1560,Scott International,2021-10-28,Public Sector,Partner,London,True,,57120.66
+C1561,Grace Lee,2023-02-25,Consumer,Direct,London,True,,915.7
+C1562,Emma Brown,2021-08-25,SMB,Direct,London,True,,29888.8
+C1563,Baker Solutions,2021-02-16,Enterprise,Online,Scotland,True,,83384.66
+C1564,Lucy Johnson,2021-12-12,SMB,Online,London,False,2023-10-17,35828.22
+C1565,Isabella Wright,2023-01-06,Consumer,Partner,Scotland,True,,1076.11
+C1566,Lucy Davis,2021-08-31,SMB,Online,Scotland,True,,40522.55
+C1567,Matthew Jackson,2021-11-04,Consumer,Direct,Scotland,True,,1292.05
+C1568,Chloe Moore,2023-02-20,Consumer,Direct,Scotland,True,,4222.61
+C1569,Chloe Walker,2021-07-01,Consumer,Events,London,False,2023-12-21,1284.38
+C1570,Olivia Williams,2023-03-26,SMB,Online,Scotland,True,,30291.04
+C1571,Sophie Davis,2021-08-30,SMB,Direct,London,False,2023-02-14,25245.32
+C1572,Lewis Solutions,2022-11-07,Enterprise,Referral,London,True,,155913.05
+C1573,Jack Scott,2022-05-22,SMB,Partner,Scotland,False,2023-01-28,20506.22
+C1574,Jones Holdings,2021-07-11,Public Sector,Events,London,True,,97225.57
+C1575,Isabella Baker,2021-10-23,Consumer,Direct,Scotland,True,,4497.93
+C1576,Sophie Green,2021-11-10,SMB,Referral,London,True,,19785.68
+C1577,Brown Holdings,2022-06-03,Enterprise,Direct,London,True,,72274.57
+C1578,Robinson International,2022-10-14,Enterprise,Partner,London,True,,148527.65
+C1579,Samuel Allen,2022-10-19,SMB,Referral,London,False,2023-11-21,12691.71
+C1580,Emily Williams,2022-10-31,SMB,Direct,Scotland,True,,33049.28
+C1581,Green Solutions,2023-01-29,Public Sector,Online,London,True,,32179.22
+C1582,Davis Services,2021-12-30,Public Sector,Online,London,True,,120227.73
+C1583,Davis Group,2022-05-15,Public Sector,Referral,London,True,,49796.84
+C1584,Benjamin Robinson,2023-06-20,SMB,Direct,Scotland,True,,48553.39
+C1585,Charlotte Davis,2022-03-08,SMB,Online,London,False,2023-05-03,14611.53
+C1586,Sophia Jones,2022-04-27,SMB,Direct,Scotland,False,2022-08-05,11827.23
+C1587,James King,2021-07-09,SMB,Direct,London,False,2023-03-05,11997.67
+C1588,Jack Nelson,2022-12-21,SMB,Referral,London,True,,22380.38
+C1589,James Martin,2022-06-04,SMB,Direct,Scotland,True,,19770.56
+C1590,Jack Lee,2022-02-07,SMB,Direct,London,True,,13163.13
+C1591,Jack Wright,2022-12-16,Consumer,Referral,London,True,,535.81
+C1592,Thomas Corp,2022-11-24,Enterprise,Online,London,True,,187424.77
+C1593,Charlotte Thomas,2022-02-18,Consumer,Online,London,True,,3891.74
+C1594,Brown Partners,2022-02-21,Public Sector,Referral,London,True,,98326.26
+C1595,Olivia Anderson,2022-03-27,SMB,Online,Scotland,True,,10687.05
+C1596,Hannah Harris,2021-09-26,Consumer,Online,London,False,2023-06-07,3755.96
+C1597,Sophia Smith,2022-07-27,Consumer,Online,Scotland,True,,4989.68
+C1598,Sophie Clark,2022-12-28,SMB,Direct,London,True,,23909.91
+C1599,Harry Nelson,2021-02-14,Consumer,Referral,London,True,,788.4
+C1600,Henry Wright,2023-07-28,SMB,Direct,London,True,,44550.98
+C1601,Lily Smith,2022-03-27,SMB,Referral,Scotland,True,,32215.09
+C1602,Harry Wilson,2022-04-20,Consumer,Events,Scotland,False,2023-11-26,880.89
+C1603,Charlotte Miller,2022-05-28,Consumer,Direct,London,False,2022-10-15,1693.05
+C1604,Jackson Ltd,2022-01-27,Enterprise,Direct,London,True,,54900.43
+C1605,Adams Corp,2021-09-01,Public Sector,Online,Scotland,True,,37729.36
+C1606,Johnson Solutions,2021-03-16,Public Sector,Referral,Scotland,True,,49438.44
+C1607,Miller Services,2021-08-08,Public Sector,Referral,London,True,,54125.02
+C1608,Davis Ltd,2021-02-26,Enterprise,Partner,London,True,,84458.27
+C1609,Lucy Baker,2022-08-23,SMB,Online,London,True,,10428.25
+C1610,Johnson Group,2022-12-22,Enterprise,Online,Scotland,True,,191234.32
+C1611,Emma Jones,2021-02-01,SMB,Online,Scotland,True,,31607.35
+C1612,Miller Solutions,2023-09-14,Public Sector,Partner,Scotland,True,,109430.09
+C1613,Brown International,2022-10-26,Enterprise,Referral,London,True,,146328.97
+C1614,Emma Jackson,2022-02-25,SMB,Referral,London,True,,24390.43
+C1615,Oliver Miller,2022-09-27,SMB,Events,London,True,,16222.07
+C1616,Daniel Wright,2022-04-23,Consumer,Online,Scotland,True,,3827.74
+C1617,Emma Wilson,2021-08-21,SMB,Online,London,True,,37875.56
+C1618,Lily Taylor,2021-02-27,Consumer,Partner,Scotland,True,,3621.14
+C1619,Walker Holdings,2022-09-17,Public Sector,Online,London,True,,118226.24
+C1620,Lewis International,2022-10-20,Enterprise,Direct,London,False,2023-04-16,77268.19
+C1621,Jackson Services,2022-11-11,Enterprise,Direct,London,True,,186315.74
+C1622,Clark International,2023-04-28,Enterprise,Online,London,True,,126286.19
+C1623,Daniel Allen,2021-07-12,SMB,Referral,London,True,,23974.43
+C1624,Adams Holdings,2022-01-08,Public Sector,Direct,Scotland,True,,79693.78
+C1625,Oliver Adams,2021-07-29,SMB,Online,London,True,,25974.7
+C1626,Brown Group,2022-07-11,Enterprise,Online,London,True,,98387.05
+C1627,Wilson Partners,2022-02-18,Public Sector,Referral,London,True,,59323.65
+C1628,Olivia Jackson,2022-01-13,Consumer,Online,London,True,,841.99
+C1629,Grace Scott,2021-09-07,Consumer,Direct,Scotland,False,2023-05-17,4331.0
+C1630,Sophia Baker,2022-04-10,SMB,Partner,Scotland,False,2023-03-09,16915.83
+C1631,Lily Jackson,2022-01-26,SMB,Events,London,False,2023-10-14,21918.17
+C1632,Baker Ltd,2021-06-27,Enterprise,Referral,London,True,,56387.04
+C1633,George Scott,2022-06-22,Consumer,Online,Scotland,True,,3815.37
+C1634,Henry Taylor,2021-10-13,SMB,Events,London,False,2022-04-05,36340.16
+C1635,Charlotte Miller,2021-07-21,Consumer,Referral,London,True,,3252.8
+C1636,Chloe Walker,2021-11-04,Consumer,Direct,Scotland,True,,4895.44
+C1637,Joseph Martin,2022-06-29,Consumer,Direct,London,False,2023-01-17,2400.12
+C1638,Henry Hall,2021-11-09,Consumer,Direct,London,True,,933.63
+C1639,Nelson Partners,2023-03-21,Enterprise,Partner,London,True,,176367.69
+C1640,Jack Scott,2021-04-04,Consumer,Online,Scotland,False,2021-12-22,2462.66
+C1641,Young Group,2022-06-22,Enterprise,Online,Scotland,True,,182490.92
+C1642,Scott Group,2021-12-07,Public Sector,Partner,Scotland,True,,30098.46
+C1643,Wilson Holdings,2021-04-23,Enterprise,Online,London,True,,184656.73
+C1644,Harry Adams,2021-08-25,Consumer,Partner,London,True,,2670.25
+C1645,Grace Clark,2023-06-22,Consumer,Referral,Scotland,True,,952.03
+C1646,Daniel King,2022-04-06,SMB,Partner,Scotland,True,,14426.76
+C1647,Emily Smith,2022-01-21,SMB,Partner,Scotland,True,,49627.03
+C1648,Brown Solutions,2021-07-15,Enterprise,Referral,London,True,,98550.92
+C1649,Samuel Young,2021-07-13,Consumer,Online,Scotland,True,,540.65
+C1650,Olivia Martin,2021-03-22,SMB,Direct,Scotland,True,,33610.63
+C1651,Taylor International,2022-02-08,Enterprise,Referral,Scotland,True,,88236.52
+C1652,Sophie Taylor,2021-03-26,Consumer,Online,London,True,,1006.45
+C1653,Sophia Jackson,2021-11-07,SMB,Online,Scotland,True,,21718.69
+C1654,Smith Holdings,2022-05-12,Enterprise,Referral,London,True,,194727.89
+C1655,Baker Corp,2021-12-25,Public Sector,Direct,London,True,,73028.31
+C1656,Charlotte Allen,2021-11-11,SMB,Online,London,True,,42592.14
+C1657,Sophie Wilson,2022-11-18,Consumer,Online,London,True,,565.56
+C1658,Joseph Hall,2021-09-29,SMB,Referral,London,True,,41142.17
+C1659,David Lee,2022-05-07,SMB,Events,Scotland,True,,49149.92
+C1660,Young Group,2021-02-15,Public Sector,Referral,London,True,,93698.34
+C1661,Johnson Services,2022-08-08,Public Sector,Partner,London,True,,62566.0
+C1662,Jackson Holdings,2021-11-29,Public Sector,Referral,Scotland,True,,49780.16
+C1663,William Thomas,2021-10-20,SMB,Partner,London,True,,47297.56
+C1664,Anderson International,2021-03-04,Enterprise,Partner,London,True,,96095.48
+C1665,Sophie Baker,2022-01-25,SMB,Referral,Scotland,True,,42711.25
+C1666,Benjamin Baker,2021-09-14,SMB,Online,London,True,,44474.11
+C1667,Scott International,2021-04-29,Enterprise,Direct,London,True,,85524.28
+C1668,Walker Holdings,2021-11-26,Enterprise,Events,London,True,,133352.76
+C1669,Lily Moore,2023-02-19,SMB,Referral,London,True,,34597.91
+C1670,Lee Corp,2022-04-21,Enterprise,Events,London,True,,90386.75
+C1671,Charlotte Brown,2021-08-14,SMB,Direct,Scotland,True,,43330.67
+C1672,Wilson International,2021-09-11,Enterprise,Online,Scotland,False,2022-04-28,126581.77
+C1673,Nelson Solutions,2023-02-10,Enterprise,Direct,London,False,2023-11-09,114068.6
+C1674,Henry Smith,2022-10-23,SMB,Partner,Scotland,True,,21409.64
+C1675,Davis Holdings,2021-08-09,Enterprise,Online,London,True,,159340.78
+C1676,Charlotte Anderson,2022-05-30,Consumer,Online,London,True,,4412.1
+C1677,Charlotte Wilson,2021-07-17,Consumer,Referral,London,True,,1444.55
+C1678,Jessica Smith,2022-04-11,Consumer,Online,Scotland,False,2023-11-07,3602.72
+C1679,George Miller,2021-02-03,Consumer,Referral,London,False,2023-06-21,928.4
+C1680,Daniel Taylor,2022-02-16,Consumer,Referral,London,True,,3286.64
+C1681,Samuel King,2021-08-29,Consumer,Online,London,True,,3069.57
+C1682,Lee Group,2023-03-02,Enterprise,Online,London,True,,173000.25
+C1683,Alexander Clark,2023-05-23,SMB,Online,Scotland,True,,21969.95
+C1684,Clark Group,2022-03-01,Public Sector,Partner,Scotland,True,,39960.02
+C1685,Mia Walker,2023-04-12,Consumer,Direct,London,True,,4937.32
+C1686,Emily Nelson,2023-06-07,SMB,Referral,Scotland,True,,44658.65
+C1687,Sophie Martin,2022-04-12,Consumer,Partner,Scotland,True,,4660.75
+C1688,Hannah Smith,2021-11-13,SMB,Partner,London,True,,40752.09
+C1689,Lewis Solutions,2023-03-04,Enterprise,Online,London,True,,177924.69
+C1690,Jessica Brown,2021-07-03,SMB,Online,London,True,,44223.41
+C1691,Thomas International,2022-04-12,Enterprise,Referral,Scotland,True,,80846.24
+C1692,Moore Services,2022-01-26,Enterprise,Referral,London,False,2022-03-04,169771.87
+C1693,Sophie Jackson,2022-06-13,Consumer,Online,Scotland,False,2023-11-24,4191.85
+C1694,Chloe Johnson,2021-10-05,Consumer,Referral,Scotland,True,,3470.11
+C1695,Young Partners,2021-03-16,Public Sector,Online,London,True,,79183.11
+C1696,Chloe King,2023-06-25,SMB,Direct,London,True,,28473.09
+C1697,Amelia Brown,2022-12-14,Consumer,Direct,London,True,,668.63
+C1698,Emily Anderson,2022-10-12,SMB,Direct,Scotland,True,,28131.51
+C1699,Matthew Hall,2022-05-02,Consumer,Online,Scotland,True,,4628.49
+C1700,Chloe Clark,2021-06-01,Consumer,Online,London,False,2022-05-24,2544.55
+C1701,Jack Jones,2021-12-15,Consumer,Referral,Scotland,False,2022-10-13,4306.36
+C1702,Baker Corp,2022-06-06,Public Sector,Direct,Scotland,True,,123079.16
+C1703,Lewis International,2023-01-24,Enterprise,Referral,London,True,,116478.12
+C1704,Brown Services,2022-02-08,Public Sector,Direct,London,True,,116095.22
+C1705,Isabella Lewis,2021-04-30,Consumer,Direct,Scotland,False,2022-02-24,1074.72
+C1706,William Smith,2021-04-20,Consumer,Events,Scotland,False,2021-06-09,1708.39
+C1707,Baker Group,2022-06-26,Enterprise,Online,Scotland,True,,58924.59
+C1708,Alexander Wright,2021-07-17,Consumer,Direct,Scotland,True,,3809.2
+C1709,Lily Baker,2022-10-31,Consumer,Events,Scotland,False,2023-04-27,1843.46
+C1710,Walker Ltd,2023-03-11,Enterprise,Partner,Scotland,True,,55316.91
+C1711,Lucy Jones,2022-01-28,SMB,Direct,London,False,2023-02-05,41161.44
+C1712,Grace Robinson,2021-12-21,Consumer,Direct,Scotland,True,,640.3
+C1713,Henry Walker,2023-06-21,SMB,Referral,London,True,,28459.17
+C1714,Hannah Clark,2021-04-04,Consumer,Online,London,False,2022-06-07,2626.76
+C1715,Oliver Harris,2023-02-23,SMB,Direct,London,True,,43369.38
+C1716,Lucy Adams,2021-10-10,SMB,Referral,Scotland,True,,15269.78
+C1717,Wright Ltd,2021-11-28,Enterprise,Referral,London,True,,137501.16
+C1718,Samuel Young,2022-01-03,Consumer,Partner,London,False,2022-06-15,2089.05
+C1719,William Anderson,2023-09-04,SMB,Direct,London,True,,47920.74
+C1720,Harry Scott,2021-11-20,SMB,Online,London,True,,38124.75
+C1721,Harry Johnson,2022-05-26,Consumer,Partner,London,True,,4585.35
+C1722,Alexander Brown,2022-06-14,SMB,Online,London,True,,32875.48
+C1723,Daniel Nelson,2021-10-17,Consumer,Online,London,True,,4207.46
+C1724,Anderson Corp,2022-01-01,Public Sector,Referral,Scotland,True,,91183.38
+C1725,Miller Solutions,2021-10-30,Public Sector,Direct,London,False,2022-02-04,115729.91
+C1726,Scott Services,2022-10-08,Public Sector,Direct,Scotland,False,2023-08-14,30237.4
+C1727,James Smith,2022-12-18,SMB,Direct,London,True,,30646.32
+C1728,Sophie Williams,2022-08-01,Consumer,Events,London,True,,2230.17
+C1729,Grace Scott,2021-11-15,Consumer,Partner,London,True,,3097.26
+C1730,Oliver Hall,2022-09-21,Consumer,Direct,London,True,,4399.7
+C1731,Daniel Anderson,2021-03-06,SMB,Referral,London,True,,37371.88
+C1732,Lewis Holdings,2021-08-12,Enterprise,Direct,Scotland,True,,154145.43
+C1733,Davis Holdings,2022-03-18,Enterprise,Online,Scotland,True,,164395.87
+C1734,Thomas Hall,2022-08-21,SMB,Referral,London,True,,26176.88
+C1735,Benjamin Clark,2021-07-14,Consumer,Direct,London,False,2022-03-28,1184.93
+C1736,George Adams,2023-01-31,SMB,Online,Scotland,True,,15437.73
+C1737,Smith Ltd,2022-04-10,Public Sector,Online,London,True,,65359.11
+C1738,Williams Solutions,2022-03-22,Enterprise,Partner,Scotland,True,,167945.27
+C1739,Olivia Martin,2021-06-21,SMB,Direct,Scotland,False,2023-02-16,10941.27
+C1740,James Young,2022-01-29,SMB,Direct,London,True,,46177.98
+C1741,Thomas Taylor,2021-10-21,Consumer,Direct,Scotland,False,2022-09-28,2218.26
+C1742,James Brown,2021-11-26,Consumer,Partner,Scotland,True,,3299.18
+C1743,Jones Corp,2022-02-03,Enterprise,Online,Scotland,True,,85231.77
+C1744,William Baker,2021-05-31,SMB,Online,London,True,,28353.89
+C1745,Benjamin Green,2023-01-23,SMB,Events,London,True,,26007.57
+C1746,Anderson Corp,2022-06-27,Enterprise,Events,Scotland,True,,120995.75
+C1747,Lily Taylor,2021-12-17,Consumer,Online,Scotland,False,2022-12-02,4880.99
+C1748,Jones Group,2021-08-15,Public Sector,Partner,London,True,,48097.91
+C1749,Benjamin Anderson,2023-01-23,Consumer,Partner,Scotland,True,,4104.63
+C1750,Jones International,2022-05-01,Enterprise,Direct,Scotland,True,,87361.64
+C1751,Daniel Anderson,2022-11-07,SMB,Referral,London,True,,33467.46
+C1752,Johnson Solutions,2023-05-10,Enterprise,Referral,London,True,,63666.2
+C1753,Benjamin Jackson,2021-08-23,SMB,Direct,Scotland,True,,12038.31
+C1754,Clark Partners,2021-07-22,Public Sector,Referral,Scotland,False,2022-02-04,36344.57
+C1755,Johnson Group,2021-12-17,Enterprise,Online,London,True,,63419.82
+C1756,Wright Group,2022-11-09,Public Sector,Direct,Scotland,True,,100763.28
+C1757,Matthew Moore,2021-07-29,Consumer,Referral,Scotland,True,,3576.84
+C1758,David Clark,2021-03-29,Consumer,Direct,London,True,,1978.96
+C1759,Smith International,2022-01-22,Enterprise,Direct,London,True,,188393.6
+C1760,Olivia Brown,2021-11-15,Consumer,Partner,London,True,,2420.38
+C1761,Harry Anderson,2021-06-18,SMB,Partner,London,True,,29244.87
+C1762,Joseph Smith,2021-04-06,SMB,Online,Scotland,True,,17282.45
+C1763,Hall Corp,2023-03-22,Enterprise,Online,London,True,,79123.2
+C1764,Harry Lewis,2022-07-02,SMB,Referral,London,True,,24096.46
+C1765,Sophia Wilson,2022-12-19,SMB,Online,London,True,,33122.57
+C1766,Jones Partners,2021-05-25,Public Sector,Online,Scotland,True,,38723.96
+C1767,Davis Group,2021-11-07,Enterprise,Direct,London,True,,143000.42
+C1768,Hannah Martin,2023-07-07,Consumer,Referral,Scotland,True,,3203.09
+C1769,Amelia Scott,2022-04-19,Consumer,Referral,London,True,,4133.94
+C1770,Mia Taylor,2021-04-15,SMB,Referral,Scotland,False,2022-04-13,31998.02
+C1771,Brown Holdings,2021-10-27,Enterprise,Direct,Scotland,True,,120868.8
+C1772,George Green,2021-03-26,SMB,Partner,Scotland,True,,13939.22
+C1773,Emma Scott,2022-02-02,SMB,Online,London,True,,36857.86
+C1774,Moore Corp,2021-08-02,Enterprise,Online,London,True,,113427.73
+C1775,Moore Partners,2021-02-14,Enterprise,Referral,London,True,,170826.34
+C1776,Charlotte Wilson,2022-08-05,SMB,Events,Scotland,True,,31203.05
+C1777,Jackson Ltd,2021-08-26,Public Sector,Referral,London,True,,49439.72
+C1778,David Taylor,2022-02-06,SMB,Partner,Scotland,True,,49881.27
+C1779,George Davis,2021-04-15,SMB,Direct,London,True,,39065.17
+C1780,David Harris,2022-05-04,SMB,Referral,London,True,,34295.26
+C1781,Matthew Moore,2022-07-11,Consumer,Direct,London,True,,3998.39
+C1782,Hannah Williams,2022-12-01,SMB,Direct,London,True,,48279.72
+C1783,Clark International,2022-07-17,Public Sector,Referral,London,True,,89977.37
+C1784,Henry Hall,2023-05-10,SMB,Referral,London,True,,26097.65
+C1785,Matthew Williams,2022-02-15,SMB,Direct,London,True,,43436.66
+C1786,Amelia Brown,2022-01-24,Consumer,Online,Scotland,True,,1800.28
+C1787,Henry Robinson,2021-09-18,SMB,Online,London,True,,44259.12
+C1788,Baker Group,2022-01-17,Enterprise,Direct,London,True,,59082.5
+C1789,Allen Ltd,2022-04-10,Public Sector,Online,Scotland,True,,142963.48
+C1790,Brown International,2021-10-13,Enterprise,Direct,Scotland,True,,73986.45
+C1791,Emma Miller,2021-12-14,SMB,Events,Scotland,True,,45239.06
+C1792,Benjamin Miller,2022-06-02,Consumer,Events,London,True,,4960.88
+C1793,Matthew Robinson,2021-08-25,SMB,Direct,Scotland,False,2022-12-08,42684.17
+C1794,Amelia Davis,2023-04-23,Consumer,Online,Scotland,True,,3146.5
+C1795,James Martin,2022-07-19,Consumer,Online,London,True,,3866.83
+C1796,Matthew Baker,2021-12-23,Consumer,Partner,London,True,,4750.23
+C1797,Amelia Davis,2022-09-25,SMB,Direct,London,True,,19890.65
+C1798,Hall Ltd,2021-06-23,Public Sector,Direct,London,True,,43622.65
+C1799,Daniel Baker,2022-12-29,SMB,Referral,London,True,,32175.36
+C1800,Olivia Jones,2021-09-18,Consumer,Direct,London,True,,532.59
+C1801,Matthew Anderson,2021-12-12,SMB,Online,London,True,,13618.63
+C1802,Johnson Group,2021-11-22,Enterprise,Partner,Scotland,True,,71396.44
+C1803,Thomas Young,2022-11-05,SMB,Direct,London,True,,13716.27
+C1804,Sophia Harris,2022-06-02,SMB,Online,Scotland,True,,24895.08
+C1805,Jackson Corp,2021-09-01,Enterprise,Referral,Scotland,True,,107464.27
+C1806,Adams Corp,2021-06-15,Enterprise,Direct,Scotland,True,,97310.76
+C1807,Scott Solutions,2022-09-10,Enterprise,Direct,London,True,,65055.13
+C1808,William Moore,2022-09-14,SMB,Online,London,True,,37696.97
+C1809,King Group,2021-08-20,Enterprise,Events,London,True,,138605.11
+C1810,Davis Services,2022-01-06,Public Sector,Referral,London,True,,135675.31
+C1811,Charlotte Martin,2021-06-26,Consumer,Events,London,True,,1737.22
+C1812,Matthew Thomas,2022-02-12,SMB,Online,Scotland,True,,37978.83
+C1813,Matthew Miller,2022-09-02,SMB,Referral,London,True,,24496.5
+C1814,Miller Solutions,2022-02-15,Public Sector,Online,London,False,2022-07-03,134349.17
+C1815,Henry Robinson,2022-10-03,SMB,Referral,Scotland,True,,40419.16
+C1816,Jessica Smith,2021-09-30,Consumer,Direct,Scotland,True,,3224.68
+C1817,George Baker,2021-10-18,SMB,Partner,London,True,,43565.74
+C1818,Oliver Johnson,2023-09-22,SMB,Direct,London,True,,39492.95
+C1819,Oliver Robinson,2022-09-10,SMB,Referral,London,True,,18887.71
+C1820,Thomas Jackson,2022-01-15,Consumer,Referral,London,True,,999.04
+C1821,Benjamin Moore,2022-05-26,SMB,Partner,London,True,,10412.93
+C1822,Emily Brown,2021-05-07,SMB,Direct,London,True,,18223.44
+C1823,Davis Group,2021-11-30,Enterprise,Referral,London,True,,108363.41
+C1824,Amelia Harris,2021-12-07,Consumer,Direct,Scotland,True,,4779.6
+C1825,David Anderson,2023-03-19,Consumer,Referral,Scotland,True,,4460.0
+C1826,Chloe Walker,2023-01-17,SMB,Partner,London,True,,32585.28
+C1827,Matthew Harris,2022-08-22,Consumer,Direct,London,True,,1256.98
+C1828,James Miller,2022-12-02,SMB,Referral,London,True,,24357.42
+C1829,Jack Miller,2022-08-09,SMB,Online,London,True,,17914.4
+C1830,Hannah Anderson,2021-08-15,Consumer,Direct,London,True,,1284.71
+C1831,Grace Williams,2021-02-25,SMB,Referral,London,True,,20474.01
+C1832,Daniel Anderson,2022-09-13,SMB,Partner,Scotland,True,,21032.29
+C1833,Thomas Adams,2021-08-20,SMB,Referral,London,True,,26563.75
+C1834,Oliver Clark,2022-01-29,Consumer,Referral,London,True,,2177.45
+C1835,James Scott,2022-08-26,Consumer,Direct,London,True,,2826.6
+C1836,Joseph Martin,2022-05-21,Consumer,Online,Scotland,True,,649.7
+C1837,Samuel Lee,2022-07-04,SMB,Direct,London,False,2023-09-21,36634.88
+C1838,Joseph Hall,2021-12-17,SMB,Partner,Scotland,True,,29015.0
+C1839,Daniel Scott,2022-03-18,SMB,Direct,London,True,,23179.62
+C1840,Daniel King,2022-01-30,Consumer,Referral,Scotland,True,,3280.63
+C1841,Sophie Allen,2022-09-25,Consumer,Events,London,True,,3365.6
+C1842,Williams Partners,2021-11-21,Enterprise,Direct,London,True,,152419.1
+C1843,Emily Adams,2023-03-11,SMB,Direct,Scotland,True,,45186.39
+C1844,Baker Solutions,2023-07-04,Public Sector,Online,London,True,,88864.57
+C1845,Lucy Nelson,2021-09-25,SMB,Referral,Scotland,True,,10243.03
+C1846,Grace Allen,2022-10-18,Consumer,Online,London,True,,4791.56
+C1847,Brown Corp,2021-10-05,Public Sector,Online,London,True,,73055.1
+C1848,Davis Ltd,2022-08-04,Public Sector,Referral,Scotland,True,,74143.73
+C1849,Mia Green,2021-12-01,SMB,Events,London,False,2023-12-11,12172.14
+C1850,Harry Young,2022-04-06,Consumer,Online,London,True,,2196.07
+C1851,Emma Brown,2022-02-01,Consumer,Online,London,True,,2208.26
+C1852,Davis International,2021-07-25,Public Sector,Online,Scotland,True,,122965.28
+C1853,Clark Group,2022-05-30,Enterprise,Online,London,True,,118139.24
+C1854,Daniel Thomas,2021-11-09,SMB,Online,London,False,2021-12-28,40090.64
+C1855,Olivia Lewis,2021-07-18,SMB,Online,Scotland,True,,10087.29
+C1856,William Smith,2021-08-24,Consumer,Online,Scotland,True,,3008.61
+C1857,Henry Allen,2021-08-16,Consumer,Direct,London,False,2022-06-17,4556.1
+C1858,David Adams,2022-09-11,SMB,Partner,London,False,2023-01-10,29382.12
+C1859,Robinson Group,2021-12-12,Enterprise,Online,Scotland,True,,190818.19
+C1860,Lucy King,2022-05-08,SMB,Referral,London,True,,12351.95
+C1861,Joseph King,2022-12-03,Consumer,Referral,London,True,,1887.52
+C1862,Matthew Anderson,2022-03-10,SMB,Partner,London,True,,37186.79
+C1863,Harris Services,2021-05-31,Public Sector,Partner,London,True,,92132.49
+C1864,Daniel Martin,2021-04-20,Consumer,Referral,Scotland,False,2022-06-05,1776.67
+C1865,Chloe Clark,2023-09-17,Consumer,Online,London,True,,2241.28
+C1866,Alexander Martin,2022-02-13,SMB,Online,London,True,,17076.83
+C1867,Grace Wilson,2021-07-07,SMB,Events,Scotland,True,,18613.45
+C1868,Lucy Scott,2022-04-16,Consumer,Partner,London,True,,2452.23
+C1869,Daniel Wright,2023-08-02,SMB,Online,London,True,,17583.98
+C1870,Allen International,2021-05-08,Enterprise,Events,London,True,,189491.94
+C1871,Sophie Taylor,2022-07-20,Consumer,Online,London,True,,3789.9
+C1872,Grace Harris,2023-04-22,SMB,Direct,London,True,,15295.81
+C1873,William Taylor,2021-08-30,SMB,Online,Scotland,True,,46343.63
+C1874,Harris Partners,2021-12-21,Public Sector,Online,London,True,,81372.86
+C1875,Baker Ltd,2021-08-17,Enterprise,Events,London,True,,147355.25
+C1876,Lucy Clark,2022-01-04,SMB,Direct,London,True,,27224.54
+C1877,Charlotte Wilson,2022-12-02,SMB,Partner,Scotland,True,,41816.11
+C1878,Henry Young,2023-02-07,SMB,Online,London,True,,16782.33
+C1879,King Holdings,2023-02-25,Public Sector,Direct,London,True,,129999.12
+C1880,Hannah Miller,2022-04-12,Consumer,Online,London,True,,4146.64
+C1881,Hannah Lewis,2022-05-25,SMB,Partner,London,False,2023-02-09,26639.31
+C1882,Matthew Walker,2021-02-09,SMB,Direct,Scotland,True,,12851.7
+C1883,Allen Solutions,2022-10-07,Enterprise,Events,London,True,,179581.7
+C1884,Clark Ltd,2022-08-01,Enterprise,Referral,London,True,,101646.97
+C1885,Walker Group,2021-12-10,Enterprise,Online,London,False,2023-05-27,188273.83
+C1886,George Adams,2021-11-30,Consumer,Direct,London,True,,1902.91
+C1887,Robinson Partners,2021-07-22,Public Sector,Events,London,True,,77238.75
+C1888,Anderson Ltd,2021-12-04,Public Sector,Online,London,True,,109208.58
+C1889,Thomas Partners,2021-08-07,Enterprise,Referral,London,False,2022-03-19,69822.67
+C1890,David Martin,2021-01-29,Consumer,Online,London,True,,2693.22
+C1891,Lewis Corp,2021-04-03,Public Sector,Online,Scotland,True,,133878.33
+C1892,Thomas Ltd,2022-03-27,Enterprise,Partner,London,True,,101436.53
+C1893,Joseph Harris,2023-07-28,SMB,Online,London,True,,37124.82
+C1894,Allen Solutions,2021-10-12,Public Sector,Referral,London,True,,140224.06
+C1895,Robinson Corp,2022-07-25,Enterprise,Partner,London,True,,113183.68
+C1896,Lucy Smith,2021-10-20,Consumer,Events,London,True,,2134.86
+C1897,Lee Ltd,2021-11-20,Enterprise,Referral,Scotland,True,,82412.27
+C1898,James Moore,2022-02-26,SMB,Referral,Scotland,True,,11760.67
+C1899,Robinson Group,2021-09-28,Public Sector,Direct,Scotland,True,,148612.39
+C1900,Matthew Lee,2021-09-15,Consumer,Online,London,True,,3906.39
+C1901,Emma Jones,2022-03-01,Consumer,Referral,Scotland,True,,4383.68
+C1902,Jones Ltd,2022-10-22,Public Sector,Events,Scotland,True,,68282.73
+C1903,Walker Partners,2021-11-07,Public Sector,Referral,London,True,,71743.29
+C1904,Chloe Green,2022-10-27,SMB,Partner,Scotland,True,,37433.15
+C1905,Charlotte Lewis,2021-08-28,SMB,Online,London,True,,26922.29
+C1906,Amelia Davis,2022-01-24,SMB,Partner,London,False,2022-10-16,37235.81
+C1907,Jack Robinson,2022-04-18,Consumer,Online,London,False,2023-02-03,778.27
+C1908,Thomas Wright,2022-10-13,SMB,Direct,London,True,,39813.5
+C1909,Matthew Young,2021-10-27,Consumer,Referral,Scotland,True,,4695.83
+C1910,Harry Adams,2021-10-13,SMB,Referral,Scotland,True,,14922.21
+C1911,Moore International,2022-07-24,Public Sector,Online,London,True,,35901.12
+C1912,James Green,2022-02-07,SMB,Online,London,True,,35695.56
+C1913,Walker International,2021-06-14,Enterprise,Online,London,True,,81905.21
+C1914,Mia Scott,2021-09-26,SMB,Events,London,True,,16554.62
+C1915,Lucy Wilson,2023-04-04,Consumer,Events,London,True,,3298.77
+C1916,James Williams,2022-03-06,SMB,Online,London,True,,26931.19
+C1917,Alexander Clark,2021-07-27,Consumer,Direct,London,True,,1172.08
+C1918,Oliver Davis,2021-09-29,Consumer,Online,Scotland,False,2021-11-28,2980.01
+C1919,Scott Solutions,2021-08-29,Enterprise,Partner,Scotland,True,,187041.64
+C1920,Hannah Harris,2022-03-10,SMB,Direct,Scotland,True,,11131.09
+C1921,Clark Corp,2021-11-13,Enterprise,Online,London,True,,70290.81
+C1922,James Allen,2023-02-28,Consumer,Direct,London,True,,3416.02
+C1923,James Baker,2021-06-27,Consumer,Referral,London,True,,680.04
+C1924,Wright Group,2021-12-31,Enterprise,Online,Scotland,True,,92408.68
+C1925,Alexander Baker,2021-06-08,SMB,Online,London,True,,31667.34
+C1926,Smith Corp,2021-02-10,Public Sector,Partner,London,True,,101665.85
+C1927,Alexander Anderson,2022-09-18,SMB,Partner,Scotland,False,2022-12-08,45727.53
+C1928,Brown Holdings,2023-08-07,Enterprise,Online,Scotland,True,,142387.68
+C1929,Lucy Adams,2021-06-10,SMB,Referral,London,True,,16533.96
+C1930,Samuel Miller,2022-05-13,Consumer,Events,Scotland,True,,2034.54
+C1931,Henry Lee,2022-10-26,Consumer,Online,London,True,,2866.37
+C1932,Benjamin Wright,2023-01-15,SMB,Referral,London,True,,20216.71
+C1933,Olivia Allen,2022-01-06,SMB,Online,Scotland,True,,27752.91
+C1934,Jack Jones,2021-09-29,Consumer,Referral,Scotland,True,,1405.99
+C1935,Martin Holdings,2021-08-28,Enterprise,Online,London,True,,103449.3
+C1936,George Scott,2021-11-23,SMB,Online,Scotland,True,,40345.96
+C1937,Jack Thomas,2023-07-22,SMB,Events,London,True,,30840.78
+C1938,Thomas Hall,2022-09-13,Consumer,Partner,London,False,2023-07-02,1861.41
+C1939,Lucy Lewis,2021-12-01,Consumer,Online,London,False,2022-08-26,4991.5
+C1940,Jessica Nelson,2023-06-19,Consumer,Partner,Scotland,True,,1705.02
+C1941,Grace Wilson,2023-07-17,SMB,Referral,London,True,,11215.87
+C1942,Harris International,2022-03-16,Public Sector,Online,London,True,,46191.54
+C1943,Nelson Ltd,2021-12-11,Public Sector,Online,London,True,,85684.64
+C1944,Alexander Anderson,2021-02-16,Consumer,Partner,London,True,,3545.74
+C1945,Thomas Anderson,2023-06-29,Consumer,Online,London,True,,1162.12
+C1946,Hall Ltd,2021-12-08,Public Sector,Partner,Scotland,True,,86237.26
+C1947,Moore Holdings,2022-05-26,Enterprise,Direct,London,True,,193350.13
+C1948,James Clark,2021-10-16,SMB,Online,London,True,,30879.29
+C1949,Alexander Martin,2022-07-22,Consumer,Referral,Scotland,True,,1216.28
+C1950,Matthew Anderson,2022-07-29,SMB,Events,London,True,,16629.85
+C1951,Emily Young,2023-01-15,SMB,Events,London,False,2023-04-02,46590.33
+C1952,Jones Partners,2022-09-14,Public Sector,Online,Scotland,True,,128799.44
+C1953,Samuel Harris,2022-12-09,Consumer,Referral,London,True,,1035.71
+C1954,Martin Holdings,2021-06-17,Public Sector,Direct,London,True,,128870.65
+C1955,Alexander Thomas,2022-01-13,Consumer,Online,London,False,2023-05-13,3664.7
+C1956,Chloe Allen,2021-09-04,SMB,Referral,London,True,,11591.66
+C1957,Amelia Clark,2021-12-29,SMB,Online,London,True,,49502.65
+C1958,Daniel Smith,2021-09-12,Consumer,Direct,Scotland,True,,4375.6
+C1959,Jessica Allen,2022-11-10,Consumer,Referral,London,True,,3211.82
+C1960,Daniel Young,2022-03-11,SMB,Direct,Scotland,True,,25478.66
+C1961,Harry King,2022-10-30,Consumer,Online,London,True,,3921.91
+C1962,Jackson Services,2021-12-28,Enterprise,Direct,London,True,,83585.56
+C1963,George Lee,2022-02-07,SMB,Events,London,True,,30441.3
+C1964,Jessica Allen,2022-11-22,SMB,Online,London,True,,45951.92
+C1965,Joseph Wright,2021-07-22,SMB,Referral,London,True,,18905.75
+C1966,Emma Young,2022-03-04,Consumer,Referral,London,False,2022-09-06,4638.86
+C1967,Baker Group,2022-07-03,Public Sector,Events,Scotland,True,,119238.55
+C1968,Charlotte Green,2022-11-09,SMB,Partner,Scotland,True,,41119.11
+C1969,Mia Baker,2023-04-16,SMB,Referral,London,True,,40886.05
+C1970,Matthew Harris,2021-12-13,SMB,Referral,London,True,,30241.28
+C1971,Jones International,2021-12-30,Enterprise,Online,London,True,,85028.21
+C1972,Nelson Corp,2021-09-04,Public Sector,Partner,London,True,,107103.96
+C1973,Hannah Anderson,2023-07-26,SMB,Direct,London,True,,31501.77
+C1974,Thomas Jackson,2021-10-28,Consumer,Direct,London,False,2023-12-27,1295.09
+C1975,Lucy Walker,2021-08-14,Consumer,Referral,London,False,2021-09-16,1017.07
+C1976,Samuel Baker,2021-06-23,SMB,Events,Scotland,True,,47711.68
+C1977,Davis International,2021-09-24,Enterprise,Partner,London,True,,171629.2
+C1978,Lucy Smith,2022-03-12,Consumer,Direct,Scotland,True,,4153.58
+C1979,Miller Group,2021-03-19,Public Sector,Referral,Scotland,True,,96939.63
+C1980,William Thomas,2022-01-29,SMB,Online,London,True,,39864.22
+C1981,Mia Anderson,2022-01-18,SMB,Partner,Scotland,True,,34548.74
+C1982,Taylor Corp,2022-12-27,Enterprise,Events,Scotland,True,,172137.87
+C1983,Lucy Moore,2022-10-15,SMB,Online,London,True,,27371.24
+C1984,Williams Holdings,2021-12-09,Public Sector,Referral,London,True,,118207.69
+C1985,Hall Corp,2022-09-15,Public Sector,Online,London,True,,127427.14
+C1986,Wright Holdings,2023-01-01,Enterprise,Direct,Scotland,True,,101491.26
+C1987,Jackson International,2021-08-19,Public Sector,Partner,Scotland,True,,46881.82
+C1988,Thomas Jackson,2023-06-02,SMB,Online,London,True,,39248.6
+C1989,Alexander Lee,2022-04-12,SMB,Online,London,True,,31039.33
+C1990,Jack Harris,2022-06-05,Consumer,Direct,London,True,,3427.84
+C1991,Lily Wilson,2022-09-16,SMB,Direct,London,True,,13430.96
+C1992,Green Ltd,2021-11-02,Enterprise,Direct,London,True,,122882.79
+C1993,Matthew Lee,2022-02-21,SMB,Direct,Scotland,True,,43557.98
+C1994,Hannah Williams,2022-07-16,SMB,Partner,London,True,,24891.51
+C1995,Sophie Thomas,2021-08-03,Consumer,Direct,London,True,,4895.63
+C1996,Harry Martin,2022-02-11,SMB,Online,Scotland,False,2022-05-29,29215.98
+C1997,Henry Hall,2021-03-24,SMB,Online,London,False,2021-09-08,39607.54
+C1998,Miller Ltd,2021-10-22,Public Sector,Referral,London,True,,74692.59
+C1999,Lewis Corp,2023-04-15,Enterprise,Events,Scotland,True,,81361.39
+C2000,Wilson Corp,2022-11-22,Enterprise,Online,London,True,,100330.26

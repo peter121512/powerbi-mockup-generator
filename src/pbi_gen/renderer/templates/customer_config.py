@@ -22,13 +22,19 @@ _GROSS_PROFIT = FieldRef(entity="Sales", property="GrossProfit", is_measure=True
 _TOTAL_COST = FieldRef(entity="Sales", property="TotalCost", is_measure=True)
 _GROSS_MARGIN_PCT = FieldRef(entity="Sales", property="GrossMarginPct", is_measure=True)
 
-# Customer measures (added to semantic model)
-_ACTIVE_CUSTOMERS = FieldRef(entity="Sales", property="ActiveCustomers", is_measure=True)
-_NEW_CUSTOMERS = FieldRef(entity="Sales", property="NewCustomers", is_measure=True)
-_RETENTION_RATE = FieldRef(entity="Sales", property="RetentionRate", is_measure=True)
-_CUSTOMER_LTV = FieldRef(entity="Sales", property="CustomerLTV", is_measure=True)
-_CUSTOMER_GROWTH = FieldRef(entity="Sales", property="CustomerGrowth", is_measure=True)
-_CUSTOMER_RETENTION = FieldRef(entity="Sales", property="CustomerRetention", is_measure=True)
+# Customer measures (real measures on Customer table)
+_ACTIVE_CUSTOMERS = FieldRef(entity="Customer", property="ActiveCustomers", is_measure=True)
+_NEW_CUSTOMERS = FieldRef(entity="Customer", property="NewCustomers", is_measure=True)
+_RETENTION_RATE = FieldRef(entity="Customer", property="RetentionRate", is_measure=True)
+_CUSTOMER_LTV = FieldRef(entity="Customer", property="CustomerLTV", is_measure=True)
+_CUSTOMER_GROWTH = FieldRef(entity="Customer", property="CustomerGrowth", is_measure=True)
+_CUSTOMER_RETENTION = FieldRef(entity="Customer", property="CustomerRetention", is_measure=True)
+_TOTAL_CUSTOMERS = FieldRef(entity="Customer", property="TotalCustomers", is_measure=True)
+
+# Customer dimensions
+_SEGMENT = FieldRef(entity="Customer", property="Segment")
+_CHANNEL = FieldRef(entity="Customer", property="AcquisitionChannel")
+_CUSTOMER_REGION = FieldRef(entity="Customer", property="Region")
 
 # Dimensions
 _REGION_NAME = FieldRef(entity="Region", property="RegionName")
@@ -135,7 +141,7 @@ def customer_visual_bindings() -> list[VisualBinding]:
             template_id="premium_donut",
             title="Customers by Segment",
             data_bindings={
-                "category": [_CATEGORY_NAME],
+                "category": [_SEGMENT],
                 "values": [_ACTIVE_CUSTOMERS],
             },
             position=(mid_x2, _MID_ROW_Y, _MID_COL2_W, _MID_ROW_HEIGHT),
@@ -149,8 +155,8 @@ def customer_visual_bindings() -> list[VisualBinding]:
     bindings.append(
         VisualBinding(
             template_id="donut_center_kpi",
-            title="24.4K",
-            data_bindings={"measure": [_ACTIVE_CUSTOMERS]},
+            title="50",
+            data_bindings={"measure": [_TOTAL_CUSTOMERS]},
             position=(donut_kpi_x, donut_kpi_y, 100, 44),
             config_overrides={
                 "subtitle": "Active Customers",
@@ -172,7 +178,7 @@ def customer_visual_bindings() -> list[VisualBinding]:
             template_id="premium_bar",
             title="Acquisition by Channel",
             data_bindings={
-                "category": [_CATEGORY_NAME],
+                "category": [_CHANNEL],
                 "values": [_NEW_CUSTOMERS],
             },
             position=(bot_x1, _BOT_ROW_Y, _BOT_COL_W, _BOT_ROW_HEIGHT),
@@ -191,7 +197,7 @@ def customer_visual_bindings() -> list[VisualBinding]:
             template_id="premium_column",
             title="Customer Value by Region",
             data_bindings={
-                "category": [_REGION_NAME],
+                "category": [_CUSTOMER_REGION],
                 "values": [_ACTIVE_CUSTOMERS, _NEW_CUSTOMERS],
             },
             position=(bot_x2, _BOT_ROW_Y, _BOT_COL_W, _BOT_ROW_HEIGHT),
