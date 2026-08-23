@@ -137,15 +137,24 @@ def _build_visual_container_objects(
 ) -> dict:
     """Build visualContainerObjects (title, background, border, padding).
 
-    Uses unified header geometry from DesignTokens for consistent title
-    placement across all visual families.
+    Title rule:
+    - Custom chart visuals (trend, donut, gauge, waterfall, insights): suppress
+      container title (show:false). These visuals draw their own title internally
+      from objects.general.title, ensuring consistent placement.
+    - KPI cards: use container title (small cards, appropriate).
+    - Native chart visuals (bar, column, table, cardVisual): use container title
+      (PBI renders it inside the chart area for native visuals).
     """
     objs: dict[str, Any] = {}
     overrides = binding.config_overrides
 
-    # Title — unified header system
-    # All titled templates use the same font size, colour, and inset
-    show_title = binding.title != ""
+    # Determine whether to suppress the container title.
+    # Custom chart visuals draw their own title internally for consistent placement.
+    # KPIs and native visuals keep the container title.
+    is_custom_chart = _is_custom_visual_type(template_id) and binding.template_id not in ("premium_kpi",)
+    suppress_container_title = overrides.get("suppress_container_title", is_custom_chart)
+
+    show_title = binding.title != "" and not suppress_container_title
     title_props: dict[str, Any] = {"show": _literal("true" if show_title else "false")}
     if show_title:
         title_props["text"] = _literal(f"'{binding.title}'")
@@ -310,6 +319,15 @@ def _build_visual_json(
         native_objects = _build_native_objects(binding, tokens, template.visual_type)
         if native_objects:
             visual["objects"] = native_objects
+    else:
+        # For custom visuals: pass the title text via objects.general.title
+        # so the visual can render it internally
+        if binding.title and binding.template_id != "premium_kpi":
+            visual["objects"] = {
+                "general": [{"properties": {
+                    "title": _literal(f"'{binding.title}'"),
+                }}],
+            }
 
     container["visual"] = visual
     return container

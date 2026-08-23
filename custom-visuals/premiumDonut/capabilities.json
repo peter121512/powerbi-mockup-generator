@@ -1,14 +1,14 @@
 {
     "dataRoles": [
         {
-            "displayName": "Measure",
-            "name": "measure",
-            "kind": "Measure",
-            "requiredTypes": [
-                {
-                    "numeric": true
-                }
-            ]
+            "displayName": "Category",
+            "name": "category",
+            "kind": "Grouping"
+        },
+        {
+            "displayName": "Values",
+            "name": "values",
+            "kind": "Measure"
         }
     ],
     "objects": {
@@ -23,11 +23,17 @@
     "dataViewMappings": [
         {
             "categorical": {
+                "categories": {
+                    "dataReductionAlgorithm": { "top": { "count": 100 } },
+                    "for": {
+                        "in": "category"
+                    }
+                },
                 "values": {
                     "select": [
                         {
                             "bind": {
-                                "to": "measure"
+                                "to": "values"
                             }
                         }
                     ]

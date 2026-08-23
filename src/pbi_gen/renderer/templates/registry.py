@@ -202,6 +202,7 @@ CUSTOM_VISUAL_GUIDS = {
     "gauge": "premiumGauge7F8A9B0C1D2E3F4A5B6C7D8E9F0A1B2C",
     "insights": "premiumInsights2A3B4C5D6E7F8A9B0C1D2E3F4A5B6C7D",
     "waterfall": "premiumWaterfall3A4B5C6D7E8F9A0B1C2D3E4F5A6B7C8D",
+    "donut": "premiumDonut4A5B6C7D8E9F0A1B2C3D4E5F6A7B8C9D",
 }
 
 
@@ -280,10 +281,10 @@ class TemplateRegistry(BaseModel):
             description="Vertical column chart with dark styling and legend.",
         )
 
-        # premium_donut — native donut chart
+        # premium_donut — custom donut chart with integrated center KPI
         templates["premium_donut"] = VisualTemplate(
             template_id="premium_donut",
-            visual_type="donutChart",
+            visual_type=CUSTOM_VISUAL_GUIDS["donut"],
             data_roles=[
                 DataRole(name="category", kind="Grouping", display_name="Category", required=True),
                 DataRole(name="values", kind="Measure", display_name="Values", required=True),
@@ -292,7 +293,7 @@ class TemplateRegistry(BaseModel):
             default_height=240,
             supports_cross_filter=True,
             supports_tooltips=True,
-            description="Donut chart with center KPI label and legend.",
+            description="Premium donut chart with integrated center KPI text and legend.",
         )
 
         # premium_table — native enhanced table

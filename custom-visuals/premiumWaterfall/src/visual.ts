@@ -86,6 +86,20 @@ export class Visual implements IVisual {
 
             this.svg.attr("width", width).attr("height", height);
 
+            // Draw internal title
+            this.svg.selectAll(".internal-title").remove();
+            const titleText = this.getInternalTitle(options);
+            if (titleText) {
+                this.svg.append("text")
+                    .attr("class", "internal-title")
+                    .attr("x", 10)
+                    .attr("y", 18)
+                    .attr("font-family", "Segoe UI Semibold, sans-serif")
+                    .attr("font-size", "12px")
+                    .attr("fill", "#e2e8f0")
+                    .text(titleText);
+            }
+
             const dv = options.dataViews?.[0];
             if (!dv || !dv.categorical || !dv.categorical.categories || !dv.categorical.values) {
                 this.chartGroup.selectAll("*").remove();
@@ -128,6 +142,16 @@ export class Visual implements IVisual {
     /**
      * Compute waterfall bar positions using cumulative logic
      */
+    /** Read title text from objects.general.title */
+    private getInternalTitle(options: VisualUpdateOptions): string {
+        const objects = options.dataViews?.[0]?.metadata?.objects;
+        if (objects && objects["general"]) {
+            const general = objects["general"] as any;
+            if (general.title !== undefined) return String(general.title);
+        }
+        return "";
+    }
+
     private computeWaterfallBars(categories: string[], values: number[]): WaterfallBar[] {
         const bars: WaterfallBar[] = [];
         let runningTotal = 0;

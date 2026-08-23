@@ -138,21 +138,21 @@ def financial_visual_bindings() -> list[VisualBinding]:
         )
     )
 
-    # Profitability by Region (donut) + center KPI composite
+    # Profitability by Region (custom donut — renders center KPI internally)
     from .composites import make_donut_composite_bindings
     mid_x2 = mid_x1 + _MID_COL1_W + _MID_GAP
-    donut_pos = (mid_x2, _MID_ROW_Y, _MID_COL2_W, _MID_ROW_HEIGHT)
-    donut_binding, center_binding = make_donut_composite_bindings(
-        donut_position=donut_pos,
-        donut_title="Profitability by Region",
-        donut_category=_REGION_NAME,
-        donut_measure=_GROSS_PROFIT,
-        center_title="£1.0M",
-        center_measure=_GROSS_PROFIT,
-        center_subtitle="Gross Profit",
+    bindings.append(
+        VisualBinding(
+            template_id="premium_donut",
+            title="Profitability by Region",
+            data_bindings={
+                "category": [_REGION_NAME],
+                "values": [_GROSS_PROFIT],
+            },
+            position=(mid_x2, _MID_ROW_Y, _MID_COL2_W, _MID_ROW_HEIGHT),
+            config_overrides={},
+        )
     )
-    bindings.append(donut_binding)
-    bindings.append(center_binding)
 
     # ─── Bottom Row (3 equal panels) ─────────────────────────────────────
 

@@ -14,7 +14,15 @@
             ]
         }
     ],
-    "objects": {},
+    "objects": {
+        "general": {
+            "properties": {
+                "title": {
+                    "type": { "text": true }
+                }
+            }
+        }
+    },
     "dataViewMappings": [
         {
             "categorical": {

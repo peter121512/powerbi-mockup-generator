@@ -134,21 +134,20 @@ def customer_visual_bindings() -> list[VisualBinding]:
         )
     )
 
-    # Customer Segments (donut) + center KPI composite
-    from .composites import make_donut_composite_bindings
+    # Customer Segments (custom donut — renders center KPI internally)
     mid_x2 = mid_x1 + _MID_COL1_W + _MID_GAP
-    donut_pos = (mid_x2, _MID_ROW_Y, _MID_COL2_W, _MID_ROW_HEIGHT)
-    donut_binding, center_binding = make_donut_composite_bindings(
-        donut_position=donut_pos,
-        donut_title="Customers by Segment",
-        donut_category=_SEGMENT,
-        donut_measure=_ACTIVE_CUSTOMERS,
-        center_title="876",
-        center_measure=_ACTIVE_CUSTOMERS,
-        center_subtitle="Active Customers",
+    bindings.append(
+        VisualBinding(
+            template_id="premium_donut",
+            title="Customers by Segment",
+            data_bindings={
+                "category": [_SEGMENT],
+                "values": [_ACTIVE_CUSTOMERS],
+            },
+            position=(mid_x2, _MID_ROW_Y, _MID_COL2_W, _MID_ROW_HEIGHT),
+            config_overrides={},
+        )
     )
-    bindings.append(donut_binding)
-    bindings.append(center_binding)
 
     # ─── Bottom Row (3 panels) ───────────────────────────────────────────
 

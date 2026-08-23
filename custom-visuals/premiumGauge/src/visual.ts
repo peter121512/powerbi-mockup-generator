@@ -124,6 +124,9 @@ export class Visual implements IVisual {
             const width = options.viewport.width;
             const height = options.viewport.height;
 
+            // Draw internal title if provided via objects
+            const titleText = this.getInternalTitle(options);
+
             // Extract measure value — hardcoded NPS since no real satisfaction data
             let score = 89;
             // If a real NPS measure is bound (0-100 range), use it
@@ -155,6 +158,19 @@ export class Visual implements IVisual {
                 .attr("y", 0)
                 .attr("width", width)
                 .attr("height", height);
+
+            // Internal title
+            this.svg.selectAll(".internal-title").remove();
+            if (titleText) {
+                this.svg.append("text")
+                    .attr("class", "internal-title")
+                    .attr("x", 10)
+                    .attr("y", 18)
+                    .attr("font-family", "Segoe UI Semibold, sans-serif")
+                    .attr("font-size", "12px")
+                    .attr("fill", "#e2e8f0")
+                    .text(titleText);
+            }
 
             // Arc geometry — larger arc, positioned higher
             const arcCenterX = width / 2;
@@ -272,6 +288,16 @@ export class Visual implements IVisual {
         } catch (error) {
             this.events.renderingFailed(options, String(error));
         }
+    }
+
+    /** Read title text from objects.general.title */
+    private getInternalTitle(options: VisualUpdateOptions): string {
+        const objects = options.dataViews?.[0]?.metadata?.objects;
+        if (objects && objects["general"]) {
+            const general = objects["general"] as any;
+            if (general.title !== undefined) return String(general.title);
+        }
+        return "";
     }
 
     public getFormattingModel(): powerbi.visuals.FormattingModel {

@@ -1,0 +1,26 @@
+{
+    "visual": {
+        "name": "premiumDonut",
+        "displayName": "Premium Donut",
+        "guid": "premiumDonut4A5B6C7D8E9F0A1B2C3D4E5F6A7B8C9D",
+        "visualClassName": "Visual",
+        "version": "1.0.0.0",
+        "description": "Premium donut chart with integrated center KPI text",
+        "supportUrl": "https://github.com/peter121512/powerbi-mockup-generator",
+        "gitHubUrl": "https://github.com/peter121512/powerbi-mockup-generator"
+    },
+    "apiVersion": "5.11.1",
+    "author": {
+        "name": "PBI Gen",
+        "email": "dev@pbigen.local"
+    },
+    "assets": {
+        "icon": "assets/icon.png"
+    },
+    "externalJS": null,
+    "style": "style/visual.less",
+    "capabilities": "capabilities.json",
+    "dependencies": null,
+    "stringResources": [],
+    "version": "1.0.0.0"
+}

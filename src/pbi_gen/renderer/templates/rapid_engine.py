@@ -1221,6 +1221,7 @@ def _auto_load_visual_archives(guids: list[str]) -> dict[str, tuple[bytes, bytes
         "gauge": "premiumGauge",
         "insights": "premiumInsights",
         "waterfall": "premiumWaterfall",
+        "donut": "premiumDonut",
     }
 
     for guid in guids:
