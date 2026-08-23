@@ -1,0 +1,204 @@
+{
+  "$schema": "template_catalog/1.0",
+  "description": "Machine-readable inventory of all registered visual templates and their capabilities.",
+  "templates": {
+    "premium_kpi": {
+      "analytical_use": "Single headline metric with optional delta/comparison indicator",
+      "page_roles": ["kpi"],
+      "data_roles": {
+        "measure": {"kind": "Measure", "required": true, "description": "Primary metric value"},
+        "delta": {"kind": "Measure", "required": false, "description": "Delta or comparison value"}
+      },
+      "compatible_field_types": {
+        "measure": ["numeric", "percentage", "currency"],
+        "delta": ["numeric", "percentage"]
+      },
+      "series_limits": {"min_measures": 1, "max_measures": 2, "min_categories": 0, "max_categories": 0},
+      "default_size": [245, 100],
+      "formatting_options": ["title", "subtitle"],
+      "visual_type": "custom",
+      "known_limitations": ["No cross-highlight from other visuals", "No drill-through support"]
+    },
+    "premium_trend": {
+      "analytical_use": "Time-series or ordered-dimension trend with gradient area fill",
+      "page_roles": ["hero", "trend"],
+      "data_roles": {
+        "category": {"kind": "Grouping", "required": true, "description": "Category/time axis (numeric months work best)"},
+        "values": {"kind": "Measure", "required": true, "description": "One or more measure series"}
+      },
+      "compatible_field_types": {
+        "category": ["date", "numeric_ordinal", "month_number"],
+        "values": ["numeric", "currency"]
+      },
+      "series_limits": {"min_measures": 1, "max_measures": 4, "min_categories": 1, "max_categories": 1},
+      "default_size": [635, 240],
+      "formatting_options": ["title", "subtitle", "legend"],
+      "visual_type": "custom",
+      "known_limitations": [
+        "Category must be numeric or parseable as month index — string categories show NaN",
+        "Internal Monthly/Quarterly/Annual toggle is hardcoded",
+        "Best suited for 6-24 data points on x-axis"
+      ]
+    },
+    "premium_bar": {
+      "analytical_use": "Horizontal categorical comparison or ranking",
+      "page_roles": ["breakdown", "ranking"],
+      "data_roles": {
+        "category": {"kind": "Grouping", "required": true, "description": "Category axis (labels)"},
+        "values": {"kind": "Measure", "required": true, "description": "One or more value measures"}
+      },
+      "compatible_field_types": {
+        "category": ["string", "categorical"],
+        "values": ["numeric", "currency", "count"]
+      },
+      "series_limits": {"min_measures": 1, "max_measures": 3, "min_categories": 1, "max_categories": 1},
+      "default_size": [365, 240],
+      "formatting_options": ["title", "data_labels", "axis_labels", "legend"],
+      "visual_type": "native",
+      "known_limitations": ["Best with 3-8 categories", "Long labels may be truncated"]
+    },
+    "premium_column": {
+      "analytical_use": "Vertical categorical comparison, grouped series, or simple distribution",
+      "page_roles": ["hero", "breakdown", "comparison"],
+      "data_roles": {
+        "category": {"kind": "Grouping", "required": true, "description": "Category axis"},
+        "values": {"kind": "Measure", "required": true, "description": "One or more value measures"}
+      },
+      "compatible_field_types": {
+        "category": ["string", "categorical", "date", "numeric_ordinal"],
+        "values": ["numeric", "currency", "count"]
+      },
+      "series_limits": {"min_measures": 1, "max_measures": 4, "min_categories": 1, "max_categories": 1},
+      "default_size": [365, 240],
+      "formatting_options": ["title", "data_labels", "axis_labels", "legend", "gridlines"],
+      "visual_type": "native",
+      "known_limitations": ["Best with 3-12 categories", "Multiple series create grouped columns"]
+    },
+    "premium_donut": {
+      "analytical_use": "Part-to-whole composition or share breakdown",
+      "page_roles": ["composition", "breakdown"],
+      "data_roles": {
+        "category": {"kind": "Grouping", "required": true, "description": "Slice category"},
+        "values": {"kind": "Measure", "required": true, "description": "Slice value measure"}
+      },
+      "compatible_field_types": {
+        "category": ["string", "categorical"],
+        "values": ["numeric", "currency", "count"]
+      },
+      "series_limits": {"min_measures": 1, "max_measures": 1, "min_categories": 1, "max_categories": 1},
+      "default_size": [470, 240],
+      "formatting_options": ["title", "legend", "labels", "center_label"],
+      "visual_type": "native",
+      "known_limitations": ["Best with 3-7 categories", "Too many slices become unreadable"]
+    },
+    "premium_table": {
+      "analytical_use": "Detailed tabular data with multiple columns and measures",
+      "page_roles": ["detail", "breakdown"],
+      "data_roles": {
+        "columns": {"kind": "Grouping", "required": true, "description": "Table columns (dimensions)"},
+        "values": {"kind": "Measure", "required": true, "description": "Table value columns (measures)"}
+      },
+      "compatible_field_types": {
+        "columns": ["string", "categorical", "date"],
+        "values": ["numeric", "currency", "percentage", "count"]
+      },
+      "series_limits": {"min_measures": 1, "max_measures": 8, "min_categories": 1, "max_categories": 6},
+      "default_size": [375, 260],
+      "formatting_options": ["title", "column_headers", "row_colors"],
+      "visual_type": "native",
+      "known_limitations": ["Limited vertical space shows ~6-8 rows", "Wide tables may need scrolling"]
+    },
+    "premium_waterfall": {
+      "analytical_use": "Incremental contribution or bridge analysis (revenue to profit, cost breakdown)",
+      "page_roles": ["breakdown", "bridge"],
+      "data_roles": {
+        "category": {"kind": "Grouping", "required": true, "description": "Step category"},
+        "values": {"kind": "Measure", "required": true, "description": "Step value"}
+      },
+      "compatible_field_types": {
+        "category": ["string", "categorical"],
+        "values": ["numeric", "currency"]
+      },
+      "series_limits": {"min_measures": 1, "max_measures": 1, "min_categories": 1, "max_categories": 1},
+      "default_size": [375, 260],
+      "formatting_options": ["title", "data_labels"],
+      "visual_type": "custom",
+      "known_limitations": ["Best with 4-8 steps", "Requires signed values for correct bridge effect"]
+    },
+    "premium_gauge": {
+      "analytical_use": "Single metric against a target or scale (NPS, satisfaction, progress)",
+      "page_roles": ["hero", "kpi"],
+      "data_roles": {
+        "measure": {"kind": "Measure", "required": true, "description": "Gauge value"}
+      },
+      "compatible_field_types": {
+        "measure": ["numeric", "percentage"]
+      },
+      "series_limits": {"min_measures": 1, "max_measures": 1, "min_categories": 0, "max_categories": 0},
+      "default_size": [365, 240],
+      "formatting_options": ["title", "target_band"],
+      "visual_type": "custom",
+      "known_limitations": ["Currently hardcoded to NPS-style display with KPI boxes", "No configurable target via data binding"]
+    },
+    "donut_center_kpi": {
+      "analytical_use": "Transparent card overlay showing a single metric value, typically centered inside a donut chart",
+      "page_roles": ["overlay"],
+      "data_roles": {
+        "measure": {"kind": "Measure", "required": true, "description": "KPI value to display in center"}
+      },
+      "compatible_field_types": {
+        "measure": ["numeric", "currency", "count"]
+      },
+      "series_limits": {"min_measures": 1, "max_measures": 1, "min_categories": 0, "max_categories": 0},
+      "default_size": [100, 44],
+      "formatting_options": ["title", "title_color", "title_font_size", "title_bold"],
+      "visual_type": "native",
+      "known_limitations": ["Title text is static (set via config_overrides)", "Must be positioned manually over a donut"]
+    },
+    "premium_insights": {
+      "analytical_use": "Narrative key-insights panel with colored icon circles and text rows",
+      "page_roles": ["insight"],
+      "data_roles": {
+        "measure": {"kind": "Measure", "required": true, "description": "Trigger measure (activates the visual)"}
+      },
+      "compatible_field_types": {
+        "measure": ["numeric", "currency", "count", "percentage"]
+      },
+      "series_limits": {"min_measures": 1, "max_measures": 1, "min_categories": 0, "max_categories": 0},
+      "default_size": [365, 240],
+      "formatting_options": ["title"],
+      "visual_type": "custom",
+      "known_limitations": [
+        "Insight text is hardcoded in the visual source — not data-driven",
+        "To change text content requires rebuilding the custom visual",
+        "4 insight rows with fixed layout"
+      ]
+    }
+  },
+  "intent_mapping": {
+    "headline_metric": ["premium_kpi"],
+    "time_trend": ["premium_trend", "premium_column"],
+    "categorical_comparison": ["premium_column", "premium_bar"],
+    "ranking": ["premium_bar"],
+    "composition_share": ["premium_donut"],
+    "distribution": ["premium_column"],
+    "bridge_waterfall": ["premium_waterfall"],
+    "progress_gauge": ["premium_gauge"],
+    "detail_table": ["premium_table"],
+    "narrative_insight": ["premium_insights"],
+    "center_overlay": ["donut_center_kpi"]
+  },
+  "page_role_constraints": {
+    "kpi": {"max_per_page": 6, "typical": 4, "row": "top"},
+    "hero": {"max_per_page": 1, "typical": 1, "row": "middle"},
+    "breakdown": {"max_per_page": 4, "typical": 2, "row": "middle_or_bottom"},
+    "composition": {"max_per_page": 2, "typical": 1, "row": "middle"},
+    "ranking": {"max_per_page": 2, "typical": 1, "row": "bottom"},
+    "comparison": {"max_per_page": 2, "typical": 1, "row": "middle_or_bottom"},
+    "insight": {"max_per_page": 1, "typical": 1, "row": "bottom"},
+    "overlay": {"max_per_page": 2, "typical": 1, "row": "overlay"},
+    "detail": {"max_per_page": 1, "typical": 1, "row": "bottom"},
+    "trend": {"max_per_page": 2, "typical": 1, "row": "middle"},
+    "bridge": {"max_per_page": 1, "typical": 1, "row": "bottom"}
+  }
+}
