@@ -23,22 +23,22 @@ const INSIGHTS: InsightRow[] = [
     {
         color: "rgba(52, 211, 153, 0.6)",
         icon: "ARROW_UP_SVG",
-        text: "Revenue up 12.4% driven by strong performance in Enterprise and Healthcare"
+        text: "Active customer base grew 14% YoY with 87% retention across all segments"
     },
     {
         color: "rgba(168, 85, 247, 0.6)",
         icon: "PEOPLE_SVG",
-        text: "Customer base expanded by 18.6% with particular strength in Asia Pacific"
+        text: "Enterprise segment delivers highest LTV at £125K with 95% retention rate"
     },
     {
         color: "rgba(251, 146, 60, 0.6)",
         icon: "%",
-        text: "Operating margin increased 0.6pp through discipline on operational costs"
+        text: "Online channel driving 30% of new acquisitions, up from 22% prior year"
     },
     {
         color: "rgba(6, 182, 212, 0.6)",
         icon: "\u25C6",
-        text: "Product innovation pipeline contributing to sustained growth momentum"
+        text: "Scotland region showing accelerated growth with 18% new customer increase"
     }
 ];
 

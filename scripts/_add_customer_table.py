@@ -53,8 +53,8 @@ if has_customer:
 sample = customers[:200]
 
 # Build a compact DATATABLE expression (TMDL requires specific formatting)
-# Use only 50 customers to keep it manageable
-sample = customers[:50]
+# Use 1000 customers for realistic density
+sample = customers[:1000]
 
 # Single-line row format for TMDL
 row_strs = []

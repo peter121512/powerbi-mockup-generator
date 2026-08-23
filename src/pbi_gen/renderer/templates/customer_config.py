@@ -119,18 +119,18 @@ def customer_visual_bindings() -> list[VisualBinding]:
 
     # ─── Middle Row ──────────────────────────────────────────────────────
 
-    # Customer Growth Trend (hero area chart)
+    # Customer by Segment (hero column chart — no date relationship available)
     mid_x1 = _CONTENT_LEFT
     bindings.append(
         VisualBinding(
-            template_id="premium_trend",
-            title="Customer Growth & Retention",
+            template_id="premium_column",
+            title="Customer Growth & Retention by Segment",
             data_bindings={
-                "category": [_DATE_YEAR, _DATE_MONTH],
-                "values": [_CUSTOMER_GROWTH, _CUSTOMER_RETENTION],
+                "category": [_SEGMENT],
+                "values": [_ACTIVE_CUSTOMERS, _NEW_CUSTOMERS],
             },
             position=(mid_x1, _MID_ROW_Y, _MID_COL1_W, _MID_ROW_HEIGHT),
-            config_overrides={},
+            config_overrides={"show_legend": True},
         )
     )
 
@@ -155,8 +155,8 @@ def customer_visual_bindings() -> list[VisualBinding]:
     bindings.append(
         VisualBinding(
             template_id="donut_center_kpi",
-            title="50",
-            data_bindings={"measure": [_TOTAL_CUSTOMERS]},
+            title="876",
+            data_bindings={"measure": [_ACTIVE_CUSTOMERS]},
             position=(donut_kpi_x, donut_kpi_y, 100, 44),
             config_overrides={
                 "subtitle": "Active Customers",
