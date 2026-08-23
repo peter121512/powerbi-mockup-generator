@@ -6,7 +6,6 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from pbi_gen.renderer.templates.composites import (
-    DONUT_BOTTOM_OFFSET,
     DONUT_LEGEND_WIDTH,
     DONUT_PLOT_PADDING,
     DONUT_TITLE_HEIGHT,
@@ -66,7 +65,7 @@ for x, y, w, h, label in sizes:
     plot_w = w - DONUT_LEGEND_WIDTH - (2 * DONUT_PLOT_PADDING)
     plot_h = h - DONUT_TITLE_HEIGHT - DONUT_PLOT_PADDING
     expected_cx = x + DONUT_PLOT_PADDING + plot_w // 2
-    expected_cy = y + DONUT_TITLE_HEIGHT + plot_h // 2 - DONUT_BOTTOM_OFFSET
+    expected_cy = y + DONUT_TITLE_HEIGHT + plot_h // 2
 
     # Center of overlay
     overlay_cx = cx + cw // 2

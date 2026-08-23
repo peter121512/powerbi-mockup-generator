@@ -137,33 +137,17 @@ def _build_visual_container_objects(
 ) -> dict:
     """Build visualContainerObjects (title, background, border, padding).
 
-    Title placement rule:
-    - KPI cards and overlays: title via visualContainerObjects (renders outside/above panel)
-    - All chart visuals (native + custom): suppress container title; title placed
-      inside the chart via visual.objects.title instead (see _build_native_objects)
-
-    This ensures all chart titles appear INSIDE their panels consistently.
+    Uses unified header geometry from DesignTokens for consistent title
+    placement across all visual families.
     """
     objs: dict[str, Any] = {}
     overrides = binding.config_overrides
 
-    # Determine if this visual should have an OUTSIDE (container) title
-    # KPIs/overlays use outside container title.
-    # Custom chart visuals also use container title (PBI renders it inside
-    # the panel border for custom visuals, so it already appears "inside").
-    # Native chart visuals (bar, column, donut, table) suppress container title
-    # and use objects.title instead (which PBI renders inside the chart area).
-    is_kpi_or_overlay = binding.template_id in ("premium_kpi", "donut_center_kpi")
-    is_custom_visual = _is_custom_visual_type(template_id)
-
-    # For native charts: suppress container title, use objects.title (inside)
-    # For custom visuals & KPIs: use container title
-    use_container_title = is_kpi_or_overlay or is_custom_visual
-    use_container_title = overrides.get("use_outside_title", use_container_title)
-
-    if use_container_title and binding.title:
-        # Container title — for KPIs, overlays, and custom visuals
-        title_props: dict[str, Any] = {"show": _literal("true")}
+    # Title — unified header system
+    # All titled templates use the same font size, colour, and inset
+    show_title = binding.title != ""
+    title_props: dict[str, Any] = {"show": _literal("true" if show_title else "false")}
+    if show_title:
         title_props["text"] = _literal(f"'{binding.title}'")
         title_color = overrides.get("title_color", tokens.text_secondary)
         title_props["fontColor"] = _solid_color_expr(title_color)
@@ -173,10 +157,7 @@ def _build_visual_container_objects(
             title_props["bold"] = _literal("true")
         if overrides.get("title_alignment"):
             title_props["alignment"] = _literal(f"'{overrides['title_alignment']}'")
-        objs["title"] = [{"properties": title_props}]
-    else:
-        # Suppress container title — native chart visuals use objects.title
-        objs["title"] = [{"properties": {"show": _literal("false")}}]
+    objs["title"] = [{"properties": title_props}]
 
     # Background — custom visuals get transparent; native visuals get surface card
     is_custom = len(template_id) > 20 or template_id.startswith("premium")
@@ -234,23 +215,8 @@ def _build_native_objects(
     tokens: DesignTokens,
     visual_type: str,
 ) -> dict:
-    """Build inner 'objects' for native visuals (labels, axes, title, etc.).
-
-    The title object here renders INSIDE the chart panel (not above it).
-    This is the standard for all chart visuals.
-    """
+    """Build inner 'objects' for native visuals (labels, axes, etc.)."""
     objects: dict[str, Any] = {}
-
-    # Inside title for all native chart visuals (not KPI/card overlays)
-    is_kpi_or_overlay = binding.template_id in ("premium_kpi", "donut_center_kpi")
-    if binding.title and not is_kpi_or_overlay:
-        objects["title"] = [{"properties": {
-            "show": _literal("true"),
-            "text": _literal(f"'{binding.title}'"),
-            "fontColor": _solid_color_expr(tokens.text_secondary),
-            "fontSize": _literal(f"{tokens.section_size}D"),
-            "fontFamily": _literal(f"'{tokens.font_heading}'"),
-        }}]
 
     if visual_type == "barChart":
         objects["labels"] = [{"properties": {
