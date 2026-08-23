@@ -743,6 +743,65 @@ class VisualSpec:
     config: dict = field(default_factory=dict)
 
 
+def make_donut_composite(
+    donut_position: tuple[int, int, int, int],
+    donut_title: str,
+    donut_category: dict,
+    donut_measure: dict,
+    center_title: str,
+    center_measure: dict,
+    center_subtitle: str = "",
+    *,
+    overlay_w: int = 100,
+    overlay_h: int = 44,
+    has_title: bool = True,
+    has_legend: bool = True,
+    title_font_size: int = 18,
+) -> list[VisualSpec]:
+    """Create a donut + center KPI pair with auto-computed center position.
+
+    Returns a list of 2 VisualSpecs: the donut and its center overlay.
+    The center overlay position is computed from the donut bounds using
+    the composite geometry rules (accounting for title/legend offsets).
+    """
+    from pbi_gen.renderer.templates.composites import compute_donut_center
+
+    center_pos = compute_donut_center(
+        *donut_position,
+        overlay_w=overlay_w,
+        overlay_h=overlay_h,
+        has_title=has_title,
+        has_legend=has_legend,
+    )
+
+    donut_spec = VisualSpec(
+        template_id="premium_donut",
+        title=donut_title,
+        bindings={
+            "category": [donut_category],
+            "values": [donut_measure],
+        },
+        position=donut_position,
+    )
+
+    center_spec = VisualSpec(
+        template_id="donut_center_kpi",
+        title=center_title,
+        bindings={"measure": [center_measure]},
+        position=center_pos,
+        config={
+            "title_color": "#ffffff",
+            "title_font_size": title_font_size,
+            "title_bold": True,
+            "show_background": False,
+            "show_border": False,
+            "subtitle": center_subtitle,
+        },
+    )
+
+    return [donut_spec, center_spec]
+
+
 @dataclass
 class PageSpec:
     """Compact specification for a complete dashboard page."""

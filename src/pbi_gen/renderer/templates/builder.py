@@ -135,11 +135,16 @@ def _build_visual_container_objects(
     tokens: DesignTokens,
     template_id: str,
 ) -> dict:
-    """Build visualContainerObjects (title, background, border, padding)."""
+    """Build visualContainerObjects (title, background, border, padding).
+
+    Uses unified header geometry from DesignTokens for consistent title
+    placement across all visual families.
+    """
     objs: dict[str, Any] = {}
     overrides = binding.config_overrides
 
-    # Title
+    # Title — unified header system
+    # All titled templates use the same font size, colour, and inset
     show_title = binding.title != ""
     title_props: dict[str, Any] = {"show": _literal("true" if show_title else "false")}
     if show_title:

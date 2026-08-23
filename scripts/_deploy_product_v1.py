@@ -22,6 +22,7 @@ from pbi_gen.renderer.templates.rapid_engine import (
     deploy_from_page_spec,
     deploy_model_update,
     discover_model,
+    make_donut_composite,
     run_preflight,
     validate_page_spec,
 )
@@ -216,30 +217,15 @@ page_spec = PageSpec(
             },
             position=(CX, 175, 635, 240),
         ),
-        # Product Mix by Category — donut
-        VisualSpec(
-            template_id="premium_donut",
-            title="Product Mix by Category",
-            bindings={
-                "category": [{"entity": "Product", "property": "CategoryName"}],
-                "values": [{"entity": "Sales", "property": "TotalRevenue", "is_measure": True}],
-            },
-            position=(CX + 635 + GUTTER, 175, 470, 240),
-        ),
-        # Donut center KPI overlay
-        VisualSpec(
-            template_id="donut_center_kpi",
-            title="128",
-            bindings={"measure": [{"entity": "Sales", "property": "ActiveProducts", "is_measure": True}]},
-            position=(CX + 635 + GUTTER + 120, 175 + 90, 110, 50),
-            config={
-                "title_color": "#ffffff",
-                "title_font_size": 18,
-                "title_bold": True,
-                "show_background": False,
-                "show_border": False,
-                "subtitle": "Products",
-            },
+        # Product Mix by Category — donut + center KPI composite
+        *make_donut_composite(
+            donut_position=(CX + 635 + GUTTER, 175, 470, 240),
+            donut_title="Product Mix by Category",
+            donut_category={"entity": "Product", "property": "CategoryName"},
+            donut_measure={"entity": "Sales", "property": "TotalRevenue", "is_measure": True},
+            center_title="128",
+            center_measure={"entity": "Sales", "property": "ActiveProducts", "is_measure": True},
+            center_subtitle="Products",
         ),
         # ── Bottom Row (y=425, h=240) ──
         # Top Products by Sales — horizontal bar

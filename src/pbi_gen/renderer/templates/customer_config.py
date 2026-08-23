@@ -134,40 +134,21 @@ def customer_visual_bindings() -> list[VisualBinding]:
         )
     )
 
-    # Customer Segments (donut)
+    # Customer Segments (donut) + center KPI composite
+    from .composites import make_donut_composite_bindings
     mid_x2 = mid_x1 + _MID_COL1_W + _MID_GAP
-    bindings.append(
-        VisualBinding(
-            template_id="premium_donut",
-            title="Customers by Segment",
-            data_bindings={
-                "category": [_SEGMENT],
-                "values": [_ACTIVE_CUSTOMERS],
-            },
-            position=(mid_x2, _MID_ROW_Y, _MID_COL2_W, _MID_ROW_HEIGHT),
-            config_overrides={},
-        )
+    donut_pos = (mid_x2, _MID_ROW_Y, _MID_COL2_W, _MID_ROW_HEIGHT)
+    donut_binding, center_binding = make_donut_composite_bindings(
+        donut_position=donut_pos,
+        donut_title="Customers by Segment",
+        donut_category=_SEGMENT,
+        donut_measure=_ACTIVE_CUSTOMERS,
+        center_title="876",
+        center_measure=_ACTIVE_CUSTOMERS,
+        center_subtitle="Active Customers",
     )
-
-    # Donut center KPI
-    donut_kpi_x = mid_x2 + int(_MID_COL2_W * 0.22)
-    donut_kpi_y = _MID_ROW_Y + int(_MID_ROW_HEIGHT * 0.38)
-    bindings.append(
-        VisualBinding(
-            template_id="donut_center_kpi",
-            title="876",
-            data_bindings={"measure": [_ACTIVE_CUSTOMERS]},
-            position=(donut_kpi_x, donut_kpi_y, 100, 44),
-            config_overrides={
-                "subtitle": "Active Customers",
-                "show_background": False,
-                "show_border": False,
-                "title_bold": True,
-                "title_font_size": 14,
-                "title_color": "#ffffff",
-            },
-        )
-    )
+    bindings.append(donut_binding)
+    bindings.append(center_binding)
 
     # ─── Bottom Row (3 panels) ───────────────────────────────────────────
 
