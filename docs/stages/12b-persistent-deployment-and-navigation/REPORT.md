@@ -300,9 +300,21 @@ Live Fabric + Playwright checks are kept in `scripts/` (separate from unit tests
   template) and `test_financial_uses_different_measures` (updated stale
   EBITDA/Cash-Flow assertions to the accepted Stage 12A titles).
 
-## 16. Recommended future work
+## 15b. Post-stage refinement — Overview Key Insights
 
-- Migrate the four standalone per-dashboard deploy scripts onto
+The Overview page's Key Insights was a `premium_kpi` placeholder (showed only a
+single KPI value). It now uses the `premium_insights` narrative panel matching
+the exec performance dashboard version (Stage 07e): four coloured-icon insight
+rows (revenue +12.4%, customer base +18.6%, operating margin +0.6pp, product
+innovation). To support this, the `premiumInsights` custom visual was made
+parameterisable — it reads caller-supplied rows from `objects.general.insights`
+(a JSON array) and the heading from `objects.general.title`, falling back to its
+default customer set. The Customer page therefore keeps its own insights
+unchanged (default fallback). The emoji in the panel title was removed for a
+cleaner enterprise style. Applied to both the templates (`executive_config`) and
+the deployed canonical demo report.
+
+## 16. Recommended future work- Migrate the four standalone per-dashboard deploy scripts onto
   `DeploymentService` (persistent identity for each, if still wanted alongside the
   combined report).
 - Derive the embed render transform at runtime instead of the measured constant.

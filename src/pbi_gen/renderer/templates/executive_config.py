@@ -221,23 +221,44 @@ def executive_visual_bindings() -> list[VisualBinding]:
         )
     )
 
-    # AI Insights Card (placeholder — uses premium_kpi as fallback template)
+    # Key Insights (premium_insights custom visual) — matches the exec
+    # performance dashboard version: narrative rows with coloured icon circles.
     bot_x3 = bot_x2 + _BOT_COL2_W + _BOT_GAP
     bindings.append(
         VisualBinding(
-            template_id="premium_kpi",
+            template_id="premium_insights",
             title="Key Insights",
             data_bindings={
                 "measure": [_TOTAL_REVENUE],
             },
             position=(bot_x3, _BOT_ROW_Y, _BOT_COL3_W, _BOT_ROW_HEIGHT),
             config_overrides={
-                "insight_type": "ai_narrative",
-                "placeholder_text": "AI-generated executive summary of key "
-                "performance trends and anomalies.",
-                "note": "Rendered as a text visual or smart narrative "
-                "in full Power BI deployment. Uses KPI template as "
-                "structural placeholder.",
+                "insights": [
+                    {
+                        "color": "rgba(52, 211, 153, 0.6)",
+                        "icon": "ARROW_UP_SVG",
+                        "text": "Revenue up 12.4% driven by strong performance in "
+                        "Enterprise and Healthcare",
+                    },
+                    {
+                        "color": "rgba(168, 85, 247, 0.6)",
+                        "icon": "PEOPLE_SVG",
+                        "text": "Customer base expanded by 18.6% with particular "
+                        "strength in Asia Pacific",
+                    },
+                    {
+                        "color": "rgba(251, 146, 60, 0.6)",
+                        "icon": "%",
+                        "text": "Operating margin increased 0.6pp through discipline "
+                        "on operational costs",
+                    },
+                    {
+                        "color": "rgba(6, 182, 212, 0.6)",
+                        "icon": "\u25C6",
+                        "text": "Product innovation pipeline contributing to "
+                        "sustained growth momentum",
+                    },
+                ],
             },
         )
     )

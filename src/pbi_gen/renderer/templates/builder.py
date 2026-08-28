@@ -320,32 +320,43 @@ def _build_visual_json(
         if native_objects:
             visual["objects"] = native_objects
     else:
-        # For custom visuals: pass the title text via objects.general.title
-        # so the visual can render it internally
-        if binding.title and binding.template_id != "premium_kpi":
-            general_props: dict[str, Any] = {
-                "title": _literal(f"'{binding.title}'"),
-            }
+        # For custom visuals: pass presentation config via objects.general so the
+        # visual can render it internally (title, donut centre, insights rows).
+        ov = binding.config_overrides
+        has_general = bool(
+            (binding.title and binding.template_id != "premium_kpi")
+            or "show_center_value" in ov
+            or "center_value" in ov
+            or "center_label" in ov
+            or "insights" in ov
+        )
+        if has_general:
+            general_props: dict[str, Any] = {}
+            if binding.title and binding.template_id != "premium_kpi":
+                general_props["title"] = _literal(f"'{binding.title}'")
             # Optional: let callers suppress a custom visual's internal centre
             # KPI (e.g. donut) when an external overlay supplies its own metric.
-            if "show_center_value" in binding.config_overrides:
-                show_center = binding.config_overrides["show_center_value"]
+            if "show_center_value" in ov:
                 general_props["showCenterValue"] = _literal(
-                    "true" if show_center else "false"
+                    "true" if ov["show_center_value"] else "false"
                 )
             # Optional: caller-supplied centre value/label so the donut can draw
             # its own centred KPI (guaranteed centring — no external overlay).
-            if "center_value" in binding.config_overrides:
-                general_props["centerValue"] = _literal(
-                    f"'{binding.config_overrides['center_value']}'"
-                )
-            if "center_label" in binding.config_overrides:
-                general_props["centerLabel"] = _literal(
-                    f"'{binding.config_overrides['center_label']}'"
-                )
-            visual["objects"] = {
-                "general": [{"properties": general_props}],
-            }
+            if "center_value" in ov:
+                general_props["centerValue"] = _literal(f"'{ov['center_value']}'")
+            if "center_label" in ov:
+                general_props["centerLabel"] = _literal(f"'{ov['center_label']}'")
+            # Optional: caller-supplied insight rows for premium_insights.
+            # Serialised as a JSON string literal the visual parses.
+            if "insights" in ov:
+                insights_json = json.dumps(ov["insights"], ensure_ascii=False)
+                # Escape single quotes for the PBIR literal wrapper.
+                escaped = insights_json.replace("'", "\\'")
+                general_props["insights"] = _literal(f"'{escaped}'")
+            if general_props:
+                visual["objects"] = {
+                    "general": [{"properties": general_props}],
+                }
 
     container["visual"] = visual
     return container

@@ -16,6 +16,9 @@
             "properties": {
                 "title": {
                     "type": { "text": true }
+                },
+                "insights": {
+                    "type": { "text": true }
                 }
             }
         }

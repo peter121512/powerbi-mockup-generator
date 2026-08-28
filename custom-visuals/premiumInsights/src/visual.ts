@@ -60,12 +60,18 @@ export class Visual implements IVisual {
         try {
             const viewport = options.viewport;
 
+            // Caller-supplied insights (objects.general.insights = JSON array of
+            // {color, icon, text}); falls back to the default set. Title from
+            // objects.general.title; falls back to "Key Insights".
+            const rows = this.getInsights(options);
+            const title = this.getTitle(options) || "Key Insights";
+
             // Build HTML
             let html = `<div class="insights-card" style="width:${viewport.width}px;height:${viewport.height}px;">`;
-            html += `<div class="insights-title">\uD83D\uDCA1 Key Insights</div>`;
+            html += `<div class="insights-title">${this.escapeHtml(title)}</div>`;
             html += `<div class="insights-rows">`;
 
-            for (const insight of INSIGHTS) {
+            for (const insight of rows) {
                 html += `<div class="insight-row">`;
                 html += `<div class="insight-circle" style="background:${insight.color};">`;
                 if (insight.icon === "PEOPLE_SVG") {
@@ -76,7 +82,7 @@ export class Visual implements IVisual {
                     html += `<span class="insight-icon">${insight.icon}</span>`;
                 }
                 html += `</div>`;
-                html += `<div class="insight-text">${insight.text}</div>`;
+                html += `<div class="insight-text">${this.escapeHtml(insight.text)}</div>`;
                 html += `</div>`;
             }
 
@@ -88,6 +94,47 @@ export class Visual implements IVisual {
         } catch (error) {
             this.events.renderingFailed(options, String(error));
         }
+    }
+
+    private getObjectsText(options: VisualUpdateOptions, key: string): string {
+        const objects = options.dataViews?.[0]?.metadata?.objects;
+        if (objects && objects["general"]) {
+            const general = objects["general"] as any;
+            if (general[key] !== undefined && general[key] !== null) {
+                return String(general[key]);
+            }
+        }
+        return "";
+    }
+
+    private getTitle(options: VisualUpdateOptions): string {
+        return this.getObjectsText(options, "title");
+    }
+
+    private getInsights(options: VisualUpdateOptions): InsightRow[] {
+        const raw = this.getObjectsText(options, "insights");
+        if (raw) {
+            try {
+                const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    return parsed.map((r: any) => ({
+                        color: String(r.color || "rgba(56,152,255,0.6)"),
+                        icon: String(r.icon || "\u25C6"),
+                        text: String(r.text || ""),
+                    }));
+                }
+            } catch (e) {
+                // fall through to default
+            }
+        }
+        return INSIGHTS;
+    }
+
+    private escapeHtml(s: string): string {
+        return s
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
     }
 
     public getFormattingModel(): powerbi.visuals.FormattingModel {
