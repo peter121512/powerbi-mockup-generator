@@ -60,6 +60,7 @@ export class Visual implements IVisual {
     private seriesNames: string[] = [];
     private currentGranularity: Granularity = "Monthly";
     private lastOptions: VisualUpdateOptions | null = null;
+    private currentTitle: string = "";
 
     constructor(options: VisualConstructorOptions) {
         this.events = options.host.eventService;
@@ -97,6 +98,7 @@ export class Visual implements IVisual {
             // Draw internal title (reads from objects.general.title)
             this.svg.selectAll(".internal-title").remove();
             const titleText = this.getInternalTitle(options);
+            this.currentTitle = titleText || "";
             if (titleText) {
                 this.svg.append("text")
                     .attr("class", "internal-title")
@@ -498,7 +500,19 @@ export class Visual implements IVisual {
         const showLegend = height > 120 && width > 250;
         if (showLegend) {
             const legendY = Math.max(10, 14 * s);
-            this.legendGroup.attr("transform", `translate(${margin.left}, ${legendY})`);
+
+            // Offset the legend horizontally so it clears the internal title.
+            // The title is drawn at x=10 with a 12px semibold font; estimate its
+            // rendered width and start the legend after it (plus an 18px gap).
+            // If there is no title, fall back to the chart's left margin.
+            const titleFontPx = 12;
+            const titleWidth = this.currentTitle
+                ? this.currentTitle.length * titleFontPx * 0.58
+                : 0;
+            const legendStartX = titleWidth > 0
+                ? Math.max(margin.left, 10 + titleWidth + 18)
+                : margin.left;
+            this.legendGroup.attr("transform", `translate(${legendStartX}, ${legendY})`);
 
             const legendSpacing = Math.max(80, Math.min(120, 120 * s));
             const legendDotR = Math.max(3, Math.min(4, 4 * s));

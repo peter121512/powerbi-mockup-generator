@@ -16,6 +16,9 @@
             "properties": {
                 "title": {
                     "type": { "text": true }
+                },
+                "showCenterValue": {
+                    "type": { "bool": true }
                 }
             }
         }

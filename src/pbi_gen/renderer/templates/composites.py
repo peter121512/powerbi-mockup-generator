@@ -212,6 +212,11 @@ def make_donut_composite_bindings(
             "values": [donut_measure],
         },
         position=donut_position,
+        config_overrides={
+            # Suppress the donut's own centre total; the overlay below supplies
+            # the intended centre metric.
+            "show_center_value": False,
+        },
     )
 
     center_binding = VisualBinding(

@@ -323,10 +323,18 @@ def _build_visual_json(
         # For custom visuals: pass the title text via objects.general.title
         # so the visual can render it internally
         if binding.title and binding.template_id != "premium_kpi":
+            general_props: dict[str, Any] = {
+                "title": _literal(f"'{binding.title}'"),
+            }
+            # Optional: let callers suppress a custom visual's internal centre
+            # KPI (e.g. donut) when an external overlay supplies its own metric.
+            if "show_center_value" in binding.config_overrides:
+                show_center = binding.config_overrides["show_center_value"]
+                general_props["showCenterValue"] = _literal(
+                    "true" if show_center else "false"
+                )
             visual["objects"] = {
-                "general": [{"properties": {
-                    "title": _literal(f"'{binding.title}'"),
-                }}],
+                "general": [{"properties": general_props}],
             }
 
     container["visual"] = visual

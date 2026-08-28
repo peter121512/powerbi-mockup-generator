@@ -34,6 +34,7 @@ evidence_dir.mkdir(parents=True, exist_ok=True)
 KPI_GUID = "premiumKPI0E21B11FE691418A84E3F774DD6461A5"
 AREA_GUID = "premiumAreaChart1A2B3C4D5E6F7A8B9C0D1E2F3A4B5C6D"
 WATERFALL_GUID = "premiumWaterfall3A4B5C6D7E8F9A0B1C2D3E4F5A6B7C8D"
+DONUT_GUID = "premiumDonut4A5B6C7D8E9F0A1B2C3D4E5F6A7B8C9D"
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Authenticate
@@ -83,6 +84,7 @@ visual_archives: dict[str, tuple[bytes, bytes]] = {
     KPI_GUID: load_visual_archive(KPI_GUID, "premiumKPI"),
     AREA_GUID: load_visual_archive(AREA_GUID, "premiumAreaChart"),
     WATERFALL_GUID: load_visual_archive(WATERFALL_GUID, "premiumWaterfall"),
+    DONUT_GUID: load_visual_archive(DONUT_GUID, "premiumDonut"),
 }
 
 # ─────────────────────────────────────────────────────────────────────────────

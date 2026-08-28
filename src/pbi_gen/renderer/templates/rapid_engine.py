@@ -782,6 +782,11 @@ def make_donut_composite(
             "values": [donut_measure],
         },
         position=donut_position,
+        config={
+            # Suppress the donut's own centre total; the overlay below supplies
+            # the intended centre metric (e.g. active-product count).
+            "show_center_value": False,
+        },
     )
 
     center_spec = VisualSpec(

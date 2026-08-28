@@ -178,30 +178,31 @@ page_spec = PageSpec(
     semantic_model_id=SM_ID,
     semantic_model_name=SM_NAME,
     visuals=[
-        # ── KPI Row (y=70, h=95) ──
+        # ── KPI Row (y=90, h=75) — no container title (card renders its own
+        #    internal label); row lowered to clear the top-right slicers (y=6..78) ──
         VisualSpec(
             template_id="premium_kpi",
-            title="TOTAL SALES",
+            title="",
             bindings={"measure": [{"entity": "Sales", "property": "TotalRevenue", "is_measure": True}]},
-            position=(CX, 70, kpi_w, 95),
+            position=(CX, 90, kpi_w, 75),
         ),
         VisualSpec(
             template_id="premium_kpi",
-            title="GROSS PROFIT",
+            title="",
             bindings={"measure": [{"entity": "Sales", "property": "GrossProfit", "is_measure": True}]},
-            position=(CX + kpi_w + GUTTER, 70, kpi_w, 95),
+            position=(CX + kpi_w + GUTTER, 90, kpi_w, 75),
         ),
         VisualSpec(
             template_id="premium_kpi",
-            title="GROSS MARGIN %",
+            title="",
             bindings={"measure": [{"entity": "Sales", "property": "GrossMarginPct", "is_measure": True}]},
-            position=(CX + 2 * (kpi_w + GUTTER), 70, kpi_w, 95),
+            position=(CX + 2 * (kpi_w + GUTTER), 90, kpi_w, 75),
         ),
         VisualSpec(
             template_id="premium_kpi",
-            title="ACTIVE PRODUCTS",
+            title="",
             bindings={"measure": [{"entity": "Sales", "property": "ActiveProducts", "is_measure": True}]},
-            position=(CX + 3 * (kpi_w + GUTTER), 70, kpi_w, 95),
+            position=(CX + 3 * (kpi_w + GUTTER), 90, kpi_w, 75),
         ),
         # ── Hero Row (y=175, h=240) ──
         # Sales Trend — premium_trend with Month (numeric) as category

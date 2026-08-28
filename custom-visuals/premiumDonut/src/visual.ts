@@ -133,26 +133,29 @@ export class Visual implements IVisual {
             .attr("fill", d => d.data.color)
             .attr("opacity", 0.9);
 
-        // Center KPI — total value
-        const formattedTotal = this.formatValue(total);
-        donutGroup.append("text")
-            .attr("text-anchor", "middle")
-            .attr("dy", "-2px")
-            .attr("font-family", "Segoe UI Semibold, sans-serif")
-            .attr("font-size", `${Math.max(16, Math.min(22, outerRadius * 0.3))}px`)
-            .attr("font-weight", "700")
-            .attr("fill", TEXT_PRIMARY)
-            .text(formattedTotal);
+        // Center KPI — total value (can be suppressed via general.showCenterValue
+        // so a caller-supplied overlay can display a different metric instead)
+        if (this.getShowCenterValue(options)) {
+            const formattedTotal = this.formatValue(total);
+            donutGroup.append("text")
+                .attr("text-anchor", "middle")
+                .attr("dy", "-2px")
+                .attr("font-family", "Segoe UI Semibold, sans-serif")
+                .attr("font-size", `${Math.max(16, Math.min(22, outerRadius * 0.3))}px`)
+                .attr("font-weight", "700")
+                .attr("fill", TEXT_PRIMARY)
+                .text(formattedTotal);
 
-        // Center label
-        const measureName = dataView.categorical.values[0].source.displayName || "Total";
-        donutGroup.append("text")
-            .attr("text-anchor", "middle")
-            .attr("dy", "16px")
-            .attr("font-family", "Segoe UI, sans-serif")
-            .attr("font-size", "10px")
-            .attr("fill", TEXT_MUTED)
-            .text(measureName);
+            // Center label
+            const measureName = dataView.categorical.values[0].source.displayName || "Total";
+            donutGroup.append("text")
+                .attr("text-anchor", "middle")
+                .attr("dy", "16px")
+                .attr("font-family", "Segoe UI, sans-serif")
+                .attr("font-size", "10px")
+                .attr("fill", TEXT_MUTED)
+                .text(measureName);
+        }
 
         // Legend (right side)
         const legendX = width - legendWidth;
@@ -200,6 +203,20 @@ export class Visual implements IVisual {
             }
         }
         return "";
+    }
+
+    private getShowCenterValue(options: VisualUpdateOptions): boolean {
+        // Default true (backward compatible). Callers can set
+        // general.showCenterValue = false to hide the internal center KPI
+        // when an external overlay supplies its own center metric.
+        const objects = options.dataViews?.[0]?.metadata?.objects;
+        if (objects && objects["general"]) {
+            const general = objects["general"] as any;
+            if (general.showCenterValue !== undefined) {
+                return Boolean(general.showCenterValue);
+            }
+        }
+        return true;
     }
 
     private formatValue(value: number): string {

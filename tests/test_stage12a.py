@@ -262,6 +262,48 @@ check("Second is center KPI", specs[1].template_id == "donut_center_kpi")
 check("Center has transparent bg", specs[1].config.get("show_background") == False)
 check("Center position computed (not hardcoded)",
       specs[1].position != (800 + 120, 175 + 90, 110, 50))
+# Composite must suppress the donut's own centre total so the overlay metric
+# does not overlap the donut's internal centre KPI.
+check("Composite donut suppresses internal center",
+      specs[0].config.get("show_center_value") == False)
+
+
+# ─── Test 11: show_center_value flows into custom-visual objects.general ──────
+print("\n11. show_center_value emitted to donut objects.general")
+
+from pbi_gen.renderer.templates.registry import VisualBinding
+from pbi_gen.renderer.templates.builder import _build_visual_json
+
+donut_binding = VisualBinding(
+    template_id="premium_donut",
+    title="Mix by Category",
+    data_bindings={
+        "category": [FieldRef(entity="Product", property="CategoryName")],
+        "values": [FieldRef(entity="Sales", property="TotalRevenue", is_measure=True)],
+    },
+    position=(800, 175, 470, 240),
+    config_overrides={"show_center_value": False},
+)
+donut_json = _build_visual_json(donut_binding, tokens, reg, 10)
+general_props = donut_json["visual"]["objects"]["general"][0]["properties"]
+check("general.showCenterValue present", "showCenterValue" in general_props)
+check("general.showCenterValue is false literal",
+      general_props["showCenterValue"]["expr"]["Literal"]["Value"] == "false")
+
+# Default (no override) must NOT emit the flag — donut keeps its own centre
+plain_donut = VisualBinding(
+    template_id="premium_donut",
+    title="Mix by Category",
+    data_bindings={
+        "category": [FieldRef(entity="Product", property="CategoryName")],
+        "values": [FieldRef(entity="Sales", property="TotalRevenue", is_measure=True)],
+    },
+    position=(800, 175, 470, 240),
+)
+plain_json = _build_visual_json(plain_donut, tokens, reg, 10)
+plain_props = plain_json["visual"]["objects"]["general"][0]["properties"]
+check("Plain donut omits showCenterValue (backward compatible)",
+      "showCenterValue" not in plain_props)
 
 
 # ─── Summary ─────────────────────────────────────────────────────────────────
