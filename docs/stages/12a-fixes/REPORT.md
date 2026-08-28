@@ -108,6 +108,31 @@ The flag defaults to true. Financial, Customer and Executive donuts use a plain
 centre total (e.g. Financial "1.0M / GrossProfit"). Verified by the config-build
 tests below.
 
+### Follow-up (centre offset)
+After the overlap fix, the centre KPI was still ~10px left of the true donut
+hole because `compute_donut_center()` used approximate constants
+(`legend=120, padding=8`) that did **not** match the donut visual's actual
+internal layout (`legendWidth = min(w*0.35, 140), padding=12`,
+`chartCenterX = padding + chartArea/2`). Rewrote `compute_donut_center()` to
+mirror `premiumDonut/src/visual.ts` exactly, so the overlay lands on the real
+ring centre at any size. The Stage 12A donut-centre size-matrix tests were
+updated to derive the expected centre from the same geometry and still pass
+(≤5px, in practice 0px).
+
+---
+
+## 5. Product trend grouped by year (x-axis)
+
+### Failure mode
+The product "Sales Trend" used a single `Date.Month` category, so the x-axis
+showed a flat Jan–Dec with no year context — unlike the Financial dashboard,
+which groups by Year + Month.
+
+### Fix
+`scripts/_deploy_product_v1.py`: the trend `category` binding now uses
+`[Date.Year, Date.Month]`. The `premiumAreaChart` visual already handles the
+hierarchical (Year + Month) case, so the axis now reads "Apr '21 … Feb '23".
+
 ---
 
 ## Incidental fix required for deployment
@@ -129,8 +154,8 @@ work). Deployment failed with
 | `custom-visuals/premiumDonut/src/visual.ts` | Gate centre KPI behind `showCenterValue` (default true) |
 | `src/pbi_gen/renderer/templates/builder.py` | Emit `showCenterValue` for custom visuals |
 | `src/pbi_gen/renderer/templates/rapid_engine.py` | `make_donut_composite` suppresses donut centre |
-| `src/pbi_gen/renderer/templates/composites.py` | `make_donut_composite_bindings` suppresses donut centre |
-| `scripts/_deploy_product_v1.py` | KPI titles removed; KPI row moved to y=90/h=75 |
+| `src/pbi_gen/renderer/templates/composites.py` | `make_donut_composite_bindings` suppresses donut centre; `compute_donut_center` geometry aligned to visual.ts |
+| `scripts/_deploy_product_v1.py` | KPI titles removed; KPI row moved to y=90/h=75; trend grouped by Year+Month |
 | `scripts/_deploy_financial_v1.py` | Package `premiumDonut` archive |
 | `tests/test_stage12a.py` | +4 assertions for the donut centre-suppression fix |
 
@@ -154,6 +179,10 @@ Screenshots: `docs/stages/12a-fixes/financial_final.png`,
 - Product slicers clear of the KPI card backgrounds? **Yes.**
 - Product top-row KPIs free of duplicate headers? **Yes.**
 - Product donut centre free of overlapping text? **Yes** ("128 / Products").
+- Product donut centre KPI actually centred in the ring? **Yes** — geometry now
+  matches the donut visual exactly (was ~10px left).
+- Product trend x-axis grouped by year like the other dashboards? **Yes**
+  ("Apr '21 … Feb '23").
 - Financial / Customer donut centres unchanged? **Yes** (backward compatible).
 
 ---

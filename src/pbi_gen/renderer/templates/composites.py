@@ -26,9 +26,13 @@ from typing import Optional
 #   cx = (donut_width - legend_width) / 2
 #   cy = title_height + (donut_height - title_height) / 2
 
-DONUT_TITLE_HEIGHT = 28  # PBI native title row height when title shown
-DONUT_LEGEND_WIDTH = 120  # Approximate legend column width (right-positioned)
-DONUT_PLOT_PADDING = 8  # Internal padding around donut plot
+# These constants MUST match the internal layout in
+# custom-visuals/premiumDonut/src/visual.ts so the overlay lands exactly on the
+# donut hole. See that file's update() layout block.
+DONUT_TITLE_HEIGHT = 28  # titleHeight in the visual
+DONUT_PADDING = 12  # padding in the visual
+DONUT_LEGEND_FRACTION = 0.35  # legendWidth = min(width * fraction, cap)
+DONUT_LEGEND_CAP = 140  # legendWidth cap in the visual
 
 
 def compute_donut_center(
@@ -46,28 +50,26 @@ def compute_donut_center(
 
     Returns (x, y, w, h) for the overlay visual, centred in the donut hole.
 
-    The donut plot area is offset by:
-    - title_height from the top (when title is shown)
-    - legend_width subtracted from the right (when legend is right-positioned)
+    The geometry mirrors the premiumDonut custom visual exactly:
+        legendWidth  = min(w * 0.35, 140)   (when legend shown)
+        chartArea    = w - legendWidth - 2 * padding
+        chartCenterX = padding + chartArea / 2
+        chartCenterY = titleHeight + (h - titleHeight) / 2
 
-    The donut hole center is then the geometric center of the remaining plot region.
+    Keeping this in lockstep with visual.ts guarantees the overlay lands on the
+    actual donut hole at any size.
     """
     title_offset = DONUT_TITLE_HEIGHT if has_title else 0
-    legend_offset = DONUT_LEGEND_WIDTH if has_legend else 0
+    legend_width = min(donut_w * DONUT_LEGEND_FRACTION, DONUT_LEGEND_CAP) if has_legend else 0
 
-    # Plot region within the donut container
-    plot_x = donut_x + DONUT_PLOT_PADDING
-    plot_y = donut_y + title_offset
-    plot_w = donut_w - legend_offset - (2 * DONUT_PLOT_PADDING)
-    plot_h = donut_h - title_offset - DONUT_PLOT_PADDING
-
-    # Center of the plot region = center of the donut hole
-    center_x = plot_x + plot_w // 2
-    center_y = plot_y + plot_h // 2
+    # Donut plot geometry (relative to the donut container), matching visual.ts
+    chart_area = donut_w - legend_width - 2 * DONUT_PADDING
+    center_x = donut_x + DONUT_PADDING + chart_area / 2
+    center_y = donut_y + title_offset + (donut_h - title_offset) / 2
 
     # Overlay positioned so its center aligns with the donut hole center
-    overlay_x = center_x - overlay_w // 2
-    overlay_y = center_y - overlay_h // 2
+    overlay_x = int(round(center_x - overlay_w / 2))
+    overlay_y = int(round(center_y - overlay_h / 2))
 
     return (overlay_x, overlay_y, overlay_w, overlay_h)
 

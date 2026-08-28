@@ -6,8 +6,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from pbi_gen.renderer.templates.composites import (
-    DONUT_LEGEND_WIDTH,
-    DONUT_PLOT_PADDING,
+    DONUT_LEGEND_CAP,
+    DONUT_LEGEND_FRACTION,
+    DONUT_PADDING,
     DONUT_TITLE_HEIGHT,
     HEADER_GEOMETRY,
     SELF_TITLED_TEMPLATES,
@@ -61,11 +62,11 @@ sizes = [
 for x, y, w, h, label in sizes:
     cx, cy, cw, ch = compute_donut_center(x, y, w, h)
 
-    # Expected plot center
-    plot_w = w - DONUT_LEGEND_WIDTH - (2 * DONUT_PLOT_PADDING)
-    plot_h = h - DONUT_TITLE_HEIGHT - DONUT_PLOT_PADDING
-    expected_cx = x + DONUT_PLOT_PADDING + plot_w // 2
-    expected_cy = y + DONUT_TITLE_HEIGHT + plot_h // 2
+    # Expected plot center — mirrors premiumDonut/src/visual.ts exactly
+    legend_width = min(w * DONUT_LEGEND_FRACTION, DONUT_LEGEND_CAP)
+    chart_area = w - legend_width - 2 * DONUT_PADDING
+    expected_cx = x + DONUT_PADDING + chart_area / 2
+    expected_cy = y + DONUT_TITLE_HEIGHT + (h - DONUT_TITLE_HEIGHT) / 2
 
     # Center of overlay
     overlay_cx = cx + cw // 2
@@ -77,10 +78,10 @@ for x, y, w, h, label in sizes:
     check(f"{label} — X error ≤5px", err_x <= 5, f"err_x={err_x}")
     check(f"{label} — Y error ≤5px", err_y <= 5, f"err_y={err_y}")
 
-    # No overlap with legend area (overlay right edge < donut left + plot width)
+    # No overlap with legend area (overlay right edge clears the legend column)
     check(f"{label} — no legend overlap",
-          cx + cw < x + w - DONUT_LEGEND_WIDTH + 20,
-          f"overlay_right={cx+cw}, legend_start={x+w-DONUT_LEGEND_WIDTH}")
+          cx + cw < x + w - legend_width + 20,
+          f"overlay_right={cx+cw}, legend_start={x+w-legend_width}")
 
     # No clipping (overlay within donut bounds)
     check(f"{label} — within bounds",

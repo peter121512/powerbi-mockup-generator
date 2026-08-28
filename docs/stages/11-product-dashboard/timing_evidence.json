@@ -1,24 +1,24 @@
 {
   "timing": {
-    "authentication": 0.6338112354278564,
-    "model_discovery": 3.634328603744507,
+    "authentication": 1.5921111106872559,
+    "model_discovery": 3.2361948490142822,
     "model_extension": 0.0,
-    "spec_generation": 0.009840965270996094,
-    "preflight": 3.227060556411743,
-    "deployment": 20.072481632232666
+    "spec_generation": 0.0,
+    "preflight": 3.0062525272369385,
+    "deployment": 25.529507398605347
   },
-  "total_seconds": 27.57752299308777,
+  "total_seconds": 33.36406588554382,
   "target_seconds": 300,
   "under_target": true,
-  "report_id": "3f3211b8-4c49-45ab-845e-395066bd7791",
+  "report_id": "8147bb8c-d033-4d74-8525-711787c5f249",
   "screenshot": "docs\\stages\\11-product-dashboard\\dashboard.png",
   "visuals_deployed": 10,
   "templates_used": [
-    "premium_bar",
     "premium_kpi",
+    "premium_bar",
+    "premium_donut",
     "donut_center_kpi",
-    "premium_trend",
-    "premium_donut"
+    "premium_trend"
   ],
   "model_measures_added": [],
   "substitutions": [

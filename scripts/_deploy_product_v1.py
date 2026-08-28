@@ -205,12 +205,16 @@ page_spec = PageSpec(
             position=(CX + 3 * (kpi_w + GUTTER), 90, kpi_w, 75),
         ),
         # ── Hero Row (y=175, h=240) ──
-        # Sales Trend — premium_trend with Month (numeric) as category
+        # Sales Trend — premium_trend grouped by Year + Month (like the other
+        # dashboards), so the x-axis reads Apr '21 … Feb '23 rather than Jan–Dec.
         VisualSpec(
             template_id="premium_trend",
             title="Sales Trend",
             bindings={
-                "category": [{"entity": "Date", "property": "Month"}],
+                "category": [
+                    {"entity": "Date", "property": "Year"},
+                    {"entity": "Date", "property": "Month"},
+                ],
                 "values": [
                     {"entity": "Sales", "property": "TotalRevenue", "is_measure": True},
                     {"entity": "Sales", "property": "GrossProfit", "is_measure": True},
