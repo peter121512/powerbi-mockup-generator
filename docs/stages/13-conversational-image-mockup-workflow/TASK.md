@@ -6,7 +6,9 @@ Introduce a conversational design workflow that sits before real Power BI genera
 
 The user should be able to describe a dashboard goal, provide data context through files/links/descriptions, iterate through OpenAI-generated dashboard images in a back-and-forth conversation, approve a visual direction, and only then trigger generation of the actual Power BI dashboard.
 
-This stage is about reducing the cost and friction of design iteration before expensive/report-building work begins.
+The image-design loop must be grounded in what Power BI can realistically build. The first mockup should, where compatible with the user's request, start loosely from the project's existing template library and accepted Power BI design language. The template library is a starting vocabulary, not a creative ceiling: subsequent user instructions may deliberately deviate from it. Those deviations must be assessed for Power BI feasibility and, where appropriate, converted into requirements for a new custom visual rather than silently forced back into an existing template.
+
+This stage is about reducing the cost and friction of design iteration before expensive/report-building work begins while keeping the concept sufficiently implementation-aware that approval can credibly lead to a real Power BI report.
 
 ---
 
@@ -22,17 +24,21 @@ This stage is about reducing the cost and friction of design iteration before ex
    - business goals / audience / KPIs / preferred style.
 4. System extracts enough structure from the supplied context to understand likely dimensions, measures, time fields, and dashboard intent.
 5. System creates an **image mockup using OpenAI image generation** before building any Power BI report artifact.
-6. User can respond conversationally with changes such as:
+6. The initial mockup should preferentially reuse the layout grammar, visual families and interaction patterns already proven in `docs/TEMPLATE_INVENTORY.md`, **only where that is consistent with the user's instructions**.
+7. User can respond conversationally with changes such as:
    - "make the KPI row smaller"
    - "use a donut for margin mix"
    - "move the filters to the top right"
    - "make it more executive"
    - "replace this chart with a trend"
    - "use these colours instead"
-7. System generates an amended image mockup while preserving unchanged aspects of the previous design.
-8. Iteration continues until the user explicitly approves the mockup.
-9. Approved mockup is converted into a structured dashboard specification.
-10. The existing Power BI generation/deployment pipeline then creates the real dashboard based on the approved design.
+   - "I want this visual to look completely different from the standard bar chart"
+8. System generates an amended image mockup while preserving unchanged aspects of the previous design.
+9. If a requested revision moves beyond the existing template library, the system should follow the user's design intent rather than forcing the design back to the closest current template, provided the requested result remains realistically implementable in Power BI.
+10. Each non-standard element is classified as an existing-template fit, native-Power-BI variant, custom-visual requirement, or genuinely infeasible/needs-redesign item.
+11. Iteration continues until the user explicitly approves the mockup.
+12. Approved mockup is converted into a structured dashboard specification plus any required custom-visual requirements.
+13. The existing Power BI generation/deployment pipeline then creates the real dashboard based on the approved design.
 
 The image mockup phase and Power BI generation phase must be clearly distinct states.
 
@@ -40,11 +46,15 @@ The image mockup phase and Power BI generation phase must be clearly distinct st
 
 ## Design Principle
 
-**Design cheaply, build expensively.**
+**Design cheaply, but design for something Power BI can actually build.**
 
 Do not create or deploy Power BI artifacts during exploratory visual iteration unless the user explicitly requests it.
 
 Image generation is the fast design loop. Power BI generation begins only after explicit approval.
+
+The image model must not be treated as an unconstrained graphic-design engine. Its job is to produce a realistic preview of a future Power BI report, including realistic visual density, filtering controls, navigation, typography, container behaviour and chart forms.
+
+The current template library should strongly influence the first proposal because it represents already-proven implementation capability. It must **not** override an explicit user instruction. When the user intentionally asks to move away from the library, preserve that intent and determine how it can be implemented in Power BI.
 
 ---
 
@@ -64,6 +74,8 @@ Create a reusable conversation/session model, for example `DashboardDesignSessio
 - structured page spec draft
 - approval state
 - confidence / unresolved assumptions
+- visual feasibility classifications
+- custom visual requirements generated by deviations
 
 The session must support incremental amendment rather than treating every user message as a brand-new dashboard.
 
@@ -166,21 +178,32 @@ The generated image prompt should be assembled from:
 - visual hierarchy
 - current design choices
 - existing accepted Power BI visual style
+- relevant entries from `docs/TEMPLATE_INVENTORY.md`
+- Power BI feasibility constraints
 - prior mockup / amendment instruction where relevant
 
-The system should strongly bias toward designs that the current Power BI renderer can plausibly reproduce.
+For the **initial mockup**, bias toward already-proven template/layout patterns when they satisfy the request. This should increase downstream build fidelity and speed without making every dashboard look identical.
+
+For **subsequent revisions**, user instructions take priority. The system may move away from existing templates while retaining a Power BI-realistic visual language.
 
 Do not deliberately produce impossible designs just because the image model can draw them.
 
+Examples of designs that should be treated cautiously or rejected/redesigned include controls/interactions Power BI cannot plausibly support, unrealistic free-form animation, impossible cross-filtering behaviour, or decorative elements whose required runtime behaviour cannot be reproduced.
+
 ---
 
-## Template-Aware Image Mockups
+## Power BI Capability-Aware Mockups
 
-The image phase should be visually creative but constrained by real implementation capability.
+`docs/TEMPLATE_INVENTORY.md` is the **known reusable capability library**, not the absolute boundary of what may appear in a mockup.
 
-Use `docs/TEMPLATE_INVENTORY.md` as the capability boundary for implementation-aware mockups.
+For every proposed visual or interactive element, maintain a feasibility classification.
 
-For each proposed visual in the mockup, maintain a provisional mapping to the closest existing template where possible.
+Use at least these classes:
+
+- `EXISTING_TEMPLATE` — can be reproduced with an existing project template.
+- `NATIVE_POWERBI` — not represented by a current project template, but reasonably achievable using native Power BI capability/configuration.
+- `CUSTOM_VISUAL_REQUIRED` — the design is Power BI-realistic but needs a new or enhanced custom visual.
+- `NEEDS_REDESIGN` — requested behaviour/design is not credibly reproducible in Power BI as specified and should be discussed with the user.
 
 Example:
 
@@ -188,14 +211,55 @@ Example:
 {
   "intent": "monthly revenue trend",
   "mockup_visual": "line chart",
+  "implementation_class": "EXISTING_TEMPLATE",
   "candidate_template": "premium_trend",
   "confidence": 0.96
 }
 ```
 
-A mockup may contain a design element not exactly supported by the current inventory, but this must be flagged as a likely template gap rather than silently promised.
+A user-requested deviation might instead produce:
 
-The user should be able to approve a design while knowing which elements are exact matches versus approximations.
+```json
+{
+  "intent": "variance bridge with embedded target markers and custom hover treatment",
+  "mockup_visual": "bespoke variance bridge",
+  "implementation_class": "CUSTOM_VISUAL_REQUIRED",
+  "candidate_template": null,
+  "confidence": 0.88,
+  "custom_visual_requirement_id": "cvr_003"
+}
+```
+
+Do not silently downgrade an approved bespoke visual to a standard library visual just to make implementation easier.
+
+Equally, do not silently promise a visual that cannot reasonably exist in Power BI.
+
+---
+
+## Custom Visual Requirement Handoff
+
+When a mockup deliberately deviates from the existing library and the design is classified `CUSTOM_VISUAL_REQUIRED`, create a structured `CustomVisualRequirement` artifact.
+
+Suggested fields:
+
+- requirement id
+- business/analytical intent
+- approved mockup crop/reference
+- expected data roles
+- interactions
+- formatting controls
+- responsive behaviour
+- accessibility expectations
+- tooltip/selection/filter behaviour
+- visual states
+- approximate geometry
+- design tokens
+- closest existing template, if any
+- reason existing templates are insufficient
+
+Stage 13 does **not** need to implement the full automated custom-visual factory. It must, however, preserve enough structured information that the later custom-visual-generation stage can consume the requirement without reinterpreting the user's design from scratch.
+
+If an already-existing custom visual in the project can satisfy the requirement through configuration, classify/map it accordingly rather than unnecessarily creating a new requirement.
 
 ---
 
@@ -208,8 +272,9 @@ For each revision:
 1. Parse what changed.
 2. Preserve unchanged requirements.
 3. Update the structured design state.
-4. Generate a new image based on the prior approved/current state.
-5. Record the revision and delta.
+4. Reassess only the affected elements for Power BI/template feasibility.
+5. Generate a new image based on the prior approved/current state.
+6. Record the revision and delta.
 
 Examples:
 
@@ -217,6 +282,7 @@ Examples:
 - "switch gross margin from bar to donut" -> change one visual only.
 - "use teal instead of purple" -> update colour tokens only.
 - "add a regional filter" -> add filter control; leave all other visuals intact.
+- "make the margin visual radial with an outer target ring" -> preserve the user's requested design and classify it as existing/native/custom based on actual Power BI capability rather than automatically reverting to a gauge or donut.
 
 Avoid unnecessary design drift between revisions.
 
@@ -237,9 +303,12 @@ On approval:
 
 1. freeze the approved image revision;
 2. create a structured `DashboardDesignSpec`;
-3. map mockup elements to existing templates;
-4. classify any unsupported elements as `TEMPLATE_LIMITATION`;
-5. pass the spec to the existing renderer/build/deployment pipeline.
+3. map every mockup element to `EXISTING_TEMPLATE`, `NATIVE_POWERBI`, `CUSTOM_VISUAL_REQUIRED`, or `NEEDS_REDESIGN`;
+4. produce any `CustomVisualRequirement` artifacts required by approved deviations;
+5. surface any remaining `NEEDS_REDESIGN` items before build begins;
+6. pass the implementable spec to the existing renderer/build/deployment pipeline.
+
+The user should not be surprised after approval by major substitutions that were never discussed during the image phase.
 
 ---
 
@@ -256,6 +325,8 @@ Suggested fields:
 - KPI cards
 - visual list
 - visual types/templates
+- implementation class per visual
+- custom visual requirement ids where applicable
 - x/y/w/h geometry
 - titles
 - metric/dimension intent
@@ -265,7 +336,7 @@ Suggested fields:
 - mockup revision id
 - source DataContext id
 - assumptions
-- template gaps
+- feasibility gaps
 
 The actual Power BI renderer should consume this spec.
 
@@ -275,7 +346,7 @@ The image is evidence/reference; it must not be the sole build instruction.
 
 ## Power BI Build Handoff
 
-Once approved, the workflow should reuse the existing Stage 12A/12B architecture:
+Once approved, the workflow should reuse the existing Stage 12A/12B architecture where applicable:
 
 - shared visual templates
 - parameterised colours
@@ -284,6 +355,14 @@ Once approved, the workflow should reuse the existing Stage 12A/12B architecture
 - functional navigation
 - persistent `DeploymentService`
 - stable report ID / URL for updates
+
+The handoff must prefer exact reproduction of the approved intent over automatic template conformity.
+
+For `EXISTING_TEMPLATE` items, use the mapped reusable template.
+
+For `NATIVE_POWERBI` items, generate the required native Power BI configuration where supported by the current builder.
+
+For `CUSTOM_VISUAL_REQUIRED` items, produce a clear implementation dependency/requirement. If the capability already exists in the codebase, use it; otherwise do not silently replace the approved design with a generic template.
 
 If an approved mockup is revised after deployment, treat it as an amendment to the same logical report and update it in place.
 
@@ -303,9 +382,15 @@ It should:
 - allow design changes in plain English;
 - preserve context between turns;
 - make it clear when the user is viewing an image concept versus a deployed Power BI report;
-- show/record assumptions where the data context is incomplete.
+- show/record assumptions where the data context is incomplete;
+- start from known/proven Power BI design patterns where useful;
+- allow the user to intentionally depart from those patterns;
+- explain or record when a requested departure implies a new custom visual;
+- avoid presenting visually attractive concepts that Power BI could not credibly reproduce.
 
 Do not require users to define every measure, chart, or table before generating the first image.
+
+Do not require the user to understand the internal template library in order to ask for a bespoke design.
 
 ---
 
@@ -321,6 +406,8 @@ As a guide, if overall design/data-context confidence is below ~50% for the init
 
 Do not ask questions merely because information is absent if a reasonable visual assumption can be made safely.
 
+Feasibility confidence should be tracked independently from data/design confidence. A beautiful mockup with low confidence that it can be implemented in Power BI is not ready for approval/build handoff without surfacing that issue.
+
 ---
 
 ## Required Test Scenarios
@@ -334,7 +421,7 @@ Input:
 Expected:
 
 - DataContext inferred from text;
-- image mockup generated;
+- initial image mockup generated using sensible existing template/library patterns where appropriate;
 - sensible KPIs and visuals proposed;
 - assumptions recorded;
 - user amendment produces a revised image without design drift.
@@ -354,39 +441,56 @@ Expected:
 
 Resolve at least one supported URL/file source into DataContext and generate a mockup from it.
 
-### Scenario D — Multi-turn revision
+### Scenario D — Multi-turn revision with deliberate template deviation
 
-Run at least 4 revisions:
+Run at least 5 revisions:
 
-1. initial mockup
-2. change visual type
-3. change colours
-4. move filters/layout
-5. approval
+1. initial mockup grounded loosely in current template library
+2. change one visual type within existing capability
+3. request a bespoke visual treatment not currently in the library
+4. change colours
+5. move filters/layout
+6. approval
 
-Verify unchanged elements remain stable.
+Verify:
+
+- unchanged elements remain stable;
+- the bespoke request is not silently reverted to a standard visual;
+- its feasibility classification is recorded;
+- if appropriate, a `CustomVisualRequirement` is produced.
 
 ### Scenario E — Approved mockup to real Power BI
 
 - approve the mockup;
 - create DashboardDesignSpec;
-- generate actual Power BI report using existing templates;
+- generate actual Power BI report using existing templates/native configuration for supported elements;
+- identify custom-visual dependencies for approved deviations;
 - deploy via persistent update path;
 - capture screenshot;
 - compare actual report against approved mockup.
+
+### Scenario F — Power BI feasibility guardrail
+
+Prompt the image workflow with at least one visually attractive but non-credible Power BI interaction/design request.
+
+Expected:
+
+- system does not blindly present it as buildable;
+- item is classified `NEEDS_REDESIGN` or translated into a realistic Power BI equivalent after user discussion;
+- no false implementation promise is created.
 
 ---
 
 ## Evaluation
 
-### A. Conversational workflow — /25
+### A. Conversational workflow — /20
 
 - back-and-forth state preserved
 - revisions are incremental
 - approval gate works
 - focused clarification behaviour
 
-### B. Data grounding — /20
+### B. Data grounding — /15
 
 - uploaded/linked/described data becomes structured DataContext
 - mockup reflects actual available fields
@@ -399,11 +503,13 @@ Verify unchanged elements remain stable.
 - appropriate visual types
 - coherent layout/theme
 
-### D. Template feasibility — /15
+### D. Power BI feasibility & template strategy — /25
 
-- mockup mostly reproducible using existing template inventory
-- gaps explicitly classified
-- no impossible capability silently promised
+- initial mockup makes intelligent use of the existing template library where compatible with user intent
+- user-requested deviations are preserved rather than suppressed
+- every visual receives a credible implementation classification
+- custom-visual-worthy deviations create structured requirements
+- impossible/non-credible capability is not silently promised
 
 ### E. Approved mockup -> Power BI fidelity — /20
 
@@ -414,7 +520,10 @@ Evaluate actual deployed report against the approved design for:
 - visual selection
 - colour/theme
 - headers/KPIs/navigation
+- approved bespoke intent
 - overall visual character
+
+Do not penalise fidelity merely because an approved element is correctly identified as a pending `CUSTOM_VISUAL_REQUIRED` dependency rather than silently substituted.
 
 Target: >=80/100 overall.
 
@@ -427,11 +536,15 @@ Stage 13 passes only if all are true:
 - User can start from natural-language dashboard intent.
 - At least spreadsheet upload, URL/file abstraction, and description-based context are implemented.
 - OpenAI image generation is used for the initial visual mockup phase.
+- Initial mockups intelligently bias toward existing templates/proven layouts when consistent with the user's request.
 - Multiple conversational revisions preserve state and previous decisions.
+- User instructions can intentionally move the design beyond the standard template library.
+- Every approved visual is classified as `EXISTING_TEMPLATE`, `NATIVE_POWERBI`, `CUSTOM_VISUAL_REQUIRED`, or `NEEDS_REDESIGN`.
+- At least one demonstrated template deviation produces a structured `CustomVisualRequirement` rather than being silently downgraded to an existing template.
+- The image workflow avoids falsely promising designs/behaviours that Power BI cannot credibly implement.
 - No Power BI artifact is built before explicit user approval.
 - Approval produces a structured DashboardDesignSpec.
-- DashboardDesignSpec maps proposed visuals to existing template capabilities.
-- Approved design can be turned into an actual Power BI report.
+- Approved design can be turned into an actual Power BI report for all currently-supported elements.
 - Actual report uses the persistent Stage 12B deployment path.
 - Actual-vs-approved mockup comparison is captured and reported.
 - Existing Stage 12A/12B tests continue to pass.
@@ -450,7 +563,9 @@ Create at minimum:
 - OpenAI image-generation adapter
 - revision/delta handling
 - DashboardDesignSpec
-- template-feasibility mapper
+- Power BI feasibility mapper
+- template/capability classifier
+- CustomVisualRequirement artifact/handoff
 - approval/build handoff
 - automated tests
 - end-to-end evidence
@@ -473,10 +588,10 @@ Specifically defer:
 - large-scale relationship/grain inference across enterprise schemas
 - full greenfield semantic-model generation from complex source systems
 - Bedrock Nova reasoner implementation
-- automated custom-visual generation
+- full automated custom-visual generation/build/test factory
 - Android application
 
-Those remain later stages.
+Stage 13 **may and should produce custom-visual requirements** from approved design deviations; automated implementation of brand-new custom visuals remains a later stage.
 
 ---
 
@@ -488,4 +603,4 @@ REPORT.md must end with one of:
 - `PARTIAL_PASS`
 - `FAIL`
 
-A `PASS` requires a demonstrated conversation from user context -> OpenAI image mockup -> multiple revisions -> explicit approval -> structured design spec -> actual Power BI report -> persistent deployment.
+A `PASS` requires a demonstrated conversation from user context -> Power-BI-realistic OpenAI image mockup -> multiple revisions including at least one deliberate template deviation -> feasibility/custom-visual classification -> explicit approval -> structured design spec -> actual Power BI report for supported elements -> persistent deployment.
