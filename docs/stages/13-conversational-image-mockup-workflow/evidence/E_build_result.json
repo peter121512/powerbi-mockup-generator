@@ -1,0 +1,29 @@
+{
+  "build_result": {
+    "report_id": "27bb2c16-df08-43c3-b3e9-f95c9fe6832a",
+    "report_url": "https://app.powerbi.com/groups/d15e74e8-fb54-42f0-a552-6d62798c2598/reports/27bb2c16-df08-43c3-b3e9-f95c9fe6832a",
+    "action": "UPDATED",
+    "page_name": "designed_dashboard",
+    "built_visuals": [
+      "KPI:Gross Profit",
+      "KPI:Revenue",
+      "premium_bar:Margin",
+      "premium_trend:Gross Profit Trend",
+      "premium_donut:Gross Profit Mix",
+      "premium_bar:Top Category",
+      "premium_donut:Comparison"
+    ],
+    "pending_custom_visuals": [
+      "Margin (req cvr_46a18adb): placeholder used pending custom visual"
+    ],
+    "redesign_gaps": [],
+    "screenshot_path": "docs\\stages\\13-conversational-image-mockup-workflow\\evidence\\E_deployed_report.png",
+    "errors": []
+  },
+  "deploy": {
+    "action": "UPDATED",
+    "report_id": "27bb2c16-df08-43c3-b3e9-f95c9fe6832a",
+    "report_url": "https://app.powerbi.com/groups/d15e74e8-fb54-42f0-a552-6d62798c2598/reports/27bb2c16-df08-43c3-b3e9-f95c9fe6832a",
+    "id_preserved": true
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "spec_id": "spec_dbb5aac75e",
+  "page_title": "Designed Retail Performance",
+  "page_subtitle": "From approved mockup",
+  "audience": "CEO / Executive",
+  "resolution": [
+    1280,
+    720
+  ],
+  "navigation": [
+    "Overview",
+    "Financial",
+    "Customers",
+    "Products"
+  ],
+  "slicers": [
+    "Regional"
+  ],
+  "kpis": [
+    "Gross Profit",
+    "Margin",
+    "Revenue"
+  ],
+  "visuals": [
+    {
+      "intent": "headline_metric",
+      "visual": "kpi card",
+      "title": "Gross Profit",
+      "region": "kpi_row",
+      "classification": {
+        "intent": "headline_metric",
+        "mockup_visual": "kpi card",
+        "implementation_class": "EXISTING_TEMPLATE",
+        "candidate_template": "premium_kpi",
+        "confidence": 0.95,
+        "custom_visual_requirement_id": null,
+        "rationale": "Reproducible with existing template 'premium_kpi'."
+      },
+      "user_forced_deviation": false
+    },
+    {
+      "intent": "bespoke margin",
+      "visual": "make the margin visual a bespoke radial bar with an outer ta\u2026",
+      "title": "Margin",
+      "region": "kpi_row",
+      "classification": {
+        "intent": "bespoke margin",
+        "mockup_visual": "make the margin visual a bespoke radial bar with an outer ta\u2026",
+        "implementation_class": "CUSTOM_VISUAL_REQUIRED",
+        "candidate_template": "premium_bar",
+        "confidence": 0.85,
+        "custom_visual_requirement_id": "cvr_46a18adb",
+        "rationale": "User-requested bespoke treatment beyond the current template library; Power BI-realistic but needs a new/enhanced custom visual."
+      },
+      "user_forced_deviation": true
+    },
+    {
+      "intent": "headline_metric",
+      "visual": "kpi card",
+      "title": "Revenue",
+      "region": "kpi_row",
+      "classification": {
+        "intent": "headline_metric",
+        "mockup_visual": "kpi card",
+        "implementation_class": "EXISTING_TEMPLATE",
+        "candidate_template": "premium_kpi",
+        "confidence": 0.95,
+        "custom_visual_requirement_id": null,
+        "rationale": "Reproducible with existing template 'premium_kpi'."
+      },
+      "user_forced_deviation": false
+    },
+    {
+      "intent": "time_trend",
+      "visual": "area/line trend",
+      "title": "Gross Profit Trend",
+      "region": "hero",
+      "classification": {
+        "intent": "time_trend",
+        "mockup_visual": "area/line trend",
+        "implementation_class": "EXISTING_TEMPLATE",
+        "candidate_template": "premium_trend",
+        "confidence": 0.95,
+        "custom_visual_requirement_id": null,
+        "rationale": "Reproducible with existing template 'premium_trend'."
+      },
+      "user_forced_deviation": false
+    },
+    {
+      "intent": "composition_share",
+      "visual": "donut chart",
+      "title": "Gross Profit Mix",
+      "region": "companion",
+      "classification": {
+        "intent": "composition_share",
+        "mockup_visual": "donut chart",
+        "implementation_class": "EXISTING_TEMPLATE",
+        "candidate_template": "premium_donut",
+        "confidence": 0.95,
+        "custom_visual_requirement_id": null,
+        "rationale": "Reproducible with existing template 'premium_donut'."
+      },
+      "user_forced_deviation": false
+    },
+    {
+      "intent": "ranking",
+      "visual": "horizontal bar",
+      "title": "Top Category",
+      "region": "bottom",
+      "classification": {
+        "intent": "ranking",
+        "mockup_visual": "horizontal bar",
+        "implementation_class": "EXISTING_TEMPLATE",
+        "candidate_template": "premium_bar",
+        "confidence": 0.95,
+        "custom_visual_requirement_id": null,
+        "rationale": "Reproducible with existing template 'premium_bar'."
+      },
+      "user_forced_deviation": false
+    },
+    {
+      "intent": "composition_share",
+      "visual": "donut chart",
+      "title": "Comparison",
+      "region": "bottom",
+      "classification": {
+        "intent": "composition_share",
+        "mockup_visual": "donut chart",
+        "implementation_class": "EXISTING_TEMPLATE",
+        "candidate_template": "premium_donut",
+        "confidence": 0.95,
+        "custom_visual_requirement_id": null,
+        "rationale": "Reproducible with existing template 'premium_donut'."
+      },
+      "user_forced_deviation": false
+    },
+    {
+      "intent": "narrative_insight",
+      "visual": "key insights panel",
+      "title": "Key Insights",
+      "region": "bottom",
+      "classification": {
+        "intent": "narrative_insight",
+        "mockup_visual": "key insights panel",
+        "implementation_class": "EXISTING_TEMPLATE",
+        "candidate_template": "premium_insights",
+        "confidence": 0.95,
+        "custom_visual_requirement_id": null,
+        "rationale": "Reproducible with existing template 'premium_insights'."
+      },
+      "user_forced_deviation": false
+    }
+  ],
+  "palette": {
+    "canvas": "#0f1623",
+    "surface": "#151d2e",
+    "accent": "#14b8a6",
+    "accent2": "#a78bfa",
+    "positive": "#34d399",
+    "negative": "#f87171"
+  },
+  "typography": "Segoe UI",
+  "assumptions": [
+    "Data context inferred from a written description (no file provided); field types are best-effort guesses.",
+    "Types inferred; unresolved for: Region, Category"
+  ],
+  "feasibility_gaps": [],
+  "custom_visual_requirements": [
+    {
+      "requirement_id": "cvr_46a18adb",
+      "intent": "bespoke margin",
+      "mockup_visual": "make the margin visual a bespoke radial bar with an outer ta\u2026",
+      "data_roles": [
+        "category",
+        "measure"
+      ],
+      "interactions": [
+        "cross-filter",
+        "tooltip"
+      ],
+      "formatting_controls": [
+        "colours",
+        "title",
+        "data labels"
+      ],
+      "responsive_behaviour": "Scale to container; maintain readable labels at supported sizes.",
+      "accessibility": "Sufficient contrast; keyboard focus; screen-reader labels.",
+      "tooltip_selection_filter": "Standard tooltip on hover; participates in cross-filter/selection.",
+      "visual_states": [
+        "default",
+        "hover",
+        "selected",
+        "no-data"
+      ],
+      "approx_geometry": null,
+      "design_tokens": {},
+      "closest_existing_template": "premium_bar",
+      "reason_templates_insufficient": "User-requested bespoke treatment beyond the current template library; Power BI-realistic but needs a new/enhanced custom visual.",
+      "mockup_reference": "rev_e456a611"
+    }
+  ],
+  "implementation_summary": {
+    "EXISTING_TEMPLATE": 7,
+    "CUSTOM_VISUAL_REQUIRED": 1
+  },
+  "mockup_revision_id": "rev_3c62d6ae",
+  "data_context_id": "dc_324110ab23"
+}

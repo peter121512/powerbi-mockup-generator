@@ -1,0 +1,484 @@
+{
+  "using_openai": true,
+  "scenarios": {
+    "A": {
+      "data_context": {
+        "context_id": "dc_1c2972e739",
+        "sources": [
+          {
+            "name": "user_description",
+            "kind": "description",
+            "location": "",
+            "row_count": null,
+            "sheet_names": []
+          }
+        ],
+        "entities": [
+          "Data"
+        ],
+        "fields": [
+          {
+            "name": "Plan",
+            "entity": "Data",
+            "type": "unknown",
+            "role": "unknown",
+            "sample_values": [],
+            "distinct_count": null,
+            "null_ratio": null
+          },
+          {
+            "name": "Arr",
+            "entity": "Data",
+            "type": "currency",
+            "role": "measure",
+            "sample_values": [],
+            "distinct_count": null,
+            "null_ratio": null
+          },
+          {
+            "name": "Mrr",
+            "entity": "Data",
+            "type": "currency",
+            "role": "measure",
+            "sample_values": [],
+            "distinct_count": null,
+            "null_ratio": null
+          },
+          {
+            "name": "Churn Date",
+            "entity": "Data",
+            "type": "date",
+            "role": "date",
+            "sample_values": [],
+            "distinct_count": null,
+            "null_ratio": null
+          },
+          {
+            "name": "Region",
+            "entity": "Data",
+            "type": "unknown",
+            "role": "unknown",
+            "sample_values": [],
+            "distinct_count": null,
+            "null_ratio": null
+          }
+        ],
+        "candidate_measures": [
+          "Arr",
+          "Mrr"
+        ],
+        "candidate_dimensions": [],
+        "date_fields": [
+          "Churn Date"
+        ],
+        "relationships": [],
+        "assumptions": [
+          "Data context inferred from a written description (no file provided); field types are best-effort guesses.",
+          "Types inferred; unresolved for: Plan, Region"
+        ],
+        "confidence": 0.6
+      },
+      "audience": "CEO / Executive",
+      "kpis": [
+        "Arr",
+        "Mrr",
+        "ARR",
+        "MRR"
+      ],
+      "initial_mockup": {
+        "revision_id": "rev_b8ea71d9",
+        "revision_number": 1,
+        "instruction": "I have SaaS subscription data with customer, plan, ARR, MRR, churn date, region and sales owner. Build me an executive retention dashboard.",
+        "delta_summary": "initial mockup",
+        "image_path": "",
+        "adapter": "openai:gpt-image-1",
+        "prompt_chars": 1794,
+        "error": "RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}"
+      },
+      "revised_mockup": {
+        "revision_id": "rev_22568709",
+        "revision_number": 2,
+        "instruction": "make the KPI cards the same width and more executive",
+        "delta_summary": "make the KPI cards the same width and more executive",
+        "image_path": "",
+        "adapter": "openai:gpt-image-1",
+        "prompt_chars": 2120,
+        "error": "RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}"
+      },
+      "no_design_drift": [
+        "Arr",
+        "Mrr",
+        "ARR",
+        "MRR",
+        "Arr Trend",
+        "Arr Mix",
+        "Top Category",
+        "Comparison",
+        "Key Insights"
+      ],
+      "assumptions": [
+        "Data context inferred from a written description (no file provided); field types are best-effort guesses.",
+        "Types inferred; unresolved for: Plan, Region"
+      ]
+    },
+    "B": {
+      "data_context": {
+        "context_id": "dc_eb259a669a",
+        "sources": [
+          {
+            "name": "finance_workbook.xlsx",
+            "kind": "upload",
+            "location": "docs\\stages\\13-conversational-image-mockup-workflow\\evidence\\B\\finance_workbook.xlsx",
+            "row_count": 4,
+            "sheet_names": [
+              "Invoices",
+              "Targets"
+            ]
+          }
+        ],
+        "entities": [
+          "Invoices",
+          "Targets"
+        ],
+        "fields": [
+          {
+            "name": "InvoiceDate",
+            "entity": "Invoices",
+            "type": "date",
+            "role": "date",
+            "sample_values": [
+              "2024-01-05",
+              "2024-02-11",
+              "2024-03-08"
+            ],
+            "distinct_count": 3,
+            "null_ratio": 0.0
+          },
+          {
+            "name": "Customer",
+            "entity": "Invoices",
+            "type": "string",
+            "role": "dimension",
+            "sample_values": [
+              "Acme",
+              "Globex",
+              "Initech"
+            ],
+            "distinct_count": 3,
+            "null_ratio": 0.0
+          },
+          {
+            "name": "Product",
+            "entity": "Invoices",
+            "type": "string",
+            "role": "dimension",
+            "sample_values": [
+              "Widget",
+              "Gadget",
+              "Widget"
+            ],
+            "distinct_count": 2,
+            "null_ratio": 0.0
+          },
+          {
+            "name": "Region",
+            "entity": "Invoices",
+            "type": "string",
+            "role": "dimension",
+            "sample_values": [
+              "London",
+              "Scotland",
+              "Wales"
+            ],
+            "distinct_count": 3,
+            "null_ratio": 0.0
+          },
+          {
+            "name": "Revenue",
+            "entity": "Invoices",
+            "type": "currency",
+            "role": "measure",
+            "sample_values": [
+              "1200.5",
+              "2400",
+              "900.25"
+            ],
+            "distinct_count": 3,
+            "null_ratio": 0.0
+          },
+          {
+            "name": "Cost",
+            "entity": "Invoices",
+            "type": "currency",
+            "role": "measure",
+            "sample_values": [
+              "800",
+              "1500",
+              "600"
+            ],
+            "distinct_count": 3,
+            "null_ratio": 0.0
+          },
+          {
+            "name": "Budget",
+            "entity": "Invoices",
+            "type": "currency",
+            "role": "measure",
+            "sample_values": [
+              "1000",
+              "2200",
+              "950"
+            ],
+            "distinct_count": 3,
+            "null_ratio": 0.0
+          },
+          {
+            "name": "Region",
+            "entity": "Targets",
+            "type": "string",
+            "role": "dimension",
+            "sample_values": [
+              "London"
+            ],
+            "distinct_count": 1,
+            "null_ratio": 0.0
+          },
+          {
+            "name": "AnnualTarget",
+            "entity": "Targets",
+            "type": "integer",
+            "role": "measure",
+            "sample_values": [
+              "50000"
+            ],
+            "distinct_count": 1,
+            "null_ratio": 0.0
+          }
+        ],
+        "candidate_measures": [
+          "Revenue",
+          "Cost",
+          "Budget",
+          "AnnualTarget"
+        ],
+        "candidate_dimensions": [
+          "Customer",
+          "Product",
+          "Region",
+          "Region"
+        ],
+        "date_fields": [
+          "InvoiceDate"
+        ],
+        "relationships": [],
+        "assumptions": [],
+        "confidence": 1.0
+      },
+      "entities": [
+        "Invoices",
+        "Targets"
+      ],
+      "kpis": [
+        "Revenue",
+        "Cost",
+        "Budget",
+        "AnnualTarget"
+      ],
+      "kpis_grounded_in_columns": true,
+      "mockup": {
+        "revision_id": "rev_703c7ba9",
+        "revision_number": 1,
+        "instruction": "CFO finance performance dashboard from this workbook",
+        "delta_summary": "initial mockup",
+        "image_path": "",
+        "adapter": "openai:gpt-image-1",
+        "prompt_chars": 1655,
+        "error": "RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}"
+      }
+    },
+    "C": {
+      "url": "https://raw.githubusercontent.com/plotly/datasets/master/2014_apple_stock.csv",
+      "resolved": true,
+      "data_context": {
+        "context_id": "dc_efa2456d1b",
+        "sources": [
+          {
+            "name": "2014_apple_stock.csv",
+            "kind": "url",
+            "location": "https://raw.githubusercontent.com/plotly/datasets/master/2014_apple_stock.csv",
+            "row_count": 240,
+            "sheet_names": [
+              "2014_apple_stock"
+            ]
+          }
+        ],
+        "entities": [
+          "2014_apple_stock"
+        ],
+        "fields": [
+          {
+            "name": "AAPL_x",
+            "entity": "2014_apple_stock",
+            "type": "date",
+            "role": "date",
+            "sample_values": [
+              "2014-01-02",
+              "2014-01-03",
+              "2014-01-06",
+              "2014-01-07",
+              "2014-01-08"
+            ],
+            "distinct_count": 200,
+            "null_ratio": 0.0
+          },
+          {
+            "name": "AAPL_y",
+            "entity": "2014_apple_stock",
+            "type": "decimal",
+            "role": "measure",
+            "sample_values": [
+              "77.44539475",
+              "77.04557544",
+              "74.89697204",
+              "75.856461",
+              "75.09194679"
+            ],
+            "distinct_count": 200,
+            "null_ratio": 0.0
+          }
+        ],
+        "candidate_measures": [
+          "AAPL_y"
+        ],
+        "candidate_dimensions": [],
+        "date_fields": [
+          "AAPL_x"
+        ],
+        "relationships": [],
+        "assumptions": [],
+        "confidence": 1.0
+      },
+      "mockup": {
+        "revision_id": "rev_edd99e13",
+        "revision_number": 1,
+        "instruction": "executive trend dashboard from this online dataset",
+        "delta_summary": "initial mockup",
+        "image_path": "",
+        "adapter": "openai:gpt-image-1",
+        "prompt_chars": 1534,
+        "error": "RateLimitError: Error code: 429 - {'error': {'message': 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.', 'type': 'insufficient_quota', 'param': None, 'code': 'credit_balance_exhausted'}}"
+      }
+    },
+    "D": {
+      "revision_count": 5,
+      "titles_before": [
+        "Gross Profit",
+        "Margin",
+        "Revenue",
+        "Gross Profit Trend",
+        "Gross Profit Mix",
+        "Top Category",
+        "Comparison",
+        "Key Insights"
+      ],
+      "titles_after": [
+        "Gross Profit",
+        "Margin",
+        "Revenue",
+        "Gross Profit Trend",
+        "Gross Profit Mix",
+        "Top Category",
+        "Comparison",
+        "Key Insights"
+      ],
+      "classes": [
+        "EXISTING_TEMPLATE",
+        "CUSTOM_VISUAL_REQUIRED",
+        "EXISTING_TEMPLATE",
+        "EXISTING_TEMPLATE",
+        "EXISTING_TEMPLATE",
+        "EXISTING_TEMPLATE",
+        "EXISTING_TEMPLATE",
+        "EXISTING_TEMPLATE"
+      ],
+      "custom_visual_requirements": [
+        {
+          "requirement_id": "cvr_46a18adb",
+          "intent": "bespoke margin",
+          "mockup_visual": "make the margin visual a bespoke radial bar with an outer ta\u2026",
+          "data_roles": [
+            "category",
+            "measure"
+          ],
+          "interactions": [
+            "cross-filter",
+            "tooltip"
+          ],
+          "formatting_controls": [
+            "colours",
+            "title",
+            "data labels"
+          ],
+          "responsive_behaviour": "Scale to container; maintain readable labels at supported sizes.",
+          "accessibility": "Sufficient contrast; keyboard focus; screen-reader labels.",
+          "tooltip_selection_filter": "Standard tooltip on hover; participates in cross-filter/selection.",
+          "visual_states": [
+            "default",
+            "hover",
+            "selected",
+            "no-data"
+          ],
+          "approx_geometry": null,
+          "design_tokens": {},
+          "closest_existing_template": "premium_bar",
+          "reason_templates_insufficient": "User-requested bespoke treatment beyond the current template library; Power BI-realistic but needs a new/enhanced custom visual.",
+          "mockup_reference": "rev_e456a611"
+        }
+      ],
+      "teal_applied": true,
+      "bespoke_preserved": true
+    },
+    "E": {
+      "build_result": {
+        "report_id": "27bb2c16-df08-43c3-b3e9-f95c9fe6832a",
+        "report_url": "https://app.powerbi.com/groups/d15e74e8-fb54-42f0-a552-6d62798c2598/reports/27bb2c16-df08-43c3-b3e9-f95c9fe6832a",
+        "action": "UPDATED",
+        "page_name": "designed_dashboard",
+        "built_visuals": [
+          "KPI:Gross Profit",
+          "KPI:Revenue",
+          "premium_bar:Margin",
+          "premium_trend:Gross Profit Trend",
+          "premium_donut:Gross Profit Mix",
+          "premium_bar:Top Category",
+          "premium_donut:Comparison"
+        ],
+        "pending_custom_visuals": [
+          "Margin (req cvr_46a18adb): placeholder used pending custom visual"
+        ],
+        "redesign_gaps": [],
+        "screenshot_path": "docs\\stages\\13-conversational-image-mockup-workflow\\evidence\\E_deployed_report.png",
+        "errors": []
+      },
+      "deploy": {
+        "action": "UPDATED",
+        "report_id": "27bb2c16-df08-43c3-b3e9-f95c9fe6832a",
+        "report_url": "https://app.powerbi.com/groups/d15e74e8-fb54-42f0-a552-6d62798c2598/reports/27bb2c16-df08-43c3-b3e9-f95c9fe6832a",
+        "id_preserved": true
+      }
+    },
+    "F": {
+      "requested": "rotating 3D globe with real-time physics + gesture control",
+      "classification": {
+        "intent": "rotating 3d globe with real-time physics that users can spin with gestures",
+        "mockup_visual": "rotating 3d globe with real-time physics that users can spin with gestures",
+        "implementation_class": "NEEDS_REDESIGN",
+        "candidate_template": null,
+        "confidence": 0.9,
+        "custom_visual_requirement_id": null,
+        "rationale": "Requested behaviour/appearance cannot be credibly reproduced in Power BI as specified; needs redesign or a realistic equivalent."
+      },
+      "not_falsely_promised": true
+    }
+  }
+}
