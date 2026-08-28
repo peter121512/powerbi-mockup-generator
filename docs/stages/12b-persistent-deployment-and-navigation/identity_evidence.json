@@ -1,0 +1,148 @@
+{
+  "report_name": "ExecutiveAnalyticsDemo",
+  "semantic_model_id": "b731eda9-c402-42c4-ad27-f4641c7d6bcd",
+  "iterations": [
+    {
+      "label": "v0_initial",
+      "subtitle_suffix": "",
+      "action": "UPDATED",
+      "report_id": "ed5dd8c7-3909-47de-a9bc-952202c45b08",
+      "report_url": "https://app.powerbi.com/groups/d15e74e8-fb54-42f0-a552-6d62798c2598/reports/ed5dd8c7-3909-47de-a9bc-952202c45b08",
+      "definition_hash": "a32df99b32b1c1535bea118e052fcb5c71987d828213fd5e987a96033f4b6ece",
+      "elapsed_seconds": 3.62,
+      "id_preserved": true,
+      "render_verified": true,
+      "pages": {
+        "executive_overview": {
+          "ok": true,
+          "path": "docs\\stages\\12b-persistent-deployment-and-navigation\\v0_initial_executive_overview.png",
+          "error": ""
+        },
+        "financial_performance": {
+          "ok": true,
+          "path": "docs\\stages\\12b-persistent-deployment-and-navigation\\v0_initial_financial_performance.png",
+          "error": ""
+        },
+        "customer_performance": {
+          "ok": true,
+          "path": "docs\\stages\\12b-persistent-deployment-and-navigation\\v0_initial_customer_performance.png",
+          "error": ""
+        },
+        "product_performance": {
+          "ok": true,
+          "path": "docs\\stages\\12b-persistent-deployment-and-navigation\\v0_initial_product_performance.png",
+          "error": ""
+        }
+      }
+    },
+    {
+      "label": "v1_update",
+      "subtitle_suffix": " \u00b7 rev1",
+      "action": "UPDATED",
+      "report_id": "ed5dd8c7-3909-47de-a9bc-952202c45b08",
+      "report_url": "https://app.powerbi.com/groups/d15e74e8-fb54-42f0-a552-6d62798c2598/reports/ed5dd8c7-3909-47de-a9bc-952202c45b08",
+      "definition_hash": "f522b6d736fb44adefa43ff44ef327ab37dd593aaa2da0291571442602a29a60",
+      "elapsed_seconds": 3.25,
+      "id_preserved": true,
+      "render_verified": true,
+      "pages": {
+        "executive_overview": {
+          "ok": true,
+          "path": "docs\\stages\\12b-persistent-deployment-and-navigation\\v1_update_executive_overview.png",
+          "error": ""
+        },
+        "financial_performance": {
+          "ok": true,
+          "path": "docs\\stages\\12b-persistent-deployment-and-navigation\\v1_update_financial_performance.png",
+          "error": ""
+        },
+        "customer_performance": {
+          "ok": true,
+          "path": "docs\\stages\\12b-persistent-deployment-and-navigation\\v1_update_customer_performance.png",
+          "error": ""
+        },
+        "product_performance": {
+          "ok": true,
+          "path": "docs\\stages\\12b-persistent-deployment-and-navigation\\v1_update_product_performance.png",
+          "error": ""
+        }
+      }
+    },
+    {
+      "label": "v2_update",
+      "subtitle_suffix": " \u00b7 rev2",
+      "action": "UPDATED",
+      "report_id": "ed5dd8c7-3909-47de-a9bc-952202c45b08",
+      "report_url": "https://app.powerbi.com/groups/d15e74e8-fb54-42f0-a552-6d62798c2598/reports/ed5dd8c7-3909-47de-a9bc-952202c45b08",
+      "definition_hash": "e18b724e4057e4c152c1a5a8b2821991150257978158290dfaaf7c838d03bb39",
+      "elapsed_seconds": 3.17,
+      "id_preserved": true,
+      "render_verified": true,
+      "pages": {
+        "executive_overview": {
+          "ok": true,
+          "path": "docs\\stages\\12b-persistent-deployment-and-navigation\\v2_update_executive_overview.png",
+          "error": ""
+        },
+        "financial_performance": {
+          "ok": true,
+          "path": "docs\\stages\\12b-persistent-deployment-and-navigation\\v2_update_financial_performance.png",
+          "error": ""
+        },
+        "customer_performance": {
+          "ok": true,
+          "path": "docs\\stages\\12b-persistent-deployment-and-navigation\\v2_update_customer_performance.png",
+          "error": ""
+        },
+        "product_performance": {
+          "ok": true,
+          "path": "docs\\stages\\12b-persistent-deployment-and-navigation\\v2_update_product_performance.png",
+          "error": ""
+        }
+      }
+    },
+    {
+      "label": "v3_update",
+      "subtitle_suffix": " \u00b7 rev3",
+      "action": "UPDATED",
+      "report_id": "ed5dd8c7-3909-47de-a9bc-952202c45b08",
+      "report_url": "https://app.powerbi.com/groups/d15e74e8-fb54-42f0-a552-6d62798c2598/reports/ed5dd8c7-3909-47de-a9bc-952202c45b08",
+      "definition_hash": "f0670f8b59bd01b3599b6419327797744afbd2797ab63f32b548ce69a161b2e9",
+      "elapsed_seconds": 3.08,
+      "id_preserved": true,
+      "render_verified": true,
+      "pages": {
+        "executive_overview": {
+          "ok": true,
+          "path": "docs\\stages\\12b-persistent-deployment-and-navigation\\v3_update_executive_overview.png",
+          "error": ""
+        },
+        "financial_performance": {
+          "ok": true,
+          "path": "docs\\stages\\12b-persistent-deployment-and-navigation\\v3_update_financial_performance.png",
+          "error": ""
+        },
+        "customer_performance": {
+          "ok": true,
+          "path": "docs\\stages\\12b-persistent-deployment-and-navigation\\v3_update_customer_performance.png",
+          "error": ""
+        },
+        "product_performance": {
+          "ok": true,
+          "path": "docs\\stages\\12b-persistent-deployment-and-navigation\\v3_update_product_performance.png",
+          "error": ""
+        }
+      }
+    }
+  ],
+  "summary": {
+    "report_id": "ed5dd8c7-3909-47de-a9bc-952202c45b08",
+    "report_url": "https://app.powerbi.com/groups/d15e74e8-fb54-42f0-a552-6d62798c2598/reports/ed5dd8c7-3909-47de-a9bc-952202c45b08",
+    "id_stable_across_all": true,
+    "url_stable_across_all": true,
+    "update_count": 4,
+    "three_consecutive_updates": true,
+    "all_iterations_rendered_zero_touch": true,
+    "pass": true
+  }
+}

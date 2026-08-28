@@ -386,9 +386,9 @@ class TestFullPageReuse:
 
         # At least some overlap (both have Revenue) but not identical
         assert fin_titles != exec_titles
-        # Financial has finance-specific visuals
-        assert "EBITDA" in fin_titles or "Net Profit" in fin_titles
-        assert "Cash Flow Summary" in fin_titles
+        # Financial has finance-specific visuals (Stage 12A accepted layout)
+        assert "Profitability by Region" in fin_titles
+        assert "Profit vs Cost by Region" in fin_titles
 
     def test_custom_visual_guids_shared(self, tokens, registry):
         """Both pages share the same custom visual registry (no duplication)."""
@@ -431,11 +431,17 @@ class TestRegistryIntegrity:
         assert len(guids) >= 3  # KPI, AreaChart, Waterfall at minimum
 
     def test_templates_have_reasonable_dimensions(self, registry):
-        """Default dimensions are within page bounds."""
+        """Default dimensions are within page bounds.
+
+        Overlay/companion templates (e.g. donut_center_kpi) are intentionally
+        small, so the lower bound is relaxed for them.
+        """
+        small_overlay_templates = {"donut_center_kpi"}
         for tid in registry.list_templates():
             template = registry.get(tid)
-            assert 50 <= template.default_width <= 1280
-            assert 50 <= template.default_height <= 720
+            min_dim = 20 if tid in small_overlay_templates else 50
+            assert min_dim <= template.default_width <= 1280
+            assert min_dim <= template.default_height <= 720
 
     def test_design_tokens_produce_valid_theme(self, tokens):
         """Design tokens generate a valid Power BI theme structure."""

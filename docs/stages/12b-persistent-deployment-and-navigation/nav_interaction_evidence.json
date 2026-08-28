@@ -1,0 +1,46 @@
+{
+  "report_id": "ed5dd8c7-3909-47de-a9bc-952202c45b08",
+  "clicks": [
+    {
+      "step": "click Overview",
+      "from": "product_performance",
+      "expected": "executive_overview",
+      "events": [
+        "product_performance",
+        "executive_overview"
+      ],
+      "ok": true
+    },
+    {
+      "step": "click Financial",
+      "from": "executive_overview",
+      "expected": "financial_performance",
+      "events": [
+        "executive_overview",
+        "financial_performance"
+      ],
+      "ok": true
+    },
+    {
+      "step": "click Customers",
+      "from": "executive_overview",
+      "expected": "customer_performance",
+      "events": [
+        "executive_overview",
+        "customer_performance"
+      ],
+      "ok": true
+    },
+    {
+      "step": "click Products",
+      "from": "executive_overview",
+      "expected": "product_performance",
+      "events": [
+        "executive_overview",
+        "product_performance"
+      ],
+      "ok": true
+    }
+  ],
+  "pass": true
+}
