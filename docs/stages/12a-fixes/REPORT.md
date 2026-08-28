@@ -119,6 +119,31 @@ ring centre at any size. The Stage 12A donut-centre size-matrix tests were
 updated to derive the expected centre from the same geometry and still pass
 (≤5px, in practice 0px).
 
+### Follow-up 2 — guaranteed centring (final)
+Matching two independent visuals by duplicating geometry in Python and
+TypeScript remained fragile — any sub-pixel rounding or container-sizing
+difference reintroduced a small offset. The **guaranteed** fix removes the
+separate overlay entirely: the `premiumDonut` visual now draws the centre KPI
+**itself**, inside the same SVG group that draws the ring, using
+`text-anchor: middle`. The value and label are supplied by the caller via
+`general.centerValue` / `general.centerLabel`; the ring and its centre text
+therefore share one coordinate origin and cannot drift.
+
+- `custom-visuals/premiumDonut/capabilities.json`: added `general.centerValue`
+  and `general.centerLabel` (text).
+- `custom-visuals/premiumDonut/src/visual.ts`: draw caller-supplied value/label
+  (falling back to slice total + measure name) inside `donutGroup`.
+- `src/pbi_gen/renderer/templates/builder.py`: emit `centerValue` /
+  `centerLabel` for custom visuals from config overrides.
+- `make_donut_composite` (rapid_engine) and `make_donut_composite_bindings`
+  (composites) now return a **single** self-centring donut spec — no separate
+  `donut_center_kpi` overlay. Signatures are unchanged; callers that unpack with
+  `*make_donut_composite(...)` still work.
+
+Result: "128 / Products" is now perfectly centred by construction (verified in
+`docs/stages/12a-fixes/product_final.png`). This is the same mechanism that has
+always kept the Financial/Customer donut centres correct.
+
 ---
 
 ## 5. Product trend grouped by year (x-axis)
@@ -179,8 +204,9 @@ Screenshots: `docs/stages/12a-fixes/financial_final.png`,
 - Product slicers clear of the KPI card backgrounds? **Yes.**
 - Product top-row KPIs free of duplicate headers? **Yes.**
 - Product donut centre free of overlapping text? **Yes** ("128 / Products").
-- Product donut centre KPI actually centred in the ring? **Yes** — geometry now
-  matches the donut visual exactly (was ~10px left).
+- Product donut centre KPI actually centred in the ring? **Yes** — the donut
+  visual now draws the centre KPI itself (guaranteed by construction; no
+  separate overlay to mis-align).
 - Product trend x-axis grouped by year like the other dashboards? **Yes**
   ("Apr '21 … Feb '23").
 - Financial / Customer donut centres unchanged? **Yes** (backward compatible).

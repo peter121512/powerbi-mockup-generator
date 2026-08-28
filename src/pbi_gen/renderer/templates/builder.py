@@ -333,6 +333,16 @@ def _build_visual_json(
                 general_props["showCenterValue"] = _literal(
                     "true" if show_center else "false"
                 )
+            # Optional: caller-supplied centre value/label so the donut can draw
+            # its own centred KPI (guaranteed centring — no external overlay).
+            if "center_value" in binding.config_overrides:
+                general_props["centerValue"] = _literal(
+                    f"'{binding.config_overrides['center_value']}'"
+                )
+            if "center_label" in binding.config_overrides:
+                general_props["centerLabel"] = _literal(
+                    f"'{binding.config_overrides['center_label']}'"
+                )
             visual["objects"] = {
                 "general": [{"properties": general_props}],
             }

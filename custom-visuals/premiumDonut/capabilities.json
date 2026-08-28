@@ -19,6 +19,12 @@
                 },
                 "showCenterValue": {
                     "type": { "bool": true }
+                },
+                "centerValue": {
+                    "type": { "text": true }
+                },
+                "centerLabel": {
+                    "type": { "text": true }
                 }
             }
         }

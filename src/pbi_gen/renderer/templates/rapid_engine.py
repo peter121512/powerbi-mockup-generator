@@ -758,22 +758,18 @@ def make_donut_composite(
     has_legend: bool = True,
     title_font_size: int = 18,
 ) -> list[VisualSpec]:
-    """Create a donut + center KPI pair with auto-computed center position.
+    """Create a donut whose centre KPI is drawn by the donut visual itself.
 
-    Returns a list of 2 VisualSpecs: the donut and its center overlay.
-    The center overlay position is computed from the donut bounds using
-    the composite geometry rules (accounting for title/legend offsets).
+    The centre value/label are rendered inside the donut's own SVG group (the
+    same group that draws the ring), so ``text-anchor: middle`` guarantees the
+    KPI is centred on the ring at any size — there is no separate overlay visual
+    to align. Returns a single-element list for backward compatibility with
+    callers that unpack the result with ``*make_donut_composite(...)``.
+
+    ``center_measure`` is retained for signature compatibility but is no longer
+    used for positioning; ``center_title`` becomes the centre value and
+    ``center_subtitle`` the centre label.
     """
-    from pbi_gen.renderer.templates.composites import compute_donut_center
-
-    center_pos = compute_donut_center(
-        *donut_position,
-        overlay_w=overlay_w,
-        overlay_h=overlay_h,
-        has_title=has_title,
-        has_legend=has_legend,
-    )
-
     donut_spec = VisualSpec(
         template_id="premium_donut",
         title=donut_title,
@@ -783,28 +779,13 @@ def make_donut_composite(
         },
         position=donut_position,
         config={
-            # Suppress the donut's own centre total; the overlay below supplies
-            # the intended centre metric (e.g. active-product count).
-            "show_center_value": False,
+            # Donut draws its own centred KPI using these caller-supplied values.
+            "center_value": center_title,
+            "center_label": center_subtitle,
         },
     )
 
-    center_spec = VisualSpec(
-        template_id="donut_center_kpi",
-        title=center_title,
-        bindings={"measure": [center_measure]},
-        position=center_pos,
-        config={
-            "title_color": "#ffffff",
-            "title_font_size": title_font_size,
-            "title_bold": True,
-            "show_background": False,
-            "show_border": False,
-            "subtitle": center_subtitle,
-        },
-    )
-
-    return [donut_spec, center_spec]
+    return [donut_spec]
 
 
 @dataclass

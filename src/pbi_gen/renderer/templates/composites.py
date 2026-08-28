@@ -191,20 +191,16 @@ def make_donut_composite_bindings(
     has_legend: bool = True,
     title_font_size: int = 14,
 ) -> tuple:
-    """Create (donut_binding, center_binding) VisualBinding pair.
+    """Create a self-centring donut VisualBinding (single-element tuple).
 
-    For use in the older financial_config / customer_config style.
-    Imports VisualBinding from registry to avoid circular imports.
+    The donut visual draws its own centre KPI (value = ``center_title``,
+    label = ``center_subtitle``) inside the ring group, so the KPI is centred by
+    construction — there is no separate overlay to align. Returns a one-tuple for
+    backward compatibility with callers that unpack the result.
+
+    ``center_measure`` is retained for signature compatibility but is unused.
     """
     from pbi_gen.renderer.templates.registry import VisualBinding
-
-    center_pos = compute_donut_center(
-        *donut_position,
-        overlay_w=overlay_w,
-        overlay_h=overlay_h,
-        has_title=has_title,
-        has_legend=has_legend,
-    )
 
     donut_binding = VisualBinding(
         template_id="premium_donut",
@@ -215,25 +211,10 @@ def make_donut_composite_bindings(
         },
         position=donut_position,
         config_overrides={
-            # Suppress the donut's own centre total; the overlay below supplies
-            # the intended centre metric.
-            "show_center_value": False,
+            # Donut draws its own centred KPI using these caller-supplied values.
+            "center_value": center_title,
+            "center_label": center_subtitle,
         },
     )
 
-    center_binding = VisualBinding(
-        template_id="donut_center_kpi",
-        title=center_title,
-        data_bindings={"measure": [center_measure]},
-        position=center_pos,
-        config_overrides={
-            "subtitle": center_subtitle,
-            "show_background": False,
-            "show_border": False,
-            "title_bold": True,
-            "title_font_size": title_font_size,
-            "title_color": "#ffffff",
-        },
-    )
-
-    return (donut_binding, center_binding)
+    return (donut_binding,)

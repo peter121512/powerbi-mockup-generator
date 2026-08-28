@@ -133,10 +133,19 @@ export class Visual implements IVisual {
             .attr("fill", d => d.data.color)
             .attr("opacity", 0.9);
 
-        // Center KPI — total value (can be suppressed via general.showCenterValue
-        // so a caller-supplied overlay can display a different metric instead)
+        // Center KPI — drawn inside donutGroup (translated to the ring centre),
+        // so text-anchor:middle guarantees it is centred on the ring regardless
+        // of size or scaling. Can be suppressed via general.showCenterValue.
+        // A caller may override the displayed value/label via
+        // general.centerValue / general.centerLabel; otherwise the slice total
+        // and measure name are used.
         if (this.getShowCenterValue(options)) {
-            const formattedTotal = this.formatValue(total);
+            const centerValue = this.getGeneralText(options, "centerValue")
+                || this.formatValue(total);
+            const centerLabel = this.getGeneralText(options, "centerLabel")
+                || dataView.categorical.values[0].source.displayName
+                || "Total";
+
             donutGroup.append("text")
                 .attr("text-anchor", "middle")
                 .attr("dy", "-2px")
@@ -144,17 +153,16 @@ export class Visual implements IVisual {
                 .attr("font-size", `${Math.max(16, Math.min(22, outerRadius * 0.3))}px`)
                 .attr("font-weight", "700")
                 .attr("fill", TEXT_PRIMARY)
-                .text(formattedTotal);
+                .text(centerValue);
 
             // Center label
-            const measureName = dataView.categorical.values[0].source.displayName || "Total";
             donutGroup.append("text")
                 .attr("text-anchor", "middle")
                 .attr("dy", "16px")
                 .attr("font-family", "Segoe UI, sans-serif")
                 .attr("font-size", "10px")
                 .attr("fill", TEXT_MUTED)
-                .text(measureName);
+                .text(centerLabel);
         }
 
         // Legend (right side)
@@ -217,6 +225,19 @@ export class Visual implements IVisual {
             }
         }
         return true;
+    }
+
+    private getGeneralText(options: VisualUpdateOptions, key: string): string {
+        // Read an arbitrary text property from objects.general (e.g. a
+        // caller-supplied centre value/label). Returns "" when absent.
+        const objects = options.dataViews?.[0]?.metadata?.objects;
+        if (objects && objects["general"]) {
+            const general = objects["general"] as any;
+            if (general[key] !== undefined && general[key] !== null) {
+                return String(general[key]);
+            }
+        }
+        return "";
     }
 
     private formatValue(value: number): string {
